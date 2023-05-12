@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>menu</title>
+    <link rel="stylesheet" href="/css/navigation.css">
+</head>
+<body>
+    <nav class="main-nav">
+        <ul class="main-nav__item-list">
+            <li class="main-nav__item-logo"><img src="/images/android-chrome-192x192.png"></li>
+            <li class="main-nav__item"><a href="#"><h3>로그인</h3></a></li>
+            <li class="main-nav__item"><a href="#">내 프로필</a></li>
+            <li class="main-nav__item"><a href="#">채팅방</a></li>
+            <li class="main-nav__item"><a href="#">메모장</a></li>
+            <li class="main-nav__item"><button class="open-modal">채널 생성</button></li>
+        </ul>
+    </nav>
+
+    <!-- 채널생성 클릭시 모달창 오픈 -->
+    <div class="container hidden">
+        <form action="/client/channel/create" method="POST" enctype="multipart/form-data" novalidate>
+            <div class="modal hidden">
+                <div>
+                    <button class="close-modal"> x </button>
+                </div>
+                <div>
+                    <input type="text" name="channelName" id="channelName" placeholder="채널명을 입력하세요.">
+                </div>
+                <div>
+                    <input type="text" name="thumbnail" id="thumbnail" placeholder="채널을 대표할 사진경로를 입력하세요.">
+                </div>
+            </div>
+            <button type="submit">채널 생성</button>
+        </form>
+    </div>
+ 
+    <script src="/js/modal.js"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!-- This favicon was generated using the following font:
+
+- Font Title: League Spartan
+- Font Author: Copyright 2020 The League Spartan Project Authors (https://github.com/theleagueof/league-spartan)
+- Font Source: http://fonts.gstatic.com/s/leaguespartan/v11/kJEnBuEW6A0lliaV_m88ja5Twtx8BWhtkDVmjZvM_oTpBMdcFguczA.ttf
+- Font License: SIL Open Font License, 1.1 (http://scripts.sil.org/OFL)) -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/mychannel.css">
+    <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">
+    <!-- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"> -->
+    <!-- <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"> -->
+    <!-- <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"> -->
+    <!-- <link rel="manifest" href="/site.webmanifest"> -->
+</head>
+<body>
+    <%- include('../includes/navigation.ejs') %>
+    <%if(channelList.length > 0) { %>
+        <% for(let channel of channelList) { %>
+            <main>
+                <div class="grid">
+                    <article class="card product-item">
+                        <header class="card__header">
+                            <h1 class="product__title"><%= channel.channelName %></h1>
+                        </header>
+                        <div class="card__image">
+                            <img src=<%= channel.thumbnail %>>
+                        </div>
+                        <div class="card__content">
+                            <h2 class="product__price"></h2>
+                            <p class="product__description">채널 인원 <%= channel.headcount %> 명 입니다.</p>
+                        </div>
+                        <div class="card__actions">
+                            <button class="btn" type="button">채널 입장</button>
+                        </div>
+                    </article>
+                </div>
+            </main>
+        <% } %>
+    <% } else { %>
+        <h1 style="text-align: center;">나만의 채널을 추가 해보세요!!</h1>    
+    <% } %>
+</body>
+</html>

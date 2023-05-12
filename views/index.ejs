@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Channel</title>
+    </head>
+
+    <body>
+        <%if(channelList.length > 0) { %>
+            <% for(let channel of channelList) { %>
+                <div>
+                    <a href="http://localhost:3000/channel"><%= channel.channelName %></a>
+                </div>
+            <% } %>
+        <% } else { %>
+            <h1>나만의 채널을 추가 해보세요!!</h1>    
+        <% } %>
+        <!-- <button type="button" onclick="getChannelList()">api요청</button> -->
+    </body>
+
+</html>
