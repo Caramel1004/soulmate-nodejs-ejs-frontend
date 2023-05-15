@@ -6,12 +6,11 @@ const router = Router();
 // GET /client/mychannels
 router.get('/mychannels', clientController.getMyChannelList);
 
-
 //GET /client/mychannels/:channelId
 router.get('/mychannels/:channelId', clientController.getEnterMyChannel);
 
-//GET /client/mychnnels/chat
-router.get('/mychnnels/chat', clientController.getMyChatRoombyChannelId);
+//GET /client/mychannels/chat
+router.get('/test/chat', clientController.getMyChatRoombyChannelId);
 
 //POST /client/channel/create
 router.post('/channel/create', clientController.postCreateChannel);

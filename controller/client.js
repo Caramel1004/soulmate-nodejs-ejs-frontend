@@ -45,10 +45,14 @@ const clientControlller = {
 
             // 2. 해당 채널 렌더링
             // res.redirect('/mychannels/'+matchedChannel._id);
-            res.status(200).render('channel/enter-channel', {
+            await res.status(200).render('channel/enter-channel', {
                 title: 'Soulmate',
                 channel: matchedChannel
             });
+            // await res.status(200).render('includes/navigation', {
+            //     title: 'Soulmate',
+            //     channel: matchedChannel
+            // });
         } catch (err) {
             if (!err.statusCode) {
                 err.statusCode = 500;
