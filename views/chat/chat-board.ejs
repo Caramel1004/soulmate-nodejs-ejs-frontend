@@ -11,7 +11,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= channel.channelName %> - <%= title %></title>
+    <title>test</title>
     <link rel="stylesheet" href="/css/mychannel.css">
     <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">
     <!-- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"> -->
@@ -21,17 +21,11 @@
 </head>
 <body>
     <%- include('../includes/navigation.ejs') %>
-    <%if(channel) { %>
-            <main style="text-align: center;">
-                <div>
-                    <img src=<%= channel.thumbnail %>>
-                </div>
-                <div>
-                    <%= channel.channelName %>
-                </div>
-            </main>
-    <% } else { %>
-        <h1 style="text-align: center;">Server Error <%= channel.statusCode %></h1>    
-    <% } %>
+    <div class="board">
+        채팅 히스토리
+    </div>
+    <div>
+
+    </div>
 </body>
 </html>

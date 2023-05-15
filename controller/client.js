@@ -56,6 +56,20 @@ const clientControlller = {
             next(err);
         }
     },
+    //채팅 방
+    getMyChatRoombyChannelId: async (req, res, next) => {
+        try {
+            console.log('chat room!!!');
+            res.render('chat/chat-board', {
+                title: 'Soulmate-board'
+            })
+        } catch (err) {
+            if (!err.statusCode) {
+                err.statusCode = 500;
+            }
+            next(err);
+        }
+    },
     // 채널 추가
     postCreateChannel: async (req, res, next) => {
         try {
