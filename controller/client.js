@@ -107,7 +107,7 @@ const clientControlller = {
             const channel = data.channel;
             console.log(channel);
 
-            res.render('channel/enter-channel', {
+            res.render('channel/enter-channel-profile', {
                 title: channel.channelName,
                 channel: channel,
             });
