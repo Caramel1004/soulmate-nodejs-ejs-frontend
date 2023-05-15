@@ -45,7 +45,7 @@ const clientControlller = {
 
             // 2. 해당 채널 렌더링
             // res.redirect('/mychannels/'+matchedChannel._id);
-            await res.status(200).render('channel/enter-channel', {
+            await res.status(200).render('channel/enter-channel-profile', {
                 title: 'Soulmate',
                 channel: matchedChannel
             });
