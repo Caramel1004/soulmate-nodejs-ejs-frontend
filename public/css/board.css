@@ -3,11 +3,11 @@ body {
 }
 
 .board {
-    margin-top: 15px;
+    margin-top: 3vh;
     margin-left: 250px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
     width: 700px;
-    height: 900px;
+    height: 95vh;
     background-color: white;
     align-items: top;
 }
@@ -16,7 +16,7 @@ body {
     margin: 0;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
     width: 100%;
-    height: 700px;
+    height: 70vh;
     /* background: #8240c0a6; */
     background: rgb(235, 222, 203);
     overflow: scroll;
@@ -30,6 +30,7 @@ body {
 
 .board-chat__history::-webkit-scrollbar {
     width: 10px;
+    background: rgb(235, 222, 203);
 }
 
 .board-chat__history::-webkit-scrollbar-thumb {
@@ -49,7 +50,7 @@ body {
     margin: 0;
     background: white;
     width: 100%;
-    height: 200px;
+    height: 25vh;
 
     /* 가로스크롤 삭제 */
     overflow-x: hidden;
@@ -61,7 +62,7 @@ body {
     background: white;
     /* border-radius: 0.5rem; */
     width: 650px;
-    height: 120px;
+    height: 15vh;
     border: none;
     resize: none;
     overflow: auto;

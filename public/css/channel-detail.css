@@ -1,0 +1,11 @@
+body{
+    text-align: center;
+}
+
+.main-profile{
+    margin-left: 300px;
+    width: 800px;
+    height: 800px;
+    border: solid;
+    text-align: center;
+}
