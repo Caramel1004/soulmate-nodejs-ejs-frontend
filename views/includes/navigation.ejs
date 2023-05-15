@@ -21,11 +21,11 @@
 
     <!-- 채널생성 클릭시 모달창 오픈 -->
     <div class="container hidden">
-        <form action="/client/channel/create" method="POST" enctype="multipart/form-data" novalidate>
-            <div class="modal hidden">
-                <div>
-                    <button class="close-modal"> x </button>
-                </div>
+        <div class="modal hidden">
+            <div>
+                <button class="close-modal"> x </button>
+            </div>
+            <form action="/client/channel/create" method="post">
                 <div>
                     <input type="text" name="channelName" id="channelName" placeholder="채널명을 입력하세요.">
                 </div>

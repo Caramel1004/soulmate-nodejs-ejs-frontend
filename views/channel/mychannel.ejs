@@ -37,8 +37,17 @@
                             <p class="product__description">채널 인원 <%= channel.headcount %> 명 입니다.</p>
                         </div>
                         <div class="card__actions">
-                            <button class="btn" type="button">채널 입장</button>
+                            <a href="/client/mychannels/<%= channel._id %>" class="btn">채널 입장</a>
                         </div>
+                        <!-- <div class="card__actions">
+                            <a href="/client/channel/exit/<%= channel._id %>" class="btn">채널 퇴장</a>
+                        </div> -->
+                        <form action="/client/channel/exit/<%= channel._id %>" method="post">
+                            <div class="card__actions">
+                                <input type="hidden" value="<%= channel._id %>">
+                                <button class="btn" type="submit">채널 퇴장</button>
+                            </div>
+                        </form>
                     </article>
                 </div>
             </main>
