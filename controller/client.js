@@ -1,5 +1,5 @@
-import { channel } from 'diagnostics_channel';
 import fetch from 'node-fetch';
+import openSocket from 'socket.io-client';
 
 
 const clientControlller = {
@@ -177,18 +177,34 @@ const clientControlller = {
         }
     },
     // 실시간 채팅
-    postSendChat: async (req,res,next) => {
+    postSendChat: async (req, res, next) => {
+        const channelId = req.params.channelId;
         const chatRoomId = req.params.chatRoomId;
         const chat = req.body.content;
-        const response =  await fetch('http://localhost:8080/v1/channel/exit/' + chatRoomId, {
-            method: 'POST',
+        console.log('chat: ', chat);
+        console.log('channelId: ', channelId);
+        console.log('chatRoomId: ', chatRoomId);
+        const response = await fetch('http://localhost:8080/v1/chat/' + channelId + '/' + chatRoomId + '/send', {
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
+                channelId: channelId,
                 chatRoomId: chatRoomId,
                 chat: chat
             })
+        });
+
+        const socket = openSocket('http://localhost:8080');
+        socket.on('chat', data => {
+            console.log('백엔드에서 넘어온 data: ', data)
+
+            // res.render('chat/chat-board', {
+            //     title: 'Soulmate-board',
+            //     chatRoom: data.chatRoom,
+            // });
+            res.redirect('http://localhost:3000/client/chat/' + channelId + '/' + chatRoomId);
         });
     }
 }
