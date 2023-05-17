@@ -45,83 +45,16 @@
                         </div>
                     </div>
                 </div>
+                <p class="title"># 참여 인원</p>
                 <div class="main-profile__member-list">
                     <a href="#" class="main-profile__member">
                         <img src=<%= channel.thumbnail %>>
-                        <p>카라멜</p>
-                    </a>
-                    <a href="#" class="main-profile__member">
-                        <img src=<%= channel.thumbnail %>>
-                        <p>카라멜</p>
-                    </a>
-                    <a href="#" class="main-profile__member">
-                        <img src=<%= channel.thumbnail %>>
-                        <p>카라멜</p>
-                    </a>
-                    <a href="#" class="main-profile__member">
-                        <img src=<%= channel.thumbnail %>>
-                        <p>카라멜</p>
-                    </a>
-                    <a href="#" class="main-profile__member">
-                        <img src=<%= channel.thumbnail %>>
-                        <p>카라멜</p>
-                    </a>
-                    <a href="#" class="main-profile__member">
-                        <img src=<%= channel.thumbnail %>>
-                        <p>카라멜</p>
-                    </a>
-                    <a href="#" class="main-profile__member">
-                        <img src=<%= channel.thumbnail %>>
-                        <p>카라멜</p>
-                    </a>
-                    <a href="#" class="main-profile__member">
-                        <img src=<%= channel.thumbnail %>>
-                        <p>카라멜</p>
-                    </a>
-                    <a href="#" class="main-profile__member">
-                        <img src=<%= channel.thumbnail %>>
-                        <p>카라멜</p>
-                    </a>
-                    <a href="#" class="main-profile__member">
-                        <img src=<%= channel.thumbnail %>>
-                        <p>카라멜</p>
-                    </a>
-                    <a href="#" class="main-profile__member">
-                        <img src=<%= channel.thumbnail %>>
-                        <p>카라멜</p>
-                    </a>
-                    <a href="#" class="main-profile__member">
-                        <img src=<%= channel.thumbnail %>>
-                        <p>카라멜</p>
-                    </a>
-                    <a href="#" class="main-profile__member">
-                        <img src=<%= channel.thumbnail %>>
-                        <p>카라멜</p>
-                    </a>
-                    <a href="#" class="main-profile__member">
-                        <img src=<%= channel.thumbnail %>>
-                        <p>카라멜</p>
-                    </a>
-                    <a href="#" class="main-profile__member">
-                        <img src=<%= channel.thumbnail %>>
-                        <p>카라멜</p>
-                    </a>
-                    <a href="#" class="main-profile__member">
-                        <img src=<%= channel.thumbnail %>>
-                        <p>카라멜</p>
-                    </a>
-                    <a href="#" class="main-profile__member">
-                        <img src=<%= channel.thumbnail %>>
-                        <p>카라멜</p>
-                    </a>
-                    <a href="#" class="main-profile__member">
-                        <img src=<%= channel.thumbnail %>>
-                        <p>카라멜</p>
+                        <p><%= channel.owner.ownerName%></p>
                     </a>
                 </div>
             </div>
     <% } else { %>
         <h1 style="text-align: center;">Server Error <%= channel.statusCode %></h1>    
     <% } %>
+    </html>
 </body>
-</html>

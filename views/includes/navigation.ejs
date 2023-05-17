@@ -16,9 +16,11 @@
             <li class="main-nav__item"><a href="/client/mychannels">채널 목록</a></li>
             <li class="main-nav__item"><a href="#">메모장</a></li>
             <li class="main-nav__item"><a href="#">채널 프로필</a></li>
-            <li class="main-nav__item"><a href="/client/test/chat">광주고 전설들</a></li>
-            <li class="main-nav__item"><a href="#">soulmate 채팅방</a></li>
-            <li class="main-nav__item"><a href="#">과제 방</a></li>
+            <% if(chatRooms){ %>
+                <% for(let chatRoom of chatRooms) { %>
+                    <!-- <li class="main-nav__item"><a href="/client/<%= channel._id %>/<%= chatRoom._id %>/?name=<%= chatRoom.roomName %>><%= chatRoom.roomName %></a></li> -->
+                <% } %>
+            <% } %>
             <li class="main-nav__item"><button class="open-modal">채널 생성</button></li>
         </ul>
     </nav>

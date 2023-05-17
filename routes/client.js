@@ -9,8 +9,8 @@ router.get('/mychannels', clientController.getMyChannelList);
 //GET /client/mychannels/:channelId
 router.get('/mychannels/:channelId', clientController.getEnterMyChannel);
 
-//GET /client/mychannels/chat
-router.get('/test/chat', clientController.getMyChatRoombyChannelId);
+//GET /client/:channelId/:chatRoomId/?
+router.get('/:channelId/:chatRoomId', clientController.getMyChatRoombyChannelId);
 
 //POST /client/channel/create
 router.post('/channel/create', clientController.postCreateChannel);

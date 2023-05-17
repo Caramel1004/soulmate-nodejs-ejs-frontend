@@ -20,31 +20,14 @@
     <!-- <link rel="manifest" href="/site.webmanifest"> -->
 </head>
 <body>
-    <%- include('../includes/navigation.ejs') %>
+    <%- include('../includes/navigation.ejs',{chatRooms: chatRooms}) %>
     <div class="board">
         <div class="board-chat__history">
-            안녕하세요 대화 유닛입니다.
-            안녕하세요 대화 유닛입니다.
-            안녕하세요 대화 유닛입니다.
-            안녕하세요 대화 유닛입니다.
-            안녕하세요 대화 유닛입니다.
-            안녕하세요 대화 유닛입니다.
-            안녕하세요 대화 유닛입니다.
-            안녕하세요 대화 유닛입니다.
-            안녕하세요 대화 유닛입니다.
-            안녕하세요 대화 유닛입니다.
-            안녕하세요 대화 유닛입니다.
-            안녕하세요 대화 유닛입니다.
-            안녕하세요 대화 유닛입니다.
-            안녕하세요 대화 유닛입니다.
-            안녕하세요 대화 유닛입니다.
-            안녕하세요 대화 유닛입니다.
-            안녕하세요 대화 유닛입니다.
-            안녕하세요 대화 유닛입니다.
-            안녕하세요 대화 유닛입니다.
-            안녕하세요 대화 유닛입니다.
-            안녕하세요 대화 유닛입니다.
-            안녕하세요 대화 유닛입니다.
+            <% if(chatRooms){ %>
+                <% for(let chatRoom of chatRooms) { %>
+                    <p><%= chatRoom.content %></p>
+                <% } %>
+            <% } %>
         </div>
         <form action="" method="post">
             <div class="board-chat__chatBox">

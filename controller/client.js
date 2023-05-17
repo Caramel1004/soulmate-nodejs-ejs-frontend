@@ -13,11 +13,13 @@ const clientControlller = {
             });
             const data = await response.json();
             const channelList = data.channels;
+            const chatRooms = null;
             // console.log(channelList);
 
             res.render('channel/mychannel', {
                 title: 'Soulmate',
-                channelList: channelList
+                channelList: channelList,
+                chatRooms: chatRooms
             })
         } catch (err) {
             if (!err.statusCode) {
@@ -43,16 +45,24 @@ const clientControlller = {
 
             console.log('matchedChannel: ', matchedChannel);
 
-            // 2. 해당 채널 렌더링
-            // res.redirect('/mychannels/'+matchedChannel._id);
-            await res.status(200).render('channel/enter-channel-profile', {
-                title: 'Soulmate',
-                channel: matchedChannel
+            
+            const response2 = await fetch('http://localhost:8080/v1/channel/' + channelId + '/chat', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             });
-            // await res.status(200).render('includes/navigation', {
-            //     title: 'Soulmate',
-            //     channel: matchedChannel
-            // });
+
+            const data2 = await response2.json();//동기화 해줘야해!!
+
+            const matchedChatRooms = data2.chatRooms;
+            console.log('matchedChatRooms: ', matchedChatRooms);
+            // 2. 해당 채널 렌더링
+            res.status(200).render('channel/enter-channel-profile', {
+                title: 'Soulmate',
+                channel: matchedChannel,
+                chatRooms: matchedChatRooms
+            });
         } catch (err) {
             if (!err.statusCode) {
                 err.statusCode = 500;
@@ -63,9 +73,22 @@ const clientControlller = {
     //채팅 방
     getMyChatRoombyChannelId: async (req, res, next) => {
         try {
+            const channelId = req.params.channelId;
+            const chatRoomId = req.params.chatRoomId;
+            const response2 = await fetch('http://localhost:8080/v1/channel/' + channelId + '/chat' + chatRoomId, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const data2 = await response2.json();//동기화 해줘야해!!
+
+            const matchedChatRooms = data2.chatRooms;
             console.log('chat room!!!');
             res.render('chat/chat-board', {
-                title: 'Soulmate-board'
+                title: 'Soulmate-board',
+                chatRooms: matchedChatRooms
             })
         } catch (err) {
             if (!err.statusCode) {
