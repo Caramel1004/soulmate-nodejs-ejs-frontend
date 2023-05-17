@@ -20,7 +20,7 @@
     <!-- <link rel="manifest" href="/site.webmanifest"> -->
 </head>
 <body>
-    <%- include('../includes/navigation.ejs') %>
+    <%- include('../includes/navigation.ejs',{chatRooms: chatRooms}) %>
     <%if(channel) { %>
             <div class="main-profile">
                 <div class="main-profile__header">

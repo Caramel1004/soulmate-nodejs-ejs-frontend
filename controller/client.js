@@ -1,3 +1,4 @@
+import { channel } from 'diagnostics_channel';
 import fetch from 'node-fetch';
 
 
@@ -45,7 +46,7 @@ const clientControlller = {
 
             console.log('matchedChannel: ', matchedChannel);
 
-            
+            // 2. 채팅방 목록 요청
             const response2 = await fetch('http://localhost:8080/v1/channel/' + channelId + '/chat', {
                 method: 'GET',
                 headers: {
@@ -70,26 +71,31 @@ const clientControlller = {
             next(err);
         }
     },
-    //채팅 방
+    //채팅 방 접속
     getMyChatRoombyChannelId: async (req, res, next) => {
         try {
             const channelId = req.params.channelId;
             const chatRoomId = req.params.chatRoomId;
-            const response2 = await fetch('http://localhost:8080/v1/channel/' + channelId + '/chat' + chatRoomId, {
+            // console.log(`channelId: ${channelId}, chatRoomId: ${chatRoomId}`);
+            const response = await fetch('http://localhost:8080/v1/chat/' + channelId + '/' + chatRoomId, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
 
-            const data2 = await response2.json();//동기화 해줘야해!!
+            const data = await response.json();//동기화 해줘야해!!
 
-            const matchedChatRooms = data2.chatRooms;
-            console.log('chat room!!!');
+            const userChatRooms = data.chatRooms
+            const matchedChatRoom = data.chatRoom;
+
+            console.log('matchedChatRoom: ', matchedChatRoom);
+            console.log('userChatRooms: ', userChatRooms);
             res.render('chat/chat-board', {
                 title: 'Soulmate-board',
-                chatRooms: matchedChatRooms
-            })
+                chatRoom: matchedChatRoom,
+                chatRooms: userChatRooms
+            });
         } catch (err) {
             if (!err.statusCode) {
                 err.statusCode = 500;
@@ -130,10 +136,12 @@ const clientControlller = {
             const channel = data.channel;
             console.log(channel);
 
-            res.render('channel/enter-channel-profile', {
-                title: channel.channelName,
-                channel: channel,
-            });
+            res.redirect('http://localhost:3000/client/mychannels');
+
+            // res.render('channel/enter-channel-profile', {
+            //     title: channel.channelName,
+            //     channel: channel,
+            // });
         } catch (err) {
             if (!err.statusCode) {
                 err.statusCode = 500;
@@ -167,6 +175,21 @@ const clientControlller = {
             }
             next(err);
         }
+    },
+    // 실시간 채팅
+    postSendChat: async (req,res,next) => {
+        const chatRoomId = req.params.chatRoomId;
+        const chat = req.body.content;
+        const response =  await fetch('http://localhost:8080/v1/channel/exit/' + chatRoomId, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                chatRoomId: chatRoomId,
+                chat: chat
+            })
+        });
     }
 }
 

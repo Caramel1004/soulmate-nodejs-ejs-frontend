@@ -17,8 +17,8 @@
             <li class="main-nav__item"><a href="#">메모장</a></li>
             <li class="main-nav__item"><a href="#">채널 프로필</a></li>
             <% if(chatRooms){ %>
-                <% for(let chatRoom of chatRooms) { %>
-                    <!-- <li class="main-nav__item"><a href="/client/<%= channel._id %>/<%= chatRoom._id %>/?name=<%= chatRoom.roomName %>><%= chatRoom.roomName %></a></li> -->
+                <% for(let room of chatRooms) { %>
+                    <li class="main-nav__item"><a href="/client/chat/<%= room.channelId %>/<%= room._id %>"><%= room.roomName %></a></li>
                 <% } %>
             <% } %>
             <li class="main-nav__item"><button class="open-modal">채널 생성</button></li>
@@ -28,19 +28,21 @@
     <!-- 채널생성 클릭시 모달창 오픈 -->
     <div class="container hidden">
         <div class="modal hidden">
-            <div>
-                <button class="close-modal"> x </button>
-            </div>
             <form action="/client/channel/create" method="post">
-                <div>
+                <div class="input-box">
                     <input type="text" name="channelName" id="channelName" placeholder="채널명을 입력하세요.">
                 </div>
-                <div>
+                <div class="input-box">
                     <input type="text" name="thumbnail" id="thumbnail" placeholder="채널을 대표할 사진경로를 입력하세요.">
                 </div>
+                <div class="input-box">
+                    <button type="submit">채널 생성</button>
+                </div>
+            </form>
+            <div class="close-modal-button__box">
+                <button class="close-modal"> x </button>
             </div>
-            <button type="submit">채널 생성</button>
-        </form>
+        </div>
     </div>
  
     <script src="/js/modal.js"></script>

@@ -11,7 +11,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>test</title>
+    <title><%= title %></title>
     <link rel="stylesheet" href="/css/board.css">
     <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">
     <!-- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"> -->
@@ -23,17 +23,20 @@
     <%- include('../includes/navigation.ejs',{chatRooms: chatRooms}) %>
     <div class="board">
         <div class="board-chat__history">
-            <% if(chatRooms){ %>
-                <% for(let chatRoom of chatRooms) { %>
-                    <p><%= chatRoom.content %></p>
+            <% if(chatRoom){ %>
+                <% for(let chat of chatRoom.chat) { %>
+                    <p><%= chat %></p>
                 <% } %>
             <% } %>
+            <p class="unit"></p>
         </div>
-        <form action="" method="post">
-            <div class="board-chat__chatBox">
+        <div class="board-chat__chatBox">
+            <form action="/client/chat/<%= chatRoom.channelId %>/<%= chatRoom._id %>/send" method="post">
                 <textarea name="content" placeholder="메세지 보내기"></textarea>
-            </div>
-        </form>
+                <button type="submit">전송</button>
+            </form>
+        </div>
     </div>
+    <!-- <script src="/js/chat.js"></script> -->
 </body>
 </html>

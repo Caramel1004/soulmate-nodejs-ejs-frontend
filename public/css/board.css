@@ -51,7 +51,6 @@ body {
     background: white;
     width: 100%;
     height: 25vh;
-
     /* 가로스크롤 삭제 */
     overflow-x: hidden;
 }
@@ -71,4 +70,24 @@ body {
 
 .board-chat__chatBox textarea:focus {
     outline: none;
+}
+
+.board-chat__chatBox button {
+    margin-left: 600px;
+    margin-top: 20vh;
+    display: inline-block;
+    padding: 0.25rem 1rem;
+    text-decoration: none;
+    font: inherit;
+    border: 1px solid #00695c;
+    color: #00695c;
+    background: white;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.board-chat__chatBox button:hover,
+.board-chat__chatBox button:active {
+    background-color: #00695c;
+    color: white;
 }
