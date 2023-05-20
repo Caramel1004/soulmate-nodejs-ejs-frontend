@@ -26,49 +26,51 @@
                 <button type="button" onclick="send(this)">전송</button>
             </div>
         </div>    
-        <script src="/socket.io/socket.io.js"></script>
-        <!-- <script>
-            const socket = io.connect('http://localhost:3000',{
-                path: '/socket.io'
-            });
-            console.log(socket);
-        </script> -->
+        <!-- <script src="/socket.io/socket.io.js"></script> -->
         <script>
-            const send = async btn => {
-                try {
-                    const socket = io.connect('http://localhost:3000');
-                    socket.on('chat', data => {
-                        const chat = data.chat;
-                        console.log('data.chat: ', chat);
-                        const pTag = document.createElement('p');
-                        console.log('p: ', p);
-                    });
-                    const channelId = btn.parentNode.querySelector('[name = channelId]').value;
-                    const chat = btn.parentNode.querySelector('[name = content]').value;
-                    const chatRoomId = btn.parentNode.querySelector('[name = chatRoomId]').value;
-                    console.log('chat : ', chat);
-                    console.log('chatRoomId: ', chatRoomId);
-                    const res = await fetch('http://localhost:3000/client/chat/' + channelId + '/' + chatRoomId + '/send', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            channelId: channelId,
-                            chatRoomId: chatRoomId,
-                            chat: chat
-                        })
-                    });
-                    const data = await res.json();
-                    console.log(data);
-                } catch (error) {
-                    if (!err.statusCode) {
-                        err.statusCode = 500;
-                    }
-                    next(err);
-                }
-            }    
-            send(btn);
+            // document.querySelector('button').addEventListener('click',send(btn));
+            const send = btn => {
+                const channelId = btn.parentNode.querySelector('[name = channelId]').value;
+                const chat = btn.parentNode.querySelector('[name = content]').value;
+                const chatRoomId = btn.parentNode.querySelector('[name = chatRoomId]').value;
+                console.log(btn);
+                // const socket = io.connect('http://localhost:3000/client');
+                // console.log('socket: ',socket);
+            }
+            // const send = async btn => {
+            //     try {
+            //         // const socket = io('http://localhost:3000');
+            //         // socket.on('chat', data => {
+            //         //     const chat = data.chat;
+            //         //     console.log('data.chat: ', chat);
+            //         //     const pTag = document.createElement('p');
+            //         //     console.log('p: ', p);
+            //         // });
+            //         const channelId = btn.parentNode.querySelector('[name = channelId]').value;
+            //         const chat = btn.parentNode.querySelector('[name = content]').value;
+            //         const chatRoomId = btn.parentNode.querySelector('[name = chatRoomId]').value;
+            //         console.log('chat : ', chat);
+            //         console.log('chatRoomId: ', chatRoomId);
+            //         // const res = await fetch('http://localhost:3000/client/chat/' + channelId + '/' + chatRoomId + '/send', {
+            //         //     method: 'POST',
+            //         //     headers: {
+            //         //         'Content-Type': 'application/json'
+            //         //     },
+            //         //     body: JSON.stringify({
+            //         //         channelId: channelId,
+            //         //         chatRoomId: chatRoomId,
+            //         //         chat: chat
+            //         //     })
+            //         // });
+            //         // const data = await res.json();
+            //         // console.log(data);
+            //     } catch (error) {
+            //         if (!err.statusCode) {
+            //             err.statusCode = 500;
+            //         }
+            //         next(err);
+            //     }
+            // }    
                 // const box = btn.parentNode.closest('.board');
                 // console.log(box);
                 // // const history = box.closest('.board-chat__history');

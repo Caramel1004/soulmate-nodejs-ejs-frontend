@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import openSocket from 'socket.io-client';
+import { io } from 'socket.io-client';
 
 
 const clientControlller = {
@@ -89,13 +89,23 @@ const clientControlller = {
             const userChatRooms = data.chatRooms
             const matchedChatRoom = data.chatRoom;
 
-            console.log('matchedChatRoom: ', matchedChatRoom);
-            console.log('userChatRooms: ', userChatRooms);
+            // console.log('matchedChatRoom: ', matchedChatRoom);
+            // console.log('userChatRooms: ', userChatRooms);
+
+            const socket = io('http://localhost:8080', {
+                path: '/socket.io'
+            });
+            // console.log(socket);
+            socket.on('loadChat', data => {
+                console.log('data: ', data);
+            })
             res.render('chat/chat-board', {
                 title: 'Soulmate-board',
                 chatRoom: matchedChatRoom,
                 chatRooms: userChatRooms
             });
+
+            next();
         } catch (err) {
             if (!err.statusCode) {
                 err.statusCode = 500;

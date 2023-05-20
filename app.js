@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import openSocket from 'socket.io-client';
+import { io } from 'socket.io-client';
 
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -23,13 +23,27 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/client', clientRoutes);
 
-app.listen(3000, () => console.log('Client view!!!'));
 
 app.use((req, res, next) => {
-    console.log('클라이언트 소켓 가동 중!!!');
-    const socket = openSocket('http://localhost:8080/v1/chat');
-    socket.on('chat', data => {
-        console.log('백엔드에서 넘어온 data: ', data);
+    const socket = io('http://localhost:8080', {
+        path: '/socket.io'
     });
-})
+    console.log('socket: ', socket);
+    console.log('클라이언트 소켓 가동 중!!!');
+
+    socket.emit('loadChat', socketData => {
+        console.log('socketData: ', socketData);
+    })
+
+    socket.emit('sendChat', data => {
+        console.log('socketData: ', socketData);
+    })
+    socket.emit('connection', data => {
+        console.log('data: ', data);
+    })
+});
+
+app.listen(3000, () => console.log('클라이언트 접속!!'));
+
+
 
