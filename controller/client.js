@@ -108,7 +108,7 @@ const clientControlller = {
         try {
             const channelName = req.body.channelName;
             const thumbnail = req.body.thumbnail;
-            console.log('req.body: ', req.body);
+            console.log('요청 바디 : ', req.body);
             // {
             //     "channelName":"Soulmate 앱 개발팀",
             //     "owner": {
@@ -180,7 +180,7 @@ const clientControlller = {
     postSendChat: async (req, res, next) => {
         const channelId = req.params.channelId;
         const chatRoomId = req.params.chatRoomId;
-        const chat = req.body.content;
+        const chat = req.body.chat;
         console.log('chat: ', chat);
         console.log('channelId: ', channelId);
         console.log('chatRoomId: ', chatRoomId);
@@ -196,15 +196,12 @@ const clientControlller = {
             })
         });
 
-        const socket = openSocket('http://localhost:8080');
-        socket.on('chat', data => {
-            console.log('백엔드에서 넘어온 data: ', data)
+        console.log('response: ', response);
 
-            // res.render('chat/chat-board', {
-            //     title: 'Soulmate-board',
-            //     chatRoom: data.chatRoom,
-            // });
-            res.redirect('http://localhost:3000/client/chat/' + channelId + '/' + chatRoomId);
+        const data = await response.json();
+
+        res.status(200).json({
+            data: data
         });
     }
 }

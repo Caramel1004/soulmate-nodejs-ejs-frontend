@@ -7,36 +7,74 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
-    <link rel="stylesheet" href="/css/board.css">
-    <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">
-    <!-- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"> -->
-    <!-- <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"> -->
-    <!-- <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"> -->
-    <!-- <link rel="manifest" href="/site.webmanifest"> -->
-</head>
-<body>
+<%- include('../includes/header.ejs') %>
     <%- include('../includes/navigation.ejs',{chatRooms: chatRooms}) %>
-    <div class="board">
-        <div class="board-chat__history">
-            <% if(chatRoom){ %>
-                <% for(let chat of chatRoom.chat) { %>
-                    <p><%= chat %></p>
-                <% } %>
-            <% } %>
-            <p class="unit"></p>
-        </div>
-        <div class="board-chat__chatBox">
-            <form action="/client/chat/<%= chatRoom.channelId %>/<%= chatRoom._id %>/send" method="post">
+        <div class="board">
+            <div class="board-chat__history">
+                <% if(chatRoom){ %>
+                    <% for(let chat of chatRoom.chat) { %>
+                        <p><%= chat %></p>
+                        <% } %>
+                            <% } %>
+            </div>
+            <div class="board-chat__chatBox">
+                <!-- <form action="/client/chat/<%= chatRoom.channelId %>/<%= chatRoom._id %>/send" method="post">
+            </form> -->
+                <input type="hidden" name="channelId" value="<%= chatRoom.channelId %>">
+                <input type="hidden" name="chatRoomId" value="<%= chatRoom._id %>">
                 <textarea name="content" placeholder="메세지 보내기"></textarea>
-                <button type="submit">전송</button>
-            </form>
-        </div>
-    </div>
-    <!-- <script src="/js/chat.js"></script> -->
-</body>
+                <button type="button" onclick="send(this)">전송</button>
+            </div>
+        </div>    
+        <script src="/socket.io/socket.io.js"></script>
+        <!-- <script>
+            const socket = io.connect('http://localhost:3000',{
+                path: '/socket.io'
+            });
+            console.log(socket);
+        </script> -->
+        <script>
+            const send = async btn => {
+                try {
+                    const socket = io.connect('http://localhost:3000');
+                    socket.on('chat', data => {
+                        const chat = data.chat;
+                        console.log('data.chat: ', chat);
+                        const pTag = document.createElement('p');
+                        console.log('p: ', p);
+                    });
+                    const channelId = btn.parentNode.querySelector('[name = channelId]').value;
+                    const chat = btn.parentNode.querySelector('[name = content]').value;
+                    const chatRoomId = btn.parentNode.querySelector('[name = chatRoomId]').value;
+                    console.log('chat : ', chat);
+                    console.log('chatRoomId: ', chatRoomId);
+                    const res = await fetch('http://localhost:3000/client/chat/' + channelId + '/' + chatRoomId + '/send', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            channelId: channelId,
+                            chatRoomId: chatRoomId,
+                            chat: chat
+                        })
+                    });
+                    const data = await res.json();
+                    console.log(data);
+                } catch (error) {
+                    if (!err.statusCode) {
+                        err.statusCode = 500;
+                    }
+                    next(err);
+                }
+            }    
+            send(btn);
+                // const box = btn.parentNode.closest('.board');
+                // console.log(box);
+                // // const history = box.closest('.board-chat__history');
+                // // console.log(history);
+
+                // // document.body.appendChild(document.createElement('p'));
+        </script>
+        </body>
 </html>

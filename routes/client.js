@@ -22,5 +22,6 @@ router.post('/channel/exit/:channelId', clientController.postExitChannel);//채�
 router.get('/chat/:channelId/:chatRoomId', clientController.getMyChatRoombyChannelId);// 채팅룸 로딩
 
 //POST /client/chat
-router.post('/chat/:channelId/:chatRoomId/send', clientController.postSendChat);
+router.post('/chat/:channelId/:chatRoomId/send', clientController.postSendChat);// 실시간 채팅 및 채팅창 실시간 업데이트
+
 export default router;

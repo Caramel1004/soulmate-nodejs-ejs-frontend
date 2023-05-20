@@ -7,7 +7,7 @@ body {
 /* 메인 프로필 큰 컨테이너 -> 안에 있는 박스들은 아래로 정렬 -> display: inline-block */
 .main-profile {
     margin: 5vh;
-    margin-left: 15vw;
+    margin-left: 18vw;
     width: 80vw;
     height: 90vh;
     /* border: groove; */
