@@ -18,10 +18,10 @@ router.post('/channel/create', clientController.postCreateChannel);// 채널 생
 //POST /client/channel/exit/:channelId
 router.post('/channel/exit/:channelId', clientController.postExitChannel);//채널 퇴장
 
-//GET /client/:channelId/chat/:chatRoomId
+//GET /client/chat/:channelId/:chatRoomId
 router.get('/chat/:channelId/:chatRoomId', clientController.getMyChatRoombyChannelId);// 채팅룸 로딩
 
-//POST /client/chat
-router.post('/chat/:channelId/:chatRoomId/send', clientController.postSendChat);// 실시간 채팅 및 채팅창 실시간 업데이트
+//POST /client/chat/:channelId/:chatRoomId
+router.post('/chat/:channelId/:chatRoomId', clientController.postSendChat);// 실시간 채팅 및 채팅창 실시간 업데이트
 
 export default router;

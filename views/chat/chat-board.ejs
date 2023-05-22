@@ -13,70 +13,50 @@
             <div class="board-chat__history">
                 <% if(chatRoom){ %>
                     <% for(let chat of chatRoom.chat) { %>
-                        <p><%= chat %></p>
+                            <p><%= chat %></p>
                         <% } %>
-                            <% } %>
+                            <% } %>           
             </div>
             <div class="board-chat__chatBox">
-                <!-- <form action="/client/chat/<%= chatRoom.channelId %>/<%= chatRoom._id %>/send" method="post">
-            </form> -->
-                <input type="hidden" name="channelId" value="<%= chatRoom.channelId %>">
-                <input type="hidden" name="chatRoomId" value="<%= chatRoom._id %>">
-                <textarea name="content" placeholder="메세지 보내기"></textarea>
-                <button type="button" onclick="send(this)">전송</button>
+                <form action="/client/chat/<%= chatRoom.channelId %>/<%= chatRoom._id %>" method="post">
+                    <input type="hidden" name="channelId" value="<%= chatRoom.channelId %>">
+                    <input type="hidden" name="chatRoomId" value="<%= chatRoom._id %>">
+                    <textarea name="content" placeholder="메세지 보내기"></textarea>
+                    <button type="submit">전송</button>
+                </form>
             </div>
         </div>    
-        <!-- <script src="/socket.io/socket.io.js"></script> -->
-        <script>
-            // document.querySelector('button').addEventListener('click',send(btn));
-            const send = btn => {
-                const channelId = btn.parentNode.querySelector('[name = channelId]').value;
-                const chat = btn.parentNode.querySelector('[name = content]').value;
-                const chatRoomId = btn.parentNode.querySelector('[name = chatRoomId]').value;
-                console.log(btn);
-                // const socket = io.connect('http://localhost:3000/client');
-                // console.log('socket: ',socket);
-            }
-            // const send = async btn => {
-            //     try {
-            //         // const socket = io('http://localhost:3000');
-            //         // socket.on('chat', data => {
-            //         //     const chat = data.chat;
-            //         //     console.log('data.chat: ', chat);
-            //         //     const pTag = document.createElement('p');
-            //         //     console.log('p: ', p);
-            //         // });
-            //         const channelId = btn.parentNode.querySelector('[name = channelId]').value;
-            //         const chat = btn.parentNode.querySelector('[name = content]').value;
-            //         const chatRoomId = btn.parentNode.querySelector('[name = chatRoomId]').value;
-            //         console.log('chat : ', chat);
-            //         console.log('chatRoomId: ', chatRoomId);
-            //         // const res = await fetch('http://localhost:3000/client/chat/' + channelId + '/' + chatRoomId + '/send', {
-            //         //     method: 'POST',
-            //         //     headers: {
-            //         //         'Content-Type': 'application/json'
-            //         //     },
-            //         //     body: JSON.stringify({
-            //         //         channelId: channelId,
-            //         //         chatRoomId: chatRoomId,
-            //         //         chat: chat
-            //         //     })
-            //         // });
-            //         // const data = await res.json();
-            //         // console.log(data);
-            //     } catch (error) {
-            //         if (!err.statusCode) {
-            //             err.statusCode = 500;
-            //         }
-            //         next(err);
-            //     }
-            // }    
-                // const box = btn.parentNode.closest('.board');
-                // console.log(box);
-                // // const history = box.closest('.board-chat__history');
-                // // console.log(history);
+        <script type="module">
+            import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
 
-                // // document.body.appendChild(document.createElement('p'));
-        </script>
+            const socket = io('http://localhost:8080');
+            console.log('스크립트 소켓 가동 중!!!');
+
+            socket.on('loadChat', data => {
+                console.log('미들웨어 loadChat!!!');
+                console.log('백엔드에서 넘어온 데이터: ', data);
+            });
+
+            socket.emit('updateChat',{
+
+            })
+
+            // 채팅 업데이트
+            socket.on('sendChat', data => {
+                console.log('미들웨어 sendChat!!!');
+                console.log('백엔드에서 넘어온 데이터: ', data);
+                console.log('채팅 내용: ', data.currentChat);
+                // const channelId = this.parentNode.querySelector('[name = channelId]').value;
+                // const chat = this.parentNode.querySelector('[name = content]').value;
+                // const chatRoomId = this.parentNode.qu derySelector('[name = chatRoomId]').value;
+                // console.log('channelId: ', channelId);
+                // console.log('chatRoomId: ', chatRoomId);
+                const div = document.createElement('div');
+                const chat = document.createElement('p');
+                chat.textContent = data.currentChat;
+                div.appendChild(chat);
+                document.querySelector('.board-chat__history').appendChild(div);
+            });         
+          </script>          
         </body>
 </html>

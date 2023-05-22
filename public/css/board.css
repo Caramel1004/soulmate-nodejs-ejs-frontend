@@ -6,7 +6,7 @@ body {
     margin-top: 3vh;
     margin-left: 250px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-    width: 700px;
+    width: 50vw;
     height: 95vh;
     background-color: white;
     align-items: top;
@@ -57,10 +57,10 @@ body {
 
 .board-chat__chatBox textarea {
     margin-top: 20px;
-    margin-left: 20px;
+    margin-left: 1vw;
     background: white;
     /* border-radius: 0.5rem; */
-    width: 650px;
+    width: 46vw;
     height: 15vh;
     border: none;
     resize: none;
@@ -73,7 +73,7 @@ body {
 }
 
 .board-chat__chatBox button {
-    margin-left: 600px;
+    margin-left: 43vw;
     margin-top: 20vh;
     display: inline-block;
     padding: 0.25rem 1rem;

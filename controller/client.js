@@ -1,12 +1,10 @@
 import fetch from 'node-fetch';
-import { io } from 'socket.io-client';
-
 
 const clientControlller = {
     // 해당유저의 채널리스트
     getMyChannelList: async (req, res, next) => {
         try {
-            const response = await fetch('http://localhost:8080/v1/channel/', {
+            const response = await fetch('http://localhost:8080/v1/channel', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -92,20 +90,11 @@ const clientControlller = {
             // console.log('matchedChatRoom: ', matchedChatRoom);
             // console.log('userChatRooms: ', userChatRooms);
 
-            const socket = io('http://localhost:8080', {
-                path: '/socket.io'
-            });
-            // console.log(socket);
-            socket.on('loadChat', data => {
-                console.log('data: ', data);
-            })
             res.render('chat/chat-board', {
                 title: 'Soulmate-board',
                 chatRoom: matchedChatRoom,
                 chatRooms: userChatRooms
             });
-
-            next();
         } catch (err) {
             if (!err.statusCode) {
                 err.statusCode = 500;
@@ -190,11 +179,11 @@ const clientControlller = {
     postSendChat: async (req, res, next) => {
         const channelId = req.params.channelId;
         const chatRoomId = req.params.chatRoomId;
-        const chat = req.body.chat;
+        const chat = req.body.content;
         console.log('chat: ', chat);
         console.log('channelId: ', channelId);
         console.log('chatRoomId: ', chatRoomId);
-        const response = await fetch('http://localhost:8080/v1/chat/' + channelId + '/' + chatRoomId + '/send', {
+        const response = await fetch('http://localhost:8080/v1/chat/' + channelId + '/' + chatRoomId, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
@@ -206,13 +195,9 @@ const clientControlller = {
             })
         });
 
-        console.log('response: ', response);
+        res.redirect('http://localhost:3000/client/chat/' + channelId + '/' + chatRoomId);
 
-        const data = await response.json();
-
-        res.status(200).json({
-            data: data
-        });
+        next();
     }
 }
 
