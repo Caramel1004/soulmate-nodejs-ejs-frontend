@@ -6,6 +6,7 @@ import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 import clientRoutes from './routes/client.js'
+import authRoutes from './routes/auth.js'
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -20,7 +21,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
+app.use((req, res, next) => {
 
+});
+app.use(authRoutes);
 app.use('/client', clientRoutes);
 
 //웹 소켓 클라이언트

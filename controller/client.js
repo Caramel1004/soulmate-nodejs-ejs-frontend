@@ -19,7 +19,7 @@ const clientControlller = {
                 title: 'Soulmate',
                 channelList: channelList,
                 chatRooms: chatRooms
-            })
+            });
         } catch (err) {
             if (!err.statusCode) {
                 err.statusCode = 500;
@@ -35,6 +35,7 @@ const clientControlller = {
             const response = await fetch('http://localhost:8080/v1/channel/' + channelId, {
                 method: 'GET',
                 headers: {
+                    'Authorization': 'Bearer ' + res.locals.token,
                     'Content-Type': 'application/json'
                 }
             });

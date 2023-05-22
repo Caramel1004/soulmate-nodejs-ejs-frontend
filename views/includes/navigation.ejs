@@ -2,7 +2,6 @@
     <nav class="main-nav">
         <ul class="main-nav__item-list">
             <li class="main-nav__item-logo"><img src="/images/android-chrome-192x192.png"></li>
-            <li class="main-nav__item"><a href="#"><h3>로그인</h3></a></li>
             <li class="main-nav__item"><a href="#">내 프로필</a></li>
             <li class="main-nav__item"><a href="/client/mychannels">채널 목록</a></li>
             <li class="main-nav__item"><a href="#">메모장</a></li>
@@ -10,9 +9,10 @@
             <% if(chatRooms){ %>
                 <% for(let room of chatRooms) { %>
                     <li class="main-nav__item"><a href="/client/chat/<%= room.channelId %>/<%= room._id %>"><%= room.roomName %></a></li>
-                <% } %>
+                    <% } %>
             <% } %>
             <li class="main-nav__item"><button class="open-modal">채널 생성</button></li>
+            <li class="main-nav__item"><a href="#"><h3>로그아웃</h3></a></li>
         </ul>
     </nav>
 

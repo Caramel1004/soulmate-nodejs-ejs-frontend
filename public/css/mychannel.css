@@ -1,18 +1,24 @@
+body {
+    display: flex;
+}
+
 main {
-    margin-left: 200px;
+    margin-left: 10.5vw;
     width: 60%;
     text-align: center;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
-    border: solid;
+    justify-content: space-between;
+    float: left;
+    /* border: solid; */
 }
+
 .grid {
-    width: 250px;
-    display: inline-block;
+    width: 13vw;
+    display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    align-items: stretch;
+    /* align-items: stretch; */
     /* border: solid black; */
 }
 
