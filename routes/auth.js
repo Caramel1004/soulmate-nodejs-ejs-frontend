@@ -10,7 +10,10 @@ router.get('/login',authController.getLoginPage);// 로그인 페이지 렌더�
 // POST /login
 router.post('/login',authController.postLogin);// 로그인
 
+// get /logout
+router.get('/logout',authController.getLogout);// 로그 아웃
+
 // POST /signup
-// router.post('/signup',authController.postSignUp);// 회원가입
+router.post('/signup',authController.postSignUp);// 회원가입
 
 export default router;

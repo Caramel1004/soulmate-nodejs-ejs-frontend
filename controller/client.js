@@ -4,12 +4,16 @@ const clientControlller = {
     // 해당유저의 채널리스트
     getMyChannelList: async (req, res, next) => {
         try {
+            const jsonWebToken = req.app.locals.token;
+
             const response = await fetch('http://localhost:8080/v1/channel', {
                 method: 'GET',
                 headers: {
+                    Authorization: 'Bearer ' + jsonWebToken,
                     'Content-Type': 'application/json'
                 }
             });
+
             const data = await response.json();
             const channelList = data.channels;
             const chatRooms = null;
@@ -30,12 +34,14 @@ const clientControlller = {
     // 해당 채널 입장
     getEnterMyChannel: async (req, res, next) => {
         try {
+            const jsonWebToken = req.app.locals.token;
             const channelId = req.params.channelId;
+
             // 1. 해당 채널아이디 보내주고 해당채널입장 요청
             const response = await fetch('http://localhost:8080/v1/channel/' + channelId, {
                 method: 'GET',
                 headers: {
-                    'Authorization': 'Bearer ' + res.locals.token,
+                    Authorization: 'Bearer ' + jsonWebToken,
                     'Content-Type': 'application/json'
                 }
             });
@@ -49,6 +55,7 @@ const clientControlller = {
             const response2 = await fetch('http://localhost:8080/v1/channel/' + channelId + '/chat', {
                 method: 'GET',
                 headers: {
+                    Authorization: 'Bearer ' + jsonWebToken,
                     'Content-Type': 'application/json'
                 }
             });
@@ -73,12 +80,14 @@ const clientControlller = {
     //채팅 방 접속
     getMyChatRoombyChannelId: async (req, res, next) => {
         try {
+            const jsonWebToken = req.app.locals.token;
             const channelId = req.params.channelId;
             const chatRoomId = req.params.chatRoomId;
             // console.log(`channelId: ${channelId}, chatRoomId: ${chatRoomId}`);
             const response = await fetch('http://localhost:8080/v1/chat/' + channelId + '/' + chatRoomId, {
                 method: 'GET',
                 headers: {
+                    Authorization: 'Bearer ' + jsonWebToken,
                     'Content-Type': 'application/json'
                 }
             });
@@ -106,6 +115,7 @@ const clientControlller = {
     // 채널 추가
     postCreateChannel: async (req, res, next) => {
         try {
+            const jsonWebToken = req.app.locals.token;
             const channelName = req.body.channelName;
             const thumbnail = req.body.thumbnail;
             console.log('요청 바디 : ', req.body);
@@ -120,6 +130,7 @@ const clientControlller = {
             const response = await fetch('http://localhost:8080/v1/channel/create', {
                 method: 'POST',
                 headers: {
+                    Authorization: 'Bearer ' + jsonWebToken,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
@@ -152,11 +163,13 @@ const clientControlller = {
     // 채널 퇴장
     postExitChannel: async (req, res, next) => {
         try {
+            const jsonWebToken = req.app.locals.token;
             const channelId = req.params.channelId;
             console.log(channelId);
             const response = await fetch('http://localhost:8080/v1/channel/exit/' + channelId, {
                 method: 'PATCH',
                 headers: {
+                    Authorization: 'Bearer ' + jsonWebToken,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
@@ -178,6 +191,7 @@ const clientControlller = {
     },
     // 실시간 채팅
     postSendChat: async (req, res, next) => {
+        const jsonWebToken = req.app.locals.token;
         const channelId = req.params.channelId;
         const chatRoomId = req.params.chatRoomId;
         const chat = req.body.content;
@@ -187,6 +201,7 @@ const clientControlller = {
         const response = await fetch('http://localhost:8080/v1/chat/' + channelId + '/' + chatRoomId, {
             method: 'PATCH',
             headers: {
+                Authorization: 'Bearer ' + jsonWebToken,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({

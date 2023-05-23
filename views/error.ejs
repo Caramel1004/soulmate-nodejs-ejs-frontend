@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/error.css">
+    <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">
+</head>
+<body>
+    <div class="login-form ">
+        <div class="login-form__box">
+            <div class="input-box">
+                <img src="/images/android-chrome-192x192.png">
+            </div>
+            <div class="input-box">
+                <h1><%= statusCode%></h1>
+            </div>
+            <div class="error-box">
+                <%= message%>
+            </div>
+            <div class="input-box">
+                <a href="/login">Go back!</a>
+            </div>
+            </div>
+    </div>
+</body>
+</html>
