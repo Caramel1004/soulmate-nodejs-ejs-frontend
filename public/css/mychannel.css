@@ -3,7 +3,7 @@ body {
 }
 
 main {
-    margin-left: 10.5vw;
+    margin-left: 14vw;
     width: 60%;
     text-align: center;
     display: flex;
@@ -14,7 +14,7 @@ main {
 }
 
 .grid {
-    width: 13vw;
+    width: 17vw;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;

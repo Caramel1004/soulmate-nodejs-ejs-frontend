@@ -97,13 +97,14 @@ const clientControlller = {
             const userChatRooms = data.chatRooms
             const matchedChatRoom = data.chatRoom;
 
-            // console.log('matchedChatRoom: ', matchedChatRoom);
-            // console.log('userChatRooms: ', userChatRooms);
+            console.log('matchedChatRoom: ', matchedChatRoom);
+            console.log('userChatRooms: ', userChatRooms);
 
             res.render('chat/chat-board', {
                 title: 'Soulmate-board',
                 chatRoom: matchedChatRoom,
-                chatRooms: userChatRooms
+                chatRooms: userChatRooms,
+                channel: { _id: channelId }
             });
         } catch (err) {
             if (!err.statusCode) {
@@ -188,6 +189,58 @@ const clientControlller = {
             }
             next(err);
         }
+    },
+    //채팅방 생성
+    postCreateChatRoom: async (req, res, next) => {
+        try {
+            const jsonWebToken = req.app.locals.token;
+            const channelId = req.params.channelId
+            const roomName = req.body.roomName;
+
+            const response = await fetch('http://localhost:8080/v1/channel/' + channelId + '/chatRoom/create', {
+                method: 'POST',
+                headers: {
+                    Authorization: 'Bearer ' + jsonWebToken,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    channelId: channelId,
+                    roomName: roomName
+                })
+            });
+
+            const data = await response.json();
+            console.log('data: ', data);
+
+            res.redirect('http://localhost:3000/client/chat/' + data.chatRoom.channelId + '/' + data.chatRoom._id);
+        } catch (err) {
+            if (!err.statusCode) {
+                err.statusCode = 500;
+            }
+            next(err);
+        }
+    },
+    // 유저 초대
+    postInviteUsers: async (req, res, next) => {
+        const jsonWebToken = req.app.locals.token;
+        const channelId = req.params.channelId
+        const chatRoomId = req.params.chatRoomId;
+        const memberId = req.body.usersId;
+
+        const response = await fetch('http://localhost:8080/v1/chat/invite/' + channelId + '/' + chatRoomId, {
+            method: 'PATCH',
+            headers: {
+                Authorization: 'Bearer ' + jsonWebToken,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                channelId: channelId,
+                chatRoomId: chatRoomId,
+                memberId: memberId
+            })
+        });
+
+        res.redirect('http://localhost:3000/client/chat/' + channelId + '/' + chatRoomId);
     },
     // 실시간 채팅
     postSendChat: async (req, res, next) => {

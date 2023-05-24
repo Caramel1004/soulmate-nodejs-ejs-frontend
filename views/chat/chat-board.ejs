@@ -8,14 +8,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('../includes/header.ejs') %>
-    <%- include('../includes/navigation.ejs',{chatRooms: chatRooms}) %>
+    <%- include('../includes/navigation.ejs') %>
         <div class="board">
             <div class="board-chat__history">
                 <% if(chatRoom){ %>
                     <% for(let chat of chatRoom.chat) { %>
                             <p><%= chat %></p>
                         <% } %>
-                            <% } %>           
+                <% } %>           
             </div>
             <div class="board-chat__chatBox">
                 <form action="/client/chat/<%= chatRoom.channelId %>/<%= chatRoom._id %>" method="post">
@@ -25,7 +25,8 @@
                     <button type="submit">전송</button>
                 </form>
             </div>
-        </div>    
+        </div>
+        
         <script type="module">
             import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
 

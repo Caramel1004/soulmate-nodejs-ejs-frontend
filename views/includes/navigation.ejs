@@ -9,17 +9,23 @@
             <% if(chatRooms){ %>
                 <% for(let room of chatRooms) { %>
                     <li class="main-nav__item"><a href="/client/chat/<%= room.channelId %>/<%= room._id %>"><%= room.roomName %></a></li>
-                    <% } %>
+                <% } %>
             <% } %>
-            <li class="main-nav__item"><button class="open-modal">채널 생성</button></li>
+            <li class="main-nav__item"><button class="open-modal-channel">채널 생성</button></li>
+            <% if(chatRooms){ %>
+                <li class="main-nav__item"><button class="open-modal-chat">채팅방 생성</button></li>
+            <% } %>
             <li class="main-nav__item"><a href="/logout"><h3>로그아웃</h3></a></li>
         </ul>
     </nav>
 
     <!-- 채널생성 클릭시 모달창 오픈 -->
-    <div class="container hidden">
-        <div class="modal hidden">
+    <div class="container-channel hidden">
+        <div class="modal-channel hidden">
             <form action="/client/channel/create" method="post">
+                <div class="input-box">
+                    <h1>나만의 채널을 생성하세요.</h1>
+                </div>
                 <div class="input-box">
                     <input type="text" name="channelName" id="channelName" placeholder="채널명을 입력하세요.">
                 </div>
@@ -27,13 +33,30 @@
                     <input type="text" name="thumbnail" id="thumbnail" placeholder="채널을 대표할 사진경로를 입력하세요.">
                 </div>
                 <div class="input-box">
-                    <button type="submit">채널 생성</button>
+                    <span><button type="submit">채널 생성</button></span>
+                    <span class="close-modal-button__box"><a class="close-modal-channel">취소</a></span>
                 </div>
             </form>
-            <div class="close-modal-button__box">
-                <button class="close-modal"> x </button>
-            </div>
         </div>
     </div>
+
+    <% if(chatRooms){ %>
+            <div class="container-chat hidden">
+                <div class="modal-chat hidden">
+                    <form action="/client/chat/<%= channel._id %>" method="post">
+                        <div class="input-box">
+                            <h1>새로운 채팅방을 생성하세요.</h1>
+                        </div>
+                        <div class="input-box">
+                            <input type="text" name="roomName" id="roomName" placeholder="채팅방명을 입력하세요.">
+                        </div>
+                        <div class="input-box">
+                            <span><button type="submit">방 생성</button></span>
+                            <span class="close-modal-button__box"><a class="close-modal-chat">취소</a></span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+    <% } %>
  
     <script src="/js/modal.js"></script>

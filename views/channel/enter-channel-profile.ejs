@@ -7,13 +7,13 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <%- include('../includes/header.ejs') %>
-    <%- include('../includes/navigation.ejs',{chatRooms: chatRooms}) %>
-    <%if(channel) { %>
+<%- include('../includes/header.ejs') %>
+    <%- include('../includes/navigation.ejs') %>
+        <%if(channel) { %>
             <div class="main-profile">
                 <div class="main-profile__header">
                     <div class="thumbnail">
-                        <img src=<%= channel.thumbnail %>>
+                        <img src=<%=channel.thumbnail %>>
                     </div>
                     <div class="main-profile__content">
                         <div class="main-profile__content_item">
@@ -36,13 +36,17 @@
                 <p class="title"># 참여 인원</p>
                 <div class="main-profile__member-list">
                     <a href="#" class="main-profile__member">
-                        <img src=<%= channel.thumbnail %>>
-                        <p><%= channel.owner.ownerName%></p>
+                        <img src=<%=channel.thumbnail %>>
+                        <p>
+                            <%= channel.owner.ownerName%>
+                        </p>
                     </a>
                 </div>
             </div>
-    <% } else { %>
-        <h1 style="text-align: center;">Server Error <%= channel.statusCode %></h1>    
-    <% } %>
-</body>
+            <% } else { %>
+                <h1 style="text-align: center;">Server Error <%= channel.statusCode %>
+                </h1>
+                <% } %>
+                    </body>
+
 </html>
