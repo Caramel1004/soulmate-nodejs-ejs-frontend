@@ -34,19 +34,109 @@
                     </div>
                 </div>
                 <p class="title"># 참여 인원</p>
+                <button class="open-modal__btn" id="invite">유저 초대 하기</button>
                 <div class="main-profile__member-list">
-                    <a href="#" class="main-profile__member">
-                        <img src=<%=channel.thumbnail %>>
-                        <p>
-                            <%= channel.owner.ownerName%>
-                        </p>
-                    </a>
+                    <% if(channel){ %>
+                        <% for(let user of channel.users) { %>
+                            <a href="#" class="main-profile__member">
+                                <img src=<%=user.photo %>>
+                                <p><%= user.name%></p>
+                            </a>
+                        <% } %>
+                    <% } %>
+                </div>
+                <% } else { %>
+                    <h1 style="text-align: center;">Server Error <%= channel.statusCode %></h1>
+                    <% } %>
+            </div>
+             <!-- 유저 초대 클릭시 모달창 오픈 -->
+            <div class="container hidden" id="container">
+                <div class="modal hidden" id="modal">
+                    <!-- <form action="" method="post"> -->
+                        <div class="input-box">
+                            <h1>초대할 친구를 찾아보세요.</h1>
+                        </div>
+                        <div class="input-box">
+                            <input type="text" name="clientId" id="clientId" placeholder="친구 닉네임을 입력하세요.">
+                        </div>
+                        <div class="input-box">
+                            <span><button id="search">검색 하기</button></span>
+                            <span class="close-modal-button__box"><button id="cancel" class="close-modal-channel">취소</button></span>
+                        </div>
+                    <!-- </form> -->
                 </div>
             </div>
-            <% } else { %>
-                <h1 style="text-align: center;">Server Error <%= channel.statusCode %>
-                </h1>
-                <% } %>
-                    </body>
 
-</html>
+            <!-- 검색 후 보일 결과 창 -->
+            <div class="container hidden" id="searhBox">
+                <div class="modal hidden" id="resultModal">
+                    <form id="form" method="post">
+                        <div class="input-box" id="matchedClientId">
+                            <!-- 클라이언트 아이디 들어갈 곳 -->
+                        </div>
+                        <div class="input-box" id="photo">
+                            <!-- 이미지 들어갈 곳 -->
+                        </div>
+                        <input type="text" name="invitedUserId" id="invitedUserId">
+                        <div class="input-box">
+                            <span><button type="submit">초대 하기</button></span>
+                            <span class="close-modal-button__box"><button id="cancelInvite" class="close-modal-channel">취소</a></span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <script type="module">
+                import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
+                
+                const socket = io('http://localhost:8080');
+                console.log('스크립트 소켓 가동 중!!!');
+
+                const reqApi = async () => {
+                    try {
+                        const clientId = document.getElementById('clientId').value;
+                        console.log('clientId: ',clientId);
+                        const response = await fetch('http://localhost:8080/v1/user/userInfo/' + clientId,{
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            });
+                        const data = await response.json();
+                        console.log('api응답 data: ',data);
+
+                        document.getElementById('searhBox').classList.remove('hidden');
+                        document.getElementById('resultModal').classList.remove('hidden');
+                        document.getElementById('container').classList.add('hidden');
+                        document.getElementById('modal').classList.add('hidden');
+
+                        console.log(document.getElementById('matchedClientId'));
+                        const h1 = document.createElement('h1');
+                        h1.textContent = data.user.clientId;
+                        document.getElementById('matchedClientId').appendChild(h1);
+                        
+                        const img = document.createElement('img');
+                        img.setAttribute('src',data.user.photo);
+                        document.getElementById('photo').appendChild(img);
+                        
+                        const invitedUserId = document.getElementById('invitedUserId');
+                        invitedUserId.setAttribute('value',data.user._id);
+                        console.log(invitedUserId);
+                        
+                        const form = document.getElementById('form');
+                        const channelId = document.location.href.split('/')[5];
+                        console.log('form: ',form);
+                        form.setAttribute('action','/client/channel/invite/' + channelId);
+                       
+                        console.log('프로필 로딩 완료!!!');
+                    } catch (err) {
+                        console.log(err);
+                    }
+                }
+
+                document.getElementById('search').addEventListener('click',reqApi);
+
+                socket.on('searchUser', data => {
+                    console.log('백엔드에서 넘어온 데이터: ', data);
+                });
+            </script>
+<%- include('../includes/end.ejs') %>

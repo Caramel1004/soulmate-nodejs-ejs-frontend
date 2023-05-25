@@ -190,6 +190,35 @@ const clientControlller = {
             next(err);
         }
     },
+    // 채널에 유저 초대
+    postInviteUserToChannel: async (req, res, next) => {
+        try {
+            const jsonWebToken = req.app.locals.token;
+            const channelId = req.params.channelId;
+            const invitedUserId = req.body.invitedUserId;
+
+            console.log('invitedUserId: ', invitedUserId);
+            console.log('channelId: ', channelId);
+
+            const response = await fetch('http://localhost:8080/v1/channel/invite/' + channelId, {
+                method: 'PATCH',
+                headers: {
+                    Authorization: 'Bearer ' + jsonWebToken,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    channelId: channelId,
+                    invitedUserId: invitedUserId
+                })
+            });
+
+            const data = await response.json();
+
+            res.redirect('http://localhost:3000/client/mychannels/' + data.channel._id);
+        } catch (error) {
+
+        }
+    },
     //채팅방 생성
     postCreateChatRoom: async (req, res, next) => {
         try {
@@ -220,7 +249,7 @@ const clientControlller = {
             next(err);
         }
     },
-    // 유저 초대
+    // 채팅방 유저 초대
     postInviteUsers: async (req, res, next) => {
         const jsonWebToken = req.app.locals.token;
         const channelId = req.params.channelId
