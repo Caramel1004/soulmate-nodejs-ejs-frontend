@@ -21,6 +21,7 @@ const clientControlller = {
 
             res.render('channel/mychannel', {
                 title: 'Soulmate',
+                clientId: req.app.locals.clientId,
                 channelList: channelList,
                 chatRooms: chatRooms
             });
@@ -67,6 +68,7 @@ const clientControlller = {
             // 2. 해당 채널 렌더링
             res.status(200).render('channel/enter-channel-profile', {
                 title: 'Soulmate',
+                clientId: req.app.locals.clientId,
                 channel: matchedChannel,
                 chatRooms: matchedChatRooms
             });
@@ -102,6 +104,7 @@ const clientControlller = {
 
             res.render('chat/chat-board', {
                 title: 'Soulmate-board',
+                clientId: req.app.locals.clientId,
                 chatRoom: matchedChatRoom,
                 chatRooms: userChatRooms,
                 channel: { _id: channelId }
@@ -150,10 +153,6 @@ const clientControlller = {
 
             res.redirect('http://localhost:3000/client/mychannels');
 
-            // res.render('channel/enter-channel-profile', {
-            //     title: channel.channelName,
-            //     channel: channel,
-            // });
         } catch (err) {
             if (!err.statusCode) {
                 err.statusCode = 500;
@@ -179,8 +178,6 @@ const clientControlller = {
             });
 
             const data = await response.json();
-            console.log('data: ', data);
-            // const channel = data.channel;
             res.redirect('http://localhost:3000/client/mychannels');
 
         } catch (err) {
@@ -239,7 +236,6 @@ const clientControlller = {
             });
 
             const data = await response.json();
-            console.log('data: ', data);
 
             res.redirect('http://localhost:3000/client/chat/' + data.chatRoom.channelId + '/' + data.chatRoom._id);
         } catch (err) {

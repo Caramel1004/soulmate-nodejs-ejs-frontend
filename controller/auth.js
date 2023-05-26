@@ -66,9 +66,11 @@ const authController = {
             // html/view 클라이언트 사이드로 변수들을 보낼 수 있으며, 그 변수들은 오로지 거기서만 사용할 수 있다.
 
             req.app.locals.token = data.token;
-            req.app.locals.userId = data.userId;
+            req.app.locals.clientId = data.clientId;
 
             res.redirect('/client/mychannels');
+
+            next();
         } catch (err) {
             if (!err.statusCode) {
                 err.statusCode = 500;
@@ -83,7 +85,7 @@ const authController = {
                 req.app.locals.token = undefined;
                 req.app.locals.userId = undefined;
             }
-            console.log('req.app.locals: ', req.app.locals);
+            // console.log('req.app.locals: ', req.app.locals);
             res.redirect('/login');
         } catch (err) {
             if (!err.statusCode) {

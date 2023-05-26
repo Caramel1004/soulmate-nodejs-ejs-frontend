@@ -26,6 +26,18 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
+// 접속한 유저 정보를 확인하기 위한 미들웨어
+app.use(async (req, res, next) => {
+    if (req.app.locals.token) {
+        const token = req.app.locals.token;
+        const clientId = req.app.locals.clientId
+
+        console.log('접속한 유저 정보', clientId);
+        console.log('미들웨어 token: ', token);
+    }
+    next();
+});
+
 // 동적 라우트 처리
 app.use(authRoutes);
 app.use('/client', clientRoutes);
