@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 import socketClient from './socket-client.js';
 
 import path, { dirname } from 'path';
@@ -18,30 +19,27 @@ const __dirname = dirname(__filename);
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
-// 바디파서
+// 바디 파서
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+//쿠키 파서
+app.use(cookieParser());
 
 // 정적 파일 처리
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
-// 접속한 유저 정보를 확인하기 위한 미들웨어
-app.use(async (req, res, next) => {
-    if (req.app.locals.token) {
-        const token = req.app.locals.token;
-        const clientId = req.app.locals.clientId
-
-        console.log('접속한 유저 정보', clientId);
-        console.log('미들웨어 token: ', token);
-    }
-    next();
-});
 
 // 동적 라우트 처리
 app.use(authRoutes);
 app.use('/client', clientRoutes);
 
+// 접속한 유저 정보를 확인하기 위한 미들웨어
+app.use(async (req, res, next) => {
+    console.log('req.cookies: ',req.cookies);
+    next();
+});
 // 오류 처리
 app.use((error, req, res, next) => {
     console.log('클라이언트 측 에러!! -> ', error);

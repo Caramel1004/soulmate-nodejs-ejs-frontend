@@ -4,7 +4,7 @@ const clientControlller = {
     // 해당유저의 채널리스트
     getMyChannelList: async (req, res, next) => {
         try {
-            const jsonWebToken = req.app.locals.token;
+            const jsonWebToken = req.cookies.token;
 
             const response = await fetch('http://localhost:8080/v1/channel', {
                 method: 'GET',
@@ -21,7 +21,7 @@ const clientControlller = {
 
             res.render('channel/mychannel', {
                 title: 'Soulmate',
-                clientId: req.app.locals.clientId,
+                clientId: req.cookies.clientId,
                 channelList: channelList,
                 chatRooms: chatRooms
             });
@@ -35,7 +35,7 @@ const clientControlller = {
     // 해당 채널 입장
     getEnterMyChannel: async (req, res, next) => {
         try {
-            const jsonWebToken = req.app.locals.token;
+            const jsonWebToken = req.cookies.token;
             const channelId = req.params.channelId;
 
             // 1. 해당 채널아이디 보내주고 해당채널입장 요청
@@ -68,7 +68,7 @@ const clientControlller = {
             // 2. 해당 채널 렌더링
             res.status(200).render('channel/enter-channel-profile', {
                 title: 'Soulmate',
-                clientId: req.app.locals.clientId,
+                clientId: req.cookies.clientId,
                 channel: matchedChannel,
                 chatRooms: matchedChatRooms
             });
@@ -82,7 +82,7 @@ const clientControlller = {
     //채팅 방 접속
     getMyChatRoombyChannelId: async (req, res, next) => {
         try {
-            const jsonWebToken = req.app.locals.token;
+            const jsonWebToken = req.cookies.token;
             const channelId = req.params.channelId;
             const chatRoomId = req.params.chatRoomId;
             // console.log(`channelId: ${channelId}, chatRoomId: ${chatRoomId}`);
@@ -104,7 +104,7 @@ const clientControlller = {
 
             res.render('chat/chat-board', {
                 title: 'Soulmate-board',
-                clientId: req.app.locals.clientId,
+                clientId: req.cookies.clientId,
                 chatRoom: matchedChatRoom,
                 chatRooms: userChatRooms,
                 channel: { _id: channelId }
@@ -119,7 +119,7 @@ const clientControlller = {
     // 채널 추가
     postCreateChannel: async (req, res, next) => {
         try {
-            const jsonWebToken = req.app.locals.token;
+            const jsonWebToken = req.cookies.token;
             const channelName = req.body.channelName;
             const thumbnail = req.body.thumbnail;
             console.log('요청 바디 : ', req.body);
@@ -163,7 +163,7 @@ const clientControlller = {
     // 채널 퇴장
     postExitChannel: async (req, res, next) => {
         try {
-            const jsonWebToken = req.app.locals.token;
+            const jsonWebToken = req.cookies.token;
             const channelId = req.params.channelId;
             console.log(channelId);
             const response = await fetch('http://localhost:8080/v1/channel/exit/' + channelId, {
@@ -190,7 +190,7 @@ const clientControlller = {
     // 채널에 유저 초대
     postInviteUserToChannel: async (req, res, next) => {
         try {
-            const jsonWebToken = req.app.locals.token;
+            const jsonWebToken = req.cookies.token;
             const channelId = req.params.channelId;
             const invitedUserId = req.body.invitedUserId;
 
@@ -219,7 +219,7 @@ const clientControlller = {
     //채팅방 생성
     postCreateChatRoom: async (req, res, next) => {
         try {
-            const jsonWebToken = req.app.locals.token;
+            const jsonWebToken = req.cookies.token;
             const channelId = req.params.channelId
             const roomName = req.body.roomName;
 
@@ -246,8 +246,8 @@ const clientControlller = {
         }
     },
     // 채팅방 유저 초대
-    postInviteUsers: async (req, res, next) => {
-        const jsonWebToken = req.app.locals.token;
+    postInviteUsersToChatRoom: async (req, res, next) => {
+        const jsonWebToken = req.cookies.token;
         const channelId = req.params.channelId
         const chatRoomId = req.params.chatRoomId;
         const memberId = req.body.usersId;
@@ -269,7 +269,7 @@ const clientControlller = {
     },
     // 실시간 채팅
     postSendChat: async (req, res, next) => {
-        const jsonWebToken = req.app.locals.token;
+        const jsonWebToken = req.cookies.token;
         const channelId = req.params.channelId;
         const chatRoomId = req.params.chatRoomId;
         const chat = req.body.content;

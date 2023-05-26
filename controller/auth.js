@@ -65,8 +65,18 @@ const authController = {
             // res.locals의 프로퍼티들은 request의 라이프 타임 동안에만 유효하다.
             // html/view 클라이언트 사이드로 변수들을 보낼 수 있으며, 그 변수들은 오로지 거기서만 사용할 수 있다.
 
-            req.app.locals.token = data.token;
-            req.app.locals.clientId = data.clientId;
+            res.cookie('token', data.token, {
+                httpOnly: true,
+                secure: false
+            });
+            res.cookie('clientId', data.clientId, {
+                httpOnly: true,
+                secure: false
+            });
+
+            console.log('req.cookies: ', req.cookies);
+            // req.app.locals.token = data.token;
+            // req.app.locals.clientId = data.clientId;
 
             res.redirect('/client/mychannels');
 
@@ -81,11 +91,9 @@ const authController = {
     //로그 아웃
     getLogout: (req, res, next) => {
         try {
-            if (req.app.locals.token) {
-                req.app.locals.token = undefined;
-                req.app.locals.userId = undefined;
+            if (req.cookies.token) {
+                res.clearCookie(token);
             }
-            // console.log('req.app.locals: ', req.app.locals);
             res.redirect('/login');
         } catch (err) {
             if (!err.statusCode) {
