@@ -92,7 +92,8 @@ const authController = {
     getLogout: (req, res, next) => {
         try {
             if (req.cookies.token) {
-                res.clearCookie(token);
+                res.clearCookie('token');
+                res.clearCookie('clientId');
             }
             res.redirect('/login');
         } catch (err) {
