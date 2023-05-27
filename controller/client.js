@@ -107,7 +107,8 @@ const clientControlller = {
                 clientId: req.cookies.clientId,
                 chatRoom: matchedChatRoom,
                 chatRooms: userChatRooms,
-                channel: { _id: channelId }
+                channel: { _id: channelId },
+                clientIds: data.clientIds
             });
         } catch (err) {
             if (!err.statusCode) {
@@ -269,10 +270,11 @@ const clientControlller = {
     },
     // 실시간 채팅
     postSendChat: async (req, res, next) => {
+        console.log('req.body: ',req.body);
         const jsonWebToken = req.cookies.token;
         const channelId = req.params.channelId;
         const chatRoomId = req.params.chatRoomId;
-        const chat = req.body.content;
+        const chat = req.body.chat;
         console.log('chat: ', chat);
         console.log('channelId: ', channelId);
         console.log('chatRoomId: ', chatRoomId);
@@ -289,7 +291,14 @@ const clientControlller = {
             })
         });
 
-        res.redirect('http://localhost:3000/client/chat/' + channelId + '/' + chatRoomId);
+        const data = await response.json();
+
+        res.status(200).json({
+            chatRoom: data.chatRoom,
+            clientId: req.cookies.clientId,
+            photo: data.photo
+        });
+        // res.redirect('http://localhost:3000/client/chat/' + channelId + '/' + chatRoomId);
 
         next();
     }

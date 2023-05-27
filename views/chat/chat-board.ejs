@@ -9,36 +9,36 @@
 <html lang="en">
 <%- include('../includes/header.ejs') %>
     <%- include('../includes/navigation.ejs') %>
-        <!-- 채팅 박스 -->
-        <div class="board">
-            <div class="board-chat__history">
+
+        <div class="board-chat">
+            <div class="board-chat__box-history">
                 <% if(chatRoom){ %>
                     <% for(let chat of chatRoom.chat) { %>
-                            <p><%= chat %></p>
-                        <% } %>
-                <% } %>           
+                        <div class="board-chat__unit-chat-box">
+                            <div class="board-chat__unit-chat-img">
+                                <img src="<%= chatRoom.users[0].photo %>">
+                            </div>
+                            <div class="chat">
+                                <div class="client-name"><%= chatRoom.users[0].clientId %></div>
+                                <div class="board-chat__unit-chat"><%= chat %></div>
+                            </div>
+                        </div>
+                    <% } %>
+                <% } %>     
             </div>
-            <div class="board-chat__chatBox">
-                <form action="/client/chat/<%= chatRoom.channelId %>/<%= chatRoom._id %>" method="post">
-                    <input type="hidden" name="channelId" value="<%= chatRoom.channelId %>">
-                    <input type="hidden" name="chatRoomId" value="<%= chatRoom._id %>">
-                    <textarea name="content" placeholder="메세지 보내기"></textarea>
-                    <button type="submit">전송</button>
-                </form>
+            <div class="board-chat__box-chat">
+                    <input type="hidden" value="<%= %>">
+                    <textarea class="board-chat__textarea" name="content" id="content" placeholder="메세지 보내기"></textarea>
+                    <button class="board-chat__btn" type="submit" id="send">전송</button>
             </div>
         </div>
-
-        <div>
-            <!-- 현재 참여하고있는 유저 보드를 만들 예정 -->
+        
+        <div class="board-user-list">
+            <h1>참여자</h1>
+            <% for(let clientId of clientIds) { %>
+                <p><%= clientId %></p>
+            <% } %>
         </div>
-
-        <div>
-            <form>
-                <!-- 라디오 형태로 데이터 넘길거임 -> 배열에 담아서 보낼 예정 -->
-                <button id="inviteModal"> 팀원 초대 </button>
-            </form>
-        </div>
-
         
         <script type="module">
             import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
@@ -52,12 +52,48 @@
                 console.log('백엔드에서 넘어온 데이터: ', data);
                 console.log('채팅 내용: ', data.currentChat);
 
-                const div = document.createElement('div');
-                const chat = document.createElement('p');
-                chat.textContent = data.currentChat;
-                div.appendChild(chat);
-                document.querySelector('.board-chat__history').appendChild(div);
+                // 이미지 박스
+                const imgBox = document.createElement('div');
+                const img = document.createElement('img');
+                img.setAttribute('src', data.photo);
+                imgBox.classList.add('board-chat__unit-chat-img');
+                imgBox.appendChild(img);
+                console.log('imgBox: ', imgBox);
+
+                // 챗박스
+                const chatBox = document.createElement('div');
+                chatBox.classList.add('chat');
+
+                // 닉네임
+                const clientNameTag = document.createElement('div');
+                clientNameTag.classList.add('client-name');
+                clientNameTag.textContent = data.clientId;
+                chatBox.appendChild(clientNameTag);
+                console.log('clientNameTag: ', clientNameTag);
+
+                // 챗
+                const unitChat = document.createElement('div');
+                unitChat.classList.add('board-chat__unit-chat');
+                unitChat.textContent = document.getElementById('content').value;
+                chatBox.appendChild(unitChat);
+                console.log('unitChat: ', unitChat);
+
+                // 제일 큰 유닛 박스
+                const chatUnitBox = document.createElement('div');
+                chatUnitBox.classList.add('board-chat__unit-chat-box');
+
+                chatUnitBox.appendChild(imgBox);
+                chatUnitBox.appendChild(chatBox);
+                console.log('chatUnitBox: ', chatUnitBox);
+
+
+                const historyTag = document.querySelector('.board-chat__box-history');
+                historyTag.append(chatUnitBox);
+
+                document.getElementById('content').value = "";
+
             });
+            
           </script>
           <script src="/js/chat.js"></script>          
 <%- include('../includes/end.ejs') %>
