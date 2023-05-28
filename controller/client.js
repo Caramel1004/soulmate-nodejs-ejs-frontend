@@ -140,11 +140,7 @@ const clientControlller = {
                 },
                 body: JSON.stringify({
                     channelName: channelName,
-                    thumbnail: thumbnail,
-                    owner: {
-                        ownerId: '645bc55b7d8b60a0021cb1b5',
-                        ownerName: '카라멜'
-                    }
+                    thumbnail: thumbnail
                 })
             });
 

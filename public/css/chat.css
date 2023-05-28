@@ -7,11 +7,11 @@ body {
 .board-chat {
     margin-top: 10px;
     margin-left: 230px;
-    --box-width: 1200px;
+    --box-width: 800px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
     /* border: groove black 0.5px; */
     width: var(--box-width);
-    height: 910px;
+    height: 95vh;
     display: block;
     text-align: center;
 }
@@ -20,7 +20,7 @@ body {
 .board-chat__box-history {
     /* border: groove black 0.5px; */
     width: var(--box-width);
-    height: 700px;
+    height: 65vh;
     background: rgb(235, 222, 203);
     overflow: scroll;
     overflow-x: hidden;
@@ -115,17 +115,18 @@ body {
 .board-chat__box-chat {
     /* border: groove black 0.5px; */
     width: var(--box-width);
-    height: 200px;
+    height: 20vh;
     display: block;
 }
 
 /* 채팅 입력 폼 */
 .board-chat__textarea {
+    margin-top: 2vh;
     padding-top: 20px;
     padding-left: 20px;
-    width: 1150px;
-    height: 130px;
-    border: none;
+    width: 690px;
+    height: 20vh;
+    /* border: none; */
     resize: none;
 }
 
@@ -186,7 +187,7 @@ body {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
     /* border: groove black 0.5px; */
     width: 300px;
-    height: 910px;
+    height: 95vh;
     display: block;
     text-align: center;
 }

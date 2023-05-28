@@ -13,14 +13,14 @@
         <div class="board-chat">
             <div class="board-chat__box-history">
                 <% if(chatRoom){ %>
-                    <% for(let chat of chatRoom.chat) { %>
+                    <% for(let user of chatRoom.users) { %>
                         <div class="board-chat__unit-chat-box">
                             <div class="board-chat__unit-chat-img">
-                                <img src="<%= chatRoom.users[0].photo %>">
+                                <img src="<%= user.photo %>">
                             </div>
                             <div class="chat">
-                                <div class="client-name"><%= chatRoom.users[0].clientId %></div>
-                                <div class="board-chat__unit-chat"><%= chat %></div>
+                                <div class="client-name"><%= user.clientId %></div>
+                                <div class="board-chat__unit-chat"><%= chatRoom.chat[0] %></div>
                             </div>
                         </div>
                     <% } %>
@@ -74,7 +74,7 @@
                 // 챗
                 const unitChat = document.createElement('div');
                 unitChat.classList.add('board-chat__unit-chat');
-                unitChat.textContent = document.getElementById('content').value;
+                unitChat.textContent = data.currentChat;
                 chatBox.appendChild(unitChat);
                 console.log('unitChat: ', unitChat);
 
