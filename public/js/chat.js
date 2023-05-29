@@ -1,4 +1,6 @@
+// 채팅 버튼
 const createUnitChat = async () => {
+    console.log('tag 생성!!!');
     try {
         const url = window.location.href;
         // const jsonWebToken = document.cookie;
@@ -18,76 +20,45 @@ const createUnitChat = async () => {
                 chat: content
             })
         });
-
-        // const data = await response.json();
-        // console.log('data: ',data);
-        // // 이미지 박스
-        // const imgBox = document.createElement('div');
-        // const img = document.createElement('img');
-        // img.setAttribute('src', data.photo);
-        // imgBox.classList.add('board-chat__unit-chat-img');
-        // imgBox.appendChild(img);
-        // console.log('imgBox: ', imgBox);
-    
-        // // 챗박스
-        // const chatBox = document.createElement('div');
-        // chatBox.classList.add('chat');
-    
-        // // 닉네임
-        // const clientNameTag = document.createElement('div');
-        // clientNameTag.classList.add('client-name');
-        // clientNameTag.textContent = data.clientId;
-        // chatBox.appendChild(clientNameTag);
-        // console.log('clientNameTag: ', clientNameTag);
-    
-        // // 챗
-        // const unitChat = document.createElement('div');
-        // unitChat.classList.add('board-chat__unit-chat');
-        // unitChat.textContent = document.getElementById('content').value;
-        // chatBox.appendChild(unitChat);
-        // console.log('unitChat: ', unitChat);
-    
-        // // 제일 큰 유닛 박스
-        // const chatUnitBox = document.createElement('div');
-        // chatUnitBox.classList.add('board-chat__unit-chat-box');
-    
-        // chatUnitBox.appendChild(imgBox);
-        // chatUnitBox.appendChild(chatBox);
-        // console.log('chatUnitBox: ', chatUnitBox);
-    
-    
-        // const historyTag = document.querySelector('.board-chat__box-history');
-        // historyTag.append(chatUnitBox);
-    
-        // document.getElementById('content').value = "";
-    } catch (err) {
-        
+    }catch(err){
+        console.log(err);
     }
-
-
 }
 
-// const createUnitChat = e => {
-//     const chatUnitBox = document.createElement('div');
-//     chatUnitBox.style.border = 
-//     chatUnitBox.classList.add('board-chat__chat-unit-box');
-//     chatUnitBox.textContent = document.getElementById('content').value;
-//     const history = document.querySelector('.board-chat__box-history').appendChild(chatUnitBox);
-//     document.querySelector('.board-chat').appendChild(history);
-//     // box-shadow: 0 1px 4px rgba(0, 0, 0, 0.26);
-//     /* padding-top: 1px; */
-//     // padding: 5px;
-//     // padding-left: 10px;
-//     // max-width: 170px;
-//     // display: block;
-//     // text-align: left;
-//     // font-size: 15px;
-//     // background: #ffffff;
-//     // /* border: groove black 0.5px; */
-//     // border-radius: 0.5rem;
-//     // box-sizing: border-box;
-// }
-
+const keyUpCreateUnitChat = () => {
+    if (event.keyCode == 13) {
+        createUnitChat();
+    }
+}
 
 document.getElementById('send').addEventListener('click', createUnitChat);
-// document.getElementById('content').addEventListener('keyup', createUnitChatKeyUp(event));
+document.getElementById('content').addEventListener('keyup', keyUpCreateUnitChat);
+
+// 서브 보드 토글버튼
+const toggleButton = type => {
+    const board = document.querySelector('.board-user')
+    console.log('토글!!!');
+    console.log('board: ', board);
+    if (type === '참여자') {
+        // 토글버튼
+        document.getElementById('user').classList.add('active');
+        document.getElementById('task').classList.remove('active');
+
+        //유저 보드, 유저 박스
+        document.querySelector('.board-user').classList.remove('hidden');
+
+        //업무 보드
+        document.querySelector('.board-task').classList.add('hidden');
+
+    } else if (type === '업무') {
+        // 토글버튼
+        document.getElementById('user').classList.remove('active');
+        document.getElementById('task').classList.add('active');
+
+        //유저 보드, 유저 박스
+        document.querySelector('.board-user').classList.add('hidden');
+
+        //업무 보드
+        document.querySelector('.board-task').classList.remove('hidden');
+    }
+}

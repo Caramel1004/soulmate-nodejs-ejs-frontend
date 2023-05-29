@@ -33,13 +33,48 @@
             </div>
         </div>
 
-        <div class="board-user-list">
-            <h1>참여자</h1>
-            <% for(let clientId of clientIds) { %>
-                <p><%= clientId %></p>
-            <% } %>
+        <div class="board-sub">
+            <div class="box__btn-toggle">
+                <button type="button" class="btn-toggle active" id="user" onclick="toggleButton('참여자')">참여자</button>
+                <button type="button" class="btn-toggle" id="task" onclick="toggleButton('업무')">우리들의 업무</button>
+            </div>
+            <div class="board-user">
+                <div class="number">
+                    <h5>인원수 3</h5>
+                </div>
+                <% for(let clientId of clientIds) { %>
+                    <div class="box">
+                        <img src="https://ranking.sanrio.co.jp/assets/images/characters/pompompurin/img_chara1.png">
+                        <a href="#">김모씨</a>
+                    </div>
+                <% } %>
+                <!-- <div class="box">
+                    <img src="https://ranking.sanrio.co.jp/assets/images/characters/pompompurin/img_chara1.png">
+                    <a href="#">김모씨</a>
+                </div>
+                <div class="box">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBJ3g21jfWKLbo1gtwz11yeH9doP_Phvmfmw&usqp=CAU">
+                    <a href="#">이모씨</a>
+                </div>
+                <div class="box">
+                    <img src="https://newsimg.sedaily.com/2021/12/09/22V85NTJGY_1.jpg">
+                    <a href="#">박모씨</a>
+                </div> -->
+            </div>
+            <div class="board-task hidden">
+                <div class="task-date__box">
+                    <div class="date">2023년 5월 29일 월요일</div>
+                    <div class="content">
+                        <p>1. 해당 유저의 모든 채널 조회</p>
+                        <p>2. 해당 채널아이디에 해당하는 채널 조회 => 채널 접속</p>
+                        <p>3. 해당 유저의 채널 생성 => 채널 생성자가 owner</p>
+                        <p>4. 접속 유저의 채널 퇴장 => 채널 스키마-> users에서 필터링</p> 
+                        <p>4. 접속 유저의 채널 퇴장 => 채널 스키마-> users에서 필터링</p> 
+                    </div>
+                </div>
+            </div>
         </div>
-        
+
         <script type="module">
             import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
 

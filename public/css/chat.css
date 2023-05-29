@@ -14,6 +14,7 @@ body {
     height: 95vh;
     display: block;
     text-align: center;
+    overflow-x: hidden;
 }
 
 /* 채팅 히스토리 박스 */
@@ -23,7 +24,6 @@ body {
     height: 65vh;
     background: rgb(235, 222, 203);
     overflow: scroll;
-    overflow-x: hidden;
 }
 
 /* 단위 채팅 내용 큰박스 */
@@ -180,14 +180,125 @@ body {
 
 /* ----------------------------------------------------------------------------------- */
 
-/* 유저 리스트 */
-.board-user-list {
+/* 서브 보드 */
+.board-sub {
     margin-top: 10px;
     margin-left: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-    /* border: groove black 0.5px; */
-    width: 300px;
+    width: 600px;
     height: 95vh;
     display: block;
+    text-align: left;
+}
+
+/* 토글 버튼 박스, 토글 버튼 */
+.box__btn-toggle {
+    width: 600px;
+    height: 5vh;
+    display: flex;
+}
+
+/* 토글버튼 활성화 css */
+.btn-toggle.active {
+    width: 300px;
+    height: 5vh;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.26);
+    background: #ffffff;
+    border: none;
+}
+
+/* 비활성화 */
+.btn-toggle {
+    width: 300px;
+    height: 5vh;
+    background: #3433333b;
+    border: none;
+}
+
+/* 토글버튼 마우스 오버시 */
+.btn-toggle:hover {
+    width: 300px;
+    height: 5vh;
+    background: #a09c9c3b;
+    border: none;
+}
+
+/* 보드 히든 */
+
+
+/* 참여자 보드 활성화 */
+.board-user {
+    display: block;
+    background: white;
+}
+
+/* 참여자 보드 비활성화 */
+.board-user.hidden {
+    display: none;
+}
+
+.board-user img {
+    width: 50px;
+    height: 50px;
+    border: 1px groove rgb(157, 153, 153);
+    border-radius: 20px;
+}
+
+.number{
+    padding-left: 25px;
+    display: flex;
+    align-items: center;
+}
+
+.box {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    /* border: groove; */
+}
+
+.box a {
+    padding-left: 15px;
+    font-size: 20px;
+    text-decoration: none;
+    color: rgb(73, 71, 71);
+    font-weight: bolder;
+}
+
+/* 업무보드 및 히스토리 보드*/
+.board-task {
+    display: block;
+}
+
+.board-task.hidden {
+    display: none;
+}
+
+.task-date__box {
+    margin-top: 20px;
+    width: 450px;
+    display: block;
+    justify-content: center;
+    /* border: groove; */
+}
+
+.date {
+    margin-left: 200px;
+    padding: 10px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.26);
+    /* width: auto; */
+    display: inline-block;
     text-align: center;
+    border-radius: 40px;
+    border: 0.1px solid rgb(223, 213, 213);
+    font-weight: bold;
+}
+
+.content {
+    margin-top: 30px;
+    padding: 20px;
+    width: 560px;
+    display: block;
+    background: rgb(243, 243, 246);
+    font-size: 14px;
 }
