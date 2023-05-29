@@ -20,6 +20,7 @@ const createUnitChat = async () => {
                 chat: content
             })
         });
+        console.log('채팅 처리 완료!!!');
     }catch(err){
         console.log(err);
     }

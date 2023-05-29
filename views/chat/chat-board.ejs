@@ -12,24 +12,21 @@
 
         <div class="board-chat">
             <div class="board-chat__box-history">
-                <% if(chatRoom){ %>
-                    <% for(let user of chatRoom.users) { %>
+                    <% for(let chatDetail of chatList) { %>
                         <div class="board-chat__unit-chat-box">
                             <div class="board-chat__unit-chat-img">
-                                <img src="<%= user.photo %>">
+                                <img src="<%= chatDetail.creator.photo %>">
                             </div>
                             <div class="chat">
-                                <div class="client-name"><%= user.clientId %></div>
-                                <div class="board-chat__unit-chat"><%= chatRoom.chat[0] %></div>
+                                <div class="client-name"><%= chatDetail.creator %></div>
+                                <div class="board-chat__unit-chat"><%= chatDetail.chat %></div>
                             </div>
                         </div>
-                    <% } %>
-                <% } %>     
+                    <% } %> 
             </div>
             <div class="board-chat__box-chat">
-                    <input type="hidden" value="<%= %>">
                     <textarea class="board-chat__textarea" name="content" id="content" placeholder="메세지 보내기"></textarea>
-                    <button class="board-chat__btn" type="submit" id="send">전송</button>
+                    <button class="board-chat__btn" type="button" id="send">전송</button>
             </div>
         </div>
 
@@ -42,10 +39,10 @@
                 <div class="number">
                     <h5>인원수 3</h5>
                 </div>
-                <% for(let clientId of clientIds) { %>
+                <% for(let user of userList) { %>
                     <div class="box">
-                        <img src="https://ranking.sanrio.co.jp/assets/images/characters/pompompurin/img_chara1.png">
-                        <a href="#">김모씨</a>
+                        <img src="<%= user.photo %>">
+                        <a href="#"><%= user.clientId %></a>
                     </div>
                 <% } %>
                 <!-- <div class="box">

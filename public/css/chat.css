@@ -7,7 +7,7 @@ body {
 .board-chat {
     margin-top: 10px;
     margin-left: 230px;
-    --box-width: 800px;
+    --box-width: 650px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
     /* border: groove black 0.5px; */
     width: var(--box-width);
@@ -24,6 +24,7 @@ body {
     height: 65vh;
     background: rgb(235, 222, 203);
     overflow: scroll;
+    overflow-x: hidden;
 }
 
 /* 단위 채팅 내용 큰박스 */
@@ -115,8 +116,9 @@ body {
 .board-chat__box-chat {
     /* border: groove black 0.5px; */
     width: var(--box-width);
-    height: 20vh;
+    height: 30vh;
     display: block;
+    /* background: black; */
 }
 
 /* 채팅 입력 폼 */
@@ -124,9 +126,9 @@ body {
     margin-top: 2vh;
     padding-top: 20px;
     padding-left: 20px;
-    width: 690px;
+    width: calc(var(--box-width) - 30px);
     height: 20vh;
-    /* border: none; */
+    border: none;
     resize: none;
 }
 
@@ -157,7 +159,7 @@ body {
 
 /* 전송버튼 */
 .board-chat__btn {
-    margin-left: 600px;
+    margin-left: 500px;
     /* background:linear-gradient(to bottom, #e4685d 5%, #eb675e 100%); */
     background-color: rgb(235, 222, 203);
     border-radius: 4px;
@@ -185,7 +187,7 @@ body {
     margin-top: 10px;
     margin-left: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-    width: 600px;
+    width: 500px;
     height: 95vh;
     display: block;
     text-align: left;
@@ -193,14 +195,14 @@ body {
 
 /* 토글 버튼 박스, 토글 버튼 */
 .box__btn-toggle {
-    width: 600px;
+    width: 500px;
     height: 5vh;
     display: flex;
 }
 
 /* 토글버튼 활성화 css */
 .btn-toggle.active {
-    width: 300px;
+    width: 250px;
     height: 5vh;
     box-shadow: 0 0 7px rgba(0, 0, 0, 0.26);
     background: #ffffff;
@@ -209,7 +211,7 @@ body {
 
 /* 비활성화 */
 .btn-toggle {
-    width: 300px;
+    width: 250px;
     height: 5vh;
     background: #3433333b;
     border: none;
@@ -217,8 +219,9 @@ body {
 
 /* 토글버튼 마우스 오버시 */
 .btn-toggle:hover {
-    width: 300px;
+    width: 250px;
     height: 5vh;
+    color: black;
     background: #a09c9c3b;
     border: none;
 }
@@ -283,7 +286,7 @@ body {
 }
 
 .date {
-    margin-left: 200px;
+    margin-left:160px;
     padding: 10px;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.26);
     /* width: auto; */
@@ -297,7 +300,7 @@ body {
 .content {
     margin-top: 30px;
     padding: 20px;
-    width: 560px;
+    width: 460px;
     display: block;
     background: rgb(243, 243, 246);
     font-size: 14px;

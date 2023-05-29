@@ -67,7 +67,7 @@ const clientControlller = {
             console.log('matchedChatRooms: ', matchedChatRooms);
             // 2. 해당 채널 렌더링
             res.status(200).render('channel/enter-channel-profile', {
-                title: 'Soulmate',
+                title: matchedChannel.channelName,
                 clientId: req.cookies.clientId,
                 channel: matchedChannel,
                 chatRooms: matchedChatRooms
@@ -95,20 +95,22 @@ const clientControlller = {
             });
 
             const data = await response.json();//동기화 해줘야해!!
+            console.log('data: ', data);
+            const userChatRooms = data.chatRooms;//네이브바에 채팅목록 데이터
+            const chatRoomData = data.chatRoomData;// 채팅 박스
+            const userList = data.userList;// 참여자 보드에 들어갈 참여자 데이터
 
-            const userChatRooms = data.chatRooms
-            const matchedChatRoom = data.chatRoom;
-
-            console.log('matchedChatRoom: ', matchedChatRoom);
+            console.log('chatRoomData: ', chatRoomData);
             console.log('userChatRooms: ', userChatRooms);
+            console.log('chatRoomData.creator: ', chatRoomData.creator);
 
             res.render('chat/chat-board', {
-                title: 'Soulmate-board',
+                title: chatRoomData.roomName,
                 clientId: req.cookies.clientId,
-                chatRoom: matchedChatRoom,
                 chatRooms: userChatRooms,
-                channel: { _id: channelId },
-                clientIds: data.clientIds
+                chatList: chatRoomData.chatList,
+                userList: userList,
+                channel: { _id: channelId }
             });
         } catch (err) {
             if (!err.statusCode) {
@@ -266,7 +268,7 @@ const clientControlller = {
     },
     // 실시간 채팅
     postSendChat: async (req, res, next) => {
-        console.log('req.body: ',req.body);
+        console.log('req.body: ', req.body);
         const jsonWebToken = req.cookies.token;
         const channelId = req.params.channelId;
         const chatRoomId = req.params.chatRoomId;
@@ -275,7 +277,7 @@ const clientControlller = {
         console.log('channelId: ', channelId);
         console.log('chatRoomId: ', chatRoomId);
         const response = await fetch('http://localhost:8080/v1/chat/' + channelId + '/' + chatRoomId, {
-            method: 'PATCH',
+            method: 'POST',
             headers: {
                 Authorization: 'Bearer ' + jsonWebToken,
                 'Content-Type': 'application/json'
@@ -294,9 +296,6 @@ const clientControlller = {
             clientId: req.cookies.clientId,
             photo: data.photo
         });
-        // res.redirect('http://localhost:3000/client/chat/' + channelId + '/' + chatRoomId);
-
-        next();
     }
 }
 
