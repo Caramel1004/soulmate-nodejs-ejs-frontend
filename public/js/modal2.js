@@ -12,6 +12,6 @@ document.getElementById('cancel').addEventListener('click', () => {
 
 document.getElementById('cancelInvite').addEventListener('click', () => {
     console.log('초대 유저 프로필 모달창 클로즈!!!');
-    document.getElementById('searhBox').classList.add('hidden');
+    document.getElementById('searchBox').classList.add('hidden');
     document.getElementById('resultModal').classList.add('hidden');
 });

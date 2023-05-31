@@ -9,8 +9,10 @@
             <li class="main-nav__item"><a href="#">채널 프로필</a></li>
             <% if(chatRooms){ %>
                 <% for(let room of chatRooms) { %>
-                    <li class="main-nav__item"><a href="/client/chat/<%= room.channelId %>/<%= room._id %>"><%= room.roomName %></a></li>
-                <% } %>
+                    <li class="main-nav__item"><a href="/client/chat/<%= room.channelId %>/<%= room._id %>">
+                            <%= room.roomName %>
+                        </a></li>
+                    <% } %>
             <% } %>
             <li class="main-nav__item"><button class="open-modal-channel">채널 생성</button></li>
             <li class="main-nav__item"><button class="open-modal-chat">채팅방 생성</button></li>
@@ -39,21 +41,22 @@
         </div>
     </div>
 
-    <% if(chatRooms){ %>
-            <div class="container-chat hidden">
-                <div class="modal-chat hidden">
-                    <form action="/client/chat/<%= channel._id %>" method="post">
-                        <div class="input-box">
-                            <h1>새로운 채팅방을 생성하세요.</h1>
-                        </div>
-                        <div class="input-box">
-                            <input type="text" name="roomName" id="roomName" placeholder="채팅방명을 입력하세요.">
-                        </div>
-                        <div class="input-box">
-                            <span><button type="submit">방 생성</button></span>
-                            <span class="close-modal-button__box"><a class="close-modal-chat">취소</a></span>
-                        </div>
-                    </form>
-                </div>
+    <!-- 채팅방 생성 -->
+    <% if(chatRooms) { %>
+        <div class="container-chat hidden">
+            <div class="modal-chat hidden">
+                <form action="/client/chat/<%= channel._id %>" method="post">
+                    <div class="input-box">
+                        <h1>새로운 채팅방을 생성하세요.</h1>
+                    </div>
+                    <div class="input-box">
+                        <input type="text" name="roomName" id="roomName" placeholder="채팅방명을 입력하세요.">
+                    </div>
+                    <div class="input-box">
+                        <span><button type="submit">방 생성</button></span>
+                        <span class="close-modal-button__box"><a class="close-modal-chat">취소</a></span>
+                    </div>
+                </form>
             </div>
-    <% } %>
+        </div>
+    <% } %>    

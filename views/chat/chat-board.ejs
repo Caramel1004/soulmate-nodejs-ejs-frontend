@@ -18,9 +18,12 @@
                                 <img src="<%= chatDetail.creator.photo %>">
                             </div>
                             <div class="chat">
-                                <div class="client-name"><%= chatDetail.creator %></div>
+                                <div class="client-name"><%= chatDetail.creator.clientId %></div>
                                 <div class="board-chat__unit-chat"><%= chatDetail.chat %></div>
                             </div>
+                            <!-- <div class="chat">
+                                <div class="client-name"><%= chatDetail.createdAt %></div>
+                            </div> -->
                         </div>
                     <% } %> 
             </div>
@@ -37,7 +40,7 @@
             </div>
             <div class="board-user">
                 <div class="number">
-                    <h5>인원수 3</h5>
+                    <h5>인원수 <%= userList.length %></h5>
                 </div>
                 <% for(let user of userList) { %>
                     <div class="box">
