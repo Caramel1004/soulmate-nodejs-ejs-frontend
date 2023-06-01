@@ -10,6 +10,7 @@
 <%- include('../includes/header.ejs') %>
     <%- include('../includes/navigation.ejs') %>
 
+        <!-- 챗 보드 -->
         <div class="board-chat">
             <div class="board-chat__box-history">
                     <% for(let chatDetail of chatList) { %>
@@ -33,12 +34,16 @@
             </div>
         </div>
 
+        <!-- 오른쪽 사이드 서브 보드 -->
         <div class="board-sub">
             <div class="box__btn-toggle">
-                <button type="button" class="btn-toggle active" id="user" onclick="toggleButton('참여자')">참여자</button>
-                <button type="button" class="btn-toggle" id="task" onclick="toggleButton('업무')">우리들의 업무</button>
+                <button type="button" class="btn-toggle active" id="btn-toggle-user" onclick="toggleButton('참여자')">참여자</button>
+                <button type="button" class="btn-toggle" id="btn-toggle-task" onclick="toggleButton('업무')">우리들의 업무</button>
             </div>
             <div class="board-user">
+                <div class="number">
+                    <button type="button" onclick="onClickLoadUsersInChannel(event)"> + 팀원 추가</button>
+                </div>
                 <div class="number">
                     <h5>인원수 <%= userList.length %></h5>
                 </div>
@@ -48,18 +53,6 @@
                         <a href="#"><%= user.clientId %></a>
                     </div>
                 <% } %>
-                <!-- <div class="box">
-                    <img src="https://ranking.sanrio.co.jp/assets/images/characters/pompompurin/img_chara1.png">
-                    <a href="#">김모씨</a>
-                </div>
-                <div class="box">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBJ3g21jfWKLbo1gtwz11yeH9doP_Phvmfmw&usqp=CAU">
-                    <a href="#">이모씨</a>
-                </div>
-                <div class="box">
-                    <img src="https://newsimg.sedaily.com/2021/12/09/22V85NTJGY_1.jpg">
-                    <a href="#">박모씨</a>
-                </div> -->
             </div>
             <div class="board-task hidden">
                 <div class="task-date__box">
@@ -71,6 +64,27 @@
                         <p>4. 접속 유저의 채널 퇴장 => 채널 스키마-> users에서 필터링</p> 
                         <p>4. 접속 유저의 채널 퇴장 => 채널 스키마-> users에서 필터링</p> 
                     </div>
+                </div>
+            </div>
+            <div class="board-channel-user-list hidden">
+                <div class="box__div-select-push hidden">
+                    <h1>Caramel1004</h1>
+                </div>
+                <div class="box">
+                    <img src="https://mblogthumb-phinf.pstatic.net/MjAxODEwMTlfMTgx/MDAxNTM5OTI4MjAwNDEx.k7oG-Q0tA6bdI1smaMzsK4t08NREjRrq3OthZKoIz8Qg.BeZxWi7HekwTWipOckbNWpvnesXuHjpldNGA7QppprUg.JPEG.retspe/eb13.jpg?type=w800">
+                    <a href="#">클라이언트 이름</a>
+                </div>
+                <div class="box">
+                    <img src="https://mblogthumb-phinf.pstatic.net/MjAxODEwMTlfMTgx/MDAxNTM5OTI4MjAwNDEx.k7oG-Q0tA6bdI1smaMzsK4t08NREjRrq3OthZKoIz8Qg.BeZxWi7HekwTWipOckbNWpvnesXuHjpldNGA7QppprUg.JPEG.retspe/eb13.jpg?type=w800">
+                    <a href="#">클라이언트 이름</a>
+                </div>
+                <div class="box">
+                    <img src="https://mblogthumb-phinf.pstatic.net/MjAxODEwMTlfMTgx/MDAxNTM5OTI4MjAwNDEx.k7oG-Q0tA6bdI1smaMzsK4t08NREjRrq3OthZKoIz8Qg.BeZxWi7HekwTWipOckbNWpvnesXuHjpldNGA7QppprUg.JPEG.retspe/eb13.jpg?type=w800">
+                    <a href="#">클라이언트 이름</a>
+                    <input type="checkbox" name="member">
+                </div>
+                <div class="box__btn">
+                    <button type="button" id="exit" onclick="onClicExitUsers(event)"> 나가기 </button>
                 </div>
             </div>
         </div>

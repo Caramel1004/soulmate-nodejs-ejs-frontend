@@ -247,7 +247,7 @@ body {
     border-radius: 20px;
 }
 
-.number{
+.number {
     padding-left: 25px;
     display: flex;
     align-items: center;
@@ -286,7 +286,7 @@ body {
 }
 
 .date {
-    margin-left:160px;
+    margin-left: 160px;
     padding: 10px;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.26);
     /* width: auto; */
@@ -304,4 +304,40 @@ body {
     display: block;
     background: rgb(243, 243, 246);
     font-size: 14px;
+}
+
+/* 채널에 속한 유저 리스트 활성화 */
+.board-channel-user-list {
+    display: block;
+    background: white;
+}
+
+.board-channel-user-list.hidden {
+    display: none;
+}
+
+/* 팀원 추가 클릭시 토글버튼 박스 히든 */
+.box__btn-toggle.hidden {
+    display: none;
+}
+
+.box__div-select-push {
+    width: 500px;
+    height: 10vh;
+    display: flex;
+    border: groove;
+}
+.box__div-select-push.hidden {
+    display: none;
+}
+
+.board-channel-user-list img{
+    width: 50px;
+    height: 50px;
+    border: 1px groove rgb(157, 153, 153);
+    border-radius: 20px;
+}
+
+#exit {
+    margin-left: 50px;
 }

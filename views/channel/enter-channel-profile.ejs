@@ -113,7 +113,7 @@
                         document.getElementById('container').classList.add('hidden');
                         document.getElementById('modal').classList.add('hidden');
 
-                        if(data.statusCode !== 200) {
+                        if(response.status !== 200) {
                             const resultModal = document.getElementById('resultModal');
                             const msg = document.getElementById('msg');
 

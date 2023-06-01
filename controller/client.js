@@ -102,7 +102,6 @@ const clientControlller = {
 
             console.log('chatRoomData: ', chatRoomData);
             console.log('userChatRooms: ', userChatRooms);
-            console.log('chatRoomData.creator: ', chatRoomData.creator);
 
             res.render('chat/chat-board', {
                 title: chatRoomData.roomName,
