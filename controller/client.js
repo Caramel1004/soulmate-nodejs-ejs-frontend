@@ -246,34 +246,50 @@ const clientControlller = {
     },
     // 채팅방 유저 초대
     postInviteUsersToChatRoom: async (req, res, next) => {
-        const jsonWebToken = req.cookies.token;
-        const channelId = req.params.channelId
-        const chatRoomId = req.params.chatRoomId;
-        const usersJson = req.body.users;
+        try {
+            const jsonWebToken = req.cookies.token;
+            const channelId = req.params.channelId
+            const chatRoomId = req.params.chatRoomId;
+            const usersJson = req.body.users;
+            const checkedUsersId = [];
 
-        if(!usersJson) {
-            return res.redirect('http://localhost:3000/client/chat/' + channelId + '/' + chatRoomId);;
+            console.log(usersJson);
+            if (!usersJson) {
+                return res.redirect('http://localhost:3000/client/chat/' + channelId + '/' + chatRoomId);;
+            }
+
+            if (Array.isArray(usersJson)) {
+                const ids = usersJson.map(user => {
+                    const parsingData = JSON.parse(user);
+                    return parsingData._id;
+                });
+                checkedUsersId = [...ids];
+            } else {
+                checkedUsersId.push(JSON.parse(usersJson)._id);
+            }
+
+
+            console.log(checkedUsersId);
+            const response = await fetch('http://localhost:8080/v1/chat/invite/' + channelId + '/' + chatRoomId, {
+                method: 'PATCH',
+                headers: {
+                    Authorization: 'Bearer ' + jsonWebToken,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    channelId: channelId,
+                    chatRoomId: chatRoomId,
+                    selectedId: checkedUsersId
+                })
+            });
+
+            res.redirect('http://localhost:3000/client/chat/' + channelId + '/' + chatRoomId);
+        } catch (err) {
+            if (!err.statusCode) {
+                err.statusCode = 500;
+            }
+            next(err);
         }
-        const checkedUsersId = usersJson.map(user => {
-            const parsingData = JSON.parse(user);
-            return parsingData._id;
-        })
-
-        console.log(checkedUsersId);
-        const response = await fetch('http://localhost:8080/v1/chat/invite/' + channelId + '/' + chatRoomId, {
-            method: 'PATCH',
-            headers: {
-                Authorization: 'Bearer ' + jsonWebToken,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                channelId: channelId,
-                chatRoomId: chatRoomId,
-                selectedId: checkedUsersId
-            })
-        });
-
-        res.redirect('http://localhost:3000/client/chat/' + channelId + '/' + chatRoomId);
     },
     // 실시간 채팅
     postSendChat: async (req, res, next) => {
