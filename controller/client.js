@@ -95,13 +95,13 @@ const clientControlller = {
             });
 
             const data = await response.json();//동기화 해줘야해!!
-            console.log('data: ', data);
+            // console.log('data: ', data);
             const userChatRooms = data.chatRooms;//네이브바에 채팅목록 데이터
             const chatRoomData = data.chatRoomData;// 채팅 박스
             const userList = data.userList;// 참여자 보드에 들어갈 참여자 데이터
 
-            console.log('chatRoomData: ', chatRoomData);
-            console.log('userChatRooms: ', userChatRooms);
+            // console.log('chatRoomData: ', chatRoomData);
+            // console.log('userChatRooms: ', userChatRooms);
 
             res.render('chat/chat-board', {
                 title: chatRoomData.roomName,
@@ -109,7 +109,8 @@ const clientControlller = {
                 chatRooms: userChatRooms,
                 chatList: chatRoomData.chatList,
                 userList: userList,
-                channel: { _id: channelId }
+                channel: { _id: channelId },
+                chatRoomId: chatRoomData._id
             });
         } catch (err) {
             if (!err.statusCode) {
@@ -248,8 +249,17 @@ const clientControlller = {
         const jsonWebToken = req.cookies.token;
         const channelId = req.params.channelId
         const chatRoomId = req.params.chatRoomId;
-        const memberId = req.body.usersId;
+        const usersJson = req.body.users;
 
+        if(!usersJson) {
+            return res.redirect('http://localhost:3000/client/chat/' + channelId + '/' + chatRoomId);;
+        }
+        const checkedUsersId = usersJson.map(user => {
+            const parsingData = JSON.parse(user);
+            return parsingData._id;
+        })
+
+        console.log(checkedUsersId);
         const response = await fetch('http://localhost:8080/v1/chat/invite/' + channelId + '/' + chatRoomId, {
             method: 'PATCH',
             headers: {
@@ -259,7 +269,7 @@ const clientControlller = {
             body: JSON.stringify({
                 channelId: channelId,
                 chatRoomId: chatRoomId,
-                memberId: memberId
+                selectedId: checkedUsersId
             })
         });
 

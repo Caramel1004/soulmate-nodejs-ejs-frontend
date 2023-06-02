@@ -26,6 +26,7 @@ const createUnitChat = async () => {
     }
 }
 
+// 채팅 박스에 textarea 키보드 엔터 시 이벤트
 // 이슈: 한글입력 후 엔터시 중복 입력되는 현상 발생. -> 이벤트가 두번 발생함
 // keyup 일때 영문입력시 event.isComposing이 false 즉, 문자 조합을 하지 않는다는 소리이다.
 // 근데 영어와 다르게 한글입력시 문자를 조합하기 때문에 event.isComposing가 true이다.
@@ -80,6 +81,7 @@ const toggleButton = type => {
     }
 }
 
+// 팀원 추가 버튼
 const onClickLoadUsersInChannel = async event => {
     const url = window.location.href;
     const channelId = url.split('/')[5];
@@ -90,16 +92,144 @@ const onClickLoadUsersInChannel = async event => {
         }
     });
     const data = await response.json();
-    console.log('data: ', data.users);
+    console.log('data: ', data);
 
+    // 채널에 속한 유저리스트 보드 열기
     document.querySelector('.box__btn-toggle').classList.add('hidden');
     document.querySelector('.board-user').classList.add('hidden');
     document.querySelector('.board-channel-user-list').classList.remove('hidden');
-    console.log('팀원추가!!!');
+
+    for (let user of data.users) {
+        // 인포 박스
+        const infoBox = document.createElement('div');
+        infoBox.classList.add('box')
+
+        // 클라이언트 프로필사진
+        const img = document.createElement('img');
+        img.setAttribute('src', user.photo);
+        infoBox.appendChild(img);
+
+        // 클라이언트 아이디
+        const clientNameTag = document.createElement('a');
+        clientNameTag.textContent = user.clientId;
+        clientNameTag.setAttribute('href', '#');
+
+        // 체크 박스 생성 + 라벨
+        const checkBox = document.createElement('input');
+        // checkBox.classList.add('check-box');
+        checkBox.setAttribute('type', 'checkbox');
+        checkBox.setAttribute('id', 'users');
+        checkBox.setAttribute('name', 'users');
+        checkBox.setAttribute('value', JSON.stringify({
+            _id: user._id,
+            photo: user.photo,
+            clientId: user.clientId
+        }));
+
+        checkBox.setAttribute('onclick', 'onClickCheckBox(event)');
+
+        const label = document.createElement('label');
+        label.setAttribute('for', 'users');
+        label.appendChild(checkBox);
+        const circle = document.createElement('div');
+        circle.setAttribute('class','checkbox');
+        label.appendChild(circle);
+
+        // 완성된 박스
+        infoBox.appendChild(img);
+        infoBox.appendChild(clientNameTag);
+        infoBox.appendChild(label);
+
+        //부모 태그에 어펜드
+        document.getElementById('form').appendChild(infoBox);
+    }
+
 }
 
-const onClicExitUsers = event => {
+// 자식요소 모두 제거 하는 함수
+const removeAllChild = parent => {
+    console.log(parent);
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+}
+// 체크박스 이벤트
+const onClickCheckBox = event => {
+    // 체킹된 아이템 박스
+    const parentNode = document.querySelector('.box__div-select-push');
+
+    //자식 요소 모두 제거
+    removeAllChild(parentNode);
+
+    const selectedUser = document.querySelectorAll('input[name="users"]:checked');
+    console.log(selectedUser)
+    if(selectedUser.length <= 0){
+        parentNode.classList.add('hidden');
+        return;
+    }
+
+    console.log(selectedUser);
+    selectedUser.forEach(element => {
+        const json = element.value;
+        const user = JSON.parse(json);
+
+        document.querySelector('.box__div-select-push').classList.remove('hidden');
+
+        const div = document.createElement('div');
+        div.setAttribute('id', 'item');
+        div.setAttribute('class', 'item');
+
+        const img = document.createElement('img');
+        img.setAttribute('src', user.photo);
+
+        const b = document.createElement('b');
+        b.textContent = user.clientId;
+
+        div.appendChild(img);
+        div.appendChild(b);
+
+        document.querySelector('.box__div-select-push').appendChild(div);
+    });
+}
+
+// 팀원 추가 보드 나가기
+const onClickExitUsers = event => {
+    const formTag = document.getElementById('form');
+    const pushedBox = document.querySelector('.box__div-select-push');
+
+    let item = document.getElementById('item');
+
+    removeAllChild(formTag);
+    const div = document.createElement('div');
+    div.classList.add('box__btn__add-member');
+    const btn = document.createElement('button');
+    btn.setAttribute('type','submit');
+    btn.setAttribute('class','btn__add-member');
+    btn.textContent = ' + ';
+    const span = document.createElement('span');
+    span.textContent = '초대하기';
+
+    div.appendChild(btn);
+    div.appendChild(span);
+    formTag.appendChild(div);
+
+    removeAllChild(pushedBox);
+    // origin.ver
+    // while (item) {
+    //     pushedBox.removeChild(item);
+    //     item = document.getElementById('item');
+    // }
+
+    // let box = formTag.querySelector('.box');
+    // // console.log(box);
+    // while (box) {
+    //     formTag.removeChild(box);
+    //     box = formTag.querySelector('.box');
+    //     console.log(box);
+    // }
+
     document.querySelector('.box__btn-toggle').classList.remove('hidden');
     document.querySelector('.board-user').classList.remove('hidden');
     document.querySelector('.board-channel-user-list').classList.add('hidden');
+    pushedBox.classList.add('hidden');
 }

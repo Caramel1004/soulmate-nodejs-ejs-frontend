@@ -268,6 +268,10 @@ body {
     font-weight: bolder;
 }
 
+/* .box input {
+    float: right;
+} */
+
 /* 업무보드 및 히스토리 보드*/
 .board-task {
     display: block;
@@ -323,21 +327,155 @@ body {
 
 .box__div-select-push {
     width: 500px;
-    height: 10vh;
+    height: 12vh;
     display: flex;
-    border: groove;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.26);
+    /* border-bottom: 1px solid rgb(169, 156, 156); */
 }
+
+.item {
+    padding: 20px;
+    display: block;
+    font-size: 15px;
+    /* border: groove; */
+    /* align-items: center; */
+    text-align: left;
+}
+
 .box__div-select-push.hidden {
     display: none;
 }
 
-.board-channel-user-list img{
+.board-channel-user-list img {
     width: 50px;
     height: 50px;
     border: 1px groove rgb(157, 153, 153);
-    border-radius: 20px;
+    border-radius: 50px;
 }
 
-#exit {
-    margin-left: 50px;
+.box label {
+    margin-left: auto;
+    width: 30px;
+    height: 30px;
+    border: #817575;
+    text-align: right;
+}
+
+.checkbox{
+    display: inline-block; /* 영역적용가능해짐 */
+    width: 20px; height: 20px;
+    border: 1px solid #c2b7b7;
+    box-sizing: border-box;
+    border-radius: 10px; /* 모서리둥글게 처리 */
+    position: relative; top: 4px;
+    cursor: pointer; /* 마우스 올렸을때 손모양 처리 */
+}
+
+.checkbox :checked::after {
+    width: 30px;
+    height: 30px;
+    border-radius: 50px;
+    border: #817575;
+    float: right;
+}
+
+.box input[type='checkbox'] {
+    width: 30px;
+    height: 30px;
+    border: #817575;
+}
+
+.box input[type='checkbox']+label {
+    margin-left: auto;
+    width: 30px;
+    height: 30px;
+    border-radius: 20px 50px;
+    border: #817575;
+    text-align: right;
+}
+
+.box input[name="users"]:checked::before {
+    width: 30px;
+    height: 30px;
+    border-radius: 50px;
+    border: #817575;
+
+}
+
+.box input[name="users"]:checked::after {
+    width: 30px;
+    height: 30px;
+    border-radius: 50px;
+    border: #817575;
+    float: right;
+}
+
+.box__top {
+    width: 500px;
+    height: 5vh;
+    display: flexbox;
+    align-items: end;
+    /* box-shadow: 0 0 7px rgba(0, 0, 0, 0.26); */
+}
+
+.box__exit {
+    padding: 5px;
+}
+
+.btn__exit {
+    /* background-color: rgb(235, 222, 203); */
+    background-color: white;
+    border-radius: 20rem;
+    /* border: 1px solid #ffffff; */
+    width: 30px;
+    height: 30px;
+    border: none;
+    display: inline-block;
+    cursor: pointer;
+    font-weight: 100px;
+    color: black;
+    font-family: Arial;
+    font-size: 20px;
+    /* padding: 5px; */
+    text-decoration: none;
+}
+
+.btn__exit:hover,
+.btn__exit:active {
+    color: black;
+    background-color: rgb(234, 212, 179);
+}
+
+.box__btn__add-member {
+    margin: 5px;
+    padding: 17px;
+}
+
+.box__btn__add-member span {
+    padding-left: 15px;
+    font-size: 20px;
+    color: black;
+}
+
+.btn__add-member {
+    background-color: rgb(235, 222, 203);
+    border-radius: 20rem;
+    /* border: 1px solid #ffffff; */
+    width: 50px;
+    height: 50px;
+    border: none;
+    display: inline-block;
+    cursor: pointer;
+    font-weight: 100px;
+    color: black;
+    font-family: Arial;
+    font-size: 30px;
+    padding: 5px 14px;
+    text-decoration: none;
+}
+
+.btn__add-member:hover,
+.btn_add-memver:active {
+    color: black;
+    background-color: rgb(234, 212, 179);
 }

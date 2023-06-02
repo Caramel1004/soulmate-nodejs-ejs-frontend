@@ -41,8 +41,9 @@
                 <button type="button" class="btn-toggle" id="btn-toggle-task" onclick="toggleButton('업무')">우리들의 업무</button>
             </div>
             <div class="board-user">
-                <div class="number">
-                    <button type="button" onclick="onClickLoadUsersInChannel(event)"> + 팀원 추가</button>
+                <div class="box__btn__add-member">
+                    <button type="button" class="btn__add-member" onclick="onClickLoadUsersInChannel(event)"> + </button>
+                    <span>팀원 목록</span>
                 </div>
                 <div class="number">
                     <h5>인원수 <%= userList.length %></h5>
@@ -67,25 +68,25 @@
                 </div>
             </div>
             <div class="board-channel-user-list hidden">
+                <div class="box__top">
+                    <div class="box__exit">
+                        <button type="button" class="btn__exit" id="exit" onclick="onClickExitUsers(event)"> x </button>
+                    </div>
+                </div>
                 <div class="box__div-select-push hidden">
-                    <h1>Caramel1004</h1>
+                    <!-- 선택한 아이템 -->
                 </div>
-                <div class="box">
-                    <img src="https://mblogthumb-phinf.pstatic.net/MjAxODEwMTlfMTgx/MDAxNTM5OTI4MjAwNDEx.k7oG-Q0tA6bdI1smaMzsK4t08NREjRrq3OthZKoIz8Qg.BeZxWi7HekwTWipOckbNWpvnesXuHjpldNGA7QppprUg.JPEG.retspe/eb13.jpg?type=w800">
-                    <a href="#">클라이언트 이름</a>
-                </div>
-                <div class="box">
-                    <img src="https://mblogthumb-phinf.pstatic.net/MjAxODEwMTlfMTgx/MDAxNTM5OTI4MjAwNDEx.k7oG-Q0tA6bdI1smaMzsK4t08NREjRrq3OthZKoIz8Qg.BeZxWi7HekwTWipOckbNWpvnesXuHjpldNGA7QppprUg.JPEG.retspe/eb13.jpg?type=w800">
-                    <a href="#">클라이언트 이름</a>
-                </div>
-                <div class="box">
-                    <img src="https://mblogthumb-phinf.pstatic.net/MjAxODEwMTlfMTgx/MDAxNTM5OTI4MjAwNDEx.k7oG-Q0tA6bdI1smaMzsK4t08NREjRrq3OthZKoIz8Qg.BeZxWi7HekwTWipOckbNWpvnesXuHjpldNGA7QppprUg.JPEG.retspe/eb13.jpg?type=w800">
-                    <a href="#">클라이언트 이름</a>
-                    <input type="checkbox" name="member">
-                </div>
-                <div class="box__btn">
-                    <button type="button" id="exit" onclick="onClicExitUsers(event)"> 나가기 </button>
-                </div>
+                <form id='form' action="/client/chat/invite/<%= channel._id %>/<%= chatRoomId %>" method="post">
+                    <!-- <div class="box">
+                        클라이언트 프로필 사진
+                        클라이언트 아이디
+                        체크 박스
+                    </div> -->
+                    <div class="box__btn__add-member">
+                        <button type="submit" class="btn__add-member"> + </button>
+                        <span>초대하기</span>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -137,7 +138,7 @@
 
 
                 const historyTag = document.querySelector('.board-chat__box-history');
-                historyTag.append(chatUnitBox);
+                historyTag.appendChild(chatUnitBox);
 
                 document.getElementById('content').value = "";
 
