@@ -1,17 +1,7 @@
-
 <div id="menu">
     <div class="menu__div-wrapper">
         <div class="title">
-            # 참여 채널
-        </div>
-        <div class="box">
-            Soulmate 개발자팀
-        </div>
-        <div class="box">
-            SPOON 개발자팀
-        </div>
-        <div class="box">
-            네이버 디자인팀
+            <button class="open-modal-channel">내 채널</button>
         </div>
     </div>
     <div class="menu__div-wrapper">
@@ -30,4 +20,16 @@
             # 고객문의
         </div>
     </div>
+    <div class="menu__div-wrapper">
+        <div class="title">
+            <button class="open-modal-channel">채널 생성</button>
+        </div>
+    </div>
+    <% if(chatRooms){ %>
+        <% for(let room of chatRooms) { %>
+            <div class="box">
+                <a href="/client/chat/<%= room.channelId %>/<%= room._id %>"><%= room.roomName %></a>
+            </div>
+        <% } %>
+    <% } %>
 </div>

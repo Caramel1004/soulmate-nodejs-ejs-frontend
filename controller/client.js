@@ -20,6 +20,7 @@ const clientControlller = {
             // console.log(channelList);
 
             res.render('channel/mychannel', {
+                path: '유저 채널 리스트',
                 title: 'Soulmate',
                 clientId: req.cookies.clientId,
                 channelList: channelList,
@@ -67,6 +68,7 @@ const clientControlller = {
             console.log('matchedChatRooms: ', matchedChatRooms);
             // 2. 해당 채널 렌더링
             res.status(200).render('channel/enter-channel-profile', {
+                path: '채널 입장',
                 title: matchedChannel.channelName,
                 clientId: req.cookies.clientId,
                 channel: matchedChannel,
