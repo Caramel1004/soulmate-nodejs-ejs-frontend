@@ -42,7 +42,7 @@
 .login-form__box {
     /* border: groove; */
     width: 400px;
-    height: 64vh;
+    height: 550px;
     display: block;
     justify-content: center;
     align-items: center;
@@ -54,7 +54,7 @@
 .signup-form__box {
     /* border: groove; */
     width: 400px;
-    height: 64vh;
+    height: 550px;
     display: block;
     justify-content: center;
     align-items: center;
@@ -101,9 +101,9 @@
 }
 
 .login-form__box button {
-    /* padding: 20px; */
+    padding: 10px;
     width: 330px;
-    height: 5vh;
+    /* height: 5vh; */
     text-align: center;
     text-decoration: none;
     font: inherit;

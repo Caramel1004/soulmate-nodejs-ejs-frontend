@@ -7,40 +7,36 @@
 
 <!DOCTYPE html>
 <html lang="en">
+    <%- include('../includes/head.ejs') %>
+<body>
     <%- include('../includes/header.ejs') %>
-    <%- include('../includes/navigation.ejs') %>
-    <%if(channelList.length > 0) { %>
-        <% for(let channel of channelList) { %>
-            <main>
-                <div class="grid">
-                    <article class="card product-item">
-                        <header class="card__header">
-                            <h1 class="product__title"><%= channel.channelName %></h1>
-                        </header>
-                        <div class="card__image">
-                            <img src=<%= channel.thumbnail %>>
+    <%- include('../includes/menu.ejs') %>
+	<div id="main">
+		<div class="container">
+			<div id="thema001">
+				#내가 만든 채널
+			</div>
+			<%if(channelList.length > 0) { %>
+				<% for(let channel of channelList) { %>
+                    <div class="contents__div-wrapper">
+                        <img src="<%= channel.thumbnail %>">
+                        <div class="card">
+                            <h2>채널명 | <%= channel.channelName %></h2>
                         </div>
-                        <div class="card__content">
-                            <h2 class="product__price"></h2>
-                            <p class="product__description">채널 인원 <%= channel.headcount %> 명 입니다.</p>
+                        <div class="card">
+                            <h5>인원수 <%= channel.users.length %>명</h5>
                         </div>
-                        <div class="card__actions">
+                        <div class="card">
+                            <button type="submit"> 채널 입장</button>
                             <a href="/client/mychannels/<%= channel._id %>" class="btn">채널 입장</a>
                         </div>
-                        <!-- <div class="card__actions">
-                            <a href="/client/channel/exit/<%= channel._id %>" class="btn">채널 퇴장</a>
-                        </div> -->
-                        <form action="/client/channel/exit/<%= channel._id %>" method="post">
-                            <div class="card__actions">
-                                <input type="hidden" value="<%= channel._id %>">
-                                <button class="btn" type="submit">채널 퇴장</button>
-                            </div>
-                        </form>
-                    </article>
-                </div>
-            </main>
-        <% } %>
-    <% } else { %>
-        <h1 style="text-align: center;">나만의 채널을 추가 해보세요!!</h1>    
-    <% } %>
-<%- include('../includes/end.ejs') %>
+                    </div>
+					<% } %>
+			<% } else { %>
+			<h1 style="text-align: center;">나만의 채널을 추가 해보세요!!</h1>    
+		<% } %>
+		</div>
+	</div>		
+    <%- include('../includes/script.ejs') %>
+</body>
+</html>

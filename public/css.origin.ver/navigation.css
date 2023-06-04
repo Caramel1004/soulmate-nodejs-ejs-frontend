@@ -1,0 +1,197 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+
+body {
+    margin: 0;
+}
+
+.main-nav {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    height: 100vh;
+    background-color: #e2e2e2a6;
+    display: flex;
+    align-items: top;
+    position: fixed;
+}
+
+.main-nav__item-list {
+    padding: 0;
+    width: 100%;
+    list-style-type: none;
+}
+
+.main-nav__item :hover,
+.main-nav__item :active,
+.main-nav__item li.active {
+    background: #200c0c73;
+}
+
+.main-nav__item {
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+    /* border-bottom: solid black 1px; */
+}
+
+.main-nav__item-logo {
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.main-nav__item button {
+    all: unset;
+    background-color: transparent;
+    font-family: 'Open Sans', sans-serif;
+    color: #0f0404bd;
+    /* border: groove; */
+}
+
+.main-nav__item a {
+    text-align: center;
+    background-color: transparent;
+    text-decoration: none;
+    font-family: 'Open Sans', sans-serif;
+    color: #0f0404bd;
+}
+
+.container-channel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.26);
+}
+.container-chat {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.26);
+}
+
+.modal-channel {
+    /* border: groove; */
+    width: 30vw;
+    height: 30vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.26);
+    background: white;
+}
+
+.modal-chat {
+    /* border: groove; */
+    width: 30vw;
+    height: 30vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.26);
+    background: white;
+}
+
+
+.input-box {
+    padding: 0.5rem;
+}
+
+.input-box input{
+    width: 14vw;
+    height: 3vh;
+}
+
+.input-box input :focus{
+    border: groove;
+}
+
+/* .container.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 50%;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    background:rgba(240, 235, 235, 0.982);
+  } */
+
+.container-channel.hidden {
+    display: none;
+}
+.container-chat.hidden {
+    display: none;
+}
+
+.modal-channel.hidden {
+    display: none;
+}
+
+.modal-chat.hidden {
+    display: none;
+}
+
+/* .close-modal-button__box {
+    border: solid;
+} */
+
+.modal-channel button {
+    padding: 0.25rem 1rem;
+    text-decoration: none;
+    font: inherit;
+    border: 1px solid #00695c;
+    color: #00695c;
+    background: white;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.modal-channel a {
+    padding: 0.25rem 1rem;
+    text-decoration: none;
+    font: inherit;
+    border: 1px solid #00695c;
+    color: #00695c;
+    background: white;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.modal-chat button {
+    padding: 0.25rem 1rem;
+    text-decoration: none;
+    font: inherit;
+    border: 1px solid #00695c;
+    color: #00695c;
+    background: white;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.modal-chat a {
+    padding: 0.25rem 1rem;
+    text-decoration: none;
+    font: inherit;
+    border: 1px solid #00695c;
+    color: #00695c;
+    background: white;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+a:hover,
+button:hover,
+button:active {
+    background-color: #00695c;
+    color: white;
+}
