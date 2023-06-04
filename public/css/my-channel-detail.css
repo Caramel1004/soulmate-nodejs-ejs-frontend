@@ -76,7 +76,7 @@ body::-webkit-scrollbar-track {
     width: 100px;
     height: 100px;
     border-radius: 5px;
-    /* border: 1px groove rgb(157, 153, 153); */
+    border: 1px groove rgb(157, 153, 153);
 }
 
 .card {
