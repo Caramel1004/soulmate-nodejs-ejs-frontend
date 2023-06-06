@@ -1,3 +1,4 @@
+import { successType, errorType } from '../util/status.js';
 import viewService from '../service/view.js'
 
 const viewController = {
@@ -10,11 +11,8 @@ const viewController = {
                 clientId: req.cookies.clientId,
                 chatRooms: chatRooms
             });
-        } catch (error) {
-            if (!err.statusCode) {
-                err.statusCode = 500;
-            }
-            next(err);
+        } catch (err) {
+            throw err;
         }
     },
     // 해당유저의 채널리스트
@@ -22,29 +20,36 @@ const viewController = {
         try {
             const jsonWebToken = req.cookies.token;// 쿠키 웹 토큰
 
-            const data = await viewService.getMyChannelList(jsonWebToken);
+            const resData = await viewService.getMyChannelList(jsonWebToken, next);
 
-            console.log(data);
-            const channelList = data.channels;
-            const chatRooms = null;
+            console.log('resData: ', resData);
+            const channelList = resData.channels;
+            const status = resData.status;
 
             // 나의 채널 목록 페이지
-            res.render('channel/mychannel', {
+            res.status(status.code).render('channel/mychannel', {
                 path: '유저 채널 리스트',
                 title: 'Soulmate',
                 clientId: req.cookies.clientId,
                 channelList: channelList,
-                chatRooms: chatRooms
+                chatRooms: null
             });
         } catch (err) {
-            if (!err.statusCode) {
-                err.statusCode = 500;
-            }
-            next(err);
+            throw err;
         }
     },
+    // 채널 추가 페이지
     getAddChannelPage: async (req, res, next) => {
-
+        try {
+            res.render('menu/create-channel',{
+                path: '채널 추가 페이지',
+                title: 'Soulmate',
+                clientId: req.cookies.clientId,
+                chatRooms: null
+            });
+        } catch (error) {
+            throw err;
+        }
     }
 }
 

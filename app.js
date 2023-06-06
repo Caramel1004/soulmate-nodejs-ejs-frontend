@@ -45,16 +45,13 @@ app.use(async (req, res, next) => {
 // 오류 처리
 app.use((error, req, res, next) => {
     console.log('클라이언트 측 에러!! -> ', error);
-    const statusCode = (!error.statusCode) ? 500 : error.statusCode;
-    const msg = error.message;
-    const data = error.data;
-
-    // res.render('error', {
-    //     title: `${statusCode} | 에러 발생`,
-    //     message: msg,
-    //     statusCode: statusCode,
-    //     data: data
-    // });
+    if (!error.errReport) {
+        error.errReport = errorType.E05.e00;
+    }
+    res.status(error.errReport.code).json({
+        error: error
+    });
+    
     res.render('error2');
 });
 

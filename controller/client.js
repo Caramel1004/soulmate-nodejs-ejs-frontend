@@ -96,15 +96,8 @@ const clientControlller = {
             const jsonWebToken = req.cookies.token;
             const channelName = req.body.channelName;
             const thumbnail = req.body.thumbnail;
-            console.log('요청 바디 : ', req.body);
-            // {
-            //     "channelName":"Soulmate 앱 개발팀",
-            //     "owner": {
-            //         "ownerId": "645bc55b7d8b60a0021cb1b5",
-            //         "ownerName": "카라멜"
-            //     },
-            //     "thumbnail":"/images/android-chrome-192x192.png"
-            // }
+            const categtory = req.body.categtory;
+
             const response = await fetch('http://localhost:8080/v1/channel/create', {
                 method: 'POST',
                 headers: {
@@ -113,15 +106,16 @@ const clientControlller = {
                 },
                 body: JSON.stringify({
                     channelName: channelName,
-                    thumbnail: thumbnail
+                    thumbnail: thumbnail,
+                    categtory: categtory
                 })
             });
 
-            const data = await response.json();
-            const channel = data.channel;
-            console.log(channel);
+            const resData = await response.json();
+    
+            console.log(resData);
 
-            res.redirect('http://localhost:3000/client/mychannels');
+            res.redirect('http://localhost:3000/mychannels');
 
         } catch (err) {
             if (!err.statusCode) {
