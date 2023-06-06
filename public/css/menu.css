@@ -13,6 +13,32 @@ body {
     background: rgb(243, 243, 246);
 }
 
+.menu__a-wrapper{
+    padding: 15px;
+    text-align: left;
+    display: block;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px groove rgb(214, 211, 211);
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+.menu__a-wrapper:hover,
+.menu__a-wrappe:active{
+    background: rgb(180, 180, 189);
+}
+
+.menu__a-wrapper{
+    padding: 15px;
+    text-align: left;
+    display: block;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px groove rgb(214, 211, 211);
+}
+
 .menu__div-wrapper {
     padding: 15px;
     text-align: left;
@@ -21,11 +47,16 @@ body {
     align-items: center;
     border-bottom: 1px groove rgb(214, 211, 211);
 }
+.menu__div-wrapper:hover,
+.menu__div-wrappe:active{
+    background: rgb(180, 180, 189);
+}
+
 .title {
     font-weight: bold;
 }
 
-.box {
+.item {
     padding: 10px;
     /* border: 1px solid black; */
 }

@@ -1,38 +1,6 @@
 import fetch from 'node-fetch';
 
 const clientControlller = {
-    // 해당유저의 채널리스트
-    getMyChannelList: async (req, res, next) => {
-        try {
-            const jsonWebToken = req.cookies.token;
-
-            const response = await fetch('http://localhost:8080/v1/channel', {
-                method: 'GET',
-                headers: {
-                    Authorization: 'Bearer ' + jsonWebToken,
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            const data = await response.json();
-            const channelList = data.channels;
-            const chatRooms = null;
-            // console.log(channelList);
-
-            res.render('channel/mychannel', {
-                path: '유저 채널 리스트',
-                title: 'Soulmate',
-                clientId: req.cookies.clientId,
-                channelList: channelList,
-                chatRooms: chatRooms
-            });
-        } catch (err) {
-            if (!err.statusCode) {
-                err.statusCode = 500;
-            }
-            next(err);
-        }
-    },
     // 해당 채널 입장
     getEnterMyChannel: async (req, res, next) => {
         try {
@@ -106,6 +74,7 @@ const clientControlller = {
             // console.log('userChatRooms: ', userChatRooms);
 
             res.render('chat/chat-board', {
+                path: '채팅방',
                 title: chatRoomData.roomName,
                 clientId: req.cookies.clientId,
                 chatRooms: userChatRooms,

@@ -7,26 +7,28 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<%- include('../includes/head.ejs') %>
-    <%- include('../includes/menu.ejs') %>
-
+    <%- include('../includes/head.ejs') %>
+    <body>
+        <%- include('../includes/header.ejs') %>
+        <%- include('../includes/menu.ejs') %>
+        <%- include('../includes/loading.ejs') %>
         <!-- 챗 보드 -->
         <div class="board-chat">
             <div class="board-chat__box-history">
-                    <% for(let chatDetail of chatList) { %>
-                        <div class="board-chat__unit-chat-box">
-                            <div class="board-chat__unit-chat-img">
-                                <img src="<%= chatDetail.creator.photo %>">
-                            </div>
-                            <div class="chat">
-                                <div class="client-name"><%= chatDetail.creator.clientId %></div>
-                                <div class="board-chat__unit-chat"><%= chatDetail.chat %></div>
-                            </div>
-                            <!-- <div class="chat">
-                                <div class="client-name"><%= chatDetail.createdAt %></div>
-                            </div> -->
+                <% for(let chatDetail of chatList) { %>
+                    <div class="board-chat__unit-chat-box">
+                        <div class="board-chat__unit-chat-img">
+                            <img src="<%= chatDetail.creator.photo %>">
                         </div>
-                    <% } %> 
+                        <div class="chat">
+                            <div class="client-name"><%= chatDetail.creator.clientId %></div>
+                            <div class="board-chat__unit-chat"><%= chatDetail.chat %></div>
+                        </div>
+                        <!-- <div class="chat">
+                            <div class="client-name"><%= chatDetail.createdAt %></div>
+                        </div> -->
+                    </div>
+                <% } %> 
             </div>
             <div class="board-chat__box-chat">
                     <textarea class="board-chat__textarea" name="content" id="content" placeholder="메세지 보내기"></textarea>
@@ -145,5 +147,6 @@
             });
             
           </script>
-          <script src="/js/chat.js"></script>          
-<%- include('../includes/end.ejs') %>
+          <%- include('../includes/script.ejs') %>       
+    </body>   
+</html>

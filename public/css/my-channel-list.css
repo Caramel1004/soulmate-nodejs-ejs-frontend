@@ -36,11 +36,7 @@ body::-webkit-scrollbar-track {
 .channel-list {
     margin-top: 0;
     padding: 50px;
-    /* height: 88vh; */
     display: block;
-    /* overflow: scroll;
-    overflow-x: hidden; */
-    /* border: 1px groove black; */
 }
 
 #thema001 {
@@ -61,7 +57,7 @@ body::-webkit-scrollbar-track {
 }
 
 .contents__div-wrapper {
-    margin-left: 30px;
+    margin-left: 20px;
     margin-top: 30px;
     padding: 5px;
     width: 270px;
@@ -78,7 +74,7 @@ body::-webkit-scrollbar-track {
     width: 100%;
     height: 200px;
     border-radius: 5px;
-    border: 1px groove rgb(157, 153, 153);
+    border-bottom: 1px groove rgb(157, 153, 153);
 }
 
 .card {
@@ -92,18 +88,15 @@ body::-webkit-scrollbar-track {
     font-weight: bolder;
 }
 
-.card button {
+/* .card button {
     padding: 10px;
     width: 270px;
-    /* height: 5vh; */
     text-align: center;
     text-decoration: none;
     font: inherit;
     border: none;
     font-size: 15px;
-    /* border: 1px solid black; */
     color: black;
-    /* background: rgb(235, 222, 203); */
     background: rgb(243, 243, 246);
     border-radius: 3px;
     cursor: pointer;
@@ -111,6 +104,25 @@ body::-webkit-scrollbar-track {
 
 .card button:hover,
 .card button:active {
+    background: rgb(180, 180, 189);
+} */
+
+.card a {
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    font: inherit;
+    font-size: 15px;
+    color: black;
+    display: block;
+    background: rgb(243, 243, 246);
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.card a:hover,
+.card a:active {
     background: rgb(180, 180, 189);
 }
 

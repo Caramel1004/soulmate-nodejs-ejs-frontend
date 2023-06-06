@@ -4,9 +4,6 @@ import clientController from '../controller/client.js';
 
 const router = Router();
 
-// GET /client/mychannels
-router.get('/mychannels', clientController.getMyChannelList);// 해당 유저의 채널 목록을 모두 가져오도록 요청
-
 //GET /client/mychannels/:channelId
 router.get('/mychannels/:channelId', clientController.getEnterMyChannel);// 해당의 채널에 접속하도록 요청
 

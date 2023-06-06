@@ -1,17 +1,18 @@
 <div id="menu">
+    <a class="menu__a-wrapper" href="/mychannels">내 채널</a>
     <div class="menu__div-wrapper">
         <div class="title">
-            <button class="open-modal-channel">내 채널</button>
+            <button class="open-modal-channel">+ 채널 추가</button>
         </div>
     </div>
     <div class="menu__div-wrapper">
         <div class="title">
-            # 업무 태스트
+            # 업무 태스트 -> 토글버튼
         </div>
-        <div class="box">
+        <div class="item">
             Soulmate 개발자팀: Soulmate 개발일지
         </div>
-        <div class="box">
+        <div class="item">
             디자인 작업 현황
         </div>
     </div>
@@ -20,16 +21,19 @@
             # 고객문의
         </div>
     </div>
-    <div class="menu__div-wrapper">
-        <div class="title">
-            <button class="open-modal-channel">채널 생성</button>
-        </div>
-    </div>
     <% if(chatRooms){ %>
-        <% for(let room of chatRooms) { %>
-            <div class="box">
-                <a href="/client/chat/<%= room.channelId %>/<%= room._id %>"><%= room.roomName %></a>
+        <div class="menu__div-wrapper">
+            <div class="title">
+                # 참여 대화방 -> 토글버튼
             </div>
-        <% } %>
+            <div class="item">
+                + 대화방 추가
+            </div>
+            <% for(let room of chatRooms) { %>
+                <div class="item">
+                    <a href="/client/chat/<%= room.channelId %>/<%= room._id %>"><%= room.roomName %></a>
+                </div>
+            <% } %>
+        </div>
     <% } %>
 </div>

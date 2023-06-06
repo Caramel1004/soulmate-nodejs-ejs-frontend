@@ -1,24 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Channel</title>
-    </head>
+<%- include('./includes/head.ejs') %>
 
     <body>
-        <%if(channelList.length > 0) { %>
-            <% for(let channel of channelList) { %>
-                <div>
-                    <a href="http://localhost:3000/channel"><%= channel.channelName %></a>
-                </div>
-            <% } %>
-        <% } else { %>
-            <h1>나만의 채널을 추가 해보세요!!</h1>    
-        <% } %>
-        <!-- <button type="button" onclick="getChannelList()">api요청</button> -->
+        <%- include('./includes/header.ejs') %>
+        <%- include('./includes/menu.ejs') %>
+        <%- include('./includes/loading.ejs') %>
+            <div class="body">
+                <h1>Home 화면 준비 중!!!</h1>
+            </div>
+        <%- include('./includes/script.ejs') %>
     </body>
+    <style>
+        .body {
+            margin: 350px;
+            margin-left: 600px;
+            width: 300px;
+            height: 200px;
+            top: 0;
+            left: 0;
+            position: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 99;
+            text-align: center;
+        }
+    </style>
 
 </html>

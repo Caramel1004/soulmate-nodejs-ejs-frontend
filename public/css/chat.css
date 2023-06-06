@@ -1,20 +1,21 @@
 body {
     margin: 0;
     display: flex;
+    overflow: hidden;
 }
 
 /* 채팅박스 큰 컨테이너 */
 .board-chat {
-    margin-top: 10px;
-    margin-left: 230px;
-    --box-width: 650px;
+    margin-top: 70px;
+    margin-left: 295px;
+    --box-width: 50vw;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
     /* border: groove black 0.5px; */
     width: var(--box-width);
-    height: 95vh;
+    height: 90vh;
     display: block;
     text-align: center;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 /* 채팅 히스토리 박스 */
@@ -184,10 +185,10 @@ body {
 
 /* 서브 보드 */
 .board-sub {
-    margin-top: 10px;
-    margin-left: 20px;
+    margin-top: 70px;
+    /* margin-left: 20px; */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-    width: 500px;
+    width: 400px;
     height: 95vh;
     display: block;
     text-align: left;

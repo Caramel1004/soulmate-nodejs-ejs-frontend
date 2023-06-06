@@ -6,8 +6,9 @@ import socketClient from './socket-client.js';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-import clientRoutes from './routes/client.js'
 import authRoutes from './routes/auth.js'
+import viewRoutes from './routes/view.js'
+import clientRoutes from './routes/client.js'
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 
 // 동적 라우트 처리
+app.use(viewRoutes);
 app.use(authRoutes);
 app.use('/client', clientRoutes);
 
