@@ -1,10 +1,11 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-import socketClient from './socket-client.js';
-
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
+
+import socketClient from './socket-client.js';
+import { errorType } from './util/status.js';
 
 import authRoutes from './routes/auth.js'
 import viewRoutes from './routes/view.js'
@@ -39,7 +40,7 @@ app.use('/client', clientRoutes);
 
 // 접속한 유저 정보를 확인하기 위한 미들웨어
 app.use(async (req, res, next) => {
-    console.log('req.cookies: ',req.cookies);
+    console.log('req.cookies: ', req.cookies);
     next();
 });
 // 오류 처리
@@ -48,11 +49,12 @@ app.use((error, req, res, next) => {
     if (!error.errReport) {
         error.errReport = errorType.E05.e00;
     }
-    res.status(error.errReport.code).json({
-        error: error
-    });
-    
-    res.render('error2');
+    res.status(error.errReport.code).render('error2');
+
+    // res.status(error.errReport.code).json({
+    //     error: error
+    // });
+
 });
 
 // 웹 소켓 클라이언트

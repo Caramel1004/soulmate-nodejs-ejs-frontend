@@ -40,7 +40,7 @@ body::-webkit-scrollbar-track {
     text-align: center;
     align-items: center;
     justify-content: center;
-    border: 1px groove black;
+    /* border: 1px groove black; */
 }
 
 #thema001 {
@@ -110,7 +110,7 @@ body::-webkit-scrollbar-track {
 #box__button__submit {
     padding: 0;
     margin-top: 20px;
-    border: 1px solid rgb(214, 211, 211);
+    /* border: 1px solid rgb(214, 211, 211); */
 }
 
 #box__button__submit button {
@@ -134,6 +134,43 @@ body::-webkit-scrollbar-track {
 #box__button__submit button:hover,
 #box__button__submit button:active {
     background: rgb(180, 180, 189);
+}
+
+/* 채팅 입력폼 스크롤 디자인 */
+.contents-form__textarea {
+    padding-top: 20px;
+    width: 500px;
+    height: 21vh;
+    border: none;
+    resize: none;
+}
+
+.contents-form__textarea::placeholder {
+    padding: 0;
+}
+
+.contents-form__textarea::-webkit-scrollbar {
+    /* padding-top: 5px; */
+    width: 10px;
+    background: #ffffff;
+}
+
+.contents-form__textarea::-webkit-scrollbar-thumb {
+    width: 10px;
+    border-radius: 50px;
+    background: rgb(155, 151, 151);
+}
+
+.contents-form__textarea::-webkit-scrollbar-track {
+    padding-top: 5px;
+    width: 10px;
+    border-radius: 50px;
+    background: #ffffff;
+}
+
+/* 채팅 입력 폼 눌렀을 때 */
+.contents-form__textarea:focus {
+    outline: none;
 }
 
 .footer {

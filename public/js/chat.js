@@ -1,4 +1,13 @@
-// 채팅 버튼
+window.onload = init();
+
+function init() {
+    const historyTag = document.querySelector('.board-chat__box-history');
+    
+    //채팅박스 스크롤 맨 아래로 위치
+    historyTag.scrollTop = historyTag.scrollHeight;
+}
+
+// 채팅 내용 태그 생성
 const createUnitChat = async () => {
     console.log('tag 생성!!!');
     try {

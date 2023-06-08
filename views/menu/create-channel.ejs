@@ -31,14 +31,19 @@
                         <span>
                             <select id="category" name="category">
                                 <option disabled selected hidden>카테고리를 선택하세요.</option>
-                                <option>개발</option>
-                                <option>디자인</option>
-                                <option>영업</option>
-                                <option>커뮤니티</option>
-                                <option>교육</option>
-                                <option>기타</option>
+                                <option value="개발">개발</option>
+                                <option value="디자인">디자인</option>
+                                <option value="영업">영업</option>
+                                <option value="커뮤니티">커뮤니티</option>
+                                <option value="교육">교육</option>
+                                <option value="기타">기타</option>
                             </select>
                         </span>
+                    </div>
+                    <div class="box__input">
+                        
+                            <span><textarea class="contents-form__textarea" name="contents" id="contents" placeholder="우리 채널을 소개할 멘트를 입력하세요."></textarea></span>
+                       
                     </div>
                     <div id="box__button__submit">
                         <button type="submit" id="btn__submit">채널 개설을 동의합니다.</button>
