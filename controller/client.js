@@ -34,13 +34,16 @@ const clientControlller = {
 
             const matchedChatRooms = data2.chatRooms;
             console.log('matchedChatRooms: ', matchedChatRooms);
+            const state = 'on';
             // 2. 해당 채널 렌더링
             res.status(200).render('channel/enter-channel-profile', {
                 path: '채널 입장',
                 title: matchedChannel.channelName,
                 clientId: req.cookies.clientId,
+                photo: req.cookies.photo,
                 channel: matchedChannel,
-                chatRooms: matchedChatRooms
+                chatRooms: matchedChatRooms,
+                state: state
             });
         } catch (err) {
             if (!err.statusCode) {
@@ -77,11 +80,13 @@ const clientControlller = {
                 path: '채팅방',
                 title: chatRoomData.roomName,
                 clientId: req.cookies.clientId,
+                photo: req.cookies.photo,
                 chatRooms: userChatRooms,
                 chatList: chatRoomData.chatList,
                 userList: userList,
                 channel: { _id: channelId },
-                chatRoomId: chatRoomData._id
+                chatRoomId: chatRoomData._id,
+                state: 'on'
             });
         } catch (err) {
             if (!err.statusCode) {

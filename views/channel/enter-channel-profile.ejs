@@ -41,7 +41,14 @@
                 <div id="div__channel-profile-container">
                     <div class="div__user-list">
                         <div id="thema001">
-                            팀원 목록
+                            👍🏻 팀원 목록
+                        </div>
+                        <div id="invite" class="user__div-wrapper">
+                            <!-- <button class="card" id="invite"><img src="/images/plus-icon.png"></button> -->
+                            <img id="add-icon" src="/images/icons8-add-50.png">
+                            <div id="invite">
+                                <h2>팀원 추가</h2>
+                            </div>
                         </div>
                         <%if(channel.users.length > 0) { %>
                             <% for(let user of channel.users) { %>
@@ -58,70 +65,90 @@
                             </div>  
                         <% } %>
                     </div>
-                </div>		
+                </div>
+
+                <!-- 프로필 영역 -->
                 <div id="div__channel-profile-container">
                     <div class="div__user-list">
-                        <div id="thema001">
-                            팀원 목록
-                        </div>
-                        <%if(channel.users.length > 0) { %>
-                            <% for(let user of channel.users) { %>
-                                <div class="user__div-wrapper">
-                                    <img src="<%= user.photo %>">
-                                    <div class="card">
-                                        <h2><%= user.name %></h2>
-                                    </div>
+                        <div id="box-profile">
+                            <img src=<%=channel.thumbnail %>>
+                            <div id="profile-content">
+                                <h3>채널 정보</h3>
+                                <div class="box__div__info">
+                                    <span> 채널 명 </span><span><h3><%= channel.channelName %></h3></span>
                                 </div>
-                            <% } %>
-                        <% } else { %>
-                            <div class="user__div-wrapper">
-                                <h2>팀원을 초대하세요!!</h2>
-                            </div>  
-                        <% } %>
+                                <div class="box__div__info">
+                                    <span> 참여 인원 </span><span><h3><%= channel.users.length %> 명</h3></span>
+                                </div>
+                                <div class="box__div__info">
+                                    <span> 카테고리 </span><span><h3><%= channel.category %></h3></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="div__channel-profile-container">
+                    <div class="div__user-list">
+                        <div id="box-profile">
+                            <img src=<%=channel.thumbnail %>>
+                            <div id="profile-content">
+                                <h3>채널 정보</h3>
+                                <div class="box__div__info">
+                                    <span> 채널 명 </span><span><h3><%= channel.channelName %></h3></span>
+                                </div>
+                                <div class="box__div__info">
+                                    <span> 채널 명 </span><span><h3><%= channel.channelName %></h3></span>
+                                </div>
+                                <div class="box__div__info">
+                                    <span> 채널 명 </span><span><h3><%= channel.channelName %></h3></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>		
-                <%- include('../includes/script.ejs') %>
+                
                 <!-- 유저 초대 클릭시 모달창 오픈 -->
-                <div class="container hidden" id="container">
-                    <div class="modal hidden" id="modal">
-                        <!-- <form action="" method="post"> -->
-                        <!-- <div class="input-box">
-                            <h1>초대할 친구를 찾아보세요.</h1>
-                        </div>
-                        <div class="input-box">
-                            <input type="text" name="clientId" id="clientId" placeholder="친구 닉네임을 입력하세요.">
-                        </div>
-                        <div class="input-box">
-                            <span><button id="search">검색 하기</button></span>
-                            <span class="close-modal-button__box"><button id="cancel"
-                                    class="close-modal-channel">취소</button></span>
-                        </div> -->
-                        <!-- </form> -->
+                <div class="invite-container hidden" id="container">
+                    <div class="invite-modal hidden" id="modal">
+                        <form action="" method="post">
+                            <div class="box__input__invite">
+                                <h1>초대할 친구를 찾아보세요.</h1>
+                            </div>
+                            <div class="box__input__invite">
+                                <input type="text" name="clientId" id="clientId" placeholder="친구 닉네임을 입력하세요.">
+                            </div>
+                            <div class="box__input__invite">
+                                <span><button id="search">검색 하기</button></span>
+                                <span class="close-modal-button__box"><button id="cancel" class="close-modal-channel">취소</button></span>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
                 <!-- 검색 후 보일 결과 창 -->
-                <div class="container hidden" id="searchBox">
-                    <div class="modal hidden" id="resultModal">
+                <div class="invite-container hidden" id="searchBox">
+                    <div class="invite-modal hidden" id="resultModal">
                         <div id="msg"></div>
                         <form id="form" method="post">
-                            <div class="input-box" id="matchedClientId">
+                            <div class="box__input__invite" id="matchedClientId">
                                 <!-- 클라이언트 아이디 들어갈 곳 -->
                             </div>
-                            <div class="input-box" id="photo">
+                            <div class="box__input__invite" id="photo">
                                 <!-- 이미지 들어갈 곳 -->
                             </div>
                             <input type="hidden" name="invitedUserId" id="invitedUserId">
-                            <div class="input-box">
+                            <div class="box__input__invite">
                                 <span><button type="submit">초대 하기</button></span>
                             </div>
                         </form>
-                        <div class="input-box">
+                        <div class="box__input__invite">
                             <span class="close-modal-button__box"><button id="cancelInvite"
                                     class="close-modal-channel">취소</a></span>
                         </div>
                     </div>
                 </div>
+                
                 <script type="module">
                     import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
 

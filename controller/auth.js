@@ -69,10 +69,17 @@ const authController = {
                 httpOnly: true,
                 secure: false
             });
+            
+            res.cookie('photo', data.photo, {
+                httpOnly: true,
+                secure: false
+            });
+
             res.cookie('clientId', data.clientId, {
                 httpOnly: true,
                 secure: false
             });
+
 
             console.log('req.cookies: ', req.cookies);
             // req.app.locals.token = data.token;

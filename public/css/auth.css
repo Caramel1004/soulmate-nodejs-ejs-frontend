@@ -86,6 +86,7 @@
 } */
 .input-box ::placeholder {
     padding: 10px;
+    padding-left: 0;
 }
 /* .input-box ::cursor {
     padding: 10px;

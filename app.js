@@ -43,6 +43,7 @@ app.use(async (req, res, next) => {
     console.log('req.cookies: ', req.cookies);
     next();
 });
+
 // 오류 처리
 app.use((error, req, res, next) => {
     console.log('클라이언트 측 에러!! -> ', error);
@@ -51,10 +52,10 @@ app.use((error, req, res, next) => {
     }
     res.status(error.errReport.code).render('error2');
 
+    next();
     // res.status(error.errReport.code).json({
     //     error: error
     // });
-
 });
 
 // 웹 소켓 클라이언트
