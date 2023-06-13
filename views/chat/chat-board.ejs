@@ -24,9 +24,9 @@
                             <div class="client-name"><%= chatDetail.creator.clientId %></div>
                             <div class="board-chat__unit-chat"><%= chatDetail.chat %></div>
                         </div>
-                        <!-- <div class="chat">
-                            <div class="client-name"><%= chatDetail.createdAt %></div>
-                        </div> -->
+                        <div class="chat">
+                            <div class="chat-date"><%= chatDetail.createdAt %></div>
+                        </div>
                     </div>
                 <% } %> 
             </div>
@@ -98,6 +98,23 @@
             const socket = io('http://localhost:8080');
             console.log('스크립트 소켓 가동 중!!!');
 
+            const formatter = createdAt => {
+                const timestamp = new Date(createdAt).toTimeString().split(' ')[0];//ex)09:51:35 GMT+0900 (한국 표준시)
+                
+                let hour = parseInt(timestamp.split(':')[0]);
+
+                const when = hour >= 12? '오후' : '오전';
+
+                if(when === '오후'){
+                    hour %= 12;
+                }
+                
+                const min = timestamp.split(':')[1];
+
+                console.log(hour);
+                return when + ' ' + hour + ':' + min;
+            }
+
             // 채팅 업데이트
             socket.on('sendChat', data => {
                 console.log('미들웨어 sendChat!!!');
@@ -130,12 +147,23 @@
                 chatBox.appendChild(unitChat);
                 console.log('unitChat: ', unitChat);
 
+                // 타임 스탬프
+                const time = document.createElement('div');
+                const timeBox = document.createElement('div');
+                const formatedTime = formatter(data.chatRoom.createdAt);
+                timeBox.classList.add('chat');
+                time.classList.add('chat-date');
+                time.textContent = formatedTime;
+                timeBox.appendChild(time);
+                console.log('timeBox: ', timeBox);
+
                 // 제일 큰 유닛 박스
                 const chatUnitBox = document.createElement('div');
                 chatUnitBox.classList.add('board-chat__unit-chat-box');
 
                 chatUnitBox.appendChild(imgBox);
                 chatUnitBox.appendChild(chatBox);
+                chatUnitBox.appendChild(timeBox);
                 console.log('chatUnitBox: ', chatUnitBox);
 
 

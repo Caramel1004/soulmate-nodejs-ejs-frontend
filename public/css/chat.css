@@ -10,9 +10,9 @@ body {
     margin-left: 250px;
     --box-width: 60vw;
     /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26); */
-    border: groove black 0.5px;
+    border: groove rgba(0, 0, 0, 0.26) 0.5px;
     width: var(--box-width);
-    height: 91vh;
+    height: 92vh;
     display: block;
     text-align: center;
     overflow: hidden;
@@ -20,9 +20,9 @@ body {
 
 /* 채팅 히스토리 박스 */
 .board-chat__box-history {
-    border: groove black 0.5px;
+    /* border: groove black 0.5px; */
     width: var(--box-width);
-    height: 65vh;
+    height: 75vh;
     background: rgb(235, 222, 203);
     overflow: scroll;
     overflow-x: hidden;
@@ -34,12 +34,12 @@ body {
     margin-left: 20px;
     /* padding-top: 1px; */
     padding: 0;
-    width: 600px;
+    width: 96%;
     display: flex;
     text-align: left;
     font-size: 15px;
     background: rgb(235, 222, 203);
-    border: groove black 0.5px;
+    /* border: groove black 0.5px; */
 }
 
 /* .board-chat__unit-chat-box.opponent {
@@ -69,11 +69,17 @@ body {
 
 .chat {
     margin-left: 10px;
+    /* border: groove black 0.5px; */
 }
 
 .client-name {
     color: rgb(212, 78, 21);
     font-weight: bolder;
+}
+
+.chat-date {
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.26)
 }
 
 /* 단위 채팅 내용 */
@@ -82,8 +88,9 @@ body {
     /* padding-top: 1px; */
     padding: 5px;
     padding-left: 10px;
-    max-width: 500px;
-    display: block;
+    padding-right: 10px;
+    /* max-width: 500px; */
+    display: inline-block;
     text-align: left;
     font-size: 15px;
     background: #ffffff;
@@ -117,20 +124,23 @@ body {
 /* 채팅 입력 박스 */
 .board-chat__box-chat {
     /* border: groove black 0.5px; */
+    padding-top: 10px;
     width: var(--box-width);
-    height: 20vh;
-    display: block;
+    height: 10vh;
+    /* display: block; */
     /* background: black; */
 }
 
 /* 채팅 입력 폼 */
 .board-chat__textarea {
-    margin-top: 2vh;
+    /* margin-top: 2vh; */
     padding-top: 20px;
     padding-left: 20px;
     width: calc(var(--box-width) - 30px);
-    height: 10vh;
-    /* border: none; */
+    height: 5vh;
+    border: groove rgba(0, 0, 0, 0.26) 0.1rem;
+    border-radius: 10px;
+    letter-spacing: 0.5px;
     resize: none;
 }
 
@@ -161,7 +171,8 @@ body {
 
 /* 전송버튼 */
 .board-chat__btn {
-    margin-left: 500px;
+    margin-top: 10px;
+    margin-right: 10px;
     /* background:linear-gradient(to bottom, #e4685d 5%, #eb675e 100%); */
     background-color: rgb(235, 222, 203);
     border-radius: 4px;
@@ -173,11 +184,12 @@ body {
     font-size: 15px;
     padding: 6px 15px;
     text-decoration: none;
+    float: right;
     /* text-shadow:0px 1px 0px #b23e35; */
 }
 
-.board-chat__box-chat button:hover,
-.board-chat__box-chat button:active {
+.board-chat__btn:hover,
+.board-chat__btn:active {
     border: none;
     background: rgb(190, 183, 172);
 }
@@ -355,14 +367,19 @@ body {
     text-align: right;
 }
 
-.checkbox{
-    display: inline-block; /* 영역적용가능해짐 */
-    width: 20px; height: 20px;
+.checkbox {
+    display: inline-block;
+    /* 영역적용가능해짐 */
+    width: 20px;
+    height: 20px;
     border: 1px solid #c2b7b7;
     box-sizing: border-box;
-    border-radius: 10px; /* 모서리둥글게 처리 */
-    position: relative; top: 4px;
-    cursor: pointer; /* 마우스 올렸을때 손모양 처리 */
+    border-radius: 10px;
+    /* 모서리둥글게 처리 */
+    position: relative;
+    top: 4px;
+    cursor: pointer;
+    /* 마우스 올렸을때 손모양 처리 */
 }
 
 .checkbox :checked::after {

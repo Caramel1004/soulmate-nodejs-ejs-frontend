@@ -73,8 +73,27 @@ const clientControlller = {
             const chatRoomData = data.chatRoomData;// 채팅 박스
             const userList = data.userList;// 참여자 보드에 들어갈 참여자 데이터
 
-            // console.log('chatRoomData: ', chatRoomData);
+            console.log('chatRoomData: ', chatRoomData);
             // console.log('userChatRooms: ', userChatRooms);
+
+            const chatObjList = chatRoomData.chatList;
+
+            chatObjList.map(chat => {
+                const timestamp = new Date(chat.createdAt).toTimeString().split(' ')[0];//ex)09:51:35 GMT+0900 (한국 표준시)
+
+                let hour = parseInt(timestamp.split(':')[0]);
+
+                const when = hour >= 12 ? '오후' : '오전';
+
+                if (when === '오후') {
+                    hour %= 12;
+                }
+
+                const min = timestamp.split(':')[1];
+                
+                chat.createdAt = when + ' ' + hour + ':' + min;
+                return chat; 
+            });
 
             res.render('chat/chat-board', {
                 path: '채팅방',
@@ -82,7 +101,7 @@ const clientControlller = {
                 clientId: req.cookies.clientId,
                 photo: req.cookies.photo,
                 chatRooms: userChatRooms,
-                chatList: chatRoomData.chatList,
+                chatList: chatObjList,
                 userList: userList,
                 channel: { _id: channelId },
                 chatRoomId: chatRoomData._id,
@@ -119,7 +138,7 @@ const clientControlller = {
             });
 
             const resData = await response.json();
-    
+
             console.log(resData);
 
             res.redirect('http://localhost:3000/mychannels');
