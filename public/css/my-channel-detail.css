@@ -30,7 +30,7 @@ body::-webkit-scrollbar-track {
     justify-content: space-between;
     align-items: center;
     background: #ffffff;
-    /* border: 1px groove black; */
+    border: 1px groove black;
 }
 
 .div__user-list {
@@ -40,7 +40,7 @@ body::-webkit-scrollbar-track {
     display: block;
     /* overflow: scroll;
     overflow-x: hidden; */
-    border: 1px groove rgba(0, 0, 0, 0.26);
+    /* border: 1px groove rgba(0, 0, 0, 0.26); */
 }
 
 #thema001 {
@@ -52,9 +52,15 @@ body::-webkit-scrollbar-track {
 }
 
 #box-profile {
+    margin-top: -70px;
+    margin-left: -20px;
+    padding: 0px;
+    padding-left: -15px;
     display: flex;
     justify-content: space-evenly;
+     border: 1px solid black;
 }
+
 
 #box-profile img {
     width: 600px;

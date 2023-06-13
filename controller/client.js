@@ -102,6 +102,7 @@ const clientControlller = {
             const channelName = req.body.channelName;
             const thumbnail = req.body.thumbnail;
             const categtory = req.body.categtory;
+            const contents = req.body.contents;
 
             const response = await fetch('http://localhost:8080/v1/channel/create', {
                 method: 'POST',
@@ -112,7 +113,8 @@ const clientControlller = {
                 body: JSON.stringify({
                     channelName: channelName,
                     thumbnail: thumbnail,
-                    categtory: categtory
+                    categtory: categtory,
+                    contents: contents
                 })
             });
 

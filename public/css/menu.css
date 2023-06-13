@@ -5,7 +5,7 @@ body {
 #menu {
     margin-top: 70px;
     padding: 0;
-    width: 300px;
+    width: 250px;
     height: 1000px;
     display: block;
     position: fixed;
@@ -19,7 +19,7 @@ body {
     display: block;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px groove rgb(214, 211, 211);
+    /* border-bottom: 1px groove rgb(214, 211, 211); */
     text-decoration: none;
     color: #0f0f0f;
     font-weight: 600;
@@ -27,7 +27,7 @@ body {
 
 .menu__a-wrapper:hover,
 .menu__a-wrappe:active {
-    background: rgb(180, 180, 189);
+    background: rgb(219, 219, 232);
 }
 
 /* .menu__a-wrapper span {
@@ -39,22 +39,13 @@ body {
     background: rgb(236, 236, 241);
 } */
 
-.menu__a-wrapper {
-    padding: 15px;
-    text-align: left;
-    display: block;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px groove rgb(214, 211, 211);
-}
-
 .menu__div-wrapper {
     padding: 15px;
     text-align: left;
     display: block;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px groove rgb(214, 211, 211);
+    /* border-bottom: 1px groove rgb(245, 240, 240); */
 }
 
 /* .menu__div-wrapper:hover,
@@ -64,7 +55,8 @@ body {
 
 .title {
     margin-bottom: 20px;
-    font-weight: bold;
+    font-weight: 600;
+    color: #0f0f0f;
 }
 
 .item {
@@ -91,7 +83,7 @@ body {
 
 .item button {
     padding: 10px;
-    width: 269px;
+    width: 220px;
     display: block;
     text-align: left;
     color: #0f0f0f;

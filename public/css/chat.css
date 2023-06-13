@@ -7,12 +7,12 @@ body {
 /* 채팅박스 큰 컨테이너 */
 .board-chat {
     margin-top: 70px;
-    margin-left: 295px;
-    --box-width: 50vw;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-    /* border: groove black 0.5px; */
+    margin-left: 250px;
+    --box-width: 60vw;
+    /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26); */
+    border: groove black 0.5px;
     width: var(--box-width);
-    height: 90vh;
+    height: 91vh;
     display: block;
     text-align: center;
     overflow: hidden;
@@ -20,7 +20,7 @@ body {
 
 /* 채팅 히스토리 박스 */
 .board-chat__box-history {
-    /* border: groove black 0.5px; */
+    border: groove black 0.5px;
     width: var(--box-width);
     height: 65vh;
     background: rgb(235, 222, 203);
@@ -39,7 +39,7 @@ body {
     text-align: left;
     font-size: 15px;
     background: rgb(235, 222, 203);
-    /* border: groove black 0.5px; */
+    border: groove black 0.5px;
 }
 
 /* .board-chat__unit-chat-box.opponent {
@@ -82,7 +82,7 @@ body {
     /* padding-top: 1px; */
     padding: 5px;
     padding-left: 10px;
-    max-width: 170px;
+    max-width: 500px;
     display: block;
     text-align: left;
     font-size: 15px;
@@ -90,6 +90,7 @@ body {
     /* border: groove black 0.5px; */
     border-radius: 0.5rem;
     box-sizing: border-box;
+    white-space: pre-wrap;
 }
 
 /* 채팅 히스토리 박스 스크롤 디자인 */
@@ -117,7 +118,7 @@ body {
 .board-chat__box-chat {
     /* border: groove black 0.5px; */
     width: var(--box-width);
-    height: 30vh;
+    height: 20vh;
     display: block;
     /* background: black; */
 }
@@ -128,8 +129,8 @@ body {
     padding-top: 20px;
     padding-left: 20px;
     width: calc(var(--box-width) - 30px);
-    height: 20vh;
-    border: none;
+    height: 10vh;
+    /* border: none; */
     resize: none;
 }
 
@@ -186,17 +187,18 @@ body {
 /* 서브 보드 */
 .board-sub {
     margin-top: 70px;
-    /* margin-left: 20px; */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-    width: 400px;
+    /* margin-left: 1px; */
+    /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26); */
+    width: 300px;
     height: 95vh;
     display: block;
     text-align: left;
+    border: 1px groove rgb(254, 254, 255);
 }
 
 /* 토글 버튼 박스, 토글 버튼 */
 .box__btn-toggle {
-    width: 500px;
+    width: px;
     height: 5vh;
     display: flex;
 }
@@ -205,7 +207,7 @@ body {
 .btn-toggle.active {
     width: 250px;
     height: 5vh;
-    box-shadow: 0 0 7px rgba(0, 0, 0, 0.26);
+    /* box-shadow: 0 0 7px rgba(0, 0, 0, 0.26); */
     background: #ffffff;
     border: none;
 }
@@ -332,15 +334,6 @@ body {
     display: flex;
     box-shadow: 0 0 7px rgba(0, 0, 0, 0.26);
     /* border-bottom: 1px solid rgb(169, 156, 156); */
-}
-
-.item {
-    padding: 20px;
-    display: block;
-    font-size: 15px;
-    /* border: groove; */
-    /* align-items: center; */
-    text-align: left;
 }
 
 .box__div-select-push.hidden {

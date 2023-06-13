@@ -2,7 +2,7 @@ window.onload = init();
 
 function init() {
     const historyTag = document.querySelector('.board-chat__box-history');
-    
+
     //채팅박스 스크롤 맨 아래로 위치
     historyTag.scrollTop = historyTag.scrollHeight;
 }
@@ -16,9 +16,10 @@ const createUnitChat = async () => {
         const channelId = url.split('/')[5];
         const chatRoomId = url.split('/')[6];
         const content = document.getElementById('content').value;
+        const replaceContent = content.replace('\r\n', '<br>');
         console.log('channelId : ', channelId);
         console.log('chatRoomId : ', chatRoomId);
-        console.log('content : ', content);
+        console.log('replaceContent : ', replaceContent);
 
         const response = await fetch('http://localhost:3000/client/chat/' + channelId + '/' + chatRoomId, {
             method: 'POST',
@@ -26,7 +27,7 @@ const createUnitChat = async () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                chat: content
+                chat: replaceContent
             })
         });
         console.log('채팅 처리 완료!!!');
@@ -42,24 +43,52 @@ const createUnitChat = async () => {
 // 그래서 한글 입력 후 엔터를 누르게 되면 아직 조합중인 상태이기 때문에 한글: keyup + 엔터 keydown -> keypress -> keyup 두번 발생
 // keypress는 한글 인식을 하지 않기 떄문에 단순히 enter처리만 할거면 keypress로 하자.
 // 만약 줄 바꿈 키를 만들고 싶다면....
-const keyPressCreateUnitChat = async event => {
-    console.log(event);
+const onKeyDownCreateUnitChat = async event => {
+    console.log(event.keyCode);
     console.log(event.isComposing);
 
-    if (event.keyCode === 13) {
+    const content = document.getElementById('content').value;
+    const replacedContent = replaceText(content);
+
+    if (event.keyCode === 13 && replacedContent === "") {
+        return document.getElementById('content').value.replace('\r\n', '');
+    }
+
+    if (event.keyCode === 13 && !event.shiftKey && replacedContent !== "") {
         try {
             console.log('엔터키 누름!!');
-            await createUnitChat();
+            await onKeyPressEnter(event);
         } catch (err) {
             console.log(err);
         }
     }
 
+    console.log('replacedContent: ', replacedContent);
     console.log('엔터키 안누름!!');
 }
 
+const replaceText = text => {
+    let replacedText = text;
+    replacedText = text.replace(/\s| /gi, '');
+    // replacedText = text.replace(/\r\n| /gi, '<br>');
+
+    return replacedText;
+}
+
+const onKeyPressEnter = async event => {
+    console.log(event.keyCode);
+    console.log(event.isComposing);
+    try {
+        console.log('엔터키 누름!!');
+        await createUnitChat();
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 document.getElementById('send').addEventListener('click', createUnitChat);
-document.getElementById('content').addEventListener('keypress', keyPressCreateUnitChat);
+document.getElementById('content').addEventListener('keydown', onKeyDownCreateUnitChat);
+// document.getElementById('content').addEventListener('keydown', keyPressCreateUnitChat);
 
 // 서브 보드 토글버튼
 const toggleButton = type => {
@@ -141,7 +170,7 @@ const onClickLoadUsersInChannel = async event => {
         label.setAttribute('for', 'users');
         label.appendChild(checkBox);
         const circle = document.createElement('div');
-        circle.setAttribute('class','checkbox');
+        circle.setAttribute('class', 'checkbox');
         label.appendChild(circle);
 
         // 완성된 박스
@@ -172,7 +201,7 @@ const onClickCheckBox = event => {
 
     const selectedUser = document.querySelectorAll('input[name="users"]:checked');
     console.log(selectedUser)
-    if(selectedUser.length <= 0){
+    if (selectedUser.length <= 0) {
         parentNode.classList.add('hidden');
         return;
     }
@@ -212,8 +241,8 @@ const onClickExitUsers = event => {
     const div = document.createElement('div');
     div.classList.add('box__btn__add-member');
     const btn = document.createElement('button');
-    btn.setAttribute('type','submit');
-    btn.setAttribute('class','btn__add-member');
+    btn.setAttribute('type', 'submit');
+    btn.setAttribute('class', 'btn__add-member');
     btn.textContent = ' + ';
     const span = document.createElement('span');
     span.textContent = '초대하기';
