@@ -76,9 +76,13 @@ const clientControlller = {
             console.log('chatRoomData: ', chatRoomData);
             // console.log('userChatRooms: ', userChatRooms);
 
+            const dateGroup = [];
+            let year;
             const chatObjList = chatRoomData.chatList;
 
             chatObjList.map(chat => {
+                const data = {};
+                year = new Date(chat.createdAt).getFullYear();
                 const timestamp = new Date(chat.createdAt).toTimeString().split(' ')[0];//ex)09:51:35 GMT+0900 (한국 표준시)
 
                 let hour = parseInt(timestamp.split(':')[0]);
@@ -92,6 +96,7 @@ const clientControlller = {
                 const min = timestamp.split(':')[1];
                 
                 chat.createdAt = when + ' ' + hour + ':' + min;
+
                 return chat; 
             });
 

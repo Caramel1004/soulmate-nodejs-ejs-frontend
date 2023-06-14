@@ -15,6 +15,7 @@
         <!-- 챗 보드 -->
         <div class="board-chat">
             <div class="board-chat__box-history">
+                <div class="date">2023년 5월 29일 월요일</div>
                 <% for(let chatDetail of chatList) { %>
                     <div class="board-chat__unit-chat-box">
                         <div class="board-chat__unit-chat-img">
@@ -32,6 +33,8 @@
             </div>
             <div class="board-chat__box-chat">
                 <textarea class="board-chat__textarea" name="content" id="content" placeholder="메세지 보내기"></textarea>
+                <input type="file" id="file" name="file" accept="image/*,.pdf" onchange="onChangeSelectFile(this)">
+                <button id="upload">이미지 업로드</button>
                 <button class="board-chat__btn" type="button" id="send">전송</button>
             </div>
         </div>
@@ -40,7 +43,7 @@
         <div class="board-sub">
             <div class="box__btn-toggle">
                 <button type="button" class="btn-toggle active" id="btn-toggle-user" onclick="toggleButton('참여자')">참여자</button>
-                <button type="button" class="btn-toggle" id="btn-toggle-task" onclick="toggleButton('업무')">우리들의 업무</button>
+                <button type="button" class="btn-toggle" id="btn-toggle-task" onclick="toggleButton('업무')">이미지 쓰레드</button>
             </div>
             <div class="board-user">
                 <div class="box__btn__add-member">
@@ -60,12 +63,12 @@
             <div class="board-task hidden">
                 <div class="task-date__box">
                     <div class="date">2023년 5월 29일 월요일</div>
-                    <div class="content">
-                        <p>1. 해당 유저의 모든 채널 조회</p>
+                    <div id="preview" class="content">
+                        <!-- <p>1. 해당 유저의 모든 채널 조회</p>
                         <p>2. 해당 채널아이디에 해당하는 채널 조회 => 채널 접속</p>
                         <p>3. 해당 유저의 채널 생성 => 채널 생성자가 owner</p>
                         <p>4. 접속 유저의 채널 퇴장 => 채널 스키마-> users에서 필터링</p> 
-                        <p>4. 접속 유저의 채널 퇴장 => 채널 스키마-> users에서 필터링</p> 
+                        <p>4. 접속 유저의 채널 퇴장 => 채널 스키마-> users에서 필터링</p>  -->
                     </div>
                 </div>
             </div>
@@ -115,12 +118,7 @@
                 return when + ' ' + hour + ':' + min;
             }
 
-            // 채팅 업데이트
-            socket.on('sendChat', data => {
-                console.log('미들웨어 sendChat!!!');
-                console.log('백엔드에서 넘어온 데이터: ', data);
-                console.log('채팅 내용: ', data.currentChat);
-
+            const createUnitChatTag = async data => {
                 // 이미지 박스
                 const imgBox = document.createElement('div');
                 const img = document.createElement('img');
@@ -150,7 +148,7 @@
                 // 타임 스탬프
                 const time = document.createElement('div');
                 const timeBox = document.createElement('div');
-                const formatedTime = formatter(data.chatRoom.createdAt);
+                const formatedTime = formatter(new Date());
                 timeBox.classList.add('chat');
                 time.classList.add('chat-date');
                 time.textContent = formatedTime;
@@ -174,6 +172,15 @@
 
                 //스크롤 맨아래로 조정
                 historyTag.scrollTop = historyTag.scrollHeight;
+            }
+
+            // 채팅 업데이트
+            socket.on('sendChat', data => {
+                console.log('미들웨어 sendChat!!!');
+                console.log('백엔드에서 넘어온 데이터: ', data);
+                console.log('채팅 내용: ', data.currentChat);
+
+                createUnitChatTag(data);
             });
             
           </script>

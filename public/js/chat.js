@@ -7,7 +7,7 @@ function init() {
     historyTag.scrollTop = historyTag.scrollHeight;
 }
 
-// 채팅 내용 태그 생성
+// 채팅 내용 post요청
 const createUnitChat = async () => {
     console.log('tag 생성!!!');
     try {
@@ -20,6 +20,8 @@ const createUnitChat = async () => {
         console.log('channelId : ', channelId);
         console.log('chatRoomId : ', chatRoomId);
         console.log('replaceContent : ', replaceContent);
+
+        const formData = new FormData();
 
         const response = await fetch('http://localhost:3000/client/chat/' + channelId + '/' + chatRoomId, {
             method: 'POST',
@@ -86,9 +88,38 @@ const onKeyPressEnter = async event => {
     }
 }
 
+const onChangeSelectFile = async event => {
+    const fileTag = event.target;
+    // console.log(fileTagFiles[0]);
+    if (fileTag.files && fileTag.files[0]) {
+        const fileReader = new FileReader();
+        fileReader.onload = await getFilePreview(event);
+        fileReader.readAsDataURL(fileTag.files[0]);
+    }
+}
+
+const getFilePreview = async event => {
+    const file = event.target.result;
+    console.log(target.result);
+    const previewBox = document.querySelector('#preview');
+
+    console.log('file: ', file);
+    const previewImg = document.createElement('img');
+    previewImg.setAttribute('src', file);
+    console.log('previewImg: ', previewImg);
+
+    previewBox.appendChild(previewImg);
+    console.log('imageBox: ', previewBox);
+}
+
+const onChange = event => {
+    onChangeSelectFile(event);
+}
 document.getElementById('send').addEventListener('click', createUnitChat);
 document.getElementById('content').addEventListener('keydown', onKeyDownCreateUnitChat);
-// document.getElementById('content').addEventListener('keydown', keyPressCreateUnitChat);
+document.getElementById('file').addEventListener('change', event => {
+    onChange(event);
+});
 
 // 서브 보드 토글버튼
 const toggleButton = type => {
