@@ -88,20 +88,40 @@ const onKeyPressEnter = async event => {
     }
 }
 
+// 이미지 파일 선택했을 때
 const onChangeSelectFile = async e => {
     const fileTag = e.target;
-    console.log(fileTag.files[0]);
+    // console.log(fileTag.files[0]);
+    // console.log(fileTag.files[0].name);
+    // console.log(fileTag.files[0].size);
+    // console.log(fileTag.files[0].lastModifiedDate);
+    const fileInfo = {
+        name: fileTag.files[0].name,
+        size: fileTag.files[0].size,
+        createdAt: fileTag.files[0].lastModifiedDate
+    }
+
+    this.info = fileInfo;
+
     if (fileTag.files && fileTag.files[0]) {
         const fileReader = new FileReader();
-        fileReader.readAsDataURL(fileTag.files[0]);
         fileReader.onload = createPreviewTag;
-
         fileReader.readAsDataURL(fileTag.files[0]);
     }
 }
 
+// 이미지 미리보기 박스 태그 생성 
 const createPreviewTag = e => {
+    const fileInfo = this.info;
+    console.log(fileInfo);
+    console.log(fileInfo.name);
+    console.log(fileInfo.size);
+    console.log(fileInfo.createdAt);
     const file = e.target.result;
+
+    const parentNode = document.querySelector('.task-date__box');
+    removeAllChild(parentNode);
+
     const previewBox = document.createElement('div');//사진 박스
     previewBox.id = 'preview';
     previewBox.classList.add('content');
@@ -109,17 +129,28 @@ const createPreviewTag = e => {
     // 미리보기 사진 태그
     const previewImg = document.createElement('img');
     previewImg.src = file;
-    // previewImg.setAttribute('src', file);
+    
     console.log('previewImg: ', previewImg);
 
+    
+    // 파일 이름
+    const fileName = document.createElement('p');
+    fileName.textContent = '파일 명: ' + fileInfo.name;
+    // 파일 용량
+    const fileSize = document.createElement('p');
+    fileSize.textContent = '파일 용량: ' + fileInfo.size;
+    // 생성 날짜
+    const createdAt = document.createElement('p');
+    createdAt.textContent = '생성 날짜: ' + fileInfo.createdAt;
+    
     previewBox.appendChild(previewImg);
+    previewBox.appendChild(fileName);
+    previewBox.appendChild(fileSize);
+    previewBox.appendChild(createdAt);
+
     console.log('previewBox: ', previewBox);
-
-    document.querySelector('.task-date__box').appendChild(previewBox);
+    parentNode.appendChild(previewBox);
 }
-
-document.getElementById('file').addEventListener('change', onChangeSelectFile);
-
 
 document.getElementById('send').addEventListener('click', createUnitChat);
 document.getElementById('content').addEventListener('keydown', onKeyDownCreateUnitChat);
