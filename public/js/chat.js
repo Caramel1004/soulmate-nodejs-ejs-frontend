@@ -21,7 +21,7 @@ const createUnitChat = async () => {
         console.log('chatRoomId : ', chatRoomId);
         console.log('replaceContent : ', replaceContent);
 
-        const formData = new FormData();
+        // const formData = new FormData();
 
         const response = await fetch('http://localhost:3000/client/chat/' + channelId + '/' + chatRoomId, {
             method: 'POST',
@@ -88,38 +88,38 @@ const onKeyPressEnter = async event => {
     }
 }
 
-const onChangeSelectFile = async event => {
-    const fileTag = event.target;
-    // console.log(fileTagFiles[0]);
+const onChangeSelectFile = async e => {
+    const fileTag = e.target;
+    console.log(fileTag.files[0]);
     if (fileTag.files && fileTag.files[0]) {
         const fileReader = new FileReader();
-        fileReader.onload = await getFilePreview(event);
+        fileReader.readAsDataURL(fileTag.files[0]);
+        fileReader.onload = createPreviewTag;
+
         fileReader.readAsDataURL(fileTag.files[0]);
     }
 }
 
-const getFilePreview = async event => {
-    const file = event.target.result;
-    console.log(target.result);
-    const previewBox = document.querySelector('#preview');
+const createPreviewTag = e => {
+    const file = e.target.result;
+    const previewBox = document.getElementById('preview');//사진 박스
 
-    console.log('file: ', file);
+    // 미리보기 사진 태그
     const previewImg = document.createElement('img');
-    previewImg.setAttribute('src', file);
+    previewImg.src = file;
+    // previewImg.setAttribute('src', file);
     console.log('previewImg: ', previewImg);
 
     previewBox.appendChild(previewImg);
-    console.log('imageBox: ', previewBox);
+    console.log('previewBox: ', previewBox);
 }
 
-const onChange = event => {
-    onChangeSelectFile(event);
-}
+document.getElementById('file').addEventListener('change', onChangeSelectFile);
+
+
 document.getElementById('send').addEventListener('click', createUnitChat);
 document.getElementById('content').addEventListener('keydown', onKeyDownCreateUnitChat);
-document.getElementById('file').addEventListener('change', event => {
-    onChange(event);
-});
+document.getElementById('file').addEventListener('change', onChangeSelectFile);
 
 // 서브 보드 토글버튼
 const toggleButton = type => {
