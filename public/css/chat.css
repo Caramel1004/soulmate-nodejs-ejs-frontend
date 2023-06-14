@@ -14,7 +14,7 @@ body {
     border: groove rgba(0, 0, 0, 0.26) 0.5px;
     width: var(--box-width);
     height: var(--box-height);
-    display: block;
+    display: inline-block;
     text-align: center;
     overflow: hidden;
 }
@@ -202,7 +202,9 @@ body {
     margin-top: 70px;
     margin-left: 0;
     /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26); */
-    width: var(100vw - --box-width + 15vw);
+    --box-width: 26.7vw;
+    --box-height: 92vh
+    width: var(--box-width);
     height: var(--box-height);
     display: block;
     text-align: left;
@@ -218,7 +220,7 @@ body {
 
 /* 토글버튼 활성화 css */
 .btn-toggle.active {
-    width: 250px;
+    width: calc(var(--box-width) / 2);
     height: 5vh;
     /* box-shadow: 0 0 7px rgba(0, 0, 0, 0.26); */
     background: #ffffff;
@@ -227,7 +229,7 @@ body {
 
 /* 비활성화 */
 .btn-toggle {
-    width: 250px;
+    width: calc(var(--box-width) / 2);
     height: 5vh;
     background: #3433333b;
     border: none;
@@ -235,7 +237,7 @@ body {
 
 /* 토글버튼 마우스 오버시 */
 .btn-toggle:hover {
-    width: 250px;
+    width: calc(var(--box-width) / 2);
     height: 5vh;
     color: black;
     background: #a09c9c3b;
