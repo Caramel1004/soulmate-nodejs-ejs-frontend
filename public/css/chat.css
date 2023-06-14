@@ -203,7 +203,7 @@ body {
     margin-left: 0;
     /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26); */
     --box-width: 26.7vw;
-    --box-height: 92vh
+    --box-height: 92vh;
     width: var(--box-width);
     height: var(--box-height);
     display: block;
