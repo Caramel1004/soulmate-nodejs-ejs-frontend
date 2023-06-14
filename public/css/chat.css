@@ -8,7 +8,7 @@ body {
 .board-chat {
     margin-top: 70px;
     margin-left: 250px;
-    --box-width: 60vw;
+    --box-width: 100%;
     --box-height: 92vh;
     /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26); */
     border: groove rgba(0, 0, 0, 0.26) 0.5px;
