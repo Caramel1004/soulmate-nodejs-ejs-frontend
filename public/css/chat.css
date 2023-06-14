@@ -202,7 +202,7 @@ body {
     margin-top: 70px;
     margin-left: 0;
     /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26); */
-    --box-width: 30%;
+    --box-width: 60%;
     --box-height: 92vh;
     width: var(--box-width);
     height: var(--box-height);
@@ -303,7 +303,7 @@ body {
 
 .task-date__box {
     margin-top: 20px;
-    padding: 25px;
+    /* padding: 15px; */
     width: var(--box-width);
     display: block;
     justify-content: center;
@@ -312,7 +312,6 @@ body {
 
 .date {
     /* margin-left: 160px; */
-    padding: 10px;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.26);
     /* width: auto; */
     display: inline-block;
@@ -324,7 +323,8 @@ body {
 }
 
 .content {
-    width: 300%;
+    padding: 10px;
+    width: 160%;
     display: block;
     background: rgb(243, 243, 246);
     /* border: 0.5px groove rgba(0, 0, 0, 0.26); */
