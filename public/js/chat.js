@@ -102,7 +102,9 @@ const onChangeSelectFile = async e => {
 
 const createPreviewTag = e => {
     const file = e.target.result;
-    const previewBox = document.getElementById('preview');//사진 박스
+    const previewBox = document.createElement('div');//사진 박스
+    previewBox.id = 'preview';
+    previewBox.classList.add('content');
 
     // 미리보기 사진 태그
     const previewImg = document.createElement('img');
@@ -112,6 +114,8 @@ const createPreviewTag = e => {
 
     previewBox.appendChild(previewImg);
     console.log('previewBox: ', previewBox);
+
+    document.querySelector('.task-date__box').appendChild(previewBox);
 }
 
 document.getElementById('file').addEventListener('change', onChangeSelectFile);

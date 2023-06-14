@@ -312,6 +312,7 @@ body {
 
 .date {
     /* margin-left: 160px; */
+    padding: 5px;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.26);
     /* width: auto; */
     display: inline-block;
