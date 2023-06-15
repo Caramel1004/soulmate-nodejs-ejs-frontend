@@ -1,4 +1,6 @@
 import fetch from 'node-fetch';
+import { FormData } from 'formdata-node';
+import chatAPI from '../API/chat.js'
 
 const clientControlller = {
     // 해당 채널 입장
@@ -73,7 +75,7 @@ const clientControlller = {
             const chatRoomData = data.chatRoomData;// 채팅 박스
             const userList = data.userList;// 참여자 보드에 들어갈 참여자 데이터
 
-            console.log('chatRoomData: ', chatRoomData);
+            // console.log('chatRoomData: ', chatRoomData);
             // console.log('userChatRooms: ', userChatRooms);
 
             const dateGroup = [];
@@ -94,10 +96,10 @@ const clientControlller = {
                 }
 
                 const min = timestamp.split(':')[1];
-                
+
                 chat.createdAt = when + ' ' + hour + ':' + min;
 
-                return chat; 
+                return chat;
             });
 
             res.render('chat/chat-board', {
@@ -287,35 +289,18 @@ const clientControlller = {
             next(err);
         }
     },
-    // 실시간 채팅
+    //실시간 채팅
     postSendChat: async (req, res, next) => {
-        console.log('req.body: ', req.body);
-        const jsonWebToken = req.cookies.token;
-        const channelId = req.params.channelId;
-        const chatRoomId = req.params.chatRoomId;
-        const chat = req.body.chat;
-        console.log('chat: ', chat);
-        console.log('channelId: ', channelId);
-        console.log('chatRoomId: ', chatRoomId);
-        const response = await fetch('http://localhost:8080/v1/chat/' + channelId + '/' + chatRoomId, {
-            method: 'POST',
-            headers: {
-                Authorization: 'Bearer ' + jsonWebToken,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                channelId: channelId,
-                chatRoomId: chatRoomId,
-                chat: chat
-            })
-        });
+        const token = req.cookies.token;//jwt
 
-        const data = await response.json();
+        const formData = new FormData();
+        formData.append('chat', req.body.chat);
 
-        res.status(200).json({
-            chatRoom: data.chatRoom,
-            clientId: req.cookies.clientId,
-            photo: data.photo
+        const resData = await chatAPI.postSendChat(token, req.params.channelId, req.params.chatRoomId, formData);
+
+        console.log(resData);
+        res.status(resData.status.code).json({
+            status: resData.state
         });
     }
 }

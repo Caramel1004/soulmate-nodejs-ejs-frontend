@@ -8,6 +8,36 @@ function init() {
 }
 
 // 채팅 내용 post요청
+// const createUnitChat = async () => {
+//     console.log('tag 생성!!!');
+//     try {
+//         const url = window.location.href;
+//         // const jsonWebToken = document.cookie;
+//         const channelId = url.split('/')[5];
+//         const chatRoomId = url.split('/')[6];
+//         const content = document.getElementById('content').value;
+//         const replaceContent = content.replace('\r\n', '<br>');
+//         console.log('channelId : ', channelId);
+//         console.log('chatRoomId : ', chatRoomId);
+//         console.log('replaceContent : ', replaceContent);
+
+//         // const formData = new FormData();
+
+//         const response = await fetch('http://localhost:3000/client/chat/' + channelId + '/' + chatRoomId, {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify({
+//                 chat: replaceContent
+//             })
+//         });
+//         console.log('채팅 처리 완료!!!');
+//     } catch (err) {
+//         console.log(err);
+//     }
+// }
+
 const createUnitChat = async () => {
     console.log('tag 생성!!!');
     try {
@@ -16,21 +46,20 @@ const createUnitChat = async () => {
         const channelId = url.split('/')[5];
         const chatRoomId = url.split('/')[6];
         const content = document.getElementById('content').value;
+        const file = document.getElementById('file').files[0];
         const replaceContent = content.replace('\r\n', '<br>');
         console.log('channelId : ', channelId);
         console.log('chatRoomId : ', chatRoomId);
         console.log('replaceContent : ', replaceContent);
+        console.log('file: ', file);
 
-        // const formData = new FormData();
+        const formData = new FormData();
+        formData.append('chat', replaceContent);
+        // formData.append('file', file);
 
         const response = await fetch('http://localhost:3000/client/chat/' + channelId + '/' + chatRoomId, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                chat: replaceContent
-            })
+            body: formData
         });
         console.log('채팅 처리 완료!!!');
     } catch (err) {
@@ -129,10 +158,10 @@ const createPreviewTag = e => {
     // 미리보기 사진 태그
     const previewImg = document.createElement('img');
     previewImg.src = file;
-    
+
     console.log('previewImg: ', previewImg);
 
-    
+
     // 파일 이름
     const fileName = document.createElement('p');
     fileName.textContent = '파일 명: ' + fileInfo.name;
@@ -142,7 +171,7 @@ const createPreviewTag = e => {
     // 생성 날짜
     const createdAt = document.createElement('p');
     createdAt.textContent = '생성 날짜: ' + fileInfo.createdAt;
-    
+
     previewBox.appendChild(previewImg);
     previewBox.appendChild(fileName);
     previewBox.appendChild(fileSize);
@@ -155,6 +184,7 @@ const createPreviewTag = e => {
 document.getElementById('send').addEventListener('click', createUnitChat);
 document.getElementById('content').addEventListener('keydown', onKeyDownCreateUnitChat);
 document.getElementById('file').addEventListener('change', onChangeSelectFile);
+// document.getElementById('sendFile').addEventListener('click',createUnitChat);
 
 // 서브 보드 토글버튼
 const toggleButton = type => {

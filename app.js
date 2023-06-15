@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import multer from 'multer';
 
 import socketClient from './socket-client.js';
 import { errorType } from './util/status.js';
@@ -16,14 +17,17 @@ const app = express();
 // 정적 file처리를 위한 변수
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+const multerStorage = multer.memoryStorage();
 
 // 템플릿 엔진 세팅
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
+
 // 바디 파서
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(multer({ storage: multerStorage}).single('file'));
 
 //쿠키 파서
 app.use(cookieParser());
