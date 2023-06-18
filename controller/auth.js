@@ -98,9 +98,10 @@ const authController = {
     //로그 아웃
     getLogout: (req, res, next) => {
         try {
-            if (req.cookies.token) {
+            if (req.cookies) {
                 res.clearCookie('token');
                 res.clearCookie('clientId');
+                res.clearCookie('photo');
             }
             res.redirect('/login');
         } catch (err) {

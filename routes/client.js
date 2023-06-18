@@ -25,6 +25,9 @@ router.get('/chat/:channelId/:chatRoomId', clientController.getMyChatRoombyChann
 //POST /client/chat/:channelId/:chatRoomId
 router.post('/chat/:channelId/:chatRoomId', clientController.postSendChat);// 실시간 채팅 및 채팅창 실시간 업데이트
 
+// POST /client/chat/upload-file/:channelId/:chatRoomId
+router.post('/chat/upload-file/:channelId/:chatRoomId', clientController.postUploadFileToChatRoom);// 실시간 채팅 및 채팅창 실시간 업데이트
+
 //POST /client/chat/invite/:channelId/:chatRoomId
 router.post('/chat/invite/:channelId/:chatRoomId', clientController.postInviteUsersToChatRoom);// 채팅방에 친구 초대
 

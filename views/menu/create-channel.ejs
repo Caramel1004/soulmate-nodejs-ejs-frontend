@@ -12,7 +12,7 @@
                 <div id="thema001">
                     그이상의 소통 | 소울메이트
                 </div>
-                <form action="/client/channel/create" method="post">
+                <form action="/client/channel/create" method="post" enctype="multipart/form-data">
                     <div class="box__input">
                         <label for="channelName">
                             <span>채널 명</span>
@@ -41,9 +41,7 @@
                         </span>
                     </div>
                     <div class="box__input">
-                        
-                            <span><textarea class="contents-form__textarea" name="contents" id="contents" placeholder="우리 채널을 소개할 멘트를 입력하세요."></textarea></span>
-                       
+                        <span><textarea class="contents-form__textarea" name="contents" id="contents" placeholder="우리 채널을 소개할 멘트를 입력하세요."></textarea></span>
                     </div>
                     <div id="box__button__submit">
                         <button type="submit" id="btn__submit">채널 개설을 동의합니다.</button>

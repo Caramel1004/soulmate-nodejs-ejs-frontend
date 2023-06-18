@@ -17,6 +17,8 @@ const app = express();
 // 정적 file처리를 위한 변수
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+// 파일 data를 백엔드 서버로 보내기 위한 임시메모리에 저장 => 버퍼형태로 저장
 const multerStorage = multer.memoryStorage();
 
 // 템플릿 엔진 세팅
@@ -54,12 +56,9 @@ app.use((error, req, res, next) => {
     if (!error.errReport) {
         error.errReport = errorType.E05.e00;
     }
-    res.status(error.errReport.code).render('error2');
+    res.status(error.errReport.code).render('error404');
 
     next();
-    // res.status(error.errReport.code).json({
-    //     error: error
-    // });
 });
 
 // 웹 소켓 클라이언트

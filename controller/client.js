@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import { FormData } from 'formdata-node';
+import { FormData, Blob } from 'formdata-node';
 import chatAPI from '../API/chat.js'
 
 const clientControlller = {
@@ -21,7 +21,7 @@ const clientControlller = {
 
             const matchedChannel = data.channel;
 
-            console.log('matchedChannel: ', matchedChannel);
+            // console.log('matchedChannel: ', matchedChannel);
 
             // 2. 채팅방 목록 요청
             const response2 = await fetch('http://localhost:8080/v1/channel/' + channelId + '/chat', {
@@ -35,7 +35,7 @@ const clientControlller = {
             const data2 = await response2.json();//동기화 해줘야해!!
 
             const matchedChatRooms = data2.chatRooms;
-            console.log('matchedChatRooms: ', matchedChatRooms);
+            // console.log('matchedChatRooms: ', matchedChatRooms);
             const state = 'on';
             // 2. 해당 채널 렌더링
             res.status(200).render('channel/enter-channel-profile', {
@@ -127,9 +127,10 @@ const clientControlller = {
             const jsonWebToken = req.cookies.token;
             const channelName = req.body.channelName;
             const thumbnail = req.body.thumbnail;
-            const categtory = req.body.categtory;
+            const category = req.body.category;
             const contents = req.body.contents;
 
+            console.log('category: ',category);
             const response = await fetch('http://localhost:8080/v1/channel/create', {
                 method: 'POST',
                 headers: {
@@ -139,14 +140,14 @@ const clientControlller = {
                 body: JSON.stringify({
                     channelName: channelName,
                     thumbnail: thumbnail,
-                    categtory: categtory,
+                    categtory: category,
                     contents: contents
                 })
             });
 
             const resData = await response.json();
 
-            console.log(resData);
+            // console.log(resData);
 
             res.redirect('http://localhost:3000/mychannels');
 
@@ -291,20 +292,52 @@ const clientControlller = {
     },
     //실시간 채팅
     postSendChat: async (req, res, next) => {
-        const token = req.cookies.token;//jwt
+        try {
+            const token = req.cookies.token;//jwt
 
-        const formData = new FormData();
-        formData.append('chat', req.body.chat);
+            const formData = new FormData();
+            formData.append('chat', req.body.chat);
 
-        const resData = await chatAPI.postSendChat(token, req.params.channelId, req.params.chatRoomId, formData);
+            const resData = await chatAPI.postSendChat(token, req.params.channelId, req.params.chatRoomId, formData);
 
-        console.log(resData);
-        res.status(resData.status.code).json({
-            status: resData.state
-        });
+            console.log(resData);
+            res.status(resData.status.code).json({
+                status: resData.state
+            });
+        } catch (err) {
+            throw err
+        }
+    },
+    // 채팅방 실시간 파일 업로드
+    postUploadFileToChatRoom: async (req, res, next) => {
+        try {
+            const token = req.cookies.token;//jwt
+
+            console.log(req.file);
+            console.log(req.file.buffer);
+            const formData = new FormData();
+            const blob = new Blob([req.file.originalname],{type: 'multipart/form-data'});
+            
+            formData.set('file', req.file.buffer, req.file.originalname);
+            const filenameBlob = formData.get('file');
+
+            // const getAll = formData.getAll();
+            // console.log('getAll: ', getAll);
+            // const resData = await chatAPI.postUploadFileToChatRoom(token, req.params.channelId, req.params.chatRoomId, formData);
+
+            // if(resData.error) {
+            //     return res.status(resData.error.errReport.code).json({
+            //         errReport: resData.error.errReport
+            //     })
+            // }
+            // console.log(resData);
+            res.status(200).json({
+                status: 'test'
+            });
+        } catch (err) {
+            throw err;
+        }
     }
 }
 
 export default clientControlller;
-
-

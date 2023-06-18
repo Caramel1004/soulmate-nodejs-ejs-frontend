@@ -1,15 +1,27 @@
 import { successType, errorType } from '../util/status.js';
 import viewService from '../service/view.js'
+import viewAPI from '../API/view.js';
 
 const viewController = {
+    //메인 페이지
     getMainPage: async (req, res, next) => {
         try {
+            const jsonWebToken = req.cookies.token;// 쿠키 웹 토큰
+
+            const resData = await viewAPI.getChannelListToServer();
             const chatRooms = null;
+
+            // console.log('resData: ',resData);
+            const channelList = resData.channels;
+            // const status = resData.status;
+            const state = 'off';
+
             res.render('index', {
                 path: '메인 페이지',
                 title: 'Soulmate 메인 페이지',
                 clientId: req.cookies.clientId,
                 photo: req.cookies.photo,
+                channelList: channelList,
                 chatRooms: chatRooms,
                 state: 'off'
             });
@@ -24,7 +36,7 @@ const viewController = {
 
             const resData = await viewService.getMyChannelList(jsonWebToken, next);
 
-            console.log('resData: ', resData);
+            // console.log('resData: ', resData);
             const channelList = resData.channels;
             const status = resData.status;
             const state = 'off';

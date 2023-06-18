@@ -72,7 +72,7 @@ body {
 }
 
 /* 로그아웃 버튼 => 앵커 태그임 */
-.user-info #logout{
+.user-info #btn__log{
     margin-left: 8px;
     padding: 8px;
     text-decoration: none;
@@ -80,7 +80,7 @@ body {
     font-weight: bold;
     font-size: 15px;
     font-family: sans-serif;
-    background: #FDA;
-    border-radius: 5px;
+    background: #ffffff;
+    border-radius: 20px;
 }
 

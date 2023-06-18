@@ -24,6 +24,7 @@ body {
     /* border: groove black 0.5px; */
     width: var(--box-width);
     height: 75vh;
+    /* background: rgb(219, 216, 216); */
     background: rgb(235, 222, 203);
     overflow: scroll;
     overflow-x: hidden;
@@ -39,6 +40,7 @@ body {
     display: flex;
     text-align: left;
     font-size: 15px;
+    /* background: rgb(157, 155, 155); */
     background: rgb(235, 222, 203);
     /* border: groove black 0.5px; */
 }
@@ -174,6 +176,7 @@ body {
 .board-chat__btn {
     margin-top: 10px;
     margin-right: 10px;
+    padding: 6px 15px;
     /* background:linear-gradient(to bottom, #e4685d 5%, #eb675e 100%); */
     background-color: rgb(235, 222, 203);
     border-radius: 4px;
@@ -183,7 +186,6 @@ body {
     color: black;
     font-family: Arial;
     font-size: 15px;
-    padding: 6px 15px;
     text-decoration: none;
     float: right;
     /* text-shadow:0px 1px 0px #b23e35; */
@@ -191,7 +193,7 @@ body {
 
 .board-chat__btn:hover,
 .board-chat__btn:active {
-    border: none;
+    border: 1px solid #ffffff;
     background: rgb(190, 183, 172);
 }
 

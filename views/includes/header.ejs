@@ -4,10 +4,18 @@
             <a href="/"><img src="/images/KakaoTalk_Photo_2023-06-12-23-02-34-5.jpeg"></a>
             <a href="/">Soulmate</a>
         </div>
-        <div class="user-info">
-            <img src=<%= photo %>>
-            <a href="#"><%= clientId %> 님</a>
-            <a href="/logout" id="logout">로그아웃</a>
-        </div>
+        <% if(clientId) { %>
+            <div class="user-info">
+                <img src=<%= photo %>>
+                <a href="#"><%= clientId %> 님</a>
+                <a href="/logout" id="btn__log">로그아웃</a>
+            </div>
+        <% } else  { %>
+            <div>
+                <div class="user-info">
+                    <a href="/login" id="btn__log"> 로그인 </a>
+                </div>
+            </div>
+        <% } %>
     </div>
 </div>
