@@ -15,7 +15,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* background: rgba(0, 0, 0, 0.26); */
+    background-image: url('https://a-static.besthdwallpaper.com/wild-rift-teemo-league-of-legends-lol-wallpaper-2560x1440-68325_51.jpg');
 }
 
 .box__title {
@@ -36,17 +36,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* background: rgba(0, 0, 0, 0.26); */
+    background-image: url('https://a-static.besthdwallpaper.com/wild-rift-teemo-league-of-legends-lol-wallpaper-2560x1440-68325_51.jpg');
 }
 
 .login-form__box {
-    /* border: groove; */
-    width: 400px;
-    height: 550px;
+    padding: 10px;
     display: block;
     justify-content: center;
     align-items: center;
-    border-radius: 0.2rem;
+    border-radius: 20px;
     /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.26); */
     background: rgb(244, 241, 241);
 }
@@ -68,6 +66,11 @@
     padding: 0.5rem;
     text-align: center;
     /* border: groove; */
+}
+
+.input-box img{
+    width: 330px;
+    height: 200px;
 }
 
 .input-box input {

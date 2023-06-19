@@ -47,9 +47,13 @@ body::-webkit-scrollbar-track {
     /* border: 1px solid black; */
 }
 
+.client-name {
+    color: rgb(212, 78, 21);
+}
+
 #thema002 {
     margin-left: 30px;
-    margin-top: 100px;
+    margin-top: 30px;
     padding: 5px;
     font-size: 22px;
     font-weight: bold;
@@ -77,6 +81,7 @@ body::-webkit-scrollbar-track {
     border-bottom: 1px groove rgb(157, 153, 153);
 }
 
+/* card */
 .card {
     padding-top: 0px;
 
@@ -88,26 +93,8 @@ body::-webkit-scrollbar-track {
     font-weight: bolder;
 }
 
-/* .card button {
-    padding: 10px;
-    width: 270px;
-    text-align: center;
-    text-decoration: none;
-    font: inherit;
-    border: none;
-    font-size: 15px;
-    color: black;
-    background: rgb(243, 243, 246);
-    border-radius: 3px;
-    cursor: pointer;
-}
 
-.card button:hover,
-.card button:active {
-    background: rgb(180, 180, 189);
-} */
-
-.card a {
+.a__btn-enter {
     padding: 10px;
     text-align: center;
     text-decoration: none;
@@ -121,8 +108,26 @@ body::-webkit-scrollbar-track {
     cursor: pointer;
 }
 
-.card a:hover,
-.card a:active {
+.a__btn-enter:hover,
+.a__btn-enter:active {
+    background: rgb(180, 180, 189);
+}
+
+.hash {
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    font: inherit;
+    font-size: 10px;
+    color: black;
+    background: rgb(243, 243, 246);
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.hash:hover,
+.hash:active {
     background: rgb(180, 180, 189);
 }
 

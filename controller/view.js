@@ -37,17 +37,19 @@ const viewController = {
             const resData = await viewService.getMyChannelList(jsonWebToken, next);
 
             // console.log('resData: ', resData);
-            const channelList = resData.channels;
+            const ownedChannelList = resData.ownedChannelList;
+            const invitedChannelList = resData.invitedChannelList;
             const status = resData.status;
             const state = 'off';
 
-            // 나의 채널 목록 페이지
+            // 나의 채널 목록 페이지 렌더링
             res.status(status.code).render('channel/mychannel', {
                 path: '유저 채널 리스트',
                 title: 'Soulmate',
                 clientId: req.cookies.clientId,
                 photo: req.cookies.photo,
-                channelList: channelList,
+                ownedChannelList: ownedChannelList,
+                invitedChannelList: invitedChannelList,
                 chatRooms: null,
                 state: state
             });

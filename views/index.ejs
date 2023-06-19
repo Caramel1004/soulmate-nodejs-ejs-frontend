@@ -41,29 +41,24 @@
                             </div>
                         </div>
                     <% } %>
-                <% } else { %>
-                <h1 style="text-align: center;">나만의 채널을 추가 해보세요!!</h1>
-                <a target="_blank" href="https://icons8.com/icon/zmHGtU4Ii6NX/spinner">로딩</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
-            <% } %>
+                <% } else if(!channelList){ %>
+                    <div id="channel-container">
+                        <div class="channel-list">
+                            <div id="error">
+                                <img src="/images/icons8-spinner.gif" alt="loading">
+                                <h1>서버와 연결이 끊겼습니다.</h1>
+                            </div>
+                        </div>
+                    </div>
+                <% }else { %>
+                    <div id="channel-container">
+                        <div class="channel-list">
+                            <h1>현재 개설된 채널이 없습니다.</h1>
+                        </div>
+                    </div>
+                <% } %>
             </div>
         </div>	
         <%- include('./includes/script.ejs') %>
     </body>
-    <style>
-        .body {
-            margin: 350px;
-            margin-left: 600px;
-            width: 300px;
-            height: 200px;
-            top: 0;
-            left: 0;
-            position: fixed;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 99;
-            text-align: center;
-        }
-    </style>
-
 </html>

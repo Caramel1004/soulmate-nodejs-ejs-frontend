@@ -38,6 +38,25 @@ const chatAPI = {
         } catch (err) {
             throw err;
         }
+    },
+    // 해당 채널에 속한 선택된 유저들을 초대
+    postInviteUsersToChatRoom: async (token, body, channelId, chatRoomId) => {
+        try {
+            const response = await fetch('http://localhost:8080/v1/chat/invite/' + channelId + '/' + chatRoomId, {
+                method: 'PATCH',
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            });
+
+            const resData = await response.json();
+
+            return resData;
+        } catch (err) {
+            throw err;
+        }
     }
 }
 

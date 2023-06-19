@@ -7,6 +7,7 @@ const viewService = {
     getMyChannelList: async (token, next) => {
         try {
             const resData = await API.getMyChannelList(token, next);
+            console.log('resData: ',resData);
             return resData;
         } catch (err) {
             throw err;

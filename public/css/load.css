@@ -5,16 +5,22 @@
 	left: 0;
 	position: fixed;
 	display: flex;
-    justify-content: center;
-    align-items: center;
+	justify-content: center;
+	align-items: center;
 	background: #ffffff;
-    opacity: 0.9;
+	opacity: 0.9;
 	z-index: 99;
 	text-align: center;
 }
 
-#load > img {
-    width: 100px;
-    height: 100px;
+#load>img {
+	width: 100px;
+	height: 100px;
 	z-index: 100;
+}
+
+#error {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }

@@ -130,7 +130,7 @@ const clientControlller = {
             const category = req.body.category;
             const contents = req.body.contents;
 
-            console.log('category: ',category);
+            console.log('category: ', category);
             const response = await fetch('http://localhost:8080/v1/channel/create', {
                 method: 'POST',
                 headers: {
@@ -140,7 +140,7 @@ const clientControlller = {
                 body: JSON.stringify({
                     channelName: channelName,
                     thumbnail: thumbnail,
-                    categtory: category,
+                    category: category,
                     contents: contents
                 })
             });
@@ -267,27 +267,18 @@ const clientControlller = {
                 checkedUsersId.push(JSON.parse(usersJson)._id);
             }
 
-
+            const body = {
+                channelId: channelId,
+                chatRoomId: chatRoomId,
+                selectedId: checkedUsersId
+            }
             console.log(checkedUsersId);
-            const response = await fetch('http://localhost:8080/v1/chat/invite/' + channelId + '/' + chatRoomId, {
-                method: 'PATCH',
-                headers: {
-                    Authorization: 'Bearer ' + jsonWebToken,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    channelId: channelId,
-                    chatRoomId: chatRoomId,
-                    selectedId: checkedUsersId
-                })
-            });
+
+            const resData = await chatAPI.postInviteUsersToChatRoom(jsonWebToken, body, channelId, chatRoomId);
 
             res.redirect('http://localhost:3000/client/chat/' + channelId + '/' + chatRoomId);
         } catch (err) {
-            if (!err.statusCode) {
-                err.statusCode = 500;
-            }
-            next(err);
+            throw err;
         }
     },
     //실시간 채팅
@@ -316,8 +307,8 @@ const clientControlller = {
             console.log(req.file);
             console.log(req.file.buffer);
             const formData = new FormData();
-            const blob = new Blob([req.file.originalname],{type: 'multipart/form-data'});
-            
+            const blob = new Blob([req.file.originalname], { type: 'multipart/form-data' });
+
             formData.set('file', req.file.buffer, req.file.originalname);
             const filenameBlob = formData.get('file');
 
