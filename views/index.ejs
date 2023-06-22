@@ -8,7 +8,7 @@
         <%- include('./includes/loading.ejs') %>
         <div id="channel-container">
             <div class="channel-list">
-                <div id="box-category">
+                <div id="box-search">
                     <select id="category" name="category">
                         <option disabled selected hidden>카테고리를 선택하세요.</option>
                         <option value="개발">개발</option>
@@ -18,11 +18,11 @@
                         <option value="교육">교육</option>
                         <option value="기타">기타</option>
                     </select>
-                    <input type="search">
-                    <button> 검색 </button>
+                    <input type="search" id="search" placeholder="검색">
+                    <button id="btn__search"> 검색 </button>
                 </div>
                 <div id="thema001">
-                    🥰 그이상의 소통 | 소울메이트
+                    🥰 그이상의 소통 | 공개 채널
                 </div>
                 <%if(channelList.length > 0) { %>
                     <% for(let channel of channelList) { %>
@@ -36,7 +36,7 @@
                             </div>
                             <div class="card">
                                 <% for(let category of channel.category) { %>
-                                    <h5 href="/client/mychannels/<%= channel._id %>"> 카테고리 | #<%= channel.category %></h5>
+                                    <h5 href="/client/mychannels/<%= channel._id %>"> 카테고리 | <a class="hash" href="#">#<%= channel.category %></a></h5>
                                 <% } %>
                             </div>
                         </div>

@@ -14,6 +14,19 @@
         <%- include('../includes/loading.ejs') %>
         <div id="channel-container">
             <div class="channel-list">
+                <div id="box-search">
+                    <select id="category" name="category">
+                        <option disabled selected hidden>카테고리를 선택하세요.</option>
+                        <option value="개발">개발</option>
+                        <option value="디자인">디자인</option>
+                        <option value="영업">영업</option>
+                        <option value="커뮤니티">커뮤니티</option>
+                        <option value="교육">교육</option>
+                        <option value="기타">기타</option>
+                    </select>
+                    <input type="search" id="search" placeholder="원하는 채널을 검색하세요.">
+                    <button id="btn__search"> 검색 </button>
+                </div>
                 <div id="thema001">
                     🥰 <span class="client-name"><%= clientId %></span> 님이 만든 채널 | 그이상의 소통을 만들어 보세요
                 </div>
@@ -39,7 +52,6 @@
                         <% } %>
                 <% } else { %>
                     <h1 style="text-align: center;">나만의 채널을 추가 해보세요!!</h1>
-                    <a target="_blank" href="https://icons8.com/icon/zmHGtU4Ii6NX/spinner">로딩</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
                 <% } %>
             </div>
             <div class="channel-list">
@@ -67,8 +79,7 @@
                         </div>
                     <% } %>
                 <% } else { %>
-                    <h1 style="text-align: center;"><%= clientId %>님과 함께할 친구들을 찾아보세요!!</h1>
-                    <a target="_blank" href="https://icons8.com/icon/zmHGtU4Ii6NX/spinner">로딩</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+                    <div class="contents__div-wrapper" style="border: none; width: 550px;"><h1><%= clientId %>님과 함께할 친구들을 찾아보세요!!</h1></div>
                 <% } %>
             </div>
         </div>		

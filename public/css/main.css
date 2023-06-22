@@ -39,15 +39,36 @@ body::-webkit-scrollbar-track {
     display: block;
 }
 
-#thema001 {
-    margin-left: 30px;
+#box-search {
     padding: 10px;
-    font-size: 22px;
-    font-weight: bold;
     /* border: 1px solid black; */
+    text-align: center;
 }
 
-#box-category {
+#category {
+    padding: 10px;
+    border: 1px groove rgba(0, 0, 0, 0.26);
+    font-size: 15px;
+    outline: none;
+}
+
+#search {
+    padding: 10px;
+    width: 50%;
+    border: 0.1rem groove rgba(0, 0, 0, 0.26);
+    border-radius: 20px;
+    outline: none;
+}
+
+#btn__search {
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background: rgb(243, 243, 246);
+    cursor: pointer;
+}
+
+#thema001 {
     margin-left: 30px;
     padding: 10px;
     font-size: 22px;
@@ -115,22 +136,21 @@ body::-webkit-scrollbar-track {
     background: rgb(180, 180, 189);
 } */
 
-.card a {
-    padding: 10px;
+.hash {
+    padding: 5px;
     text-align: center;
     text-decoration: none;
     border: none;
     font: inherit;
-    font-size: 15px;
+    font-size: 10px;
     color: black;
-    display: block;
     background: rgb(243, 243, 246);
-    border-radius: 3px;
+    border-radius: 20px;
     cursor: pointer;
 }
 
-.card a:hover,
-.card a:active {
+.hash:hover,
+.hash:active {
     background: rgb(180, 180, 189);
 }
 

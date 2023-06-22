@@ -85,7 +85,7 @@ const authController = {
             // req.app.locals.token = data.token;
             // req.app.locals.clientId = data.clientId;
 
-            res.redirect('/');
+            res.redirect('/mychannels');
 
             next();
         } catch (err) {

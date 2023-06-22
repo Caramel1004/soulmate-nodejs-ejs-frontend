@@ -39,6 +39,36 @@ body::-webkit-scrollbar-track {
     display: block;
 }
 
+#box-search {
+    padding: 10px;
+    /* border: 1px solid black; */
+    text-align: center;
+}
+
+#category {
+    padding: 10px;
+    border: 1px groove rgba(0, 0, 0, 0.26);
+    font-size: 15px;
+    outline: none;
+}
+
+#search {
+    padding: 10px;
+    width: 50%;
+    border: 0.1rem groove rgba(0, 0, 0, 0.26);
+    border-radius: 20px;
+    outline: none;
+}
+
+#btn__search {
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background: rgb(243, 243, 246);
+    cursor: pointer;
+}
+
+
 #thema001 {
     margin-left: 30px;
     padding: 10px;

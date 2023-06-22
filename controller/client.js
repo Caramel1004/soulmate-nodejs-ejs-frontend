@@ -125,10 +125,10 @@ const clientControlller = {
     postCreateChannel: async (req, res, next) => {
         try {
             const jsonWebToken = req.cookies.token;
-            const channelName = req.body.channelName;
-            const thumbnail = req.body.thumbnail;
-            const category = req.body.category;
-            const contents = req.body.contents;
+            const channelName = req.body.channelName;// 채널 명
+            const thumbnail = req.body.thumbnail;// 채널 썸네일
+            const category = req.body.category;// 카테고리
+            const contents = req.body.contents;// 채널 멘트
 
             console.log('category: ', category);
             const response = await fetch('http://localhost:8080/v1/channel/create', {
