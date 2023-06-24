@@ -207,7 +207,7 @@ const toggleButton = type => {
     }
 }
 
-// 팀원 추가 버튼
+// 팀원 추가 버튼(채널에 속한 유저 정보 가져오기)
 const onClickLoadUsersInChannel = async event => {
     const url = window.location.href;
     const channelId = url.split('/')[5];

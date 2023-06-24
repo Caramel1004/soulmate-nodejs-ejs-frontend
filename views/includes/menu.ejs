@@ -1,35 +1,35 @@
 <div id="menu">
-    <a class="menu__a-wrapper" href="/profile">프로필 관리</a>
+    <a class="menu__a-wrapper" href="/myprofile">내 프로필 관리</a>
     <a class="menu__a-wrapper" href="/mychannels">내 채널</a>
+    <a class="menu__a-wrapper" href="#">알림</a>
     <% if(state === 'off') { %>
         <a class="menu__a-wrapper" href="/channel"><span> + </span> 채널 추가 </a>
-    <% } else { %>
-        <a class="menu__a-wrapper" href="/client/mychannels/<%= channel._id %>"> 멤버 확인 </a>
-        <div class="menu__div-wrapper">
-            <div class="title">
-                # 워크스페이스 -> 토글버튼
-            </div>
-            <div class="item">
-                <button id="modal-open-add-chat"> + 워크스페이스 추가 </button>
-            </div>
-            <div class="item">
-                <a># 공지</a>
-            </div>
-            <div class="item">
-                <a># 백엔드 업무 진행 상황</a>
-            </div>
-            <div class="item">
-                <a># 프론트 업무 진행 상황</a>
-            </div>
-            <div class="item">
-                <a># 코드 피드백</a>
+        <a class="menu__a-wrapper" href="/mychannels">관심 채널</a>
+        <a class="menu__a-wrapper" href="/">오픈 채널</a>
+        <a class="menu__a-wrapper" href="/">소울메이트 가이드</a>
+        <% } else { %>
+            <a class="menu__a-wrapper" href="/client/mychannels/<%= channel._id %>"> 멤버 확인 </a>
+            <div class="menu__div-wrapper">
+                <div class="title">
+                    # 워크스페이스 -> 토글버튼
+                </div>
+                <div class="item">
+                    <button id="modal-open-add-chat"> + 워크스페이스 추가 </button>
+                </div>
+                <div class="item">
+                    <a># 공지</a>
+                </div>
+                <div class="item">
+                    <a># 백엔드 업무 진행 상황</a>
+                </div>
+                <div class="item">
+                    <a># 프론트 업무 진행 상황</a>
+                </div>
+                <div class="item">
+                    <a># 코드 피드백</a>
             </div>
         </div>
     <% } %>
-    <a class="menu__a-wrapper" href="/mychannels">관심 채널</a>
-    <a class="menu__a-wrapper" href="/">알림</a>
-    <a class="menu__a-wrapper" href="/">오픈 채널</a>
-    <a class="menu__a-wrapper" href="/">소울메이트 가이드</a>
     <% if(chatRooms){ %>
         <div class="menu__div-wrapper">
             <div class="title">

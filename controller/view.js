@@ -3,12 +3,32 @@ import viewService from '../service/view.js'
 import viewAPI from '../API/view.js';
 
 const viewController = {
+    getMyProfile: async (req, res, next) => {
+        try {
+            const jsonWebToken = req.cookies.token;
+
+            const resData = await viewAPI.getMyProfile(jsonWebToken);
+
+            console.log('resData: ',resData);
+            const myProfile = resData.matchedUser;
+
+            res.render('user/myprofile',{
+                path: '/myprofile',
+                title: 'Soulmate | ' + myProfile.name + '님의 프로필',
+                clientId: req.cookies.clientId,
+                photo: req.cookies.photo,
+                myProfile: myProfile,
+                state: 'off',
+                chatRooms: null,
+            });
+        } catch (err) {
+            throw err;
+        }
+    },
     //메인 페이지
     getMainPage: async (req, res, next) => {
         try {
-            const jsonWebToken = req.cookies.token;// 쿠키 웹 토큰
-
-            const resData = await viewAPI.getChannelListToServer();
+            const resData = await viewAPI.getOpenChannelListToServer();
             const chatRooms = null;
 
             // console.log('resData: ',resData);

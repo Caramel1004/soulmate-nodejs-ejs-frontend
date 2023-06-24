@@ -8,6 +8,9 @@ const router = Router();
 // GET /
 router.get('/', viewController.getMainPage);// 메인페이지
 
+//GET /myprofile
+router.get('/myprofile', accessAuthorizedToken, viewController.getMyProfile); // 나의 프로필
+
 // GET /channel
 router.get('/channel', accessAuthorizedToken, viewController.getAddChannelPage);// 채널 추가 페이지
 

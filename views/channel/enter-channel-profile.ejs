@@ -69,40 +69,37 @@
 
                 <!-- 프로필 영역 -->
                 <div id="div__channel-profile-container">
-                    <!-- <div class="div__user-list"> -->
-                        <div id="box-profile">
-                            <img src=<%=channel.thumbnail %>>
-                            <div id="profile-content">
-                                <h3>채널 정보</h3>
-                                <div class="box__div__info">
-                                    <span> 채널 명 </span><span><h3><%= channel.channelName %></h3></span>
-                                </div>
-                                <div class="box__div__info">
-                                    <span> 참여 인원 </span><span><h3><%= channel.users.length %> 명</h3></span>
-                                </div>
-                                <div class="box__div__info">
-                                    <span> 카테고리 </span><span><h3><%= channel.category %></h3></span>
-                                </div>
+                    <div id="box-profile">
+                        <img src=<%=channel.thumbnail %>>
+                        <div id="profile-content">
+                            <h3>채널 정보</h3>
+                            <div class="box__div__info">
+                                <span> 채널 명 </span><span><h3><%= channel.channelName %></h3></span>
                             </div>
-                            <div id="profile-content">
-                                <h3>소개 글</h3>
-                                <p>asdasdasdasdasdasdasdasdasdasdasdadasda</p>
-                                <p><%= channel.content %></p>
+                            <div class="box__div__info">
+                                <span> 참여 인원 </span><span><h3><%= channel.users.length %> 명</h3></span>
+                            </div>
+                            <div class="box__div__info">
+                                <span> 카테고리 </span><span><h3><%= channel.category %></h3></span>
                             </div>
                         </div>
-                    <!-- </div> -->
+                        <div id="profile-content">
+                            <h3>소개 글</h3>
+                            <p><%= channel.content %></p>
+                        </div>
+                    </div>
                 </div>
 
-                <div id="div__channel-profile-container">
+                <!-- <div id="div__channel-profile-container">
                     <div class="div__user-list">
                         <div id="box-profile">
                             <div id="profile-content">
                                 <h3>소개 글</h3>
                                 <p><%= channel.content %></p>
                             </div>
-                        </div>
+                        </div>ㄴ
                     </div>
-                </div>		
+                </div>		 -->
                 
                 <!-- 유저 초대 클릭시 모달창 오픈 -->
                 <div class="invite-container hidden" id="container">

@@ -2,7 +2,25 @@ import fetch from 'node-fetch';
 import { successType, errorType } from '../util/status.js';
 
 const viewAPI = {
-    getChannelListToServer: async () => {
+    getMyProfile: async token => {
+        try {
+            const response = await fetch('http://localhost:8080/v1/user/myprofile', {
+                method: 'GET',
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const resData = await response.json();
+            
+            return resData;
+        } catch (err) {
+            throw err;
+        }
+    },
+    // 서버에 오픈 채널
+    getOpenChannelListToServer: async () => {
         try {
             const response = await fetch('http://localhost:8080/v1/channel/channel-list', {
                 method: 'GET',
