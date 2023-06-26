@@ -14,3 +14,4 @@ console.log(__dirname);
 
 # soulmate UI
 <img src="./images/채팅 방 화면.png" style="width: 1000px; height: 700px">
+<img src="./images/채팅 방 화면.png" style="width: 1000px; height: 700px">
