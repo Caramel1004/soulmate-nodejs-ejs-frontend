@@ -4,10 +4,10 @@
             <a href="/"><img src="/images/스크린샷 2023-06-19 오후 5.08.53.png"></a>
             <a href="/">Soulmate</a>
         </div>
-        <% if(clientId) { %>
+        <% if(clientName) { %>
             <div class="user-info">
                 <img src=<%= photo %>>
-                <a href="#"><%= clientId %> 님</a>
+                <a href="#"><%= clientName %> 님</a>
                 <a href="/logout" id="btn__log">로그아웃</a>
             </div>
         <% } else  { %>

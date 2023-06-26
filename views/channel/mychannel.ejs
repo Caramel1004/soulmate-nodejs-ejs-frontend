@@ -28,7 +28,7 @@
                     <button id="btn__search"> 검색 </button>
                 </div>
                 <div id="thema001">
-                    🥰 <span class="client-name"><%= clientId %></span> 님이 만든 채널 | 그이상의 소통을 만들어 보세요
+                    🥰 <span class="client-name"><%= clientName %></span> 님이 만든 채널 | 그이상의 소통을 만들어 보세요
                 </div>
                 <%if(ownedChannelList.length > 0) { %>
                     <% for(let channel of ownedChannelList) { %>
@@ -56,7 +56,7 @@
             </div>
             <div class="channel-list">
                 <div id="thema002">
-                    🥰 <span class="client-name"><%= clientId %></span> 님이 초대받은 채널 | soulmate와 함께 하세요
+                    🥰 <span class="client-name"><%= clientName %></span> 님이 초대받은 채널 | soulmate와 함께 하세요
                 </div>
                 <%if(invitedChannelList.length > 0) { %>
                     <% for(let channel of invitedChannelList) { %>
@@ -79,7 +79,7 @@
                         </div>
                     <% } %>
                 <% } else { %>
-                    <div class="contents__div-wrapper" style="border: none; width: 550px;"><h1><%= clientId %>님과 함께할 친구들을 찾아보세요!!</h1></div>
+                    <div class="contents__div-wrapper" style="border: none; width: 550px;"><h1><%= clientName %>님과 함께할 친구들을 찾아보세요!!</h1></div>
                 <% } %>
             </div>
         </div>		

@@ -11,9 +11,13 @@ const authController = {
     //회원 가입
     postSignUp: async (req, res, next) => {
         try {
-            const clientId = req.body.clientId;
+            const email = req.body.email;
             const password = req.body.password;
             const name = req.body.name;
+            const gender = req.body.gender;
+            const photo = req.body.photo;
+            const phone = req.body.phone;
+            const comment = req.body.comment;
 
             const response = await fetch('http://localhost:8080/v1/user/signup', {
                 method: 'POST',
@@ -21,33 +25,34 @@ const authController = {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    clientId: clientId,
+                    email: email,
                     password: password,
-                    name: name
+                    name: name,
+                    gender: gender,
+                    photo: photo,
+                    phone: phone,
+                    comment: comment
                 })
             });
 
             res.redirect('/login');
         } catch (err) {
-            if (!err.statusCode) {
-                err.statusCode = 500;
-            }
-            next(err);
+            throw err;
         }
     },
     // 로그인
     postLogin: async (req, res, next) => {
         try {
-            const clientId = req.body.clientId;
+            const email = req.body.email;
             const password = req.body.password;
 
-            const response = await fetch('http://localhost:8080/v1/user/check', {
+            const response = await fetch('http://localhost:8080/v1/user/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    clientId: clientId,
+                    email: email,
                     password: password
                 })
             });
@@ -69,38 +74,33 @@ const authController = {
                 httpOnly: true,
                 secure: false
             });
-            
+
             res.cookie('photo', data.photo, {
                 httpOnly: true,
                 secure: false
             });
 
-            res.cookie('clientId', data.clientId, {
+            res.cookie('clientName', data.name, {
                 httpOnly: true,
                 secure: false
             });
 
 
             console.log('req.cookies: ', req.cookies);
-            // req.app.locals.token = data.token;
-            // req.app.locals.clientId = data.clientId;
 
             res.redirect('/mychannels');
 
             next();
         } catch (err) {
-            if (!err.statusCode) {
-                err.statusCode = 500;
-            }
-            next(err);
+            throw err;
         }
-    },
+    } ,
     //로그 아웃
     getLogout: (req, res, next) => {
         try {
             if (req.cookies) {
                 res.clearCookie('token');
-                res.clearCookie('clientId');
+                res.clearCookie('name');
                 res.clearCookie('photo');
             }
             res.redirect('/login');

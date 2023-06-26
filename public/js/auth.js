@@ -13,7 +13,7 @@ const onClickOpenLoginForm = () => {
     console.log('로그인 창 오픈!!!');
 }
 
-
+console.log('로그인 페이지!!!!')
 document.querySelector('.open-sign-form').addEventListener('click',onClickOpenSignupForm);
 document.querySelector('.open-login-form').addEventListener('click',onClickOpenLoginForm);
 

@@ -15,7 +15,7 @@ const viewController = {
             res.render('user/myprofile',{
                 path: '/myprofile',
                 title: 'Soulmate | ' + myProfile.name + '님의 프로필',
-                clientId: req.cookies.clientId,
+                clientName: req.cookies.clientName,
                 photo: req.cookies.photo,
                 myProfile: myProfile,
                 state: 'off',
@@ -39,7 +39,7 @@ const viewController = {
             res.render('index', {
                 path: '메인 페이지',
                 title: 'Soulmate 메인 페이지',
-                clientId: req.cookies.clientId,
+                clientName: req.cookies.clientName,
                 photo: req.cookies.photo,
                 channelList: channelList,
                 chatRooms: chatRooms,
@@ -66,7 +66,7 @@ const viewController = {
             res.status(status.code).render('channel/mychannel', {
                 path: '유저 채널 리스트',
                 title: 'Soulmate',
-                clientId: req.cookies.clientId,
+                clientName: req.cookies.clientName,
                 photo: req.cookies.photo,
                 ownedChannelList: ownedChannelList,
                 invitedChannelList: invitedChannelList,
@@ -83,7 +83,7 @@ const viewController = {
             res.render('menu/create-channel',{
                 path: '채널 추가 페이지',
                 title: 'Soulmate',
-                clientId: req.cookies.clientId,
+                clientName: req.cookies.clientName,
                 photo: req.cookies.photo,
                 chatRooms: null,
                 state: 'off'

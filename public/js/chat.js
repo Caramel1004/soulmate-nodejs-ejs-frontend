@@ -237,7 +237,7 @@ const onClickLoadUsersInChannel = async event => {
 
         // 클라이언트 아이디
         const clientNameTag = document.createElement('a');
-        clientNameTag.textContent = user.clientId;
+        clientNameTag.textContent = user.name;
         clientNameTag.setAttribute('href', '#');
 
         // 체크 박스 생성 + 라벨
@@ -249,7 +249,7 @@ const onClickLoadUsersInChannel = async event => {
         checkBox.setAttribute('value', JSON.stringify({
             _id: user._id,
             photo: user.photo,
-            clientId: user.clientId
+            name: user.name
         }));
 
         checkBox.setAttribute('onclick', 'onClickCheckBox(event)');
@@ -309,7 +309,7 @@ const onClickCheckBox = event => {
         img.setAttribute('src', user.photo);
 
         const b = document.createElement('b');
-        b.textContent = user.clientId;
+        b.textContent = user.name;
 
         div.appendChild(img);
         div.appendChild(b);
