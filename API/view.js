@@ -19,24 +19,6 @@ const viewAPI = {
             throw err;
         }
     },
-    // 서버에 오픈 채널
-    getOpenChannelListToServer: async () => {
-        try {
-            const response = await fetch('http://localhost:8080/v1/channel/channel-list', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            const resData = await response.json();
-            // console.log('resData: ',resData);
-
-            return resData;
-        } catch (err) {
-            throw err;
-        }
-    },
     // 해당 유저의 채널목록 API요청
     getMyChannelList: async (token, next) => {
         try {

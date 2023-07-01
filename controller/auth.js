@@ -88,11 +88,9 @@ const authController = {
 
             console.log('req.cookies: ', req.cookies);
 
-            res.redirect('/mychannels');
-
-            next();
+            res.redirect('/');
         } catch (err) {
-            throw err;
+            next(err);
         }
     } ,
     //로그 아웃
