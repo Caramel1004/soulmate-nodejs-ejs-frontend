@@ -28,6 +28,13 @@
                     <button id="btn__search"> 검색 </button>
                 </div>
                 <div id="thema001">
+                    <a class="type" id="all" href="/mychannels?searchWord=all"> 전체 </a>
+                    <a class="type" id="own" href="/mychannels?searchWord=own"> 내가 만든채널</a>
+                    <a class="type" id="invite" href="/mychannels?searchWord=invite"> 소속 채널 </a>
+                    <a class="type" id="open" href="/mychannels?searchWord=open"> 오픈 채널 </a>
+                    <a class="type" id="work" href="/mychannels?searchWord=work"> 워크스페이스 </a>
+                </div>
+                <div id="thema001">
                     🥰 <span class="client-name"><%= clientName %></span> 님이 만든 채널 | 그이상의 소통을 만들어 보세요
                 </div>
                 <%if(channelList.length > 0) { %>

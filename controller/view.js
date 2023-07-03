@@ -79,7 +79,7 @@ const viewController = {
 
             //나의 채널 목록 페이지 렌더링
             res.status(resData.status.code).render('channel/mychannel', {
-                path: '유저 채널 리스트',
+                path: '/mychannels',
                 title: 'Soulmate',
                 clientName: req.cookies.clientName,
                 photo: req.cookies.photo,
