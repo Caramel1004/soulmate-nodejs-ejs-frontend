@@ -17,12 +17,9 @@
                 <div id="box-search">
                     <select id="category" name="category">
                         <option disabled selected hidden>카테고리를 선택하세요.</option>
-                        <option value="개발">개발</option>
-                        <option value="디자인">디자인</option>
-                        <option value="영업">영업</option>
-                        <option value="커뮤니티">커뮤니티</option>
-                        <option value="교육">교육</option>
-                        <option value="기타">기타</option>
+                        <% for(let category of staticCategoryList) { %>
+                            <option value="<%= category.keyword %>"><%= category.name %></option>
+                        <% } %>
                     </select>
                     <input type="search" id="search" placeholder="원하는 채널을 검색하세요.">
                     <button id="btn__search"> 검색 </button>
@@ -53,10 +50,10 @@
                                 <% } %>
                             </div>
                             <div class="card">
-                                <a class="a__btn-enter" href="/client/mychannels/<%= channel._id %>">채널 입장</a>
+                                <a class="a__btn-enter" href="/mychannels/<%= channel._id %>">채널 입장</a>
                             </div>
                         </div>
-                        <% } %>
+                    <% } %>
                 <% } else { %>
                     <h1 style="text-align: center;">나만의 채널을 추가 해보세요!!</h1>
                 <% } %>

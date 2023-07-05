@@ -1,59 +1,23 @@
 import fetch from 'node-fetch';
 import { FormData, Blob } from 'formdata-node';
+import channelService from '../service/channel.js'
 import chatAPI from '../API/chat.js'
 
+/**
+ * 1. 채널 생성
+ * 2. 채널 퇴장
+ * 3. 해당 채널에 유저 초대
+ * 4. 채팅방 생성
+ * 5. 채팅방에 유저 초대
+ * 6. 실시간 채팅
+ * 7. 실시간 파일(자료) 업로드
+ * 8. 워크스페이스에 자료 업로드
+ * 9. 워크스페이스에서 해당 게시물에 댓글
+ * 6. 워크 스페이스 생성
+ * 7. 워크 스페이스에 유저 초대 -> 전체공개 or 초대한 유저만 이용
+ */
+
 const clientControlller = {
-    // 해당 채널 입장
-    getEnterMyChannel: async (req, res, next) => {
-        try {
-            const jsonWebToken = req.cookies.token;
-            const channelId = req.params.channelId;
-
-            // 1. 해당 채널아이디 보내주고 해당채널입장 요청
-            const response = await fetch('http://localhost:8080/v1/channel/' + channelId, {
-                method: 'GET',
-                headers: {
-                    Authorization: 'Bearer ' + jsonWebToken,
-                    'Content-Type': 'application/json'
-                }
-            });
-            const data = await response.json();//동기화 해줘야해!!
-
-            const matchedChannel = data.channel;
-
-            // console.log('matchedChannel: ', matchedChannel);
-
-            // 2. 채팅방 목록 요청
-            const response2 = await fetch('http://localhost:8080/v1/channel/' + channelId + '/chat', {
-                method: 'GET',
-                headers: {
-                    Authorization: 'Bearer ' + jsonWebToken,
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            const data2 = await response2.json();//동기화 해줘야해!!
-
-            const matchedChatRooms = data2.chatRooms;
-            // console.log('matchedChatRooms: ', matchedChatRooms);
-            const state = 'on';
-            // 2. 해당 채널 렌더링
-            res.status(200).render('channel/enter-channel-profile', {
-                path: '채널 입장',
-                title: matchedChannel.channelName,
-                clientName: req.cookies.clientName,
-                photo: req.cookies.photo,
-                channel: matchedChannel,
-                chatRooms: matchedChatRooms,
-                state: state
-            });
-        } catch (err) {
-            if (!err.statusCode) {
-                err.statusCode = 500;
-            }
-            next(err);
-        }
-    },
     //채팅 방 접속
     getMyChatRoombyChannelId: async (req, res, next) => {
         try {
@@ -121,7 +85,7 @@ const clientControlller = {
             next(err);
         }
     },
-    // 채널 추가
+    // 1. 채널 생성
     postCreateChannel: async (req, res, next) => {
         try {
             const jsonWebToken = req.cookies.token;
@@ -129,6 +93,7 @@ const clientControlller = {
             const thumbnail = req.body.thumbnail;// 채널 썸네일
             const category = req.body.category;// 카테고리
             const contents = req.body.contents;// 채널 멘트
+            const open = req.body.open;
 
             console.log('category: ', category);
             const response = await fetch('http://localhost:8080/v1/channel/create', {
@@ -141,7 +106,8 @@ const clientControlller = {
                     channelName: channelName,
                     thumbnail: thumbnail,
                     category: category,
-                    contents: contents
+                    contents: contents,
+                    open: open
                 })
             });
 
@@ -149,16 +115,13 @@ const clientControlller = {
 
             // console.log(resData);
 
-            res.redirect('http://localhost:3000/mychannels');
+            res.redirect('/mychannels?searchWord=all');
 
         } catch (err) {
-            if (!err.statusCode) {
-                err.statusCode = 500;
-            }
             next(err);
         }
     },
-    // 채널 퇴장
+    // 2. 채널 퇴장
     postExitChannel: async (req, res, next) => {
         try {
             const jsonWebToken = req.cookies.token;
@@ -185,7 +148,7 @@ const clientControlller = {
             next(err);
         }
     },
-    // 채널에 유저 초대
+    //3. 해당 채널에 유저 초대
     postInviteUserToChannel: async (req, res, next) => {
         try {
             const jsonWebToken = req.cookies.token;
@@ -214,36 +177,22 @@ const clientControlller = {
 
         }
     },
-    //채팅방 생성
+    // 4. 채팅방 생성
     postCreateChatRoom: async (req, res, next) => {
         try {
             const jsonWebToken = req.cookies.token;
             const channelId = req.params.channelId
             const roomName = req.body.roomName;
 
-            const response = await fetch('http://localhost:8080/v1/channel/' + channelId + '/chatRoom/create', {
-                method: 'POST',
-                headers: {
-                    Authorization: 'Bearer ' + jsonWebToken,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    channelId: channelId,
-                    roomName: roomName
-                })
-            });
-
-            const data = await response.json();
+            const data = await channelService.postCreateChatRoom(jsonWebToken, channelId, roomName, next);
+            
 
             res.redirect('http://localhost:3000/client/chat/' + data.chatRoom.channelId + '/' + data.chatRoom._id);
         } catch (err) {
-            if (!err.statusCode) {
-                err.statusCode = 500;
-            }
             next(err);
         }
     },
-    // 채팅방 유저 초대
+    // 5. 채팅방 유저 초대
     postInviteUsersToChatRoom: async (req, res, next) => {
         try {
             const jsonWebToken = req.cookies.token;

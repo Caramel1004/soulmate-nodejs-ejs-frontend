@@ -19,6 +19,12 @@
                             <span><input type="text" name="channelName" id="channelName" placeholder="채널명을 입력하세요."></span>
                         </label>
                     </div>
+                    <div id="open">
+                        <input type="radio" name="open" value="Y">
+                        <label for="open"> 공개 </label>
+                        <input type="radio" name="open" value="N">
+                        <label for="open"> 비공개 </label>
+                    </div>
                     <div class="box__input">
                         <label for="thumbnail">
                             <span> 대표 이미지 </span>
@@ -31,13 +37,9 @@
                         <span>
                             <select id="category" name="category">
                                 <option disabled selected hidden>카테고리를 선택하세요.</option>
-                                <option value="개발">개발</option>
-                                <option value="디자인">디자인</option>
-                                <option value="영업">영업</option>
-                                <option value="커뮤니티">커뮤니티</option>
-                                <option value="교육">교육</option>
-                                <option value="교육">게임</option>
-                                <option value="기타">기타</option>
+                                <% for(let category of staticCategoryList) { %>
+                                    <option value="<%= category.name %>"><%= category.name %></option>
+                                <% } %>
                             </select>
                         </span>
                     </div>

@@ -51,6 +51,13 @@ body::-webkit-scrollbar-track {
     /* border: 1px solid black; */
 }
 
+#open {
+    padding: 0.5rem;
+}
+#open label{
+    margin-right: 50px;
+}
+
 .box__input {
     padding: 0;
     margin-top: 20px;

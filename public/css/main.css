@@ -77,16 +77,25 @@ body::-webkit-scrollbar-track {
 }
 
 .type {
-    padding: 5px;
+    padding: 10px;
     text-align: center;
     text-decoration: none;
     border: none;
     font: inherit;
-    font-size: 10px;
+    font-size: 14px;
     color: black;
     background: rgb(243, 243, 246);
-    border-radius: 20px;
+    border-radius: 15px;
     cursor: pointer;
+}
+.type.active{
+    color: #ffffff;
+    background: black;
+}
+
+.type:hover,
+.type:active {
+    background: rgb(233, 233, 237);
 }
 
 #thema002 {
@@ -117,6 +126,7 @@ body::-webkit-scrollbar-track {
     height: 200px;
     border-radius: 5px;
     border-bottom: 1px groove rgb(157, 153, 153);
+    animation: scaleImage 5s ease-out forwards;
 }
 
 .card {

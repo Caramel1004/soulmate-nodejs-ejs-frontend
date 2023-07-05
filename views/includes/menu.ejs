@@ -5,7 +5,7 @@
     <a class="menu__a-wrapper" href="#">알림</a>
     <% if(state === 'off') { %>
         <a class="menu__a-wrapper" href="/channel" id="channel"><span> + </span> 채널 추가 </a>
-        <a class="menu__a-wrapper" href="/wishchannels" id="wishchannels">관심 채널</a>
+        <a class="menu__a-wrapper" href="/wishchannels?searchWord=all" id="wishchannels">관심 채널</a>
         <a class="menu__a-wrapper" href="/">소울메이트 가이드</a>
         <% } else { %>
             <a class="menu__a-wrapper" href="/client/mychannels/<%= channel._id %>"> 멤버 확인 </a>

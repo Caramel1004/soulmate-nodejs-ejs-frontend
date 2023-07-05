@@ -52,12 +52,14 @@ app.use(async (req, res, next) => {
 
 // 오류 처리
 app.use((error, req, res, next) => {
-    console.log('클라이언트 측 에러!! -> ', error);
-    if (!error.errReport) {
-        error.errReport = errorType.E05.e00;
+    console.log('미들웨어 함수 진입.... throw 된 에러: ', error);
+    if(!error.statusCode) {
+        error = errorHandler(error);
     }
-    res.status(error.errReport.code).render('error404');
-
+    
+    res.status(error.statusCode || 500).render('error404',{
+        error: error
+    });
     next();
 });
 

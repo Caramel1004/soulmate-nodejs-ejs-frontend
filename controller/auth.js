@@ -98,7 +98,7 @@ const authController = {
         try {
             if (req.cookies) {
                 res.clearCookie('token');
-                res.clearCookie('name');
+                res.clearCookie('clientName');
                 res.clearCookie('photo');
             }
             res.redirect('/login');

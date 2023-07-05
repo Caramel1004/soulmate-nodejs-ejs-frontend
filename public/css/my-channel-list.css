@@ -98,7 +98,7 @@ body::-webkit-scrollbar-track {
     font-size: 14px;
     color: black;
     background: rgb(243, 243, 246);
-    border-radius: 20px;
+    border-radius: 15px;
     cursor: pointer;
 }
 .type.active{

@@ -56,11 +56,67 @@ const channelAPI = {
     // 5. 관심 채널 목록 페이지
     getMyWishChannelList: async (token, searchWord, next) => {
         try {
-            const response = await fetch('http://localhost:8080/v1/channel/channel-of-interest-list?searchWord=' + searchWord, {
+            const response = await fetch('http://localhost:8080/v1/channel/wishchannels?searchWord=' + searchWord, {
                 method: 'GET',
                 headers: {
                     Authorization: 'Bearer ' + token
                 }
+            });
+            const resData = await response.json();
+
+            return resData;
+        } catch (err) {
+            next(err);
+        }
+    },
+    // 6. 채널 세부정보 요청
+    getChannelDetailByChannelId: async (token, channelId, next) => {
+        try {
+            // 해당 채널아이디 보내주고 해당 채널 입장 요청
+            const response = await fetch('http://localhost:8080/v1/channel/' + channelId, {
+                method: 'GET',
+                headers: {
+                    Authorization: 'Bearer ' + token
+                }
+            });
+            const resData = await response.json();
+
+            return resData;
+        } catch (err) {
+            next(err);
+        }
+    },
+    // 7. 채팅방 목록 요청
+    getChatRoomList: async (token, channelId, next) => {
+        try {
+            // 채팅방 목록 요청
+            const response = await fetch('http://localhost:8080/v1/channel/' + channelId + '/chat', {
+                method: 'GET',
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                }
+            });
+            const resData = await response.json();
+
+            return resData;
+        } catch (err) {
+            next(err);
+        }
+    },
+    // 8. 채팅방 생성
+    postCreateChatRoom: async (token, channelId, roomName, next) => {
+        try {
+            const response = await fetch(`http://localhost:8080/v1/channel/${ channelId }/create-chatRoom`, {
+                method: 'POST',
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    channelId: channelId,
+                    roomName: roomName
+                })
             });
             const resData = await response.json();
 
