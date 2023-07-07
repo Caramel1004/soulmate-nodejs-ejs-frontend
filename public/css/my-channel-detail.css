@@ -30,7 +30,7 @@ body::-webkit-scrollbar-track {
     justify-content: space-between;
     align-items: center;
     background: #ffffff;
-    border: 1px groove black;
+    /* border: 1px groove black; */
 }
 
 .div__user-list {
@@ -43,9 +43,40 @@ body::-webkit-scrollbar-track {
     /* border: 1px groove rgba(0, 0, 0, 0.26); */
 }
 
-#thema001 {
+#tab-box {
+    padding: 5px 12px;
+    font-size: 22px;
+    font-weight: bold;
+    /* border: 1px solid black; */
+}
+
+.type {
+    /* margin-right: 5px; */
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    font: inherit;
+    font-size: 14px;
+    color: black;
+    background: rgb(243, 243, 246);
+    border-radius: 15px;
+    cursor: pointer;
+}
+.type.active{
+    color: #ffffff;
+    background: black;
+}
+
+.type:hover,
+.type:active {
+    background: rgb(233, 233, 237);
+}
+
+#title {
+    margin-top: 40px;
     margin-left: 10px;
-    padding: 5px;
+    /* padding: 5px; */
     font-size: 22px;
     font-weight: bold;
     /* border: 1px solid black; */
@@ -103,13 +134,17 @@ body::-webkit-scrollbar-track {
 .user__div-wrapper {
     margin-left: 10px;
     margin-top: 10px;
-    width: 100px;
-    height: 135px;
+    width: 200px;
+    height: 250px;
     text-align: left;
     display: inline-block;
     border: 1px groove rgba(0, 0, 0, 0.26);
     border-radius: 5px;
     cursor: pointer;
+    overflow : hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    -webkit-line-clamp: 1;
 }
 
 .user__div-wrapper:hover,
@@ -119,19 +154,23 @@ body::-webkit-scrollbar-track {
 
 .user__div-wrapper img {
     padding: 0;
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 200px;
     border-radius: 5px;
     /* border: 1px groove rgb(157, 153, 153); */
 }
 
 #add-icon {
-    margin-top: 10px;
+    margin-top: 60px;
     padding: 35px;
-    width: 30px;
-    height: 30px;
+    width: 50px;
+    height: 50px;
     border-radius: 5px;
     /* border: 1px groove rgb(157, 153, 153); */
+}
+
+#invite {
+    text-align: center;
 }
 
 #invite h2 {
@@ -146,7 +185,7 @@ body::-webkit-scrollbar-track {
 
 .card {
     padding-top: 0px;
-
+    
     /* border: 1px solid black; */
 }
 
@@ -201,7 +240,7 @@ body::-webkit-scrollbar-track {
 
 .invite-modal {
     padding: 20px;
-    display: flex;
+    display: block;
     justify-content: center;
     align-items: center;
     border-radius: 1rem;
@@ -221,7 +260,8 @@ body::-webkit-scrollbar-track {
 }
 
 .box__input__invite {
-    padding: 10px;
+    padding: 5px;
+    /* border: 1px solid black; */
 }
 
 .box__input__invite input {
@@ -236,12 +276,16 @@ body::-webkit-scrollbar-track {
 }
 
 .box__input__invite img {
-    width: 30px;
-    height: 30px;
+    width: 200px;
+    height: 200px;
+    border-radius: 5px;
+}
+
+#matchedClientId {
+    color: rgb(212, 78, 21);
 }
 
 .invite-modal button {
-    margin-bottom: 13px;
     padding: 10px;
     width: 370px;
     /* height: 5vh; */

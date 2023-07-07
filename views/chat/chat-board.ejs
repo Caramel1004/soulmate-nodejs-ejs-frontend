@@ -15,21 +15,23 @@
         <!-- 챗 보드 -->
         <div class="board-chat">
             <div class="board-chat__box-history">
-                <div class="date">2023년 5월 29일 월요일</div>
-                <% for(let chatDetail of chatList) { %>
-                    <div class="board-chat__unit-chat-box">
-                        <div class="board-chat__unit-chat-img">
-                            <img src="<%= chatDetail.creator.photo %>">
+                <% if(chats.length > 0) { %>
+                    <div class="date">2023년 5월 29일 월요일</div>
+                    <% for(let chatDetail of chats) { %>
+                        <div class="board-chat__unit-chat-box">
+                            <div class="board-chat__unit-chat-img">
+                                <img src="<%= chatDetail.creator.photo %>">
+                            </div>
+                            <div class="chat">
+                                <div class="client-name"><%= chatDetail.creator.name %></div>
+                                <div class="board-chat__unit-chat"><%= chatDetail.chat %></div>
+                            </div>
+                            <div class="chat">
+                                <div class="chat-date"><%= chatDetail.createdAt %></div>
+                            </div>
                         </div>
-                        <div class="chat">
-                            <div class="client-name"><%= chatDetail.creator.clientId %></div>
-                            <div class="board-chat__unit-chat"><%= chatDetail.chat %></div>
-                        </div>
-                        <div class="chat">
-                            <div class="chat-date"><%= chatDetail.createdAt %></div>
-                        </div>
-                    </div>
-                <% } %> 
+                    <% } %> 
+                <% } %>
             </div>
             <div class="board-chat__box-chat">
                 <textarea class="board-chat__textarea" name="content" id="content" placeholder="메세지 보내기"></textarea>
@@ -51,12 +53,12 @@
                     <span>팀원 목록</span>
                 </div>
                 <div class="number">
-                    <h5>인원수 <%= userList.length %></h5>
+                    <h5>인원수 <%= members.length %></h5>
                 </div>
-                <% for(let user of userList) { %>
+                <% for(let member of members) { %>
                     <div class="box">
-                        <img src="<%= user.photo %>">
-                        <a href="#"><%= user.clientId %></a>
+                        <img src="<%= member.photo %>">
+                        <a href="#"><%= member.name %></a>
                     </div>
                 <% } %>
             </div>
@@ -133,7 +135,7 @@
                 // 닉네임
                 const clientNameTag = document.createElement('div');
                 clientNameTag.classList.add('client-name');
-                clientNameTag.textContent = data.clientId;
+                clientNameTag.textContent = data.name;
                 chatBox.appendChild(clientNameTag);
                 console.log('clientNameTag: ', clientNameTag);
 

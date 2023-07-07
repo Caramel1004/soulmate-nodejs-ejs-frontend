@@ -2,16 +2,43 @@ body {
     margin: 0;
 }
 
+
 #menu {
     margin-top: 70px;
     padding: 0;
     width: 250px;
-    height: 1000px;
+    height: 100%;
     display: block;
     position: fixed;
     border-top: 1px groove rgb(214, 211, 211);
     background: rgb(243, 243, 246);
 }
+
+#menu:hover,
+#menu:active {
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+/* 채팅 히스토리 박스 스크롤 디자인 */
+#menu::-webkit-scrollbar {
+    width: 5px;
+    background: rgb(235, 222, 203);
+    border-radius: 50px;
+}
+
+#menu::-webkit-scrollbar-thumb {
+    width: 5px;
+    background: rgb(155, 151, 151);
+    border-radius: 50px;
+}
+
+#menu::-webkit-scrollbar-track {
+    width: 1px;
+    border-radius: 50px;
+    background: rgb(243, 243, 246);
+}
+
 
 .menu__a-wrapper {
     padding: 15px;
@@ -65,6 +92,7 @@ body {
     display: block;
     /* border: 1px solid black; */
 }
+
 .item:hover,
 .item:active {
     background: rgb(219, 219, 232);
@@ -130,14 +158,14 @@ body {
     /* border: 1px solid black; */
 }
 
-.box__input-chat-room input{
+.box__input-chat-room input {
     padding: 10px;
     width: 350px;
     font-size: 15px;
     border: 1px solid rgb(214, 211, 211);
 }
 
-.box__input-chat-room input:focus{
+.box__input-chat-room input:focus {
     outline: none;
 }
 

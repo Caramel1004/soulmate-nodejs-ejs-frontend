@@ -124,7 +124,28 @@ const channelAPI = {
         } catch (err) {
             next(err);
         }
-    }
+    },
+    // 9. 해당 채널에 유저 초대
+    postInviteUserToChannel: async (token, channelId, invitedUserId, next) => {
+        try {
+            const response = await fetch('http://localhost:8080/v1/channel/invite/' + channelId, {
+                method: 'PATCH',
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    channelId: channelId,
+                    invitedUserId: invitedUserId
+                })
+            });
+            const resData = await response.json();
+
+            return resData;
+        } catch (err) {
+            next(err);
+        }
+    },
 }
 
 export default channelAPI;

@@ -34,11 +34,11 @@ router.get('/channel', accessAuthorizedToken, viewController.getAddChannelPage);
 // GET /wishchannels
 router.get('/wishchannels', accessAuthorizedToken, viewController.getMyWishChannelListPage);// 5. 나의 관심 채널 목록 페이지
 
-//GET /mychannels/:channelId
-router.get('/mychannels/:channelId', viewController.getEnterMyChannelPage);// 6. 채널입장 -> 채널 내부 페이지
+//GET /mychannel/:channelId
+router.get('/mychannel/:channelId', viewController.getEnterMyChannelPage);// 6. 채널입장 -> 채널 내부 페이지
 
-//GET /client/chat/:channelId/:chatRoomId
-// router.get('/chat/:channelId/:chatRoomId', viewController.getEnterChatRoomPage);// 7. 채팅방 입장 -> 채팅방 페이지
+//GET /channel/chat/:channelId/:chatRoomId
+router.get('/channel/chat/:channelId/:chatRoomId', viewController.getEnterChatRoomPage);// 7. 채팅방 입장 -> 채팅방 페이지
 
 
 export default router;

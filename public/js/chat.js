@@ -211,7 +211,7 @@ const toggleButton = type => {
 const onClickLoadUsersInChannel = async event => {
     const url = window.location.href;
     const channelId = url.split('/')[5];
-    const response = await fetch('http://localhost:8080/v1/chat/' + channelId + '/channel-users', {
+    const response = await fetch('http://localhost:8080/v1/chat/channel-members/' + channelId, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'

@@ -9,7 +9,7 @@ import channelAPI from '../API/channel.js'
 
 const channelService = {
     // 1. 생성된 오픈 채널 목록 요청
-    getOpenChannelList: async () => {
+    getOpenChannelList: async next => {
         try {
             const resData = await channelAPI.getOpenChannelList();
 
@@ -58,6 +58,7 @@ const channelService = {
             next(err);
         }
     },
+    
     // 7. 채팅방 목록 요청
     getChatRoomList: async (jsonWebToken, channelId, next) => {
         try {
@@ -77,7 +78,17 @@ const channelService = {
         } catch (err) {
             next(err);
         }
-    }
+    },
+    // 9. 해당 채널에 유저 초대
+    postInviteUserToChannel: async (jsonWebToken, channelId, invitedUserId, next) => {
+        try {
+            const data = await channelAPI.postInviteUserToChannel(jsonWebToken, channelId, invitedUserId, next);
+
+            return data;
+        } catch (err) {
+            next(err);
+        }
+    },
 }
 
 export default channelService;

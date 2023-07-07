@@ -40,7 +40,11 @@
                 <!-- 상위 부모 컨테이너 -->
                 <div id="div__channel-profile-container">
                     <div class="div__user-list">
-                        <div id="thema001">
+                        <div id="tab-box">
+                            <a class="type" id="member" href="/mychannel/<%= channel._id %>?searchWord=member"> 팀원</a>
+                            <a class="type" id="info" href="/mychannel/<%= channel._id %>?searchWord=info"> 정보 </a>
+                        </div>
+                        <div id="title">
                             👍🏻 팀원 목록
                         </div>
                         <div id="invite" class="user__div-wrapper">
@@ -68,7 +72,7 @@
                 </div>
 
                 <!-- 프로필 영역 -->
-                <div id="div__channel-profile-container">
+                <!-- <div id="div__channel-profile-container">
                     <div id="box-profile">
                         <img src=<%=channel.thumbnail %>>
                         <div id="profile-content">
@@ -88,7 +92,7 @@
                             <p><%= channel.content %></p>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- <div id="div__channel-profile-container">
                     <div class="div__user-list">
@@ -109,13 +113,15 @@
                                 <h1>초대할 친구를 찾아보세요.</h1>
                             </div>
                             <div class="box__input__invite">
-                                <input type="text" name="clientId" id="clientId" placeholder="친구 닉네임을 입력하세요.">
+                                <input type="text" name="name" id="clientId" placeholder="친구 닉네임을 입력하세요.">
                             </div>
                             <div class="box__input__invite">
                                 <span><button id="search">검색 하기</button></span>
-                                <span class="close-modal-button__box"><button id="cancel" class="close-modal-channel">취소</button></span>
                             </div>
                         </form>
+                        <div class="box__input__invite">
+                            <span class="close-modal-button__box"><button id="cancel" class="close-modal-channel">취소</button></span>
+                        </div>
                     </div>
                 </div>
 
@@ -150,9 +156,9 @@
 
                     const reqApi = async () => {
                         try {
-                            const clientId = document.getElementById('clientId').value;
-                            console.log('clientId: ', clientId);
-                            const response = await fetch('http://localhost:8080/v1/user/userInfo/' + clientId, {
+                            const name = document.getElementById('clientId').value;
+                            
+                            const response = await fetch('http://localhost:8080/v1/user/userInfo/' + name, {
                                 method: 'GET',
                                 headers: {
                                     'Content-Type': 'application/json'
@@ -173,20 +179,19 @@
 
                                 console.log(resultModal);
                                 msg.style.color = 'red';
-                                msg.textContent = data.msg;
+                                msg.textContent = data.error.message;
 
                                 const form = document.getElementById('form');
                                 console.log(form)
                                 resultModal.removeChild(form);
                             } else {
-
                                 const msg = document.getElementById('msg');
                                 msg.style.color = 'black';
-                                msg.textContent = data.msg;
+                                msg.textContent = `${data.user.name}님을 찾았습니다.`;
 
                                 console.log(document.getElementById('matchedClientId'));
                                 const h1 = document.createElement('h1');
-                                h1.textContent = data.user.clientId;
+                                h1.textContent = data.user.name;
                                 document.getElementById('matchedClientId').appendChild(h1);
 
                                 const img = document.createElement('img');
@@ -198,18 +203,15 @@
                                 console.log(invitedUserId);
 
                                 const form = document.getElementById('form');
-                                const channelId = document.location.href.split('/')[5];
-                                console.log('form: ', form);
+                                const channelId = window.location.href.split('/')[4];
+                                console.log('channelId: ', channelId);
                                 // 요청 보낼 라우트 세팅
                                 form.setAttribute('action', '/client/channel/invite/' + channelId);
 
                                 console.log('프로필 로딩 완료!!!');
                             }
-
                         } catch (err) {
-                            if (!err.statusCode) {
-                                err.statusCode = 500;
-                            }
+                            throw err;
                         }
                     }
 

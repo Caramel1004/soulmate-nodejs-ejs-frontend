@@ -24,12 +24,12 @@
                     <input type="search" id="search" placeholder="원하는 채널을 검색하세요.">
                     <button id="btn__search"> 검색 </button>
                 </div>
-                <div id="thema001">
+                <div id="tab-box">
                     <% for(let category of staticCategoryList) { %>
                         <a class="type" href="/wishchannels?searchWord=<%= category.keyword %>"><%= category.name %></a>
                     <% } %>
                 </div>
-                <div id="thema001">
+                <div id="title">
                     🥰 <span class="client-name"><%= clientName %></span> 님이 만든 채널 | 그이상의 소통을 만들어 보세요
                 </div>
                 <%if(channelList.length > 0) { %>
@@ -42,9 +42,9 @@
                                 </div>
                                 <div class="card">
                                     <div class="box-member">
-                                        <% for(let member of channel.members) { %>
+                                        <!-- <% for(let member of channel.members) { %>
                                             <img src="<%= member.photo %>">
-                                        <% } %>
+                                        <% } %> -->
                                         <h5><%= channel.members.length %>명의 크루</h5>
                                     </div>
                                 </div>

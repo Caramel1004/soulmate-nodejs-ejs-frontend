@@ -7,6 +7,7 @@ import multer from 'multer';
 
 import socketClient from './socket-client.js';
 import { errorType } from './util/status.js';
+import { errorHandler } from './error/error.js'
 
 import authRoutes from './routes/auth.js'
 import viewRoutes from './routes/view.js'
@@ -53,14 +54,17 @@ app.use(async (req, res, next) => {
 // 오류 처리
 app.use((error, req, res, next) => {
     console.log('미들웨어 함수 진입.... throw 된 에러: ', error);
+    let path;
     if(!error.statusCode) {
         error = errorHandler(error);
     }
     
+    if(error.statusCode == 401) {
+        res.redirect('/logout');
+    }
     res.status(error.statusCode || 500).render('error404',{
         error: error
     });
-    next();
 });
 
 // 웹 소켓 클라이언트

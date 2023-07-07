@@ -1,4 +1,5 @@
 import { errorType } from '../util/status.js';
+import { AuthorizationTokenError, VerificationTokenError, NotFoundDataError, ValidationError } from '../error/error.js'
 
 export function accessAuthorizedToken(req, res, next) {
     const token = req.cookies.token;
@@ -8,4 +9,14 @@ export function accessAuthorizedToken(req, res, next) {
         next();
     }
 }
+
+export function hasError(error) {
+    if(error) {
+        console.log(error);
+        throw error;    
+    }
+    return '에러가 없습니다.';
+}
+
+
 

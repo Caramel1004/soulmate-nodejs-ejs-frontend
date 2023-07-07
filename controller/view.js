@@ -4,6 +4,8 @@ import channelService from '../service/channel.js'
 import viewAPI from '../API/view.js';
 import fetch from 'node-fetch';
 import { getCategoryData } from '../service/static-data.js';
+import chatService from '../service/chat.js';
+import { hasError } from '../validator/valid.js';
 
 /**
  * 1. 메인 페이지 == 오픈 채널 목록 페이지
@@ -20,7 +22,7 @@ const viewController = {
     // 1. 메인 페이지 ==  생성된 오픈 채널 목록 페이지
     getMainPage: async (req, res, next) => {
         try {
-            const resData = await channelService.getOpenChannelList();
+            const resData = await channelService.getOpenChannelList(next);
 
             const channelList = resData.channels;
             // const status = resData.status;
@@ -80,7 +82,7 @@ const viewController = {
             const resData = await channelService.getChannelListByUserId(jsonWebToken, req.query.searchWord, next);
             const staticData = await getCategoryData(next);
 
-            const state = 'off';
+            hasError(resData.error);
 
             //나의 채널 목록 페이지 렌더링
             res.status(resData.status.code).render('channel/mychannel', {
@@ -91,7 +93,7 @@ const viewController = {
                 staticCategoryList: staticData.category,
                 channelList: resData.channels,
                 chatRooms: null,
-                state: state
+                state: 'off'
             });
         } catch (err) {
             next(err);
@@ -156,7 +158,7 @@ const viewController = {
             const state = 'on';
             // 2. 해당 채널 렌더링
             res.status(chatRoomListData.status.code).render('channel/enter-channel-profile', {
-                path: '/mychannels/:channelId',
+                path: '/mychannel/:channelId',
                 title: matchedChannel.channelName,
                 clientName: req.cookies.clientName,
                 photo: req.cookies.photo,
@@ -167,7 +169,35 @@ const viewController = {
         } catch (err) {
             next(err);
         }
-    }
+    },
+    // 7. 채팅방 입장 -> 채팅방 페이지
+    getEnterChatRoomPage: async (req, res, next) => {
+        try {
+            const jsonWebToken = req.cookies.token;
+            const channelId = req.params.channelId;
+            const chatRoomId = req.params.chatRoomId;
+
+            const chatRoomData = await chatService.getLoadChatRoom(jsonWebToken, channelId, chatRoomId, next);
+            const chatRoomListData = await channelService.getChatRoomList(jsonWebToken, channelId, next);
+            console.log('chatRoomData: ',chatRoomData)
+            // console.log(`channelId: ${channelId}, chatRoomId: ${chatRoomId}`);
+
+            res.status(chatRoomListData.status.code).render('chat/chat-board', {
+                path: '채팅방',
+                title: chatRoomData.chatRoom.roomName,
+                clientName: req.cookies.clientName,
+                photo: req.cookies.photo,
+                chatRooms: chatRoomListData.chatRooms,
+                chats: chatRoomData.chatRoom.chats,
+                members: chatRoomData.chatRoom.users,
+                channel: { _id: channelId },
+                chatRoomId: chatRoomData.chatRoom._id,
+                state: 'on'
+            });
+        } catch (err) {
+            next(err);
+        }
+    },
 }
 
 export default viewController;

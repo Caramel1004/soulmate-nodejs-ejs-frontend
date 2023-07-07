@@ -2,13 +2,13 @@
     <a class="menu__a-wrapper" href="/" id="/">오픈 채널</a>
     <a class="menu__a-wrapper" href="/myprofile" id="myprofile">내 프로필 관리</a>
     <a class="menu__a-wrapper" href="/mychannels?searchWord=all" id="mychannels">내 채널</a>
-    <a class="menu__a-wrapper" href="#">알림</a>
+    <!-- <a class="menu__a-wrapper" href="#">알림</a> -->
     <% if(state === 'off') { %>
         <a class="menu__a-wrapper" href="/channel" id="channel"><span> + </span> 채널 추가 </a>
         <a class="menu__a-wrapper" href="/wishchannels?searchWord=all" id="wishchannels">관심 채널</a>
         <a class="menu__a-wrapper" href="/">소울메이트 가이드</a>
         <% } else { %>
-            <a class="menu__a-wrapper" href="/client/mychannels/<%= channel._id %>"> 멤버 확인 </a>
+            <a class="menu__a-wrapper" href="/mychannel/<%= channel._id %>" id="mychannel"> 채널 정보 </a>
             <div class="menu__div-wrapper">
                 <div class="title">
                     # 워크스페이스 -> 토글버튼
@@ -40,7 +40,7 @@
             </div>
             <% for(let room of chatRooms) { %>
                 <div class="item">
-                    <a href="/client/chat/<%= room.channelId %>/<%= room._id %>"><%= room.roomName %></a>
+                    <a href="/channel/chat/<%= room.channelId %>/<%= room._id %>"><%= room.roomName %></a>
                 </div>
             <% } %>
         </div>
@@ -67,4 +67,4 @@
             </div>
         </div>
     <% } %> 
-</div>
+</div>  
