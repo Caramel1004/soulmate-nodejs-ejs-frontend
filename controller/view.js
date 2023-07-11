@@ -120,6 +120,9 @@ const viewController = {
     getMyWishChannelListPage: async (req, res, next) => {
         try {
             const resData = await channelService.getMyWishChannelList(req.cookies.token, req.query.searchWord, next);// 관심 채널 리스트
+
+            hasError(resData.error);
+
             const staticData = await getCategoryData(next);// 서버 정적 데이터: 카테고리 목록
 
             res.status(resData.status.code).render('channel/mywishchannels', {
@@ -144,13 +147,14 @@ const viewController = {
 
             // 1. 해당 채널아이디 보내주고 해당 채널 입장 요청
             const channelDetailData = await channelService.getChannelDetailByChannelId(jsonWebToken, channelId, next);
-
+            hasError(channelDetailData.error);
             const matchedChannel = channelDetailData.channel;
 
             console.log('matchedChannel: ', matchedChannel);
 
             // 2. 채팅방 목록 요청
             const chatRoomListData = await channelService.getChatRoomList(jsonWebToken, channelId, next);
+            hasError(chatRoomListData.error);
 
             const matchedChatRoomList = chatRoomListData.chatRooms;//동기화 해줘야해!!
 
@@ -178,7 +182,10 @@ const viewController = {
             const chatRoomId = req.params.chatRoomId;
 
             const chatRoomData = await chatService.getLoadChatRoom(jsonWebToken, channelId, chatRoomId, next);
+            hasError(chatRoomData.error);
+            
             const chatRoomListData = await channelService.getChatRoomList(jsonWebToken, channelId, next);
+            hasError(chatRoomData.error);
             console.log('chatRoomData: ',chatRoomData)
             // console.log(`channelId: ${channelId}, chatRoomId: ${chatRoomId}`);
 

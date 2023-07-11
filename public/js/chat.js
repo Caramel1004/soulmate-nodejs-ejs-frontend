@@ -211,11 +211,16 @@ const toggleButton = type => {
 const onClickLoadUsersInChannel = async event => {
     const url = window.location.href;
     const channelId = url.split('/')[5];
+    const chatRoomId = url.split('/')[6];
+
     const response = await fetch('http://localhost:8080/v1/chat/channel-members/' + channelId, {
-        method: 'GET',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify({
+            chatRoomId: chatRoomId
+        })
     });
     const data = await response.json();
     console.log('data: ', data);
@@ -239,32 +244,38 @@ const onClickLoadUsersInChannel = async event => {
         const clientNameTag = document.createElement('a');
         clientNameTag.textContent = user.name;
         clientNameTag.setAttribute('href', '#');
+        
+        if (!user.exist) {
+            // 체크 박스 생성 + 라벨
+            const checkBox = document.createElement('input');
+            // checkBox.classList.add('check-box');
+            checkBox.setAttribute('type', 'checkbox');
+            checkBox.setAttribute('id', 'users');
+            checkBox.setAttribute('name', 'users');
+            checkBox.setAttribute('value', JSON.stringify({
+                _id: user._id,
+                photo: user.photo,
+                name: user.name
+            }));
 
-        // 체크 박스 생성 + 라벨
-        const checkBox = document.createElement('input');
-        // checkBox.classList.add('check-box');
-        checkBox.setAttribute('type', 'checkbox');
-        checkBox.setAttribute('id', 'users');
-        checkBox.setAttribute('name', 'users');
-        checkBox.setAttribute('value', JSON.stringify({
-            _id: user._id,
-            photo: user.photo,
-            name: user.name
-        }));
+            checkBox.setAttribute('onclick', 'onClickCheckBox(event)');
 
-        checkBox.setAttribute('onclick', 'onClickCheckBox(event)');
-
-        const label = document.createElement('label');
-        label.setAttribute('for', 'users');
-        label.appendChild(checkBox);
-        const circle = document.createElement('div');
-        circle.setAttribute('class', 'checkbox');
-        label.appendChild(circle);
-
-        // 완성된 박스
-        infoBox.appendChild(img);
-        infoBox.appendChild(clientNameTag);
-        infoBox.appendChild(label);
+            const label = document.createElement('label');
+            label.setAttribute('for', 'users');
+            label.appendChild(checkBox);
+            const circle = document.createElement('div');
+            circle.setAttribute('class', 'checkbox');
+            label.appendChild(circle);
+            // 완성된 박스
+            infoBox.appendChild(img);
+            infoBox.appendChild(clientNameTag);
+            infoBox.appendChild(label);
+        } else {
+            img.style.opacity = 0.5;
+            clientNameTag.style.opacity = 0.5;
+            infoBox.appendChild(img);
+            infoBox.appendChild(clientNameTag);
+        }
 
         //부모 태그에 어펜드
         document.getElementById('form').appendChild(infoBox);
@@ -289,6 +300,8 @@ const onClickCheckBox = event => {
 
     const selectedUser = document.querySelectorAll('input[name="users"]:checked');
     console.log(selectedUser)
+    console.log(`selectedUser: ${JSON.stringify(selectedUser)}`);
+    console.log('selectedUser: ', selectedUser);
     if (selectedUser.length <= 0) {
         parentNode.classList.add('hidden');
         return;

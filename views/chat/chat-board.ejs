@@ -57,6 +57,7 @@
                 </div>
                 <% for(let member of members) { %>
                     <div class="box">
+                        <input type="hidden" name="members" id="members" value="<%= member._id %>">
                         <img src="<%= member.photo %>">
                         <a href="#"><%= member.name %></a>
                     </div>

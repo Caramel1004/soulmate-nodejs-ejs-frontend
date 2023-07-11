@@ -3,6 +3,7 @@ import { FormData, Blob } from 'formdata-node';
 import channelService from '../service/channel.js'
 import chatAPI from '../API/chat.js'
 import chatService from '../service/chat.js';
+import { hasError } from '../validator/valid.js';
 
 /**
  * 1. 채널 생성
@@ -93,7 +94,7 @@ const clientControlller = {
             console.log('channelId: ', channelId);
 
             const data = await channelService.postInviteUserToChannel(jsonWebToken, channelId, invitedUserId, next);
-            console.log('data: ',data);
+            console.log('data: ', data);
             res.redirect('http://localhost:3000/mychannel/' + data.channel._id);
         } catch (err) {
             next(err);
@@ -107,7 +108,7 @@ const clientControlller = {
             const roomName = req.body.roomName;
 
             const data = await channelService.postCreateChatRoom(jsonWebToken, channelId, roomName, next);
-            
+
 
             res.redirect('/channel/chat/' + data.chatRoom.channelId + '/' + data.chatRoom._id);
         } catch (err) {
@@ -121,10 +122,10 @@ const clientControlller = {
             const channelId = req.params.channelId
             const chatRoomId = req.params.chatRoomId;
             const usersJson = req.body.users;
-            const checkedUsersId = [];
+            let checkedUsersId = [];
 
             // console.log('chatRoomId: ',chatRoomId);
-            // console.log(usersJson);
+            console.log(usersJson);
             if (!usersJson) {
                 return res.redirect('http://localhost:3000/client/chat/' + channelId + '/' + chatRoomId);;
             }
@@ -150,7 +151,7 @@ const clientControlller = {
 
             res.redirect('http://localhost:3000/channel/chat/' + channelId + '/' + chatRoomId);
         } catch (err) {
-            throw err;
+            next(err);
         }
     },
     // 6. 실시간 채팅
@@ -162,6 +163,7 @@ const clientControlller = {
             formData.append('chat', req.body.chat);
 
             const data = await chatService.postSendChat(token, req.params.channelId, req.params.chatRoomId, formData, next);
+            hasError(data);
 
             res.status(data.status.code).json({
                 status: data.status
