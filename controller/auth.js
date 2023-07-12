@@ -5,7 +5,8 @@ const authController = {
     getLoginPage: (req, res, next) => {
         res.render('auth/auth', {
             title: '그이상의 소통 | Soulmate',
-            path: '/login'
+            path: '/login',
+            msg: null
         });
     },
     //회원 가입

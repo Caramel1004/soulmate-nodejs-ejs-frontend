@@ -12,6 +12,7 @@ import { errorHandler } from './error/error.js'
 import authRoutes from './routes/auth.js'
 import viewRoutes from './routes/view.js'
 import clientRoutes from './routes/client.js'
+import { validationResult } from 'express-validator';
 
 const app = express();
 
@@ -62,6 +63,7 @@ app.use((error, req, res, next) => {
     if(error.statusCode == 401) {
         res.redirect('/logout');
     }
+
     res.status(error.statusCode || 500).render('error404',{
         error: error
     });

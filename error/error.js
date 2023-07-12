@@ -21,8 +21,8 @@ export class NotFoundDataError extends NotFoundError {
 export class ValidationError extends NotFoundError {
     constructor(message) {
         super(message);
-        this.statusCode = errorType.E04.e404.code;
-        this.status = errorType.E04.e404.status;
+        this.statusCode = errorType.E04.e422.code;
+        this.status = errorType.E04.e422.status;
         this.name = 'ValidationError'
     }
 }

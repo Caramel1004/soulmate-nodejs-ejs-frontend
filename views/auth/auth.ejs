@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
     <link rel="stylesheet" href="/css/auth.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+    <script src="https://apis.google.com/js/api:client.js"></script>
     <link rel="shortcut icon" type="image/x-icon" href="/images/스크린샷 2023-06-19 오후 5.08.53.png">
 </head>
 <body>
@@ -21,13 +23,21 @@
             <!-- <div class="input-box">
                 <a href="/"><img src="/images/KakaoTalk_Photo_2023-06-12-23-08-29.jpeg"></a>
             </div> -->
+            <!-- <div id="gSignInWrapper">
+                <div id="google" class="customGPlusSignIn">
+                  <span class="icon"></span>
+                  <span class="buttonText">Google</span>
+                </div>
+            </div> -->
+            <div id="name"></div>
+            <div class="input-box" id="google">
+                구글
+            </div>
             <div class="input-box">
                 <img src="/images/kakao-login-button.png">
-                <!-- <button type="submit"> 로그인</button> -->
             </div>
             <div class="input-box">
                 <img src="/images/naver-login-button.png" class="btn__login">
-                <!-- <button type="submit"> 로그인</button> -->
             </div>
             <div class="input-box">
                 <p>or</p>
@@ -46,9 +56,9 @@
                 <div class="input-box">
                     <button class="open-sign-form">회원가입</button>
                 </div>
-                <!-- <div class="input-box">
+                <div class="input-box">
                     <span>아이디 찾기</span><span>|</span><span>비밀번호 찾기</span>
-                </div> -->
+                </div>
         </div>
     </div>
     <div class="signup-form hidden">
@@ -62,6 +72,7 @@
             <form action="/signup" method="post">
                 <div class="input-box">
                     <input type="text" name="email" placeholder="이메일">
+                    <h1><%= msg %></h1>
                 </div>
                 <div class="input-box">
                     <input type="password" name="password" placeholder="비밀번호">
@@ -89,5 +100,6 @@
         </div>
     </div>
     <script src="/js/auth.js"></script>
+    <script src="https://apis.google.com/js/api:client.js"></script>
 </body>
 </html>
