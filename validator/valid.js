@@ -2,38 +2,42 @@ import { errorType } from '../util/status.js';
 import { AuthorizationTokenError, VerificationTokenError, NotFoundDataError, ValidationError } from '../error/error.js'
 import { validationResult, body } from 'express-validator';
 
-// 유효성 검사 함수
-const validResult = async (req, res, next) => {
+// 결과 처리
+const validResult = (req, res, next) => {
     try {
-        // Result {
-        //     formatter: [Function: formatter],
-        //     errors: [
-        //       {
-        //         type: 'field',
-        //         value: '',
-        //         msg: '이메일을 입력하세요.',
-        //         path: 'email',
-        //         location: 'body'
-        //       }
-        //     ]
-        //   }
+        /*
+        결과 값
+        Result {
+            formatter: [Function: formatter],
+            errors: [
+              {
+                type: 'field',
+                value: '',
+                msg: '이메일을 입력하세요.',
+                path: 'email',
+                location: 'body'
+              }
+            ]
+          }
+         */
         const errors = validationResult(req).errors[0];
-        // 유효성 검사
-        if (!errors) {
-           throw errors;
+
+        // 에러 존재하면 바로 쓰루
+        if (errors) {
+            throw errors;
         }
         next();
-    } catch (err) {
-        console.log('err: ', err)
+    } catch (error) {
         res.render('auth/auth', {
             title: '그이상의 소통 | Soulmate',
             path: '/login',
-            msg: err.msg
+            valid: error,
+            error: null
         });
-        next(err);
     }
 }
 
+// 인증 토큰 검사(JWT)
 export function accessAuthorizedToken(req, res, next) {
     const token = req.cookies.token;
     if (!token) {
@@ -43,6 +47,7 @@ export function accessAuthorizedToken(req, res, next) {
     }
 }
 
+// 에러 검사
 export function hasError(error) {
     if (error) {
         console.log(error);
@@ -51,35 +56,10 @@ export function hasError(error) {
     return '에러가 없습니다.';
 }
 
-// 사용자 추가 유효성 검사
-export const checkValidUser = [
-    body('email').isEmail().withMessage('이메일이 유효하지 않습니다.')
-        .custom((email, { req }) => {
-            console.log('value : ', email);
-            return User.findOne({ email: email })
-                .then(userInfo => {
-                    if (userInfo) {
-                        return Promise.reject('이미 이메일이 존재 합니다.');
-                    }
-                })
-                .catch(err => {
-                    if (!err.statusCode) {
-                        err.statusCode = 422;
-                        throw err;
-                    } else {
-                        next(err);
-                    }
-                })
-        })
-        .normalizeEmail(),
-    body('name').trim().isLength({ min: 5 }),
-    body('password').trim().isLength({ min: 5 }),
-    validResult
-]
-
+// 이메일 비밀번호 데이터 있는지 체크
 export const checkValidEmailAndPassWord = [
-    body('email').isEmail().withMessage('이메일을 입력하세요.').normalizeEmail(),
-    body('password').isEmpty().withMessage('비밀번호를 입력하세요.'),
+    body('email').isEmail().withMessage('이메일을 입력하세요.'),
+    body('password').trim().isLength({ min: 1 }).withMessage('비밀번호를 입력하세요.'),
     validResult
 ]
 

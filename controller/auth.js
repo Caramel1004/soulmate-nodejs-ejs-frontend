@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import { hasError } from '../validator/valid.js';
 
 const authController = {
     // 로그인 페이지 렌더링
@@ -6,7 +7,8 @@ const authController = {
         res.render('auth/auth', {
             title: '그이상의 소통 | Soulmate',
             path: '/login',
-            msg: null
+            valid: null,
+            error: null
         });
     },
     //회원 가입
@@ -59,6 +61,7 @@ const authController = {
             });
 
             const data = await response.json();
+            hasError(data.error);
 
             // app.locals
             // 자바스크립트 객체이고, 프로퍼티들은 애플리케이션 내의 지역 변수들이다. 

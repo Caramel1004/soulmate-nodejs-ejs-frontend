@@ -55,11 +55,19 @@ app.use(async (req, res, next) => {
 // 오류 처리
 app.use((error, req, res, next) => {
     console.log('미들웨어 함수 진입.... throw 된 에러: ', error);
-    let path;
     if(!error.statusCode) {
         error = errorHandler(error);
     }
     
+    if(error.statusCode == 404) {
+        res.render('auth/auth', {
+            title: '그이상의 소통 | Soulmate',
+            path: '/login',
+            valid: null,
+            error: error
+        });
+    }
+
     if(error.statusCode == 401) {
         res.redirect('/logout');
     }

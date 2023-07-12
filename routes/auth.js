@@ -5,6 +5,7 @@ import { checkValidEmailAndPassWord } from '../validator/valid.js'
 
 const router = Router();
 
+
 // GET /login
 router.get('/login', authController.getLoginPage);// 로그인 페이지 렌더링
 

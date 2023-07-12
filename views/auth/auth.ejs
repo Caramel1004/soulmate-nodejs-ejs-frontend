@@ -45,12 +45,15 @@
             <form action="/login" method="post">
                 <div class="input-box">
                     <input type="text" name="email" placeholder="이메일">
+                    <% if(valid) { %><% if(valid.path === 'email') { %><p id="valid"><%= valid.msg %></p><% } %><% } %>
                 </div>
                 <div class="input-box">
                     <input type="password" name="password" placeholder="비밀번호">
+                    <% if(valid) { %><% if(valid.path === 'password') { %><p id="valid"><%= valid.msg %></p><% } %><% } %>
                 </div>
                 <div class="input-box">
                    <button type="submit"> 로그인</button>
+                   <% if(error) { %><p id="valid"><%= error.message %></p><% } %>
                 </div>
             </form>
                 <div class="input-box">
@@ -72,7 +75,6 @@
             <form action="/signup" method="post">
                 <div class="input-box">
                     <input type="text" name="email" placeholder="이메일">
-                    <h1><%= msg %></h1>
                 </div>
                 <div class="input-box">
                     <input type="password" name="password" placeholder="비밀번호">

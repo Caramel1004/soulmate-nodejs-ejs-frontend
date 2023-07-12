@@ -202,7 +202,14 @@ body {
     cursor: pointer;
 }
 
-/* 버튼 커스텀 */
+#valid {
+    font-size: 13px;
+    color: red;
+    text-align: left;
+}
+
+
+/* 구글 버튼 커스텀 */
 #google {
     display: inline-block;
     background: white;

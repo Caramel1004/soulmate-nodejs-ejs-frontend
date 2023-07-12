@@ -30,7 +30,6 @@ const clientControlller = {
             const contents = req.body.contents;// 채널 멘트
             const open = req.body.open;
 
-            console.log('category: ', category);
             const response = await fetch('http://localhost:8080/v1/channel/create', {
                 method: 'POST',
                 headers: {
@@ -46,12 +45,10 @@ const clientControlller = {
                 })
             });
 
-            const resData = await response.json();
-
-            // console.log(resData);
+            const data = await response.json();
+            hasError(data);
 
             res.redirect('/mychannels?searchWord=all');
-
         } catch (err) {
             next(err);
         }
@@ -74,12 +71,10 @@ const clientControlller = {
             });
 
             const data = await response.json();
-            res.redirect('http://localhost:3000/client/mychannels');
+            hasError(data);
 
+            res.redirect('http://localhost:3000/client/mychannels');
         } catch (err) {
-            if (!err.statusCode) {
-                err.statusCode = 500;
-            }
             next(err);
         }
     },
@@ -94,7 +89,8 @@ const clientControlller = {
             console.log('channelId: ', channelId);
 
             const data = await channelService.postInviteUserToChannel(jsonWebToken, channelId, invitedUserId, next);
-            console.log('data: ', data);
+            hasError(data);
+            
             res.redirect('http://localhost:3000/mychannel/' + data.channel._id);
         } catch (err) {
             next(err);
@@ -108,7 +104,7 @@ const clientControlller = {
             const roomName = req.body.roomName;
 
             const data = await channelService.postCreateChatRoom(jsonWebToken, channelId, roomName, next);
-
+            hasError(data);
 
             res.redirect('/channel/chat/' + data.chatRoom.channelId + '/' + data.chatRoom._id);
         } catch (err) {
@@ -148,6 +144,7 @@ const clientControlller = {
             // console.log(checkedUsersId);
 
             const data = await chatAPI.postInviteUsersToChatRoom(jsonWebToken, body, channelId, chatRoomId, next);
+            hasError(data);
 
             res.redirect('http://localhost:3000/channel/chat/' + channelId + '/' + chatRoomId);
         } catch (err) {
