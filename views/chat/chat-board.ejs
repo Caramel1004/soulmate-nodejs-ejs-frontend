@@ -16,7 +16,7 @@
         <div class="board-chat">
             <div class="board-chat__box-history">
                 <% if(chats.length > 0) { %>
-                    <div class="date">2023년 5월 29일 월요일</div>
+                    <div class="date"><%= currentDate %></div>
                     <% for(let chatDetail of chats) { %>
                         <div class="board-chat__unit-chat-box">
                             <div class="board-chat__unit-chat-img">
@@ -26,8 +26,8 @@
                                 <div class="client-name"><%= chatDetail.creator.name %></div>
                                 <div class="board-chat__unit-chat"><%= chatDetail.chat %></div>
                             </div>
-                            <div class="chat">
-                                <div class="chat-date"><%= chatDetail.createdAt %></div>
+                            <div class="chat-date">
+                                <%= chatDetail.fomatDate %>
                             </div>
                         </div>
                     <% } %> 
@@ -104,23 +104,40 @@
             console.log('스크립트 소켓 가동 중!!!');
 
             const formatter = createdAt => {
+                let year = new Date(createdAt).getFullYear();
+                let month = new Date(createdAt).getMonth() + 1;
+                let day = new Date(createdAt).getDate();
                 const timestamp = new Date(createdAt).toTimeString().split(' ')[0];//ex)09:51:35 GMT+0900 (한국 표준시)
-                
+
                 let hour = parseInt(timestamp.split(':')[0]);
 
-                const when = hour >= 12? '오후' : '오전';
+                const when = hour >= 12 ? '오후' : '오전';
 
-                if(when === '오후'){
+                if(month < 10) {
+                    month = '0' + month;
+                }else if(month > 12) {
+                    month = '0' + 1;
+                }
+
+                if(day < 10) {
+                    day = '0' + day
+                }
+                if (when === '오후') {
                     hour %= 12;
                 }
-                
+
                 const min = timestamp.split(':')[1];
 
-                console.log(hour);
-                return when + ' ' + hour + ':' + min;
+                const fomatDate = `${year}-${month}-${day}  ${when} ${hour}:${min}`;
+
+                return fomatDate;
             }
 
             const createUnitChatTag = async data => {
+                // 제일 큰 유닛 박스
+                const chatUnitBox = document.createElement('div');
+                chatUnitBox.classList.add('board-chat__unit-chat-box');
+
                 // 이미지 박스
                 const imgBox = document.createElement('div');
                 const img = document.createElement('img');
@@ -156,10 +173,6 @@
                 time.textContent = formatedTime;
                 timeBox.appendChild(time);
                 console.log('timeBox: ', timeBox);
-
-                // 제일 큰 유닛 박스
-                const chatUnitBox = document.createElement('div');
-                chatUnitBox.classList.add('board-chat__unit-chat-box');
 
                 chatUnitBox.appendChild(imgBox);
                 chatUnitBox.appendChild(chatBox);

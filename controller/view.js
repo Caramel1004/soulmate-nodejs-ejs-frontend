@@ -186,12 +186,13 @@ const viewController = {
             
             const chatRoomListData = await channelService.getChatRoomList(jsonWebToken, channelId, next);
             hasError(chatRoomData.error);
-            console.log('chatRoomData: ',chatRoomData)
+            // console.log('chatRoomData: ',chatRoomData)
             // console.log(`channelId: ${channelId}, chatRoomId: ${chatRoomId}`);
 
             res.status(chatRoomListData.status.code).render('chat/chat-board', {
                 path: '채팅방',
                 title: chatRoomData.chatRoom.roomName,
+                currentDate: `${new Date().getFullYear()}년  ${new Date().getMonth() + 1}월  ${new Date().getDate()}일`,
                 clientName: req.cookies.clientName,
                 photo: req.cookies.photo,
                 chatRooms: chatRoomListData.chatRooms,

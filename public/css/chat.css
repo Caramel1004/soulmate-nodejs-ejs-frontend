@@ -82,8 +82,12 @@ body {
 }
 
 .chat-date {
+    margin-left: 10px;
+    display: flex;
+    align-items: end;
     font-size: 12px;
-    color: rgba(0, 0, 0, 0.26)
+    color: rgba(0, 0, 0, 0.26);
+    /* border: groove black 0.5px; */
 }
 
 /* 단위 채팅 내용 */
@@ -318,14 +322,17 @@ body {
 .date {
     /* margin-left: 160px; */
     padding: 5px;
-    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.26);
+    /* box-shadow: 0 1px 0 rgba(0, 0, 0, 0.26); */
     /* width: auto; */
+    margin-left: -40px;
+    position: fixed;
     display: inline-block;
     text-align: center;
     border-radius: 40px;
     border: 0.1px solid rgb(223, 213, 213);
     background: #ffffff;
     font-weight: bold;
+    opacity: 0.7;
 }
 
 .content {

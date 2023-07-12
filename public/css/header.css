@@ -33,7 +33,7 @@ body {
     letter-spacing: 2px;
     font-weight: bold;
     font-size: 30px;
-    font-family: 'Times New Roman', Times, serif;
+    font-family: 'Roboto';
 }
 
 /* 로고 박스안에 이미지 */
@@ -83,5 +83,6 @@ body {
     font-family: sans-serif;
     background: black;
     border-radius: 20px;
+    opacity: 0.8;
 }
 
