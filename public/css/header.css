@@ -75,13 +75,13 @@ body {
 /* 로그아웃 버튼 => 앵커 태그임 */
 .user-info #btn__log{
     margin-left: 8px;
-    padding: 8px;
+    padding: 4px;
     text-decoration: none;
-    color: black;
+    color: #ffffff;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 10px;
     font-family: sans-serif;
-    background: #ffffff;
+    background: black;
     border-radius: 20px;
 }
 

@@ -12,6 +12,7 @@ body {
     position: fixed;
     border-top: 1px groove rgb(214, 211, 211);
     background: rgb(243, 243, 246);
+    opacity: 0.9;
 }
 
 #menu:hover,
