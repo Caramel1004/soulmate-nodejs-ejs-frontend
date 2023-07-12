@@ -14,9 +14,10 @@
         <%- include('../includes/loading.ejs') %>
         <div id="myprofile-container">
             <div class="myprofile">
-                <h1><%= myProfile.clientId %></h1>
-                <h1><%= myProfile.name %></h1>
-                <img src=<%= myProfile.photo %>>
+                <div class="card">
+                    <img src=<%= myProfile.photo %>>
+                    <h1><%= myProfile.name %></h1>
+                </div>
             </div>
         </div>		
         <%- include('../includes/script.ejs') %>
