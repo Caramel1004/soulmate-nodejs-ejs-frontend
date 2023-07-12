@@ -11,11 +11,14 @@ function init() {
 const postUploadFileToChatRoom = async () => {
     console.log('tag 생성!!!');
     try {
+        const file = document.getElementById('file').files[0];
+        if(!file) {
+            return;
+        }
         const url = window.location.href;
 
         const channelId = url.split('/')[5];
         const chatRoomId = url.split('/')[6];
-        const file = document.getElementById('file').files[0];
         console.log('channelId : ', channelId);
         console.log('chatRoomId : ', chatRoomId);
         console.log('file : ', file);
@@ -36,11 +39,15 @@ const postUploadFileToChatRoom = async () => {
 const postSendChat = async () => {
     console.log('tag 생성!!!');
     try {
+        const content = document.getElementById('content').value;
+        if(content == ""){
+            return;
+        }
+
         const url = window.location.href;
 
         const channelId = url.split('/')[5];
         const chatRoomId = url.split('/')[6];
-        const content = document.getElementById('content').value;
         const replaceContent = content.replace('\r\n', '<br>');
         console.log('channelId : ', channelId);
         console.log('chatRoomId : ', chatRoomId);
@@ -207,7 +214,7 @@ const toggleButton = type => {
     }
 }
 
-// 팀원 추가 버튼(채널에 속한 유저 정보 가져오기)
+// 팀원 추가 버튼 -> 채널 팀원 목록 보드 활성화 -> 채널에 속한 유저 정보 가져오기
 const onClickLoadUsersInChannel = async event => {
     const url = window.location.href;
     const channelId = url.split('/')[5];
@@ -229,6 +236,10 @@ const onClickLoadUsersInChannel = async event => {
     document.querySelector('.box__btn-toggle').classList.add('hidden');
     document.querySelector('.board-user').classList.add('hidden');
     document.querySelector('.board-channel-user-list').classList.remove('hidden');
+
+    // 선택 유저가 없으므로 초대 버튼 비활성화, 텍스트 투명
+    btnDeactivation('add-member');
+    document.getElementById('span__text').style.opacity = 0.3;
 
     for (let user of data.users) {
         // 인포 박스
@@ -257,7 +268,6 @@ const onClickLoadUsersInChannel = async event => {
                 photo: user.photo,
                 name: user.name
             }));
-
             checkBox.setAttribute('onclick', 'onClickCheckBox(event)');
 
             const label = document.createElement('label');
@@ -304,6 +314,9 @@ const onClickCheckBox = event => {
     console.log('selectedUser: ', selectedUser);
     if (selectedUser.length <= 0) {
         parentNode.classList.add('hidden');
+        // 버튼 비활성화
+        btnDeactivation('add-member');
+        document.getElementById('span__text').style.opacity = 0.3;
         return;
     }
 
@@ -315,20 +328,23 @@ const onClickCheckBox = event => {
         document.querySelector('.box__div-select-push').classList.remove('hidden');
 
         const div = document.createElement('div');
-        div.setAttribute('id', 'item');
-        div.setAttribute('class', 'item');
+        div.setAttribute('id', 'select-user');
+        div.setAttribute('class', 'select-user');
 
         const img = document.createElement('img');
         img.setAttribute('src', user.photo);
 
-        const b = document.createElement('b');
-        b.textContent = user.name;
+        const p = document.createElement('p');
+        p.textContent = user.name;
 
         div.appendChild(img);
-        div.appendChild(b);
+        div.appendChild(p);
 
         document.querySelector('.box__div-select-push').appendChild(div);
     });
+    // 버튼 활성화
+    btnActivation('add-member');
+    document.getElementById('span__text').style.opacity = 1;
 }
 
 // 팀원 추가 보드 나가기
@@ -344,8 +360,10 @@ const onClickExitUsers = event => {
     const btn = document.createElement('button');
     btn.setAttribute('type', 'submit');
     btn.setAttribute('class', 'btn__add-member');
+    btn.setAttribute('id', 'add-member');
     btn.textContent = ' + ';
     const span = document.createElement('span');
+    span.id = 'span__text'
     span.textContent = '초대하기';
 
     div.appendChild(btn);
@@ -367,8 +385,28 @@ const onClickExitUsers = event => {
     //     console.log(box);
     // }
 
+    btnDeactivation('add-member');
+    document.getElementById('span__text').style.opacity = 0.3;
     document.querySelector('.box__btn-toggle').classList.remove('hidden');
     document.querySelector('.board-user').classList.remove('hidden');
     document.querySelector('.board-channel-user-list').classList.add('hidden');
     pushedBox.classList.add('hidden');
+}
+
+const btnDeactivation = id => {
+    const tag = document.getElementById(id);
+
+    // 선택 유저가 없으므로 초대 버튼 비활성화, 텍스트 투명
+    tag.disabled = true;
+    tag.style.opacity = 0.3;
+    tag.style.cursor = 'default';
+}
+
+const btnActivation = id => {
+    const tag = document.getElementById(id);
+
+    // 선택된 유저가 있으면 초대 버튼 활성화, 텍스트 visable
+    tag.disabled = false;
+    tag.style.opacity = 1;
+    tag.style.cursor = 'pointer';
 }

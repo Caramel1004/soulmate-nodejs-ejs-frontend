@@ -68,6 +68,7 @@ body {
     width: 50px;
     height: 50px;
     border-radius: 1rem;
+    cursor: pointer;
 }
 
 .chat {
@@ -267,6 +268,7 @@ body {
     height: 50px;
     /* border: 1px groove rgb(157, 153, 153); */
     border-radius: 20px;
+    cursor: pointer;
 }
 
 .number {
@@ -276,15 +278,16 @@ body {
 }
 
 .box {
-    padding: 20px;
+    padding: 10px;
+    padding-left: 23px;
     display: flex;
     align-items: center;
     /* border: groove; */
 }
 
 .box a {
-    padding-left: 15px;
-    font-size: 20px;
+    padding-left: 20px;
+    font-size: 16px;
     text-decoration: none;
     color: rgb(73, 71, 71);
     font-weight: bolder;
@@ -360,11 +363,23 @@ body {
 }
 
 .box__div-select-push {
+    padding: 5px;
+    padding-left: 15px;
     width: 100%;
-    height: 12vh;
     display: flex;
-    box-shadow: 0 0 7px rgba(0, 0, 0, 0.26);
-    /* border-bottom: 1px solid rgb(169, 156, 156); */
+    align-items: center;
+    vertical-align: center;
+    font-size: 13px;
+    font-weight: lighter;
+    /* box-shadow: 0 0 7px rgba(0, 0, 0, 0.26); */
+    border: 1px 1px groove rgb(169, 156, 156);
+}
+
+.select-user {
+    padding: 5px;
+    text-align: center;
+    cursor: pointer;
+    /* border: 1px groove rgb(169, 156, 156); */
 }
 
 .box__div-select-push.hidden {
@@ -376,6 +391,7 @@ body {
     height: 50px;
     border: 1px groove rgb(157, 153, 153);
     border-radius: 50px;
+    cursor: pointer;
 }
 
 .box label {
@@ -393,7 +409,7 @@ body {
     height: 20px;
     border: 1px solid #c2b7b7;
     box-sizing: border-box;
-    border-radius: 10px;
+    border-radius: 20px;
     /* 모서리둥글게 처리 */
     position: relative;
     top: 4px;
@@ -413,6 +429,7 @@ body {
     width: 30px;
     height: 30px;
     border: #817575;
+    /* display: none; */
 }
 
 .box input[type='checkbox']+label {
@@ -438,6 +455,7 @@ body {
     border-radius: 50px;
     border: #817575;
     float: right;
+    background: red;
 }
 
 .box__top {
@@ -450,6 +468,7 @@ body {
 
 .box__exit {
     padding: 5px;
+    float: right;
 }
 
 .btn__exit {
@@ -473,7 +492,8 @@ body {
 .btn__exit:hover,
 .btn__exit:active {
     color: black;
-    background-color: rgb(234, 212, 179);
+    opacity: 0.5;
+    /* background-color: rgb(234, 212, 179); */
 }
 
 .box__btn__add-member {
