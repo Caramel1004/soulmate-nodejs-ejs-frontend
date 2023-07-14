@@ -36,17 +36,11 @@ body::-webkit-scrollbar-track {
 .div__user-list {
     margin-top: 0;
     padding: 50px;
-    /* height: 88vh; */
     display: block;
-    /* overflow: scroll;
-    overflow-x: hidden; */
-    /* border: 1px groove rgba(0, 0, 0, 0.26); */
 }
 
 #tab-box {
     padding: 5px 12px;
-    font-size: 22px;
-    font-weight: bold;
     /* border: 1px solid black; */
 }
 
@@ -58,6 +52,7 @@ body::-webkit-scrollbar-track {
     border: none;
     font: inherit;
     font-size: 14px;
+    font-weight: bold;
     color: black;
     background: rgb(243, 243, 246);
     border-radius: 15px;
@@ -82,45 +77,6 @@ body::-webkit-scrollbar-track {
     /* border: 1px solid black; */
 }
 
-#box-profile {
-    margin-top: -70px;
-    margin-left: -20px;
-    padding: 0px;
-    padding-left: -15px;
-    display: flex;
-    justify-content: space-evenly;
-     border: 1px solid black;
-}
-
-
-#box-profile img {
-    width: 600px;
-    height: 300px;
-    border: 1px groove rgba(0, 0, 0, 0.26);
-}
-
-#profile-content {
-    padding-top: 15px;
-    padding-left: 15px;
-    display: block;
-    border-radius: 5px;
-    border: 1px groove rgba(0, 0, 0, 0.26);
-}
-.box__div__info {
-    padding: 0;
-    display: flex;
-    /* border: 1px groove rgba(0, 0, 0, 0.26); */
-}
-#profile-content span{
-    padding-right: 30px;
-    color: #999999;
-}
-
-#profile-content h3{
-    margin-top: 0;
-    font-size: 15px;
-    color: #0f0f0f;
-}
 
 #thema002 {
     margin-left: 30px;
@@ -281,7 +237,7 @@ body::-webkit-scrollbar-track {
     border-radius: 5px;
 }
 
-#matchedClientId {
+#matchedClientName {
     color: rgb(212, 78, 21);
 }
 

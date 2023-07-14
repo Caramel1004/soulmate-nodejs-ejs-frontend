@@ -17,7 +17,7 @@
                 Soulmate
             </div> -->
             <div class="input-box">
-               <h1>SOULMATE</h1>
+                <a href="/"><h1>SOULMATE</h1></a>
                <p>소셜 로그인 및 이메일로 가입할 수 있습니다.</p>
             </div>
             <!-- <div class="input-box">
@@ -44,11 +44,11 @@
             </div>
             <form action="/login" method="post">
                 <div class="input-box">
-                    <input type="text" name="email" placeholder="이메일">
+                    <input type="text" name="email" placeholder="이메일" value="<%= inputData.email %>">
                     <% if(valid) { %><% if(valid.path === 'email') { %><p id="valid"><%= valid.msg %></p><% } %><% } %>
                 </div>
                 <div class="input-box">
-                    <input type="password" name="password" placeholder="비밀번호">
+                    <input type="password" name="password" placeholder="비밀번호" value="<%= inputData.password %>">
                     <% if(valid) { %><% if(valid.path === 'password') { %><p id="valid"><%= valid.msg %></p><% } %><% } %>
                 </div>
                 <div class="input-box">
@@ -56,21 +56,25 @@
                    <% if(error) { %><p id="valid"><%= error.message %></p><% } %>
                 </div>
             </form>
-                <div class="input-box">
-                    <button class="open-sign-form">회원가입</button>
-                </div>
-                <div class="input-box">
-                    <span>아이디 찾기</span><span>|</span><span>비밀번호 찾기</span>
-                </div>
+            <div class="input-box">
+                <button class="open-sign-form">회원가입</button>
+            </div>
+            <div class="input-box">
+                <span>아이디 찾기</span><span>|</span><span>비밀번호 찾기</span>
+            </div>
+            <div class="copyright">
+                <p>(c) 2023.SOULMATE.Corp.All rights reserved</p>
+            </div>
         </div>
     </div>
     <div class="signup-form hidden">
         <div class="signup-form__box">
             <div class="input-box">
-                <a class="open-login-form"> x </a>
-            </div>
+                <a href="/"><h1>SOULMATE</h1></a>
+                <p>새로운 사람들과 함께하세요.</p>
+             </div>
             <div class="input-box">
-                <a href="/"><img src="/images/KakaoTalk_Photo_2023-06-12-23-08-29.jpeg"></a>
+                <!-- <a href="/"><img src="/images/KakaoTalk_Photo_2023-06-12-23-08-29.jpeg"></a> -->
             </div>
             <form action="/signup" method="post">
                 <div class="input-box">
@@ -99,6 +103,9 @@
                     <button type="submit">회원가입</button>
                 </div>
             </form>
+            <div class="input-box">
+                <button id="cancel"> 취소 </button>
+            </div>
         </div>
     </div>
     <script src="/js/auth.js"></script>

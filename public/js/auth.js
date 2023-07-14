@@ -17,7 +17,7 @@ const onClickOpenLoginForm = () => {
 
 console.log('로그인 페이지!!!!')
 document.querySelector('.open-sign-form').addEventListener('click', onClickOpenSignupForm);
-document.querySelector('.open-login-form').addEventListener('click', onClickOpenLoginForm);
+document.getElementById('cancel').addEventListener('click', onClickOpenLoginForm);
 
 // 구글 버튼
 const googleUser = {};

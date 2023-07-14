@@ -64,7 +64,11 @@ app.use((error, req, res, next) => {
             title: '그이상의 소통 | Soulmate',
             path: '/login',
             valid: null,
-            error: error
+            error: error,
+            inputData: {
+                email: req.body.email,
+                password: req.body.password
+            }
         });
     }
 
@@ -72,6 +76,9 @@ app.use((error, req, res, next) => {
         res.redirect('/logout');
     }
 
+    if(error.statusCode == 422) {
+        next();
+    }
     res.status(error.statusCode || 500).render('error404',{
         error: error
     });

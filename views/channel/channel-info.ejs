@@ -1,0 +1,53 @@
+<!-- This favicon was generated using the following font:
+
+- Font Title: League Spartan
+- Font Author: Copyright 2020 The League Spartan Project Authors (https://github.com/theleagueof/league-spartan)
+- Font Source: http://fonts.gstatic.com/s/leaguespartan/v11/kJEnBuEW6A0lliaV_m88ja5Twtx8BWhtkDVmjZvM_oTpBMdcFguczA.ttf
+- Font License: SIL Open Font License, 1.1 (http://scripts.sil.org/OFL)) -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('../includes/head.ejs') %>
+    <body>
+        <%- include('../includes/header.ejs') %>
+        <%- include('../includes/menu.ejs') %>
+        <%- include('../includes/loading.ejs') %>
+        <!-- 프로필 영역 -->
+        <div id="channel-profile-container">
+            <div id="box-profile">
+                <div id="tab-box">
+                    <a class="type" id="member" href="/mychannel/<%= channel._id %>?searchWord=member"> 팀원</a>
+                    <a class="type" id="info" href="/mychannel/<%= channel._id %>?searchWord=info"> 정보 </a>
+                </div>
+                <div id="info">
+                    <img src=<%=channel.thumbnail %>>
+                    <h3>채널 정보</h3>
+                    <div class="box__div__info">
+                        <span> 채널 명 </span><span><h3><%= channel.channelName %></h3></span>
+                    </div>
+                    <div class="box__div__info">
+                        <span> 참여 인원 </span><span><h3><%= channel.members.length %> 명</h3></span>
+                    </div>
+                    <div class="box__div__info">
+                        <span> 카테고리 </span><span><h3><%= channel.category %></h3></span>
+                    </div>
+                </div>
+                <div id="profile-content">
+                    <h3>소개 글</h3>
+                    <p><%= channel.content %></p>
+                </div>
+            </div>
+        </div>
+            <div id="div__channel-profile-container">
+            <div class="div__user-list">
+                <div id="box-profile">
+                    <div id="profile-content">
+                        <h3>소개 글</h3>
+                        <p><%= channel.content %></p>
+                    </div>
+                </div>ㄴ
+            </div>
+        </div>		
+        <%- include('../includes/script.ejs') %>
+    </body>
+</html>

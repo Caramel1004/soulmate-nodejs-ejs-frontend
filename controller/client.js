@@ -46,7 +46,7 @@ const clientControlller = {
             });
 
             const data = await response.json();
-            hasError(data);
+            hasError(data.error);
 
             res.redirect('/mychannels?searchWord=all');
         } catch (err) {
@@ -71,7 +71,7 @@ const clientControlller = {
             });
 
             const data = await response.json();
-            hasError(data);
+            hasError(data.error);
 
             res.redirect('http://localhost:3000/client/mychannels');
         } catch (err) {
@@ -89,9 +89,9 @@ const clientControlller = {
             console.log('channelId: ', channelId);
 
             const data = await channelService.postInviteUserToChannel(jsonWebToken, channelId, invitedUserId, next);
-            hasError(data);
+            hasError(data.error);
             
-            res.redirect('http://localhost:3000/mychannel/' + data.channel._id);
+            res.redirect('/mychannel/' + data.channel._id);
         } catch (err) {
             next(err);
         }
@@ -104,7 +104,7 @@ const clientControlller = {
             const roomName = req.body.roomName;
 
             const data = await channelService.postCreateChatRoom(jsonWebToken, channelId, roomName, next);
-            hasError(data);
+            hasError(data.error);
 
             res.redirect('/channel/chat/' + data.chatRoom.channelId + '/' + data.chatRoom._id);
         } catch (err) {
@@ -144,7 +144,7 @@ const clientControlller = {
             // console.log(checkedUsersId);
 
             const data = await chatAPI.postInviteUsersToChatRoom(jsonWebToken, body, channelId, chatRoomId, next);
-            hasError(data);
+            hasError(data.error);
 
             res.redirect('http://localhost:3000/channel/chat/' + channelId + '/' + chatRoomId);
         } catch (err) {
@@ -160,7 +160,7 @@ const clientControlller = {
             formData.append('chat', req.body.chat);
 
             const data = await chatService.postSendChat(token, req.params.channelId, req.params.chatRoomId, formData, next);
-            hasError(data);
+            hasError(data.error);
 
             res.status(data.status.code).json({
                 status: data.status

@@ -8,7 +8,11 @@ const authController = {
             title: '그이상의 소통 | Soulmate',
             path: '/login',
             valid: null,
-            error: null
+            error: null,
+            inputData: {
+                email: '',
+                password: ''
+            }
         });
     },
     //회원 가입
@@ -38,9 +42,12 @@ const authController = {
                 })
             });
 
+            const data = await response.json();
+            hasError(data.error);
+
             res.redirect('/login');
         } catch (err) {
-            throw err;
+            next(err);
         }
     },
     // 로그인

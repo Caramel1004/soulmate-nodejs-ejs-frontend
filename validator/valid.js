@@ -32,7 +32,11 @@ const validResult = (req, res, next) => {
             title: '그이상의 소통 | Soulmate',
             path: '/login',
             valid: error,
-            error: null
+            error: null,
+            inputData: {
+                email: req.body.email,
+                password: req.body.password
+            }
         });
     }
 }
@@ -51,7 +55,7 @@ export function accessAuthorizedToken(req, res, next) {
 export function hasError(error) {
     if (error) {
         console.log(error);
-        throw error;
+        next(error);
     }
     return '에러가 없습니다.';
 }

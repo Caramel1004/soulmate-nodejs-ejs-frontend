@@ -1,0 +1,83 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* 바디 스크롤 디자인 */
+body::-webkit-scrollbar {
+    width: 8px;
+    background: rgb(235, 222, 203);
+}
+
+body::-webkit-scrollbar-thumb {
+    width: 10px;
+    background: rgb(155, 151, 151);
+    border-radius: 70px;
+}
+
+body::-webkit-scrollbar-track {
+    width: 10px;
+    background: #ffffff;
+}
+
+#channel-profile-container {
+    /* margin-top: 70px; */
+    margin-left: 300px;
+    padding: 70px;
+    width: 73%;
+    display: block;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+    text-align: center;
+    /* border: 1px groove black; */
+}
+
+#box-profile {
+    margin-top: 0;
+    padding: 50px;
+    display: block;
+}
+
+#tab-box {
+    padding: 5px 12px;
+    text-align: left;
+    /* border: 1px solid black; */
+}
+
+.type {
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    font: inherit;
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+    background: rgb(243, 243, 246);
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.type.active {
+    color: #ffffff;
+    background: black;
+}
+
+.type:hover,
+.type:active {
+    background: rgb(233, 233, 237);
+}
+
+/* 1. 채널 정보 패널 */
+#info{
+    margin-top: 40px;
+    /* margin-left: 10px; */
+    border: 1px groove black;
+}
+
+#info img {
+    width: 200px;
+    height: 200px;
+}

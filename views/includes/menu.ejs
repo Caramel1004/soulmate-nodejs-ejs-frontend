@@ -1,70 +1,76 @@
 <div id="menu">
-    <a class="menu__a-wrapper" href="/" id="/">오픈 채널</a>
-    <a class="menu__a-wrapper" href="/myprofile" id="myprofile">내 프로필 관리</a>
-    <a class="menu__a-wrapper" href="/mychannels?searchWord=all" id="mychannels">내 채널</a>
-    <!-- <a class="menu__a-wrapper" href="#">알림</a> -->
-    <% if(state === 'off') { %>
-        <a class="menu__a-wrapper" href="/channel" id="channel"><span> + </span> 채널 추가 </a>
-        <a class="menu__a-wrapper" href="/wishchannels?searchWord=all" id="wishchannels">관심 채널</a>
-        <a class="menu__a-wrapper" href="/">소울메이트 가이드</a>
-        <% } else { %>
-            <a class="menu__a-wrapper" href="/mychannel/<%= channel._id %>?searchWord=member" id="mychannel"> 채널 정보 </a>
+    <div id="menu__inner">
+        <a class="menu__a-wrapper" href="/" id="/">오픈 채널</a>
+        <a class="menu__a-wrapper" href="/myprofile" id="myprofile">내 프로필 관리</a>
+        <a class="menu__a-wrapper" href="/mychannels?searchWord=all" id="mychannels">내 채널</a>
+        <!-- <a class="menu__a-wrapper" href="#">알림</a> -->
+        <% if(state === 'off') { %>
+            <a class="menu__a-wrapper" href="/channel" id="channel"><span> + </span> 채널 추가 </a>
+            <a class="menu__a-wrapper" href="/wishchannels?searchWord=all" id="wishchannels">관심 채널</a>
+            <a class="menu__a-wrapper" href="/">소울메이트 가이드</a>
+            <% } else { %>
+                <a class="menu__a-wrapper" href="/mychannel/<%= channel._id %>?searchWord=member" id="mychannel"> 채널 정보 </a>
+                <div class="menu__div-wrapper">
+                    <div class="title">
+                        워크스페이스 -> 토글버튼
+                    </div>
+                    <div class="item">
+                        <button id="modal-open-add-chat"> + 워크스페이스 추가 </button>
+                    </div>
+                    <!-- <div class="item">
+                        <a># 공지</a>
+                    </div>
+                    <div class="item">
+                        <a># 백엔드 업무 진행 상황</a>
+                    </div>
+                    <div class="item">
+                        <a># 프론트 업무 진행 상황</a>
+                    </div>
+                    <div class="item">
+                        <a># 코드 피드백</a>
+                    </div> -->
+            </div>
+        <% } %>
+        <% if(chatRooms){ %>
             <div class="menu__div-wrapper">
                 <div class="title">
-                    # 워크스페이스 -> 토글버튼
+                    참여 대화방 -> 토글버튼
                 </div>
                 <div class="item">
-                    <button id="modal-open-add-chat"> + 워크스페이스 추가 </button>
+                    <button id="modal-open-add-chat"> + 대화방 추가 </button>
                 </div>
-                <div class="item">
-                    <a># 공지</a>
-                </div>
-                <div class="item">
-                    <a># 백엔드 업무 진행 상황</a>
-                </div>
-                <div class="item">
-                    <a># 프론트 업무 진행 상황</a>
-                </div>
-                <div class="item">
-                    <a># 코드 피드백</a>
-            </div>
-        </div>
-    <% } %>
-    <% if(chatRooms){ %>
-        <div class="menu__div-wrapper">
-            <div class="title">
-                # 참여 대화방 -> 토글버튼
-            </div>
-            <div class="item">
-                <button id="modal-open-add-chat"> + 대화방 추가 </button>
-            </div>
-            <% for(let room of chatRooms) { %>
-                <div class="item">
-                    <a href="/channel/chat/<%= room.channelId %>/<%= room._id %>"><%= room.roomName %></a>
-                </div>
-            <% } %>
-        </div>
-    <% } %>
-
-    <!-- 대화방 추가창(모달창) => 채널에 접속 중일때-->
-    <% if(chatRooms) { %>
-        <div class="container-chat hidden">
-            <div class="modal-chat hidden">
-                <form action="/client/chat/<%= channel._id %>" method="post">
-                    <div class="box__input-chat-room">
-                        <h1>새로운 채팅방을 생성하세요.</h1>
+                <% for(let room of chatRooms) { %>
+                    <div class="item">
+                        <a href="/channel/chat/<%= room.channelId %>/<%= room._id %>">
+                            <%= room.roomName %>
+                            <p>2023-07-14</p>
+                            <p>안녕하세요 이번에 새로 입사하게된 개발자 입니다.</p>
+                        </a>
                     </div>
-                    <div class="box__input-chat-room">
-                        <input type="text" name="roomName" id="roomName" placeholder="채팅방명을 입력하세요.">
-                    </div>
-                    <div class="box__input-chat-room">
-                        <button type="submit">방 생성</button>
-                    </div>
-                    <div class="box__input-chat-room">
-                        <a id="modal-close-add-chat">취소</a>
-                    </div>
-                </form>
+                <% } %>
             </div>
-        </div>
-    <% } %> 
+        <% } %>
+        <%- include('./copyright.ejs') %>
+        <!-- 대화방 추가창(모달창) => 채널에 접속 중일때-->
+        <% if(chatRooms) { %>
+            <div class="container-chat hidden">
+                <div class="modal-chat hidden">
+                    <form action="/client/chat/<%= channel._id %>" method="post">
+                        <div class="box__input-chat-room">
+                            <h1>새로운 채팅방을 생성하세요.</h1>
+                        </div>
+                        <div class="box__input-chat-room">
+                            <input type="text" name="roomName" id="roomName" placeholder="채팅방명을 입력하세요.">
+                        </div>
+                        <div class="box__input-chat-room">
+                            <button type="submit">방 생성</button>
+                        </div>
+                        <div class="box__input-chat-room">
+                            <a id="modal-close-add-chat">취소</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        <% } %> 
+    </div>
 </div>  

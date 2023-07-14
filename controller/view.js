@@ -144,6 +144,8 @@ const viewController = {
         try {
             const jsonWebToken = req.cookies.token;
             const channelId = req.params.channelId;
+            const searchWord = req.query.searchWord;
+            const fileName = `channel/channel-${searchWord}`
 
             // 1. 해당 채널아이디 보내주고 해당 채널 입장 요청
             const channelDetailData = await channelService.getChannelDetailByChannelId(jsonWebToken, channelId, next);
@@ -161,8 +163,8 @@ const viewController = {
             console.log('matchedChatRoomList: ', matchedChatRoomList);
             const state = 'on';
             // 2. 해당 채널 렌더링
-            res.status(chatRoomListData.status.code).render('channel/enter-channel-profile', {
-                path: '/mychannel/:channelId',
+            res.status(chatRoomListData.status.code).render(fileName, {
+                path: `/mychannel/:channelId?searchWord=${searchWord}`,
                 title: matchedChannel.channelName,
                 clientName: req.cookies.clientName,
                 photo: req.cookies.photo,
@@ -183,7 +185,7 @@ const viewController = {
 
             const chatRoomData = await chatService.getLoadChatRoom(jsonWebToken, channelId, chatRoomId, next);
             hasError(chatRoomData.error);
-            
+
             const chatRoomListData = await channelService.getChatRoomList(jsonWebToken, channelId, next);
             hasError(chatRoomData.error);
             // console.log('chatRoomData: ',chatRoomData)

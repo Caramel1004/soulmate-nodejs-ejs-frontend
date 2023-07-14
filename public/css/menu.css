@@ -2,7 +2,6 @@ body {
     margin: 0;
 }
 
-
 #menu {
     margin-top: 70px;
     padding: 0;
@@ -13,29 +12,36 @@ body {
     border-top: 1px groove rgb(214, 211, 211);
     background: rgb(243, 243, 246);
     opacity: 0.9;
+    overflow-y: hidden;
+}
+
+#menu__inner {
+    padding: 0;
+    display: block;
 }
 
 #menu:hover,
 #menu:active {
     overflow-y: scroll;
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
 }
 
 /* 채팅 히스토리 박스 스크롤 디자인 */
 #menu::-webkit-scrollbar {
-    width: 5px;
-    background: rgb(235, 222, 203);
+    width: 2px;
+    /* background: rgb(235, 222, 203); */
     border-radius: 50px;
 }
 
 #menu::-webkit-scrollbar-thumb {
-    width: 5px;
+    width: 7px;
+    height: 10px;
     background: rgb(155, 151, 151);
     border-radius: 50px;
 }
 
 #menu::-webkit-scrollbar-track {
-    width: 1px;
+    width: 2px;
     border-radius: 50px;
     background: rgb(243, 243, 246);
 }
@@ -91,6 +97,9 @@ body {
     text-decoration: none;
     color: #0f0f0f;
     display: block;
+    white-space : nowrap;
+    text-overflow: ellipsis;
+    overflow : hidden;
     /* border: 1px solid black; */
 }
 
@@ -107,7 +116,17 @@ body {
     font-size: 15px;
     color: #0f0f0f;
     display: block;
+    white-space : nowrap;
+    text-overflow: ellipsis;
+    overflow : hidden;
     /* border: 1px solid black; */
+}
+.item p {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.26);
+    /* white-space : nowrap; */
+    text-overflow: ellipsis;
+    overflow : hidden;
 }
 
 .item button {
@@ -126,8 +145,15 @@ body {
     background: rgb(219, 219, 232);
 }
 
-
-
+#copyright {
+    margin-top: 20px;
+    padding-top: 20px;
+    display: flex;
+    align-items: end;
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.26);
+    border-top: 1px groove rgba(0, 0, 0, 0.26);
+}
 
 /* 모달창 영역 */
 .container-chat {

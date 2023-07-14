@@ -74,11 +74,11 @@ body::-webkit-scrollbar-track {
 
 #tab-box {
     padding: 5px;
-    font-size: 22px;
     font-weight: bold;
     text-align: center;
     /* border: 1px solid black; */
 }
+
 #title {
     margin-top: 40px;
     /* margin-left: 10px; */
@@ -103,7 +103,7 @@ body::-webkit-scrollbar-track {
     cursor: pointer;
 }
 
-.type.active{
+.type.active {
     color: #ffffff;
     background: black;
 }
