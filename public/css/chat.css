@@ -17,6 +17,29 @@ body {
     display: inline-block;
     text-align: center;
     overflow: hidden;
+    /* 박스 서서히 나타나기 */
+    animation: fadein 3s;
+    -webkit-animation: fadein 2s;
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 /* 채팅 히스토리 박스 */
@@ -217,6 +240,8 @@ body {
     text-align: left;
     border-right: groove rgba(0, 0, 0, 0.26) 0.5px;
     border-bottom: groove rgba(0, 0, 0, 0.26) 0.5px;
+    animation: fadein 3s;
+    -webkit-animation: fadein 2s;
 }
 
 /* 토글 버튼 박스, 토글 버튼 */

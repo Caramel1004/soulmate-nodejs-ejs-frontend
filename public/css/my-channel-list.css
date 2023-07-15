@@ -136,10 +136,33 @@ body::-webkit-scrollbar-track {
     justify-content: flex-end;
     /* align-items: center; */
     border: 1px groove rgba(0, 0, 0, 0.26);
+    /* 박스 서서히 나타나기 */
+    animation: fadein 1s;
+    -webkit-animation: fadein 1s;
 }
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
 .contents__div-wrapper:hover,
-.contents__div-wrapper:active{
+.contents__div-wrapper:active {
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.26);
+    transition: all 0.3s;
 }
 
 .contents__div-wrapper img {
@@ -149,6 +172,7 @@ body::-webkit-scrollbar-track {
     border-radius: 5px;
     border-bottom: 1px groove rgb(157, 153, 153);
 }
+
 
 /* card */
 .card {

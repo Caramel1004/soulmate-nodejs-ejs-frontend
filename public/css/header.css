@@ -15,7 +15,7 @@ body {
 
 /* logo부모 */
 .header__div-wrapper {
-    padding: 10px;
+    padding: 4px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -24,13 +24,12 @@ body {
 
 /* 맨 왼쪽 로고 박스 */
 .logo {
-    width: 50px;
-    height: 50px;
+    padding: 0;
     display: flex;
-    /* justify-content: space-between; */
+    justify-content: center;
     align-items: center;
     /* border:1px groove black; */
-    letter-spacing: 2px;
+    /* letter-spacing: 2px; */
     font-weight: bold;
     font-size: 30px;
     font-family: 'Roboto';
@@ -46,7 +45,7 @@ body {
 .logo a {
     padding-left: 10px;
     text-decoration: none;
-    color: black
+    color: #000000;
 }
 
 /* 맨오른쪽 유저 정보 박스 */
@@ -84,5 +83,26 @@ body {
     background: black;
     border-radius: 20px;
     opacity: 0.8;
+}
+
+.box-contents {
+    padding: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.box-contents a{
+    padding: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-decoration: none;
+    font-size: 16px;
+    color: #333333;
+    font-weight: 500;
+}
+
+.box-contents a:hover,
+.box-contents a:active{
+    border-bottom: 5px groove rgba(0, 0, 0, 0.26);
 }
 

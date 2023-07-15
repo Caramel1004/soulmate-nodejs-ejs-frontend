@@ -10,14 +10,14 @@
             <a class="menu__a-wrapper" href="/">소울메이트 가이드</a>
             <% } else { %>
                 <a class="menu__a-wrapper" href="/mychannel/<%= channel._id %>?searchWord=info" id="mychannel"> 채널 정보 </a>
-                <div class="menu__div-wrapper">
-                    <div class="title">
-                        워크스페이스 -> 토글버튼
+                <div id="workspace" class="title">
+                    워크스페이스
+                </div>
+                <div id="workspace-list" class="menu__div-wrapper">
+                    <div class="item">
+                        <button id="modal-open-add-workspace"> + 워크스페이스 추가 </button>
                     </div>
                     <div class="item">
-                        <button id="modal-open-add-chat"> + 워크스페이스 추가 </button>
-                    </div>
-                    <!-- <div class="item">
                         <a># 공지</a>
                     </div>
                     <div class="item">
@@ -28,14 +28,20 @@
                     </div>
                     <div class="item">
                         <a># 코드 피드백</a>
-                    </div> -->
-            </div>
-        <% } %>
-        <% if(chatRooms){ %>
-            <div class="menu__div-wrapper">
-                <div class="title">
-                    참여 대화방 -> 토글버튼
+                    </div>
                 </div>
+                <div id="workspace-list" class="menu__a-wrapper">
+                    스크랩
+                </div>
+                <div id="workspace-list" class="menu__a-wrapper">
+                    채널 소식
+                </div>
+            <% } %>
+        <% if(chatRooms){ %>
+            <div id="chat" class="title">
+                채팅 방
+            </div>
+            <div id="chat-list" class="menu__div-wrapper">
                 <div class="item">
                     <button id="modal-open-add-chat"> + 대화방 추가 </button>
                 </div>
