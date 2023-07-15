@@ -34,7 +34,7 @@ body::-webkit-scrollbar-track {
     /* border: 1px groove black; */
 }
 
-#box-profile {
+.box-profile {
     margin-top: 0;
     padding: 50px;
     display: block;
@@ -47,6 +47,7 @@ body::-webkit-scrollbar-track {
 }
 
 .type {
+    margin-left: 5px;
     padding: 10px;
     text-align: center;
     text-decoration: none;
@@ -71,13 +72,92 @@ body::-webkit-scrollbar-track {
 }
 
 /* 1. 채널 정보 패널 */
-#info{
+.info{
     margin-top: 40px;
-    /* margin-left: 10px; */
-    border: 1px groove black;
+    /* padding: 20px; */
+    /* 박스 중앙으로 정렬 하기 */
+    display: flex;
+    /* justify-content: center; */
+    /* align-items: center; */
+    /* border: 1px groove black; */
 }
 
-#info img {
-    width: 200px;
-    height: 200px;
+.info img {
+    width: 524px;
+    height: 300px;
+    border: 1px groove rgba(0, 0, 0, 0.26);
+    border-radius: 20px;
+}
+
+.box-text {
+    margin-left: 10px;
+    width: 16%;
+    height: 300px;
+    display: block;
+    border: 1px groove rgba(0, 0, 0, 0.26);
+    border-radius: 20px;
+}
+
+.text {
+    padding-left: 10px;
+    padding-right: 10px;
+    /* 옆으로 텍스트 정렬 */
+    display: flex;
+    /* 텍스트 양사이드로 배치 */
+    justify-content: space-between;
+    /* border: 1px groove rgba(0, 0, 0, 0.26); */
+}
+
+.text p{
+    font-family: 'Roboto';
+    font-size: 13px;
+    color: #000000;
+    /* font-weight: 100; */
+}
+
+/* 2.공지 슬라이드 */
+.box-post {
+    margin-top: 40px;
+    padding: 0;
+    /* padding: 20px; */
+    /* width: 50%; */
+    display: flex;
+    justify-content: space-between;
+    /* border: 1px groove rgba(0, 0, 0, 0.26); */
+    /* border-radius: 10px; */
+}
+.post {
+    /* margin-left: 10px; */
+    padding: 10px;
+    text-align: left;
+    width: 510px;
+    border: 1px groove rgba(0, 0, 0, 0.26);
+    border-radius: 10px;
+}
+.post:hover,
+.post:active{
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.26);
+}
+.post p{
+    color: rgba(0, 0, 0, 0.26);
+}
+
+.post span{
+    padding-left: 30px;
+    color: rgb(212, 78, 21);
+}
+
+#second {
+    margin-left: 10px;
+}
+
+/* 3. 소개 박스 */
+.content {
+    margin-top: 40px;
+    padding-top: 10px;
+    /* padding-left: -10px; */
+    text-align: left;
+    border: 1px groove rgba(0, 0, 0, 0.26);
+    border-radius: 20px;
+    white-space: pre-wrap;
 }

@@ -136,7 +136,10 @@ body::-webkit-scrollbar-track {
     justify-content: flex-end;
     /* align-items: center; */
     border: 1px groove rgba(0, 0, 0, 0.26);
-    /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.26); */
+}
+.contents__div-wrapper:hover,
+.contents__div-wrapper:active{
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.26);
 }
 
 .contents__div-wrapper img {

@@ -14,38 +14,62 @@
         <%- include('../includes/loading.ejs') %>
         <!-- 프로필 영역 -->
         <div id="channel-profile-container">
-            <div id="box-profile">
+            <div class="box-profile">
                 <div id="tab-box">
+                    <a class="type" id="info" href="/mychannel/<%= channel._id %>?searchWord=info"> 채널 정보 </a>
                     <a class="type" id="member" href="/mychannel/<%= channel._id %>?searchWord=member"> 팀원</a>
-                    <a class="type" id="info" href="/mychannel/<%= channel._id %>?searchWord=info"> 정보 </a>
                 </div>
-                <div id="info">
+                <div class="info">
                     <img src=<%=channel.thumbnail %>>
-                    <h3>채널 정보</h3>
-                    <div class="box__div__info">
-                        <span> 채널 명 </span><span><h3><%= channel.channelName %></h3></span>
-                    </div>
-                    <div class="box__div__info">
-                        <span> 참여 인원 </span><span><h3><%= channel.members.length %> 명</h3></span>
-                    </div>
-                    <div class="box__div__info">
-                        <span> 카테고리 </span><span><h3><%= channel.category %></h3></span>
+                    <div class="box-text">
+                        <div class="text">
+                            <p>채널 명</p><p><%= channel.channelName %></p>
+                        </div>
+                        <div class="text">
+                            <p>카테고리</p><p><%= channel.category %></p>
+                        </div>
+                        <div class="text">
+                            <p>참여 인원</p><p><%= channel.members.length %> 명</p>
+                        </div>
+                        <div class="text">
+                            <p>채널 타입</p><p>워크스페이스</p>
+                        </div>
                     </div>
                 </div>
-                <div id="profile-content">
-                    <h3>소개 글</h3>
-                    <p><%= channel.content %></p>
-                </div>
-            </div>
-        </div>
-            <div id="div__channel-profile-container">
-            <div class="div__user-list">
-                <div id="box-profile">
-                    <div id="profile-content">
-                        <h3>소개 글</h3>
-                        <p><%= channel.content %></p>
+                <div class="box-post">
+                    <div class="post">
+                        <p>2023-07-14</p>
+                        <h2>우리들의 기술스택 입니다.</h2>
+                        <p>작성자<span>카라멜프라푸치노</span></p>
                     </div>
-                </div>ㄴ
+                    <div id="second" class="post">
+                        <p>2023-07-13</p>
+                        <h2>현재 프로젝트 진행 상황</h2>
+                        <p>작성자<span>카라멜프라푸치노</span></p>
+                    </div>
+                </div>
+                <div class="content">
+                <p>
+                <%= channel.comment %>
+                주요업무
+                - On/Off Site Salesforce 개발 운영 및 유지보수
+                - On/Off Site Salesforce 개발 프로젝트 수행
+
+                자격요건
+                - 2년 이상의 개발 경력
+                - Java, Javascript 언어 활용 가능자
+                - REST API 개발 유경험자
+                - DB : SQL이해 및 DB스키마 설계 가능자
+                - MS Office 활용 능력 보유자(PPT, Excel)
+                - IT에 대한 열정, 배움의 의지 소유자
+
+                우대사항
+                - 영어 활용 가능자
+                - 뛰어난 커뮤니케이션 능력 소유자
+                - Salesforce 개발 및 운영 경험자
+                - Salesforce Developer 자격증 보유자
+                </p>
+                </div>
             </div>
         </div>		
         <%- include('../includes/script.ejs') %>

@@ -55,7 +55,7 @@ export function accessAuthorizedToken(req, res, next) {
 export function hasError(error) {
     if (error) {
         console.log(error);
-        next(error);
+        throw(error);
     }
     return '에러가 없습니다.';
 }

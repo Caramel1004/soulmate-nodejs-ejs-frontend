@@ -73,6 +73,7 @@ app.use((error, req, res, next) => {
     }
 
     if(error.statusCode == 401) {
+        console.log('401')
         res.redirect('/logout');
     }
 
