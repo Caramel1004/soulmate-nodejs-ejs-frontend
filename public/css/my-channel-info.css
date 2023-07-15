@@ -83,7 +83,7 @@ body::-webkit-scrollbar-track {
 }
 
 .info img {
-    width: 524px;
+    width: 60vw;
     height: 300px;
     border: 1px groove rgba(0, 0, 0, 0.26);
     border-radius: 20px;
@@ -124,13 +124,13 @@ body::-webkit-scrollbar-track {
     display: flex;
     justify-content: space-between;
     /* border: 1px groove rgba(0, 0, 0, 0.26); */
-    /* border-radius: 10px; */
+    border-radius: 10px;
 }
 .post {
     /* margin-left: 10px; */
     padding: 10px;
     text-align: left;
-    width: 510px;
+    width: 50vw;
     border: 1px groove rgba(0, 0, 0, 0.26);
     border-radius: 10px;
 }
