@@ -1,54 +1,80 @@
 <div id="menu">
     <div id="menu__inner">
-        <a class="menu__a-wrapper" href="/" id="/">오픈 채널</a>
-        <a class="menu__a-wrapper" href="/myprofile" id="myprofile">내 프로필 관리</a>
-        <a class="menu__a-wrapper" href="/mychannels?searchWord=all" id="mychannels">내 채널</a>
+        <a class="menu__a-wrapper" href="/" id="/">
+            <i class="fa-solid fa-door-open"></i>
+            <span>오픈 채널</span>
+        </a>
+        <a class="menu__a-wrapper" href="/myprofile" id="myprofile">
+            <i class="fa-solid fa-user fa-lg"></i>
+            <span>내 프로필 관리</span>
+        </a>
+        <a class="menu__a-wrapper" href="/mychannels?searchWord=all" id="mychannels">
+            <i class="fa-solid fa-list fa-lg"></i>
+            <span>내 채널</span>
+        </a>
         <!-- <a class="menu__a-wrapper" href="#">알림</a> -->
-        <% if(state === 'off') { %>
-            <a class="menu__a-wrapper" href="/channel" id="channel"><span> + </span> 채널 추가 </a>
-            <a class="menu__a-wrapper" href="/wishchannels?searchWord=all" id="wishchannels">관심 채널</a>
-            <a class="menu__a-wrapper" href="/">소울메이트 가이드</a>
-            <% } else { %>
-                <a class="menu__a-wrapper" href="/mychannel/<%= channel._id %>?searchWord=info" id="mychannel"> 채널 정보 </a>
-                <div id="workspace" class="title">
-                    워크스페이스
+        <a class="menu__a-wrapper" href="/channel" id="channel">
+            <i class="fa-solid fa-plus fa-lg"></i>
+            <span>채널 추가</span>
+         </a>
+        <a class="menu__a-wrapper" href="/wishchannels?searchWord=all" id="wishchannels">
+            <i class="fa-solid fa-heart fa-lg"></i>
+            <span>관심 채널</span>
+        </a>
+        <% if(state === 'on') { %>
+            <a class="menu__a-wrapper" href="/mychannel/<%= channel._id %>?searchWord=info" id="mychannel">
+                <i class="fa-solid fa-info fa-xl"></i>
+                <span>채널 정보</span> 
+            </a>
+            <div id="workspace" class="title">
+                <i class="fa-solid fa-cubes-stacked fa-lg"></i>
+                <span>워크스페이스</span>
+            </div>
+            <div id="workspace-list" class="menu__div-wrapper">
+                <div class="item">
+                    <button id="modal-open-add-workspace">
+                        <i class="fa-solid fa-plus fa-lg"></i>
+                        <span>워크스페이스 추가</span> 
+                    </button>
                 </div>
-                <div id="workspace-list" class="menu__div-wrapper">
-                    <div class="item">
-                        <button id="modal-open-add-workspace"> + 워크스페이스 추가 </button>
-                    </div>
-                    <div class="item">
-                        <a># 공지</a>
-                    </div>
-                    <div class="item">
-                        <a># 백엔드 업무 진행 상황</a>
-                    </div>
-                    <div class="item">
-                        <a># 프론트 업무 진행 상황</a>
-                    </div>
-                    <div class="item">
-                        <a># 코드 피드백</a>
-                    </div>
+                <div class="item">
+                    <a># 공지</a>
                 </div>
-                <div id="workspace-list" class="menu__a-wrapper">
-                    스크랩
+                <div class="item">
+                    <a># 백엔드 업무 진행 상황</a>
                 </div>
-                <div id="workspace-list" class="menu__a-wrapper">
-                    채널 소식
+                <div class="item">
+                    <a># 프론트 업무 진행 상황</a>
                 </div>
-            <% } %>
+                <div class="item">
+                    <a># 코드 피드백</a>
+                </div>
+            </div>
+            <div id="workspace-list" class="menu__a-wrapper">
+                <i class="fa-solid fa-bookmark fa-lg"></i>
+                <span>스크랩</span>
+            </div>
+            <div id="workspace-list" class="menu__a-wrapper">
+                <span>채널 소식</span>
+            </div>
+        <% } %>
         <% if(chatRooms){ %>
             <div id="chat" class="title">
-                채팅 방
+                <i class="fa-solid fa-comment fa-lg"></i>
+                <span>채팅 방</span>
             </div>
             <div id="chat-list" class="menu__div-wrapper">
                 <div class="item">
-                    <button id="modal-open-add-chat"> + 대화방 추가 </button>
+                    <button id="modal-open-add-chat"> 
+                        <i class="fa-solid fa-plus fa-lg"></i>
+                        <span>채팅방 추가</span> 
+                    </button>
                 </div>
                 <% for(let room of chatRooms) { %>
                     <div class="item">
                         <a href="/channel/chat/<%= room.channelId %>/<%= room._id %>">
-                            <%= room.roomName %>
+                            <i class="fa-solid fa-message"></i>
+                            <span><%= room.roomName %></span>
                             <p>2023-07-14</p>
                             <p>안녕하세요 이번에 새로 입사하게된 개발자 입니다.</p>
                         </a>

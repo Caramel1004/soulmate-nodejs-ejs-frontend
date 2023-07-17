@@ -1,8 +1,7 @@
 import { successType, errorType } from '../util/status.js';
-import viewService from '../service/view.js'
 import channelService from '../service/channel.js'
+import workspaceService from '../service/workspace.js'
 import viewAPI from '../API/view.js';
-import fetch from 'node-fetch';
 import { getCategoryData } from '../service/static-data.js';
 import chatService from '../service/chat.js';
 import { hasError } from '../validator/valid.js';
@@ -16,6 +15,7 @@ import { hasError } from '../validator/valid.js';
  * 5. 관심 채널 목록 페이지
  * 6. 채널입장 -> 채널 내부 페이지
  * 7. 채팅방 입장 -> 채팅방 페이지
+ * 8. 워크스페이스 입장 -> 워크스페이스 페이지
  */
 
 const viewController = {
@@ -208,6 +208,24 @@ const viewController = {
             next(err);
         }
     },
+    // 8. 워크스페이스 입장 -> 워크스페이스 페이지
+    getEnterWorkSpacePage: async (req, res, next) => {
+        try {
+            const token = req.cookies.token;
+            const channelId = req.params.channelId;
+            const workspaceId = req.params.workspaceId;
+
+            const data = await workspaceService.getLoadWorkspace(token, channelId, workspaceId, next);
+            hasError(data.error);
+
+            res.status(chatRoomListData.status.code).render('workspace/workspace', {
+                path: `/channel/workspace/${channelId}/${workspaceId}`,
+                title: data.workSpaceName
+            });
+        } catch (err) {
+            next(err);
+        }
+    }
 }
 
 export default viewController;

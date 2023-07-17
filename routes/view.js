@@ -40,5 +40,8 @@ router.get('/mychannel/:channelId', viewController.getEnterMyChannelPage);// 6. 
 //GET /channel/chat/:channelId/:chatRoomId
 router.get('/channel/chat/:channelId/:chatRoomId', viewController.getEnterChatRoomPage);// 7. 채팅방 입장 -> 채팅방 페이지
 
+//GET /channel/workspace/:channelId/:chatRoomId
+router.get('/channel/workspace/:channelId/:workspaceId', viewController.getEnterWorkSpacePage);// 8. 워크스페이스 입장 -> 워크스페이스 페이지
+
 
 export default router;

@@ -2,6 +2,9 @@ body {
     margin: 0;
 }
 
+i {
+    color: #000000;
+}
 #menu {
     margin-top: 70px;
     padding: 0;
@@ -49,6 +52,7 @@ body {
 
 .menu__a-wrapper {
     padding: 15px;
+    padding-left: 20px;
     text-align: left;
     display: block;
     justify-content: space-between;
@@ -58,20 +62,14 @@ body {
     color: #0f0f0f;
     font-weight: 400;
 }
+.menu__a-wrapper span{
+    padding-left: 10px;
+}
 
 .menu__a-wrapper:hover,
 .menu__a-wrappe:active {
     background: rgb(219, 219, 232);
 }
-
-/* .menu__a-wrapper span {
-    width: 10px;
-    height: 10px;
-    padding: 5px;
-    font-size: 18px;
-    border-radius: 20rem;
-    background: rgb(236, 236, 241);
-} */
 
 .menu__div-wrapper {
     padding: 15px;
@@ -87,6 +85,7 @@ body {
 
 .title {
     padding: 15px;
+    padding-left: 20px;
     text-align: left;
     display: block;
     justify-content: space-between;
@@ -95,6 +94,9 @@ body {
     color: #0f0f0f;
     font-weight: 400;
 }
+.title span{
+    padding-left: 10px;
+}
 
 .title:hover,
 .title:active {
@@ -102,8 +104,6 @@ body {
 }
 
 .item {
-    text-decoration: none;
-    color: #0f0f0f;
     display: block;
     white-space : nowrap;
     text-overflow: ellipsis;
