@@ -107,7 +107,7 @@ const channelAPI = {
     // 8. 채팅방 생성
     postCreateChatRoom: async (token, channelId, roomName, next) => {
         try {
-            const response = await fetch(`http://localhost:8080/v1/channel/${ channelId }/create-chatRoom`, {
+            const response = await fetch(`http://localhost:8080/v1/channel/${channelId}/create-chatRoom`, {
                 method: 'POST',
                 headers: {
                     Authorization: 'Bearer ' + token,
@@ -146,6 +146,43 @@ const channelAPI = {
             next(err);
         }
     },
+    // 10. 워크스페이스 목록 요청
+    getWorkSpaceList: async (token, channelId, next) => {
+        try {
+            const response = await fetch(`http://localhost:8080/v1/channel/${channelId}/workspace`, {
+                method: 'GET',
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                }
+            });
+            const resData = await response.json();
+
+            return resData;
+        } catch (err) {
+            next(err);
+        }
+    },
+    // 11. 워크스페이스 생성
+    postCreateWorkSpace: async (token, channelId, workSpaceName, next) => {
+        try {
+            const response = await fetch(`http://localhost:8080/v1/channel/${channelId}/create-workspace`, {
+                method: 'POST',
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    workSpaceName: workSpaceName
+                })
+            });
+            const resData = await response.json();
+
+            return resData
+        } catch (err) {
+            next(err);
+        }
+    }
 }
 
 export default channelAPI;

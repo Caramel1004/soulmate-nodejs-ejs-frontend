@@ -89,6 +89,26 @@ const channelService = {
             next(err);
         }
     },
+    // 10. 워크스페이스 목록 요청
+    getWorkSpaceList: async (jsonWebToken, channelId, next) => {
+        try {
+            const data = await channelAPI.getWorkSpaceList(jsonWebToken, channelId, next);
+
+            return data;
+        } catch (err) {
+            next(err);
+        }
+    },
+    // 11. 워크스페이스 생성
+    postCreateWorkSpace: async (token, channelId, workSpaceName, next) => {
+        try {
+            const data = await channelAPI.postCreateWorkSpace(token, channelId, workSpaceName, next);
+
+            return data;
+        } catch (err) {
+            next(err);
+        }
+    }
 }
 
 export default channelService;

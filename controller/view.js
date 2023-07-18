@@ -34,6 +34,7 @@ const viewController = {
                 photo: req.cookies.photo,
                 channelList: channelList,
                 chatRooms: null,
+                workSpaces: null,
                 state: 'off'
             });
         } catch (err) {
@@ -68,6 +69,7 @@ const viewController = {
                 myProfile: myProfile,
                 state: 'off',
                 chatRooms: null,
+                workSpaces: null,
             });
         } catch (err) {
             next(err);
@@ -93,6 +95,7 @@ const viewController = {
                 staticCategoryList: staticData.category,
                 channelList: resData.channels,
                 chatRooms: null,
+                workSpaces: null,
                 state: 'off'
             });
         } catch (err) {
@@ -110,6 +113,7 @@ const viewController = {
                 photo: req.cookies.photo,
                 staticCategoryList: staticData.category,
                 chatRooms: null,
+                workSpaces: null,
                 state: 'off'
             });
         } catch (error) {
@@ -133,6 +137,7 @@ const viewController = {
                 clientName: req.cookies.clientName,
                 photo: req.cookies.photo,
                 chatRooms: null,
+                workSpaces: null,
                 state: 'off'
             })
         } catch (err) {
@@ -157,10 +162,15 @@ const viewController = {
             // 2. 채팅방 목록 요청
             const chatRoomListData = await channelService.getChatRoomList(jsonWebToken, channelId, next);
             hasError(chatRoomListData.error);
+            const matchedChatRoomList = chatRoomListData.chatRooms;
 
-            const matchedChatRoomList = chatRoomListData.chatRooms;//동기화 해줘야해!!
-
-            console.log('matchedChatRoomList: ', matchedChatRoomList);
+            // 3. 워크스페이스 목록 요청
+            const workSpaceListData = await channelService.getWorkSpaceList(jsonWebToken, channelId, next);
+            hasError(workSpaceListData.error);
+            const matchedWorkSpaceList = workSpaceListData.workSpaces;
+            console.log(matchedWorkSpaceList);
+            // 4. 스크랩 목록 요청
+            
             const state = 'on';
             // 2. 해당 채널 렌더링
             res.status(chatRoomListData.status.code).render(fileName, {
@@ -170,6 +180,7 @@ const viewController = {
                 photo: req.cookies.photo,
                 channel: matchedChannel,
                 chatRooms: matchedChatRoomList,
+                workSpaces: matchedWorkSpaceList,
                 state: state
             });
         } catch (err) {
@@ -183,13 +194,18 @@ const viewController = {
             const channelId = req.params.channelId;
             const chatRoomId = req.params.chatRoomId;
 
+            // 1. 채팅 방
             const chatRoomData = await chatService.getLoadChatRoom(jsonWebToken, channelId, chatRoomId, next);
             hasError(chatRoomData.error);
 
+            // 2. 채팅방 목록
             const chatRoomListData = await channelService.getChatRoomList(jsonWebToken, channelId, next);
             hasError(chatRoomData.error);
-            // console.log('chatRoomData: ',chatRoomData)
-            // console.log(`channelId: ${channelId}, chatRoomId: ${chatRoomId}`);
+            
+            // 3. 워크스페이스 목록 요청
+            const workSpaceListData = await channelService.getWorkSpaceList(jsonWebToken, channelId, next);
+            hasError(workSpaceListData.error);
+            const matchedWorkSpaceList = workSpaceListData.workSpaces;
 
             res.status(chatRoomListData.status.code).render('chat/chat-board', {
                 path: '채팅방',
@@ -198,6 +214,7 @@ const viewController = {
                 clientName: req.cookies.clientName,
                 photo: req.cookies.photo,
                 chatRooms: chatRoomListData.chatRooms,
+                workSpaces: matchedWorkSpaceList,
                 chats: chatRoomData.chatRoom.chats,
                 members: chatRoomData.chatRoom.users,
                 channel: { _id: channelId },
@@ -215,12 +232,32 @@ const viewController = {
             const channelId = req.params.channelId;
             const workspaceId = req.params.workspaceId;
 
-            const data = await workspaceService.getLoadWorkspace(token, channelId, workspaceId, next);
-            hasError(data.error);
+            // 1. 워크스페잇 세부정보
+            const workSpaceData = await workspaceService.getLoadWorkspace(token, channelId, workspaceId, next);
+            hasError(workSpaceData.error);
 
-            res.status(chatRoomListData.status.code).render('workspace/workspace', {
-                path: `/channel/workspace/${channelId}/${workspaceId}`,
-                title: data.workSpaceName
+            // 2. 채팅룸 리스트
+            const chatRoomListData = await channelService.getChatRoomList(token, channelId, next);
+            hasError(chatRoomListData.error);
+            const matchedChatRoomList = chatRoomListData.chatRooms;
+
+            // 3. 워크스페이스 목록 요청
+            const workSpaceListData = await channelService.getWorkSpaceList(token, channelId, next);
+            hasError(workSpaceListData.error);
+            const matchedWorkSpaceList = workSpaceListData.workSpaces;
+
+            res.status(workSpaceData.status.code).render('workspace/workspace', {
+                path: '/channel/workspace/:channelId/:workspaceId',
+                title: workSpaceData.workSpace.workSpaceName,
+                chatRooms: matchedChatRoomList,
+                clientName: req.cookies.clientName,
+                photo: req.cookies.photo,
+                chatRooms: chatRoomListData.chatRooms,
+                workSpaces: matchedWorkSpaceList,
+                workSpace: workSpaceData.workSpace,
+                channel: { _id: channelId },
+                state: 'on'
+
             });
         } catch (err) {
             next(err);

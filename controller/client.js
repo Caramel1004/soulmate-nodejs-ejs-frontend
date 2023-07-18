@@ -90,7 +90,7 @@ const clientControlller = {
 
             const data = await channelService.postInviteUserToChannel(jsonWebToken, channelId, invitedUserId, next);
             hasError(data.error);
-            
+
             res.redirect('/mychannel/' + data.channel._id);
         } catch (err) {
             next(err);
@@ -197,6 +197,20 @@ const clientControlller = {
             });
         } catch (err) {
             next(err);
+        }
+    },
+    // 8. 워크스페이스 생성
+    postCreateWorkSpace: async (req, res, next) => {
+        try {
+            const token = req.cookies.token;
+            const workSpaceName = req.body.workSpaceName;
+
+            const data = await channelService.postCreateWorkSpace(token, req.params.channelId, workSpaceName, next);
+            hasError(data.error);
+
+            res.redirect(`/channel/workspace/${data.workSpace.channelId}/${data.workSpace._id}`);
+        } catch (err) {
+
         }
     }
 }

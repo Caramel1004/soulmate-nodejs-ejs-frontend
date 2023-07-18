@@ -40,4 +40,7 @@ router.post('/chat/:channelId/:chatRoomId', accessAuthorizedToken, clientControl
 // POST /client/chat/upload-file/:channelId/:chatRoomId
 router.post('/chat/upload-file/:channelId/:chatRoomId', accessAuthorizedToken, clientController.postUploadFileToChatRoom);// 7. 실시간 채팅 및 채팅창 실시간 업데이트
 
+// POST /client/workspace/upload-file/:channelId/:chatRoomId
+router.post('/workspace/:channelId', accessAuthorizedToken, clientController.postCreateWorkSpace);// 8. 워크스페이스 생성
+
 export default router;
