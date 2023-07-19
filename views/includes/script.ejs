@@ -1,9 +1,10 @@
 <script src="/js/invite-modal.js"></script>
 <script src="/js/chat-modal.js"></script>
 <script src="/js/workspace-modal.js"></script>
-<script src="/js/loading.js"></script>
+<!-- <script src="/js/loading.js"></script> -->
 <script src="/js/menu.js"></script>
 <!-- 서치 타입 공통 버튼-->
 <script src="/js/mychannels.js"></script>
 <% if(path === '/wishchannels') { %><script src="/js/mywishchannels.js"></script><% } %>
+<% if(path === '/channel/workspace/:channelId/:workspaceId') { %><script src="/js/workspace.js"></script><% } %>
 <% if(path === '채팅방') { %><script src="/js/chat.js"></script><% } %>

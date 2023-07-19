@@ -1,0 +1,98 @@
+body {
+    margin: 0;
+    display: flex;
+    overflow: hidden;
+}
+
+.board-workspace {
+    margin-top: 70px;
+    margin-left: 250px;
+    --box-width: 50%;
+    --box-height: 92vh;
+    border: 0.5px groove rgba(0, 0, 0, 0.26);
+    width: var(--box-width);
+    height: var(--box-height);
+    display: inline-block;
+    text-align: center;
+    overflow-x: hidden;
+    /* 박스 서서히 나타나기 */
+    animation: fadein 3s;
+    -webkit-animation: fadein 2s;
+    resize: horizontal;
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.box-post-history {
+    border: 0.5px groove rgba(0, 0, 0, 0.26);
+    width: 100%;
+    height: 75vh;
+    background: #ffffff;
+    opacity: 0.8;
+    display: block;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.box-post-content {
+    padding-top: 10px;
+    padding-bottom: 8px;
+    width: 100%;
+    height: auto;
+    border: 0.5px groove rgba(0, 0, 0, 0.26);
+    overflow: hidden;
+}
+
+.box-post-content textarea {
+    /* margin-top: 2vh; */
+    padding-top: 20px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    width: 95%;
+    height: auto;
+    border: 1px groove rgba(0, 0, 0, 0.26);
+    border-radius: 10px;
+    /* letter-spacing: 0.5px; */
+    box-sizing: border-box;
+    resize: none;
+    font-size: 15px;
+    overflow: hidden;
+}
+
+.box-post-content textarea:focus {
+    outline: none;
+}
+
+
+
+.reply {
+    margin-top: 70px;
+    border: 0.5px groove rgba(0, 0, 0, 0.26);
+    width: 34%;
+    height: 92vh;
+    background: #ffffff;
+    opacity: 0.5;
+    resize: horizontal;
+    overflow: scroll;
+    overflow-x: hidden;
+    animation: fadein 3s;
+    -webkit-animation: fadein 2s;
+}

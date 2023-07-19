@@ -116,7 +116,7 @@ const viewController = {
                 workSpaces: null,
                 state: 'off'
             });
-        } catch (error) {
+        } catch (err) {
             next(err);
         }
     },
