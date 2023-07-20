@@ -15,10 +15,11 @@ body {
     display: inline-block;
     text-align: center;
     overflow-x: hidden;
+    overflow-y: hidden;
     /* 박스 서서히 나타나기 */
     animation: fadein 3s;
     -webkit-animation: fadein 2s;
-    resize: horizontal;
+    /* resize: horizontal; */
 }
 
 @keyframes fadein {
@@ -42,9 +43,10 @@ body {
 }
 
 .box-post-history {
-    border: 0.5px groove rgba(0, 0, 0, 0.26);
+    /* border: 0.5px groove rgba(0, 0, 0, 0.26); */
+    border-bottom: none;
     width: 100%;
-    height: 75vh;
+    height: 80vh;
     background: #ffffff;
     opacity: 0.8;
     display: block;
@@ -52,19 +54,38 @@ body {
     overflow-x: hidden;
 }
 
+/* 채팅 히스토리 박스 스크롤 디자인 */
+.box-post-history::-webkit-scrollbar {
+    width: 10px;
+    background: #ffffff;
+}
+
+.box-post-history::-webkit-scrollbar-thumb {
+    width: 10px;
+    background: rgb(155, 151, 151);
+    border-radius: 50px;
+}
+
+.box-post-history::-webkit-scrollbar-track {
+    width: 10px;
+    border-radius: 50px;
+    background: #ffffff;
+}
+
+
 .box-post-content {
-    padding-top: 10px;
-    padding-bottom: 8px;
+    padding-top: 12px;
+    padding-bottom: 10px;
     width: 100%;
-    height: auto;
-    border: 0.5px groove rgba(0, 0, 0, 0.26);
+    /* height: 10vh; */
+    /* border: 0.5px groove rgba(0, 0, 0, 0.26); */
     overflow: hidden;
 }
 
 .box-post-content textarea {
     /* margin-top: 2vh; */
     padding-top: 20px;
-    padding-bottom: 10px;
+    /* padding-bottom: 10px; */
     padding-left: 20px;
     width: 95%;
     height: auto;
@@ -81,7 +102,82 @@ body {
     outline: none;
 }
 
+/* post 큰박스 */
+.post-container {
+    display: block;
+    border-top: 0.5px groove rgba(0, 0, 0, 0.26);
+}
 
+.post-date {
+    padding: 10px;
+    text-align: center;
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.26);
+    /* border: groove black 0.5px; */
+}
+
+.posts:hover,
+.posts:active{
+    background: rgba(226, 221, 221, 0.26);
+}
+
+.posts {
+    /* margin-top: 40px; */
+    /* margin-left: 20px; */
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    text-align: left;
+    /* background: rgb(157, 155, 155); */
+    background: #ffffff;
+    cursor: pointer;
+}
+
+.post-img-box {
+    margin: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 20rem;
+    background: #ffffff;
+}
+
+.post-img-box img {
+    width: 50px;
+    height: 50px;
+    border-radius: 1rem;
+    cursor: pointer;
+}
+
+.post {
+    margin-left: 10px;
+    /* border: groove black 0.5px; */
+}
+
+.client-name {
+    color: rgb(212, 78, 21);
+    font-size: 15px;
+    font-weight: bolder;
+}
+
+
+/* 단위 채팅 내용 */
+.post-comment {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.26);
+    /* padding-top: 1px; */
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    /* max-width: 500px; */
+    display: inline-block;
+    text-align: left;
+    font-size: 17px;
+    color: #1d1c1d;
+    background: #ffffff;
+    /* border: groove black 0.5px; */
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    white-space: pre-wrap;
+}
 
 .reply {
     margin-top: 70px;
@@ -90,7 +186,7 @@ body {
     height: 92vh;
     background: #ffffff;
     opacity: 0.5;
-    resize: horizontal;
+    /* resize: horizontal; */
     overflow: scroll;
     overflow-x: hidden;
     animation: fadein 3s;

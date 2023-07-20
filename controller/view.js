@@ -235,7 +235,7 @@ const viewController = {
             // 1. 워크스페잇 세부정보
             const workSpaceData = await workspaceService.getLoadWorkspace(token, channelId, workspaceId, next);
             hasError(workSpaceData.error);
-
+            console.log(workSpaceData.workSpace)
             // 2. 채팅룸 리스트
             const chatRoomListData = await channelService.getChatRoomList(token, channelId, next);
             hasError(chatRoomListData.error);
