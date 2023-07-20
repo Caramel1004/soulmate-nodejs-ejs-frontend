@@ -4,6 +4,7 @@ import channelService from '../service/channel.js'
 import chatAPI from '../API/chat.js'
 import chatService from '../service/chat.js';
 import { hasError } from '../validator/valid.js';
+import workspaceService from '../service/workspace.js';
 
 /**
  * 1. 채널 생성
@@ -13,10 +14,10 @@ import { hasError } from '../validator/valid.js';
  * 5. 해당 채널에 속한 선택된 유저들을 초대
  * 6. 실시간 채팅
  * 7. 실시간 파일(자료) 업로드
- * 8. 워크스페이스에 자료 업로드
- * 9. 워크스페이스에서 해당 게시물에 댓글
- * 6. 워크 스페이스 생성
- * 7. 워크 스페이스에 유저 초대 -> 전체공개 or 초대한 유저만 이용
+ * 8. 워크 스페이스 생성
+ * 9. 워크스페이스에 게시물 생성
+ * 10. 워크스페이스에서 해당 게시물에 댓글 달기
+ * 11. 워크 스페이스에 유저 초대 -> 전체공개 or 초대한 유저만 이용
  */
 
 const clientControlller = {
@@ -210,7 +211,25 @@ const clientControlller = {
 
             res.redirect(`/channel/workspace/${data.workSpace.channelId}/${data.workSpace._id}`);
         } catch (err) {
+            next(err);
+        }
+    },
+    // 9. 워크스페이스에 게시물 생성
+    postCreatePostToWorkSpace: async (req, res, next) => {
+        try {
+            const token = req.cookies.token;
 
+            const formData = new FormData();
+            formData.append('content', req.body.content);
+
+            const data = await workspaceService.postCreatePostToWorkSpace(token, req.params.channelId, req.params.workSpaceId, formData, next);
+            hasError(data.error);
+
+            res.status(data.status.code).json({
+                status: data.status
+            });
+        } catch (err) {
+            next(err);
         }
     }
 }

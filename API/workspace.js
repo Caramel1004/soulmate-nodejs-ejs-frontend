@@ -12,12 +12,30 @@ const workspaceAPI = {
                 }
             });
             const resData = await response.json();
-            
+
             return resData;
         } catch (err) {
             next(err);
         }
     },
+    // 2. 워크스페이스에 게시물 생성
+    postCreatePostToWorkSpace: async (token, channelId, workSpaceId, formData, next) => {
+        try {
+            const response = await fetch(`http://localhost:8080/v1/workspace/create-post/${channelId}/${workSpaceId}`, {
+                method: 'POST',
+                headers: {
+                    Authorization: 'Bearer ' + token
+                },
+                body: formData
+            });
+
+            const resData = await response.json();
+
+            return resData;
+        } catch (err) {
+            next(err);
+        }
+    }
 }
 
 export default workspaceAPI;

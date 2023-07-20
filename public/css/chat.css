@@ -68,17 +68,6 @@ body {
     /* border: groove black 0.5px; */
 }
 
-/* .board-chat__unit-chat-box.opponent {
-    margin-top: 40px;
-    padding: 0;
-    width: 160px;
-    display: flex;
-    font-size: 15px;
-    background: rgb(235, 222, 203);
-    border: groove black 0.5px;
-    float: right;
-} */
-
 .board-chat__unit-chat-img {
     margin: 0;
     width: 50px;
@@ -167,7 +156,7 @@ body {
     /* margin-top: 2vh; */
     padding-top: 20px;
     padding-left: 20px;
-    width: calc(var(--box-width) - 30px);
+    width: calc(var(--box-width) - 40px);
     height: 5vh;
     border: groove rgba(0, 0, 0, 0.26) 0.1rem;
     border-radius: 10px;
@@ -202,27 +191,21 @@ body {
 
 /* 전송버튼 */
 .board-chat__btn {
-    margin-top: 10px;
     margin-right: 10px;
-    padding: 6px 15px;
-    /* background:linear-gradient(to bottom, #e4685d 5%, #eb675e 100%); */
-    background-color: rgb(235, 222, 203);
-    border-radius: 4px;
-    border: 1px solid #ffffff;
-    display: inline-block;
+    padding: 10px;
+    border: 0.5px groove rgba(0, 0, 0, 0.26);
+    border-radius: 10px;
+    background: #ffffff;
     cursor: pointer;
-    color: black;
-    font-family: Arial;
-    font-size: 15px;
-    text-decoration: none;
     float: right;
-    /* text-shadow:0px 1px 0px #b23e35; */
 }
 
+.board-chat__btn i{
+    color: #007A5A;
+}
 .board-chat__btn:hover,
 .board-chat__btn:active {
-    border: 1px solid #ffffff;
-    background: rgb(190, 183, 172);
+    opacity: 0.7;
 }
 
 /* ----------------------------------------------------------------------------------- */

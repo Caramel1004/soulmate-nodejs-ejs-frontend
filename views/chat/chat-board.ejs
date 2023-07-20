@@ -36,8 +36,8 @@
             <div class="board-chat__box-chat">
                 <textarea class="board-chat__textarea" name="content" id="content" placeholder="메세지 보내기"></textarea>
                 <input type="file" id="file" name="file" multiple>
-                <button class="board-chat__btn" type="button" id="sendFile">이미지 업로드</button>
-                <button class="board-chat__btn" type="button" id="send">전송</button>
+                <button class="board-chat__btn" type="button" id="sendFile"><i class="fa-solid fa-paper-plane fa-xl"></i></button>
+                <button class="board-chat__btn" type="button" id="send"><i class="fa-solid fa-image fa-xl"></i></button>
             </div>
         </div>
 
@@ -166,17 +166,13 @@
 
                 // 타임 스탬프
                 const time = document.createElement('div');
-                const timeBox = document.createElement('div');
                 const formatedTime = formatter(new Date());
-                timeBox.classList.add('chat');
                 time.classList.add('chat-date');
                 time.textContent = formatedTime;
-                timeBox.appendChild(time);
-                console.log('timeBox: ', timeBox);
 
                 chatUnitBox.appendChild(imgBox);
                 chatUnitBox.appendChild(chatBox);
-                chatUnitBox.appendChild(timeBox);
+                chatUnitBox.appendChild(time);
                 console.log('chatUnitBox: ', chatUnitBox);
 
 

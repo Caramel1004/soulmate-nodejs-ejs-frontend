@@ -10,17 +10,40 @@ body {
     --box-width: 50%;
     --box-height: 92vh;
     border: 0.5px groove rgba(0, 0, 0, 0.26);
+    border-top: none;
     width: var(--box-width);
     height: var(--box-height);
     display: inline-block;
     text-align: center;
+    /* overflow-y: hidden; */
     overflow-x: hidden;
-    overflow-y: hidden;
+    /* overflow-y: hidden; */
     /* 박스 서서히 나타나기 */
     animation: fadein 3s;
     -webkit-animation: fadein 2s;
     /* resize: horizontal; */
 }
+
+/* 워크스페이스 박스 스크롤 디자인 */
+.board-workspace::-webkit-scrollbar {
+    padding: 2px;
+    width: 6px;
+    height: 50px;
+    background: #ffffff;
+}
+
+.board-workspace::-webkit-scrollbar-thumb {
+    width: 6px;
+    background: rgb(155, 151, 151);
+    border-radius: 50px;
+}
+
+.board-workspace::-webkit-scrollbar-track {
+    width: 6px;
+    border-radius: 50px;
+    background: #ffffff;
+}
+
 
 @keyframes fadein {
     from {
@@ -42,32 +65,48 @@ body {
     }
 }
 
+.box-workspace-explain {
+    padding: 10px;
+    padding-left: 30px;
+    text-align: left;
+    /* border: 0.5px groove rgba(0, 0, 0, 0.26); */
+}
+.box-workspace-explain span{
+    padding: 5px;
+    border: 0.5px groove rgba(0, 0, 0, 0.26);
+    border-radius: 10px;
+}
+.box-workspace-explain span:hover,
+.box-workspace-explain span:active{
+    opacity: 0.6;
+    cursor: pointer;
+}
+
 .box-post-history {
     /* border: 0.5px groove rgba(0, 0, 0, 0.26); */
     border-bottom: none;
     width: 100%;
     height: 80vh;
     background: #ffffff;
-    opacity: 0.8;
     display: block;
-    overflow: scroll;
+    /* overflow: hidden; */
     overflow-x: hidden;
 }
 
 /* 채팅 히스토리 박스 스크롤 디자인 */
 .box-post-history::-webkit-scrollbar {
-    width: 10px;
+    width: 6px;
     background: #ffffff;
 }
 
 .box-post-history::-webkit-scrollbar-thumb {
-    width: 10px;
+    width: 6px;
     background: rgb(155, 151, 151);
     border-radius: 50px;
 }
 
 .box-post-history::-webkit-scrollbar-track {
-    width: 10px;
+    width: 6px;
     border-radius: 50px;
     background: #ffffff;
 }
@@ -75,11 +114,12 @@ body {
 
 .box-post-content {
     padding-top: 12px;
-    padding-bottom: 10px;
+    /* padding-bottom: 10px; */
     width: 100%;
-    /* height: 10vh; */
+    display: block;
+    height: auto;
     /* border: 0.5px groove rgba(0, 0, 0, 0.26); */
-    overflow: hidden;
+    /* overflow: scroll; */
 }
 
 .box-post-content textarea {
@@ -102,6 +142,28 @@ body {
     outline: none;
 }
 
+.btn-group {
+    padding: 5px;
+    padding-right: 25px;
+    text-align: right;
+    /* border: 1px groove rgba(0, 0, 0, 0.26); */
+}
+.box-post-content i{
+    color: #007A5A;
+}
+.box-post-content button{
+    padding: 10px;
+    border: 0.5px groove rgba(0, 0, 0, 0.26);
+    border-radius: 10px;
+    background: #ffffff;
+    cursor: pointer;
+}
+
+.box-post-content button:hover,
+.box-post-content button:active {
+    opacity: 0.7;
+}
+
 /* post 큰박스 */
 .post-container {
     display: block;
@@ -111,8 +173,8 @@ body {
 .post-date {
     padding: 10px;
     text-align: center;
-    font-size: 15px;
-    color: rgba(0, 0, 0, 0.26);
+    font-size: 18px;
+    color: #1d1c1d;
     /* border: groove black 0.5px; */
 }
 
@@ -145,6 +207,7 @@ body {
     width: 50px;
     height: 50px;
     border-radius: 1rem;
+    opacity: 1;
     cursor: pointer;
 }
 
@@ -179,16 +242,26 @@ body {
     white-space: pre-wrap;
 }
 
-.reply {
+.thread {
     margin-top: 70px;
     border: 0.5px groove rgba(0, 0, 0, 0.26);
+    /* border-top: none; */
+    border-left: none;
     width: 34%;
     height: 92vh;
     background: #ffffff;
-    opacity: 0.5;
     /* resize: horizontal; */
-    overflow: scroll;
+    overflow: hidden;
     overflow-x: hidden;
     animation: fadein 3s;
     -webkit-animation: fadein 2s;
+}
+
+.replies {
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    text-align: left;
+    background: #ffffff;
+    cursor: pointer;
 }
