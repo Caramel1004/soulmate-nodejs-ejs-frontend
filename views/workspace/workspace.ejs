@@ -13,7 +13,7 @@
         <%- include('../includes/menu.ejs') %>
         <%- include('../includes/loading.ejs') %>
         <div class="board-workspace">
-            <div class="box-post-history">
+            <div id="history" class="box-post-history">
                 <div class="box-workspace-explain">
                     <h1>#<%= workSpace.workSpaceName %></h1>
                     <p>#<%= workSpace.workSpaceName %> <%= workSpace.createdAt %>에 생성되었습니다.</p>
@@ -34,7 +34,7 @@
                                 <div class="post">
                                     <div class="client-name"><%= post.creator.name %></div>
                                     <div class="post-comment"><%= post.content %></div>
-                                    <p><%= post.replies.length %>개의 댓글</p>
+                                    <p onclick="createThreadTag('<%= post._id %>')"><%= post.replies.length %>개의 댓글</p>
                                 </div>
                             </div>
                         </div>
@@ -49,9 +49,9 @@
                 </div>
             </div>
         </div>
-        <div class="thread">
-            
-        </div>
+        <!-- <div class="thread">
+           
+        </div> -->
 
         <script type="module">
             import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
@@ -78,7 +78,7 @@
                 if(day < 10) {
                     day = '0' + day
                 }
-                if (when === '오후') {
+                if (when === '오후' && hour > 12) {
                     hour %= 12;
                 }
 
@@ -157,6 +157,10 @@
                 p.textContent = '새로운 데이터가 업로드 되고있습니다.';
                 document.querySelector('.box-post-history').appendChild(p);
                 document.querySelector('.box-post-history').appendChild(img);
+                const historyTag = document.querySelector('.box-post-history');
+
+                //채팅박스 스크롤 맨 아래로 위치
+                historyTag.scrollTop = historyTag.scrollHeight;
         
                 setTimeout(() => {
                     const removeTag1 = document.getElementById('load');
@@ -171,7 +175,7 @@
             socket.on('uploadPost', async data => {
                 console.log('미들웨어 uploadPost!!!');
                 console.log('백엔드에서 넘어온 데이터: ', data);
-                console.log('채팅 내용: ', data.currentContent);
+                console.log('게시물 내용: ', data.currentContent);
 
                 if(data){
                     dataLoading(data);

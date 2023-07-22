@@ -2,7 +2,12 @@ import workspaceAPI from '../API/workspace.js'
 
 /**
  * 1. 워크스페이스 입장 -> 워크스페이스 페이지
- * 2. 워크스페이스에 게시물 생성
+ * 2. 게시물 생성
+ * 3. 댓글 달기 -> 게시물이 있어야 함
+ * 4. 워크스페이스에 팀원 초대
+ * 5. 스크랩 따기
+ * 6. 댓글 보기
+ * 7. 워크스페이스 설명 코멘트 편집
  */
 const workspaceService = {
     // 1. 워크스페이스 입장 -> 워크스페이스 페이지
@@ -11,7 +16,13 @@ const workspaceService = {
             const data = await workspaceAPI.getLoadWorkspace(token, channelId, workspaceId, next);
 
             const postObjList = data.workSpace.posts;
-
+            const postFormattedCreatedAt = new Date(data.workSpace.createdAt).toLocaleDateString('ko',{
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                weekday: 'long'
+            });
+            data.workSpace.createdAt = postFormattedCreatedAt;
             if (postObjList.length > 0) {
                 let year;
                 let month;
@@ -45,8 +56,6 @@ const workspaceService = {
 
                     return post;
                 });
-                console.log(postObjList);
-                console.log('data: ', data.workSpace.posts[0]);
             }
             return data;
         } catch (err) {
@@ -57,6 +66,16 @@ const workspaceService = {
     postCreatePostToWorkSpace: async (token, channelId, workSpaceId, formData, next) => {
         try {
             const data = await workspaceAPI.postCreatePostToWorkSpace(token, channelId, workSpaceId, formData, next);
+
+            return data;
+        } catch (err) {
+            next(err);
+        }
+    },
+    // 6. 댓글 보기
+    getReplyToPost: async (token, postId, channelId, workSpaceId, next) => {
+        try {
+            const data = await workspaceAPI.getReplyToPost(token, postId, channelId, workSpaceId, next);
 
             return data;
         } catch (err) {

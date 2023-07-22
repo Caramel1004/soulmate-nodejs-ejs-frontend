@@ -35,6 +35,27 @@ const workspaceAPI = {
         } catch (err) {
             next(err);
         }
+    },
+    // 6. 댓글 보기
+    getReplyToPost: async (token, postId, channelId, workSpaceId, next) => {
+        try {
+            const response = await fetch(`http://localhost:8080/v1/workspace/${channelId}/${workSpaceId}/post/replies`,{
+                method: 'POST',
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    postId: postId
+                })
+            });
+
+            const resData = await response.json();
+
+            return resData;
+        } catch (err) {
+            next(err);
+        }
     }
 }
 

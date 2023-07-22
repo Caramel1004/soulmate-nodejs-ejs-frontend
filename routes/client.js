@@ -46,4 +46,7 @@ router.post('/workspace/:channelId', accessAuthorizedToken, clientController.pos
 // POST /client/workspace/create-post/:channelId/:workSpaceId
 router.post('/workspace/create-post/:channelId/:workSpaceId', accessAuthorizedToken, clientController.postCreatePostToWorkSpace);// 9. 워크스페이스에 게시물 생성
 
+// GET /client/workspace/create-post/:channelId/:workSpaceId
+router.post('/workspace/:channelId/:workSpaceId/post/replies', accessAuthorizedToken, clientController.postGetReplyToPost);// 12. 댓글 보기
+
 export default router;

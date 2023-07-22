@@ -7,25 +7,24 @@ body {
 .board-workspace {
     margin-top: 70px;
     margin-left: 250px;
-    --box-width: 50%;
-    --box-height: 92vh;
+    --box-width: 100%;
+    --box-height: 100vh;
     border: 0.5px groove rgba(0, 0, 0, 0.26);
     border-top: none;
     width: var(--box-width);
     height: var(--box-height);
     display: inline-block;
     text-align: center;
-    /* overflow-y: hidden; */
+    overflow-y: hidden;
     overflow-x: hidden;
-    /* overflow-y: hidden; */
     /* 박스 서서히 나타나기 */
-    animation: fadein 3s;
+    animation: fadein 2s;
     -webkit-animation: fadein 2s;
     /* resize: horizontal; */
 }
 
 /* 워크스페이스 박스 스크롤 디자인 */
-.board-workspace::-webkit-scrollbar {
+/* .board-workspace::-webkit-scrollbar {
     padding: 2px;
     width: 6px;
     height: 50px;
@@ -42,7 +41,7 @@ body {
     width: 6px;
     border-radius: 50px;
     background: #ffffff;
-}
+} */
 
 
 @keyframes fadein {
@@ -71,13 +70,15 @@ body {
     text-align: left;
     /* border: 0.5px groove rgba(0, 0, 0, 0.26); */
 }
-.box-workspace-explain span{
+
+.box-workspace-explain span {
     padding: 5px;
     border: 0.5px groove rgba(0, 0, 0, 0.26);
     border-radius: 10px;
 }
+
 .box-workspace-explain span:hover,
-.box-workspace-explain span:active{
+.box-workspace-explain span:active {
     opacity: 0.6;
     cursor: pointer;
 }
@@ -112,12 +113,11 @@ body {
 }
 
 
-.box-post-content {
-    padding-top: 12px;
-    /* padding-bottom: 10px; */
+.board-workspace.box-post-content {
     width: 100%;
-    display: block;
     height: auto;
+    display: block;
+    position: fixed;
     /* border: 0.5px groove rgba(0, 0, 0, 0.26); */
     /* overflow: scroll; */
 }
@@ -138,20 +138,22 @@ body {
     overflow: hidden;
 }
 
-.box-post-content textarea:focus {
+textarea:focus {
     outline: none;
 }
 
 .btn-group {
     padding: 5px;
-    padding-right: 25px;
+    padding-right: 40px;
     text-align: right;
     /* border: 1px groove rgba(0, 0, 0, 0.26); */
 }
-.box-post-content i{
+
+.box-post-content i {
     color: #007A5A;
 }
-.box-post-content button{
+
+.box-post-content button {
     padding: 10px;
     border: 0.5px groove rgba(0, 0, 0, 0.26);
     border-radius: 10px;
@@ -179,7 +181,7 @@ body {
 }
 
 .posts:hover,
-.posts:active{
+.posts:active {
     background: rgba(226, 221, 221, 0.26);
 }
 
@@ -230,6 +232,7 @@ body {
     padding: 5px;
     padding-left: 10px;
     padding-right: 10px;
+    max-width: 95%;
     /* max-width: 500px; */
     display: inline-block;
     text-align: left;
@@ -242,26 +245,183 @@ body {
     white-space: pre-wrap;
 }
 
+/* 쓰레드 css */
 .thread {
     margin-top: 70px;
     border: 0.5px groove rgba(0, 0, 0, 0.26);
-    /* border-top: none; */
+    border-top: none;
     border-left: none;
-    width: 34%;
-    height: 92vh;
+    width: 40%;
+    height: 100vh;
     background: #ffffff;
-    /* resize: horizontal; */
-    overflow: hidden;
+    display: block;
+    overflow-y: scroll;
     overflow-x: hidden;
-    animation: fadein 3s;
+    animation: fadein 2s;
     -webkit-animation: fadein 2s;
 }
 
-.replies {
+.box-close {
     padding: 10px;
-    width: 100%;
+    text-align: right;
+}
+
+.box-close button {
+    padding: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: right;
+    /* border: 0.5px groove rgba(0, 0, 0, 0.26); */
+    border: none;
+    border-radius: 10px;
+    font-size: 30px;
+    background: #ffffff;
+    cursor: pointer;
+}
+
+.box-close button:hover,
+.box-close button:active {
+    opacity: 0.7;
+}
+
+.replies {
+    margin-top: 5px;
+    padding: 20px;
     display: flex;
     text-align: left;
     background: #ffffff;
     cursor: pointer;
+}
+
+.replies:hover,
+.replies:active {
+    background: rgba(226, 221, 221, 0.26);
+}
+
+.reply-img-box {
+    margin: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 20rem;
+    background: #ffffff;
+}
+
+.reply-img-box img {
+    width: 50px;
+    height: 50px;
+    border-radius: 1rem;
+    opacity: 1;
+    cursor: pointer;
+}
+
+.reply-creator {
+    margin-left: 10px;
+    /* border: groove black 0.5px; */
+}
+
+.passed-time {
+    margin-left: 10px;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.26);
+    /* border: groove black 0.5px; */
+}
+
+.reply-comment {
+    color: #1d1c1d;
+    font-size: 17px;
+    white-space: pre-wrap;
+}
+
+/* 글씨 양옆에 선넣는 css 코드 */
+#text {
+    margin-left: 20px;
+    display: flex;
+    color: #1d1c1d;
+    flex-basis: 100%;
+    align-items: center;
+}
+
+#text::before {
+    content: '';
+    flex-grow: 1;
+    background: rgba(89, 87, 87, 0.26);
+    height: 1px;
+    margin-right: 10px;
+}
+
+#text::after {
+    content: '';
+    flex-grow: 1;
+    background: rgba(89, 87, 87, 0.26);
+    height: 1px;
+    margin-right: 10px;
+}
+
+.thread::-webkit-scrollbar {
+    width: 6px;
+    background: #ffffff;
+}
+
+.thread::-webkit-scrollbar-thumb {
+    width: 6px;
+    background: rgb(155, 151, 151);
+    border-radius: 50px;
+}
+
+.thread::-webkit-scrollbar-track {
+    width: 6px;
+    border-radius: 50px;
+    background: #ffffff;
+}
+
+.thread.reply-content-form {
+    width: 100%;
+    height: auto;
+    display: flex;
+    text-align: center;
+    position: fixed;
+}
+
+.reply-content-form textarea {
+    margin-top: 10px;
+    margin-left: 15px;
+    padding-top: 20px;
+    padding-left: 20px;
+    width: 95%;
+    height: auto;
+    border: 1px groove rgba(0, 0, 0, 0.26);
+    border-radius: 10px;
+    box-sizing: border-box;
+    resize: none;
+    font-size: 15px;
+    overflow: hidden;
+}
+.reply-content-form textarea {
+    margin-top: 10px;
+    margin-left: 15px;
+    padding-top: 20px;
+    padding-left: 20px;
+    width: 95%;
+    height: auto;
+    border: 1px groove rgba(0, 0, 0, 0.26);
+    border-radius: 10px;
+    box-sizing: border-box;
+    resize: none;
+    font-size: 15px;
+    overflow: hidden;
+}
+
+.reply-content-form button {
+    margin-right: 15px;
+    padding: 10px;
+    border: 0.5px groove rgba(0, 0, 0, 0.26);
+    border-radius: 10px;
+    background: #ffffff;
+    cursor: pointer;
+    float: right;
+}
+.reply-content-form button:hover,
+.reply-content-form button:active{
+    background: #007A5A;
+    color: #ffffff;
 }

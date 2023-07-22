@@ -9,12 +9,12 @@ function init() {
 
 // 채팅 내용 post요청
 const postCreatePostToWorkSpace = async () => {
-    if(!confirm('게시물을 업로드 하시겠습니까?')) {
+    if (!confirm('게시물을 업로드 하시겠습니까?')) {
         return;
     }
     try {
         const content = document.getElementById('content').value;
-        if(content == ""){
+        if (content == "") {
             return;
         }
 
@@ -38,6 +38,10 @@ const postCreatePostToWorkSpace = async () => {
     } catch (err) {
         console.log(err);
     }
+}
+
+const postCreateReplyToWorkSpace = () => {
+    
 }
 
 const replaceText = text => {
@@ -75,9 +79,13 @@ const onKeyDownCreateUnitPost = async event => {
         }
     }
 
-    const textarea =  document.getElementById('content');
+    const textarea = document.getElementById('content');
     textarea.style.height = '2px';
     textarea.style.height = (12 + textarea.scrollHeight) + 'px';
+
+    const history = document.getElementById('history');
+    // history.style.height = '2px';
+    history.style.height = (history.style.height - 2) + 'px';
 
     console.log('replacedContent: ', replacedContent);
     console.log('엔터키 안누름!!');
@@ -92,15 +100,217 @@ const onKeyPressEnter = async event => {
     }
 }
 
+// 맨 오른쪽 쓰레드 박스 생성
+const createThreadTag = async postId => {
+    try {
+        if (document.querySelector('.thread')) {
+            document.body.removeChild(document.querySelector('.thread'));
+        }
+        console.log('댓글 불러오는 중');
+        document.querySelector('.board-workspace').style.width = '60%';
+
+        const url = window.location.href;
+        const channelId = url.split('/')[5];
+        const workSpaceId = url.split('/')[6];
+        console.log('channelId : ', channelId);
+        console.log('workSpaceId : ', workSpaceId);
+
+        const response = await fetch(`http://localhost:3000/client/workspace/${channelId}/${workSpaceId}/post/replies`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                postId: postId
+            })
+        });
+        const data = await response.json();
+        console.log('data: ', data);
+
+        // 게시물 태그 생성
+        const postTag = createUnitPostTag(data.post);
+
+        // 쓰레드 생성
+        const thread = document.createElement('div');
+        thread.classList.add('thread');
+
+        // 박스안에 닫기 버튼
+        const closeBox = document.createElement('div');
+        closeBox.classList.add('box-close');
+
+        const closeBtn = document.createElement('button');
+        closeBtn.setAttribute('onclick', 'onClickThredCloseBtn()')
+        closeBtn.textContent = 'x';
+
+        closeBox.appendChild(closeBtn);
+
+        //닫기 박스, 게시물 박스
+        thread.appendChild(closeBox);
+        thread.appendChild(postTag);
+
+        // 멘트: 몇개의 댓글
+        const p = document.createElement('p');
+        p.id = 'text';
+        p.textContent = `${data.post.replies.length}개의 댓글`
+        postTag.appendChild(p);
+
+        for (const reply of data.post.replies) {
+            // 댓글 박스
+            const replyBox = document.createElement('div');
+            replyBox.classList.add('replies');
+
+            // 이미지 박스
+            const replyImgBox = document.createElement('div');
+            const img = document.createElement('img');
+            img.setAttribute('src', reply.creator.photo);
+            replyImgBox.classList.add('reply-img-box');
+            replyImgBox.appendChild(img);
+            console.log('replyImgBox: ', replyImgBox);
+
+            // 생성자 이름, 댓글멘트
+            const creatorBox = document.createElement('div');
+            creatorBox.classList.add('reply-creator');
+
+            // 경과 일수
+            const passedTimeSpan = document.createElement('span');
+            const passedTime = Math.ceil(new Date(reply.createdAt).getDay() - new Date().getDay());
+            const formatterDay = new Intl.RelativeTimeFormat('ko',{
+                numeric: 'auto'
+            });
+            passedTimeSpan.classList.add('passed-time');
+            passedTimeSpan.textContent = formatterDay.format(passedTime, 'day');
+
+            // 닉네임
+            const clientNameTag = document.createElement('div');
+            clientNameTag.classList.add('client-name');
+            clientNameTag.textContent = reply.creator.name;
+            clientNameTag.appendChild(passedTimeSpan);
+            creatorBox.appendChild(clientNameTag);
+            console.log('clientNameTag: ', clientNameTag);
+
+
+            // 댓글멘트
+            const replyComment = document.createElement('div');
+            replyComment.classList.add('reply-comment');
+            replyComment.textContent = reply.content;
+            creatorBox.appendChild(replyComment);
+            console.log('replyComment: ', replyComment);
+
+            replyBox.appendChild(replyImgBox);
+            replyBox.appendChild(creatorBox);
+
+            thread.appendChild(replyBox);
+        }
+
+        // 댓글 작성 박스 생성
+        const replyContentForm = document.createElement('div');
+        replyContentForm.classList.add('reply-content-form');
+
+        const textarea = document.createElement('textarea');
+        textarea.id = 'sendReply';
+
+        replyContentForm.appendChild(textarea);
+        thread.appendChild(replyContentForm);
+
+        const button = document.createElement('button');
+        button.textContent = '댓글 올리기';
+        
+        replyContentForm.appendChild(button);
+
+        document.body.appendChild(thread);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 document.getElementById('send').addEventListener('click', postCreatePostToWorkSpace);
 document.getElementById('content').addEventListener('keydown', onKeyDownCreateUnitPost);
-// document.getElementById('file').addEventListener('change', onChangeSelectFile);
 
+// 쓰레드에 게시물 생성
+const createUnitPostTag = post => {
+    // 게시물 컨테이너
+    const postContainer = document.createElement('div');
+    postContainer.classList.add('post-container');
 
-document.getElementById('content').addEventListener('keydown', event => {
-    //백스페이스 키 8번 
-    const textarea =  document.getElementById('content');
-    textarea.style.height = '2px';
-    textarea.style.height = (12 + textarea.scrollHeight) + 'px';
-    console.log(event.keyCode);
-});
+    // 타임 스탬프
+    const postDate = document.createElement('div');
+    const formatedTime = formatter(post.createdAt);
+    postDate.classList.add('post-date');
+    postDate.textContent = formatedTime;
+
+    // 게시물 정보를 담는 박스 태그
+    const postsBox = document.createElement('div');
+    postsBox.classList.add('posts');
+
+    // 이미지 박스
+    const postImgBox = document.createElement('div');
+    const img = document.createElement('img');
+    img.setAttribute('src', post.creator.photo);
+    postImgBox.classList.add('post-img-box');
+    postImgBox.appendChild(img);
+    console.log('postImgBox: ', postImgBox);
+
+    // 생성자 이름, 생성 내용, 댓글멘트
+    const postBox = document.createElement('div');
+    postBox.classList.add('post');
+
+    // 닉네임
+    const clientNameTag = document.createElement('div');
+    clientNameTag.classList.add('client-name');
+    clientNameTag.textContent = post.creator.name;
+    postBox.appendChild(clientNameTag);
+    console.log('clientNameTag: ', clientNameTag);
+
+    // 내용
+    const postComment = document.createElement('div');
+    postComment.classList.add('post-comment');
+    postComment.textContent = post.content;
+    postBox.appendChild(postComment);
+    console.log('postComment: ', postComment);
+
+    postsBox.appendChild(postImgBox);
+    postsBox.appendChild(postBox);
+
+    postContainer.appendChild(postDate);
+    postContainer.appendChild(postsBox);
+
+    return postContainer;
+}
+
+const formatter = createdAt => {
+    let year = new Date(createdAt).getFullYear();
+    let month = new Date(createdAt).getMonth() + 1;
+    let day = new Date(createdAt).getDate();
+    const timestamp = new Date(createdAt).toTimeString().split(' ')[0];//ex)09:51:35 GMT+0900 (한국 표준시)
+
+    let hour = parseInt(timestamp.split(':')[0]);
+
+    const when = hour >= 12 ? '오후' : '오전';
+
+    if (month < 10) {
+        month = '0' + month;
+    } else if (month > 12) {
+        month = '0' + 1;
+    }
+
+    if (day < 10) {
+        day = '0' + day
+    }
+    if (when === '오후' && hour > 12) {
+        hour %= 12;
+    }
+
+    const min = timestamp.split(':')[1];
+
+    const fomatDate = `${year}-${month}-${day}  ${when} ${hour}:${min}`;
+
+    return fomatDate;
+}
+
+const onClickThredCloseBtn = () => {
+    console.log('close');
+    const thread = document.querySelector('.thread');
+
+    document.querySelector('.board-workspace').style.width = '100%';
+    document.body.removeChild(thread);
+}

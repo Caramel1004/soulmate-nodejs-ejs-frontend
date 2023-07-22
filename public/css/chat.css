@@ -122,18 +122,18 @@ body {
 
 /* 채팅 히스토리 박스 스크롤 디자인 */
 .board-chat__box-history::-webkit-scrollbar {
-    width: 10px;
+    width: 6px;
     background: rgb(235, 222, 203);
 }
 
 .board-chat__box-history::-webkit-scrollbar-thumb {
-    width: 10px;
+    width: 6px;
     background: rgb(155, 151, 151);
     border-radius: 50px;
 }
 
 .board-chat__box-history::-webkit-scrollbar-track {
-    width: 10px;
+    width: 6px;
     border-radius: 50px;
     background: rgb(235, 222, 203);
 }

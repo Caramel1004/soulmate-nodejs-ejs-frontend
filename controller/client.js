@@ -18,6 +18,7 @@ import workspaceService from '../service/workspace.js';
  * 9. 워크스페이스에 게시물 생성
  * 10. 워크스페이스에서 해당 게시물에 댓글 달기
  * 11. 워크 스페이스에 유저 초대 -> 전체공개 or 초대한 유저만 이용
+ * 12. 댓글 보기
  */
 
 const clientControlller = {
@@ -227,6 +228,22 @@ const clientControlller = {
 
             res.status(data.status.code).json({
                 status: data.status
+            });
+        } catch (err) {
+            next(err);
+        }
+    },
+    // 12. 댓글 보기
+    postGetReplyToPost: async (req, res, next) => {
+        try {
+            console.log('댓글')
+            const token = req.cookies.token;
+
+            const data = await workspaceService.getReplyToPost(token, req.body.postId, req.params.channelId, req.params.workSpaceId, next);
+
+            res.status(data.status.code).json({
+                status: data.status,
+                post: data.post
             });
         } catch (err) {
             next(err);
