@@ -6,7 +6,6 @@ const activeSearchTypeBtnColor = () => {
     document.getElementById(searchType).style.color = '#ffffff';
     document.getElementById(searchType).style.background = 'black';
     document.getElementById(searchType).classList.add('active');
-
 }
 
 window.addEventListener('DOMContentLoaded', activeSearchTypeBtnColor);

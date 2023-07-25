@@ -11,12 +11,12 @@ import workspaceAPI from '../API/workspace.js'
  */
 const workspaceService = {
     // 1. 워크스페이스 입장 -> 워크스페이스 페이지
-    getLoadWorkspace: async (token, channelId, workspaceId, next) => {
+    getLoadWorkspace: async (token, channelId, workspaceId, query,next) => {
         try {
-            const data = await workspaceAPI.getLoadWorkspace(token, channelId, workspaceId, next);
+            const data = await workspaceAPI.getLoadWorkspace(token, channelId, workspaceId, query,next);
 
             const postObjList = data.workSpace.posts;
-            const postFormattedCreatedAt = new Date(data.workSpace.createdAt).toLocaleDateString('ko',{
+            const postFormattedCreatedAt = new Date(data.workSpace.createdAt).toLocaleDateString('ko', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',
@@ -76,6 +76,16 @@ const workspaceService = {
     getReplyToPost: async (token, postId, channelId, workSpaceId, next) => {
         try {
             const data = await workspaceAPI.getReplyToPost(token, postId, channelId, workSpaceId, next);
+
+            return data;
+        } catch (err) {
+            next(err);
+        }
+    },
+    // 7. 해당 게시물에 댓글 달기
+    postCreateReplyToPost: async (token, channelId, workSpaceId, formData, next) => {
+        try {
+            const data = await workspaceAPI.postCreateReplyToPost(token, channelId, workSpaceId, formData, next);
 
             return data;
         } catch (err) {

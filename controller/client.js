@@ -18,7 +18,9 @@ import workspaceService from '../service/workspace.js';
  * 9. 워크스페이스에 게시물 생성
  * 10. 워크스페이스에서 해당 게시물에 댓글 달기
  * 11. 워크 스페이스에 유저 초대 -> 전체공개 or 초대한 유저만 이용
- * 12. 댓글 보기
+ * 12. 해당 게시물 댓글 조회
+ * 13. 해당 게시물에 댓글 달기
+ * 14. 관심채널 추가 또는 삭제(토글 관계)
  */
 
 const clientControlller = {
@@ -75,7 +77,7 @@ const clientControlller = {
             const data = await response.json();
             hasError(data.error);
 
-            res.redirect('http://localhost:3000/client/mychannels');
+            res.redirect('/mychannels');
         } catch (err) {
             next(err);
         }
@@ -93,7 +95,8 @@ const clientControlller = {
             const data = await channelService.postInviteUserToChannel(jsonWebToken, channelId, invitedUserId, next);
             hasError(data.error);
 
-            res.redirect('/mychannel/' + data.channel._id);
+            console.log(data);
+            res.redirect('/mychannel/' + data.channelId + '?searchWord=member');
         } catch (err) {
             next(err);
         }
@@ -233,13 +236,13 @@ const clientControlller = {
             next(err);
         }
     },
-    // 12. 댓글 보기
+    // 12. 해당 게시물 댓글 조회
     postGetReplyToPost: async (req, res, next) => {
         try {
-            console.log('댓글')
             const token = req.cookies.token;
 
             const data = await workspaceService.getReplyToPost(token, req.body.postId, req.params.channelId, req.params.workSpaceId, next);
+            hasError(data.error);
 
             res.status(data.status.code).json({
                 status: data.status,
@@ -247,6 +250,40 @@ const clientControlller = {
             });
         } catch (err) {
             next(err);
+        }
+    },
+    // 13. 해당 게시물에 댓글 달기
+    postCreateReplyToPost: async (req, res, next) => {
+        try {
+            const token = req.cookies.token;
+            const formData = new FormData();
+            formData.append('postId', req.body.postId);
+            formData.append('content', req.body.content);
+
+            const data = await workspaceService.postCreateReplyToPost(token, req.params.channelId, req.params.workSpaceId, formData, next);
+            hasError(data.error);
+
+            res.status(data.status.code).json({
+                status: data.status
+            });
+        } catch (err) {
+            next(err);
+        }
+    },
+    // 14. 관심채널 추가 또는 삭제(토글 관계)
+    postAddOpenChannelToWishChannel: async (req, res, next) => {
+        try {
+            const token = req.cookies.token;
+
+            const data = await channelService.postAddOpenChannelToWishChannel(token, req.body.channelId, next);
+            console.log(data);
+            hasError(data.error);
+
+            res.status(data.status.code).json({
+                status: data.status
+            });
+        } catch (err) {
+            next(err)
         }
     }
 }

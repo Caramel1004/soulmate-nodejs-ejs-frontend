@@ -78,7 +78,9 @@ app.use((error, req, res, next) => {
     }
 
     if(error.statusCode == 422) {
-        next();
+        res.status(error.statusCode).json({
+            error: error
+        });
     }
     res.status(error.statusCode || 500).render('error404',{
         error: error

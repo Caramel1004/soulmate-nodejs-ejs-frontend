@@ -40,7 +40,7 @@
                     </div>
                     <% for(let workSpace of workSpaces) { %>
                         <div class="item">
-                            <a href="/channel/workspace/<%= workSpace.channelId %>/<%= workSpace._id %>">
+                            <a href="/channel/workspace/<%= workSpace.channelId %>/<%= workSpace._id %>?sort=lastest&&sortNum=-1">
                                 <i class="fa-solid fa-hashtag fa-sm"></i>
                                 <span><%= workSpace.workSpaceName %></span>
                                 <p>2023-07-14</p>

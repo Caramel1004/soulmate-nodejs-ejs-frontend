@@ -182,6 +182,26 @@ const channelAPI = {
         } catch (err) {
             next(err);
         }
+    },
+    // 14. 관심 채널 추가
+    postAddOpenChannelToWishChannel: async (token, channelId, next) => {
+        try {
+            const response = await fetch(`http://localhost:8080/v1/channel/add-or-remove-wishchannel`, {
+                method: 'PATCH',
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    channelId: channelId
+                })
+            });
+            const resData = await response.json();
+
+            return resData
+        } catch (err) {
+            next(err)
+        }
     }
 }
 

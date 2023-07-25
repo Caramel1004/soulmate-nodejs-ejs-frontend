@@ -18,8 +18,9 @@ body {
     text-align: center;
     overflow: hidden;
     /* 박스 서서히 나타나기 */
-    animation: fadein 3s;
-    -webkit-animation: fadein 2s;
+    animation: fadein 1s;
+    -webkit-animation: fadein 1s;
+    -moz-animation: fadein 1s;
 }
 
 @keyframes fadein {
@@ -42,11 +43,22 @@ body {
     }
 }
 
+@-moz-keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
 /* 채팅 히스토리 박스 */
 .board-chat__box-history {
     /* border: groove black 0.5px; */
+    margin-top: 60px;
     width: var(--box-width);
-    height: 75vh;
+    height: 73vh;
     /* background: rgb(219, 216, 216); */
     background: rgb(235, 222, 203);
     overflow: scroll;
@@ -55,7 +67,7 @@ body {
 
 /* 단위 채팅 내용 큰박스 */
 .board-chat__unit-chat-box {
-    margin-top: 40px;
+    margin-top: 35px;
     margin-left: 20px;
     /* padding-top: 1px; */
     padding: 0;
@@ -200,9 +212,10 @@ body {
     float: right;
 }
 
-.board-chat__btn i{
+.board-chat__btn i {
     color: #007A5A;
 }
+
 .board-chat__btn:hover,
 .board-chat__btn:active {
     opacity: 0.7;
@@ -327,20 +340,69 @@ body {
     /* border: groove; */
 }
 
-.date {
-    /* margin-left: 160px; */
-    padding: 5px;
-    /* box-shadow: 0 1px 0 rgba(0, 0, 0, 0.26); */
-    /* width: auto; */
-    margin-left: -40px;
+.room-name-container {
+    padding: 20px;
+    width: 51.5%;
+    height: auto;
+    text-align: left;
+    display: block;
     position: fixed;
-    display: inline-block;
-    text-align: center;
+    /* border: 1px groove rgba(0, 0, 0, 0.26); */
+    background: #ffffff;
+}
+
+.room-name-container.room-name-box {
+    padding: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+    margin-left: -60px;
     border-radius: 40px;
     border: 0.1px solid rgb(223, 213, 213);
     background: #ffffff;
     font-weight: bold;
     opacity: 0.7;
+}
+
+.room-name-box span {
+    padding-left: 20px;
+    color: #1d1c1d;
+}
+
+.room-name-box i {
+    cursor: pointer;
+    width: 10px;
+    height: 10px;
+}
+
+.hamburger-menu-container {
+    padding-top: 2px;
+    position: fixed;
+    display: block;
+}
+
+.hamburger-menu {
+    padding: 10px;
+    /* border: 1px groove rgba(0, 0, 0, 0.26); */
+    border-radius: 10px;
+    background: #ffffff;
+    z-index: 99;
+    animation: fadein 0.5s;
+    -webkit-animation: fadein 0.5s;
+    -moz-animation: fadein 0.5s;
+}
+.hamburger-menu button {
+    padding: 10px;
+    text-align: left;
+    border: none;
+    color: #1d1c1d;
+    font-size: 14px;
+    background: #ffffff;
+    border-bottom: 1px groove rgba(0, 0, 0, 0.26);
+    cursor: pointer;
+}
+.hamburger-menu span {
+    padding-left: 20px;
+    color: #1d1c1d;
 }
 
 .content {
@@ -474,34 +536,23 @@ body {
 }
 
 .box__top {
-    width: 500px;
-    height: 5vh;
-    display: flexbox;
-    align-items: end;
-    /* box-shadow: 0 0 7px rgba(0, 0, 0, 0.26); */
+    padding: 0;
+    text-align: right;
 }
 
 .box__exit {
-    padding: 5px;
-    float: right;
+    border-bottom: 0.5px groove rgba(0, 0, 0, 0.26);
 }
 
 .btn__exit {
-    /* background-color: rgb(235, 222, 203); */
-    background-color: white;
-    border-radius: 20rem;
-    /* border: 1px solid #ffffff; */
-    width: 30px;
-    height: 30px;
+    padding: 13px;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: right;
     border: none;
-    display: inline-block;
+    font-size: 30px;
+    background: #ffffff;
     cursor: pointer;
-    font-weight: 100px;
-    color: black;
-    font-family: Arial;
-    font-size: 20px;
-    /* padding: 5px; */
-    text-decoration: none;
 }
 
 .btn__exit:hover,

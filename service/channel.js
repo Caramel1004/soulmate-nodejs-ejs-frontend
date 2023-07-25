@@ -108,6 +108,16 @@ const channelService = {
         } catch (err) {
             next(err);
         }
+    },
+    // 14. 관심채널 추가 또는 삭제(토글 관계)
+    postAddOpenChannelToWishChannel: async (token, channelId, next) => {
+        try {
+            const data = await channelAPI.postAddOpenChannelToWishChannel(token, channelId, next);
+            
+            return data;
+        } catch (err) {
+            next(err)
+        }
     }
 }
 

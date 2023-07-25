@@ -28,7 +28,7 @@ const viewController = {
             // const status = resData.status;
 
             res.render('index', {
-                path: '메인 페이지',
+                path: '/',
                 title: 'Soulmate 메인 페이지',
                 clientName: req.cookies.clientName,
                 photo: req.cookies.photo,
@@ -175,6 +175,7 @@ const viewController = {
             // 2. 해당 채널 렌더링
             res.status(chatRoomListData.status.code).render(fileName, {
                 path: `/mychannel/:channelId?searchWord=${searchWord}`,
+                searchWord: searchWord,
                 title: matchedChannel.channelName,
                 clientName: req.cookies.clientName,
                 photo: req.cookies.photo,
@@ -207,6 +208,7 @@ const viewController = {
             hasError(workSpaceListData.error);
             const matchedWorkSpaceList = workSpaceListData.workSpaces;
 
+            console.log(chatRoomData);
             res.status(chatRoomListData.status.code).render('chat/chat-board', {
                 path: '채팅방',
                 title: chatRoomData.chatRoom.roomName,
@@ -231,9 +233,10 @@ const viewController = {
             const token = req.cookies.token;
             const channelId = req.params.channelId;
             const workspaceId = req.params.workspaceId;
+            const query = req.query;
 
             // 1. 워크스페잇 세부정보
-            const workSpaceData = await workspaceService.getLoadWorkspace(token, channelId, workspaceId, next);
+            const workSpaceData = await workspaceService.getLoadWorkspace(token, channelId, workspaceId, query,next);
             hasError(workSpaceData.error);
 
             // 2. 채팅룸 리스트

@@ -14,9 +14,16 @@
         <%- include('../includes/loading.ejs') %>
         <!-- 챗 보드 -->
         <div class="board-chat">
+            <div class="room-name-container">
+                <div class="room-name-box">
+                    <i id="hamburger" class="fa-solid fa-bars fa-lg"></i><span><%= title %></span>
+                </div>
+            </div>
             <div class="board-chat__box-history">
+                <div class="hamburger-menu-container">
+                    <!-- 햄버거메뉴 생성될 자리 -->
+                </div>
                 <% if(chats.length > 0) { %>
-                    <div class="date"><%= currentDate %></div>
                     <% for(let chatDetail of chats) { %>
                         <div class="board-chat__unit-chat-box">
                             <div class="board-chat__unit-chat-img">

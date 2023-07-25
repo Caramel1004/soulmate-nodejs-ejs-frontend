@@ -162,6 +162,16 @@ body::-webkit-scrollbar-track {
     }
 }
 
+@-moz-keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
 .contents__div-wrapper:hover,
 .contents__div-wrapper:active {
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.26);
@@ -185,6 +195,20 @@ body::-webkit-scrollbar-track {
 .card h2 {
     font-size: 17px;
     font-weight: bolder;
+}
+
+.heart {
+    padding: 13px;
+    padding-top: 20px;
+    padding-bottom: 14px;
+    border: 0.5px groove rgba(0, 0, 0, 0.26);
+    border-radius: 30px;
+    background: #ffffff;
+    cursor: pointer;
+}
+
+.heart i{
+    color: red;
 }
 
 

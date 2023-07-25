@@ -20,6 +20,7 @@ body {
     /* 박스 서서히 나타나기 */
     animation: fadein 2s;
     -webkit-animation: fadein 2s;
+    -moz-animation: fadein 2s;
     /* resize: horizontal; */
 }
 
@@ -64,6 +65,16 @@ body {
     }
 }
 
+@-moz-keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
 .box-workspace-explain {
     padding: 10px;
     padding-left: 30px;
@@ -81,6 +92,38 @@ body {
 .box-workspace-explain span:active {
     opacity: 0.6;
     cursor: pointer;
+}
+
+#tab-box {
+    margin-bottom: 13px;
+    padding: 10px;
+    padding-left: 25px;
+    font-weight: bold;
+    text-align: left;
+    /* border: 1px solid black; */
+}
+
+.type {
+    /* margin-right: 5px; */
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    font-size: 14px;
+    color: #1d1c1d;
+    background: rgb(243, 243, 246);
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.type.active {
+    color: #ffffff;
+    background: black;
+}
+
+.type:hover,
+.type:active {
+    background: rgb(233, 233, 237);
 }
 
 .box-post-history {
@@ -259,6 +302,7 @@ textarea:focus {
     overflow-x: hidden;
     animation: fadein 2s;
     -webkit-animation: fadein 2s;
+    -moz-animation: fadein 2s;
 }
 
 .box-close {
@@ -396,6 +440,7 @@ textarea:focus {
     font-size: 15px;
     overflow: hidden;
 }
+
 .reply-content-form textarea {
     margin-top: 10px;
     margin-left: 15px;
@@ -420,8 +465,9 @@ textarea:focus {
     cursor: pointer;
     float: right;
 }
+
 .reply-content-form button:hover,
-.reply-content-form button:active{
+.reply-content-form button:active {
     background: #007A5A;
     color: #ffffff;
 }

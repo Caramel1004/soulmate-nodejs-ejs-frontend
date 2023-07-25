@@ -21,6 +21,11 @@
                     <span>Edit</span>
                     <p>설명: soulmate 백엔드 이슈를 정리하는 워크스페이스 입니다.</p>
                 </div>
+                <div id="tab-box">
+                    <a class="type" id="lastest" href="/channel/workspace/<%= workSpace.channelId %>/<%= workSpace._id %>?sort=lastest&&sortNum=-1">최신순</a>
+                    <a class="type" id="old" href="/channel/workspace/<%= workSpace.channelId %>/<%= workSpace._id %>?sort=old&&sortNum=1">오래된순</a>
+                    <a class="type" id="date" href="/channel/workspace/<%= workSpace.channelId %>/<%= workSpace._id %>?sort=select&&sortNum=1">날짜 선택</a>
+                </div>
                 <% if(workSpace.posts.length > 0) { %>
                     <% for(let post of workSpace.posts) { %>
                         <div class="post-container">
@@ -89,7 +94,7 @@
                 return fomatDate;
             }
 
-            const createUnitPostTag = async data => {
+            const createUnitPostTag = data => {
                 const post = data.post;
                 // 게시물 컨테이너
                 const postContainer = document.createElement('div');
@@ -146,7 +151,57 @@
                 historyTag.scrollTop = historyTag.scrollHeight;
             }
 
-            const dataLoading = data => {
+            const createUnitReplyTag = data => {
+                const thread = document.querySelector('.thread');
+
+                // 댓글 박스
+                const replyBox = document.createElement('div');
+                replyBox.classList.add('replies');
+
+                // 이미지 박스
+                const replyImgBox = document.createElement('div');
+                const img = document.createElement('img');
+                img.setAttribute('src', data.reply.creator.photo);
+                replyImgBox.classList.add('reply-img-box');
+                replyImgBox.appendChild(img);
+                console.log('replyImgBox: ', replyImgBox);
+
+                // 생성자 이름, 댓글멘트
+                const creatorBox = document.createElement('div');
+                creatorBox.classList.add('reply-creator');
+
+                // 경과 일수
+                const passedTimeSpan = document.createElement('span');
+                const passedTime = Math.ceil(new Date(data.reply.createdAt).getDay() - new Date().getDay());
+                const formatterDay = new Intl.RelativeTimeFormat('ko', {
+                    numeric: 'auto'
+                });
+                passedTimeSpan.classList.add('passed-time');
+                passedTimeSpan.textContent = formatterDay.format(passedTime, 'day');
+
+                // 닉네임
+                const clientNameTag = document.createElement('div');
+                clientNameTag.classList.add('client-name');
+                clientNameTag.textContent = data.reply.creator.name;
+                clientNameTag.appendChild(passedTimeSpan);
+                creatorBox.appendChild(clientNameTag);
+                console.log('clientNameTag: ', clientNameTag);
+
+
+                // 댓글멘트
+                const replyComment = document.createElement('div');
+                replyComment.classList.add('reply-comment');
+                replyComment.textContent = data.reply.content;
+                creatorBox.appendChild(replyComment);
+                console.log('replyComment: ', replyComment);
+
+                replyBox.appendChild(replyImgBox);
+                replyBox.appendChild(creatorBox);
+
+                thread.appendChild(replyBox);
+            }
+
+            const dataLoading = (data, className, callback) => {
                 const img = document.createElement('img')
                 const p = document.createElement('p');
                 img.setAttribute('src','/images/icons8-spinner.gif');
@@ -155,9 +210,9 @@
                 p.id = 'load';
                 img.id = 'img'
                 p.textContent = '새로운 데이터가 업로드 되고있습니다.';
-                document.querySelector('.box-post-history').appendChild(p);
-                document.querySelector('.box-post-history').appendChild(img);
-                const historyTag = document.querySelector('.box-post-history');
+                document.querySelector(className).appendChild(p);
+                document.querySelector(className).appendChild(img);
+                const historyTag = document.querySelector(className);
 
                 //채팅박스 스크롤 맨 아래로 위치
                 historyTag.scrollTop = historyTag.scrollHeight;
@@ -165,20 +220,31 @@
                 setTimeout(() => {
                     const removeTag1 = document.getElementById('load');
                     const removeTag2 = document.getElementById('img');
-                    document.querySelector('.box-post-history').removeChild(removeTag1);
-                    document.querySelector('.box-post-history').removeChild(removeTag2);
+                    document.querySelector(className).removeChild(removeTag1);
+                    document.querySelector(className).removeChild(removeTag2);
                     // 실시간으로 게시물 업데이트
-                    createUnitPostTag(data);
+                    callback(data);
                 }, 3000);
             }
             // 게시물 업데이트
             socket.on('uploadPost', async data => {
                 console.log('미들웨어 uploadPost!!!');
                 console.log('백엔드에서 넘어온 데이터: ', data);
-                console.log('게시물 내용: ', data.currentContent);
 
                 if(data){
-                    dataLoading(data);
+                    dataLoading(data, '.box-post-history', createUnitPostTag);
+                }else {
+                    return;
+                }
+            });
+
+            // 댓글 업데이트
+            socket.on('createReply', async data => {
+                console.log('미들웨어 uploadPost!!!');
+                console.log('백엔드에서 넘어온 데이터: ', data);
+
+                if(data){
+                    dataLoading(data,'.thread', createUnitReplyTag);
                 }else {
                     return;
                 }

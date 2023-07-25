@@ -66,6 +66,35 @@ const postSendChat = async () => {
     }
 }
 
+const patchExitChatRoom = async () => {
+    try {
+        const content = document.getElementById('content').value;
+        if(content == ""){
+            return;
+        }
+
+        const url = window.location.href;
+
+        const channelId = url.split('/')[5];
+        const chatRoomId = url.split('/')[6];
+        const replaceContent = content.replace('\r\n', '<br>');
+        console.log('channelId : ', channelId);
+        console.log('chatRoomId : ', chatRoomId);
+        console.log('replaceContent : ', replaceContent);
+
+        const formData = new FormData();
+        formData.append('chat', replaceContent);
+
+        await fetch('http://localhost:3000/client/chat/' + channelId + '/' + chatRoomId, {
+            method: 'PATCH',
+            
+        });
+        console.log('채팅 처리 완료!!!');
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 // 채팅 박스에 textarea 키보드 엔터 시 이벤트
 // 이슈: 한글입력 후 엔터시 중복 입력되는 현상 발생. -> 이벤트가 두번 발생함
 // keyup 일때 영문입력시 event.isComposing이 false 즉, 문자 조합을 하지 않는다는 소리이다.
@@ -179,11 +208,6 @@ const createPreviewTag = e => {
     console.log('previewBox: ', previewBox);
     parentNode.appendChild(previewBox);
 }
-
-document.getElementById('send').addEventListener('click', postSendChat);
-document.getElementById('content').addEventListener('keydown', onKeyDownCreateUnitChat);
-document.getElementById('file').addEventListener('change', onChangeSelectFile);
-document.getElementById('sendFile').addEventListener('click', postUploadFileToChatRoom);
 
 // 서브 보드 토글버튼
 const toggleButton = type => {
@@ -410,3 +434,41 @@ const btnActivation = id => {
     tag.style.opacity = 1;
     tag.style.cursor = 'pointer';
 }
+
+const onClickHamburgerIcon = () => {
+    console.log('햄버거 메뉴');
+    const hamburger = document.getElementById('hamburger');
+ 
+    if(hamburger.className.indexOf('active') === -1) {
+        hamburger.className = 'active fa-solid fa-x fa-lg';
+        createHamburgerMenu();
+    }else {
+        hamburger.className = 'fa-solid fa-bars fa-lg';
+        removeAllChild(document.querySelector('.hamburger-menu-container'));
+    }
+}
+
+//roomname 박스 밑에 생성 시킬거임
+const createHamburgerMenu = () => {
+    const hamburgerMenu = document.createElement('div');
+    hamburgerMenu.className = 'hamburger-menu';
+    
+    const button = document.createElement('button');
+    const i = document.createElement('i');
+    const span = document.createElement('span');
+    i.className = 'fa-solid fa-arrow-right-from-bracket';
+    span.textContent = '채팅방 나가기';
+    button.append(i);
+    button.append(span);
+    button.id = 'exit';
+
+    hamburgerMenu.appendChild(button);
+
+    document.querySelector('.hamburger-menu-container').appendChild(hamburgerMenu);
+}
+
+document.getElementById('send').addEventListener('click', postSendChat);
+document.getElementById('content').addEventListener('keydown', onKeyDownCreateUnitChat);
+document.getElementById('file').addEventListener('change', onChangeSelectFile);
+document.getElementById('sendFile').addEventListener('click', postUploadFileToChatRoom);
+document.getElementById('hamburger').addEventListener('click', onClickHamburgerIcon);

@@ -1,10 +1,10 @@
 window.onload = init();
 
 function init() {
-    const historyTag = document.querySelector('.box-post-history');
+    // const historyTag = document.querySelector('.box-post-history');
 
-    //채팅박스 스크롤 맨 아래로 위치
-    historyTag.scrollTop = historyTag.scrollHeight;
+    // //채팅박스 스크롤 맨 아래로 위치
+    // historyTag.scrollTop = historyTag.scrollHeight;
 }
 
 // 채팅 내용 post요청
@@ -40,13 +40,43 @@ const postCreatePostToWorkSpace = async () => {
     }
 }
 
-const postCreateReplyToWorkSpace = () => {
-    
+const postCreateReplyToWorkSpace = async postId => {
+    if (!confirm('댓글을 업로드 하시겠습니까?')) {
+        return;
+    }
+    try {
+        const content = document.getElementById('replyContent').value;
+        if (content == "") {
+            return;
+        }
+        document.getElementById('content').value = "";
+        const url = window.location.href;
+
+        const channelId = url.split('/')[5];
+        const workSpaceId = url.split('/')[6];
+        const replaceContent = content.replace('\r\n', '<br>');
+        console.log('channelId : ', channelId);
+        console.log('workSpaceId : ', workSpaceId);
+        console.log('postId : ', postId);
+        console.log('replaceContent : ', replaceContent);
+
+        const formData = new FormData();
+        formData.append('postId', postId);
+        formData.append('content', replaceContent);
+
+        await fetch(`http://localhost:3000/client/workspace/${channelId}/${workSpaceId}/post/create-reply`, {
+            method: 'POST',
+            body: formData
+        });
+        console.log('댓글 처리 완료!!!');
+    } catch (err) {
+        console.log(err);
+    }
 }
 
 const replaceText = text => {
     let replacedText = text;
-    replacedText = text.replace(/\s| /gi, '');
+    replacedText = text.replace(/\s|/gi, '');
     // replacedText = text.replace(/\r\n| /gi, '<br>');
 
     return replacedText;
@@ -79,13 +109,13 @@ const onKeyDownCreateUnitPost = async event => {
         }
     }
 
-    const textarea = document.getElementById('content');
-    textarea.style.height = '2px';
-    textarea.style.height = (12 + textarea.scrollHeight) + 'px';
+    // const textarea = document.getElementById('content');
+    // textarea.style.height = '2px';
+    // textarea.style.height = (12 + textarea.scrollHeight) + 'px';
 
-    const history = document.getElementById('history');
-    // history.style.height = '2px';
-    history.style.height = (history.style.height - 2) + 'px';
+    // const history = document.getElementById('history');
+    // // history.style.height = '2px';
+    // history.style.height = (history.style.height - 2) + 'px';
 
     console.log('replacedContent: ', replacedContent);
     console.log('엔터키 안누름!!');
@@ -111,7 +141,7 @@ const createThreadTag = async postId => {
 
         const url = window.location.href;
         const channelId = url.split('/')[5];
-        const workSpaceId = url.split('/')[6];
+        const workSpaceId = url.split('/')[6].split('?')[0];
         console.log('channelId : ', channelId);
         console.log('workSpaceId : ', workSpaceId);
 
@@ -174,7 +204,7 @@ const createThreadTag = async postId => {
             // 경과 일수
             const passedTimeSpan = document.createElement('span');
             const passedTime = Math.ceil(new Date(reply.createdAt).getDay() - new Date().getDay());
-            const formatterDay = new Intl.RelativeTimeFormat('ko',{
+            const formatterDay = new Intl.RelativeTimeFormat('ko', {
                 numeric: 'auto'
             });
             passedTimeSpan.classList.add('passed-time');
@@ -207,14 +237,15 @@ const createThreadTag = async postId => {
         replyContentForm.classList.add('reply-content-form');
 
         const textarea = document.createElement('textarea');
-        textarea.id = 'sendReply';
+        textarea.id = 'replyContent';
 
         replyContentForm.appendChild(textarea);
         thread.appendChild(replyContentForm);
 
         const button = document.createElement('button');
+        button.setAttribute('onclick', `postCreateReplyToWorkSpace('${data.post._id}')`)
         button.textContent = '댓글 올리기';
-        
+
         replyContentForm.appendChild(button);
 
         document.body.appendChild(thread);
@@ -222,9 +253,6 @@ const createThreadTag = async postId => {
         console.log(err);
     }
 }
-
-document.getElementById('send').addEventListener('click', postCreatePostToWorkSpace);
-document.getElementById('content').addEventListener('keydown', onKeyDownCreateUnitPost);
 
 // 쓰레드에 게시물 생성
 const createUnitPostTag = post => {
@@ -314,3 +342,19 @@ const onClickThredCloseBtn = () => {
     document.querySelector('.board-workspace').style.width = '100%';
     document.body.removeChild(thread);
 }
+
+const activeSortTypeBtnColor = () => {
+    const url = window.location.href;
+    const queryString = url.split('?')[1];
+    const query = queryString.split('&&')[0];
+    const sortType = query.split('=')[1];
+    
+    console.log('sortType: ', sortType);
+    document.getElementById(sortType).style.color = '#ffffff';
+    document.getElementById(sortType).style.background = 'black';
+    document.getElementById(sortType).classList.add('active');
+}
+
+document.getElementById('send').addEventListener('click', postCreatePostToWorkSpace);
+document.getElementById('content').addEventListener('keydown', onKeyDownCreateUnitPost);
+window.addEventListener('DOMContentLoaded', activeSortTypeBtnColor);
