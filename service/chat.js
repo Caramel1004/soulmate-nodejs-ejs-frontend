@@ -42,8 +42,8 @@ const chatService = {
                     return chat;
                 });
 
-                console.log(chatObjList)
-                console.log('data: ', data.chatRoom.chats[0]);
+                // console.log(chatObjList)
+                // console.log('data: ', data.chatRoom.chats[0]);
                 // data.chatRoomData.chats = [...chatObjList];
             }
             return data;
@@ -61,6 +61,16 @@ const chatService = {
             next(err);
         }
     },
+    // 3. 채팅방 퇴장
+    patchExitChatRoom: async (token, channelId, chatRoomId, next) => {
+        try {
+            const data = await chatAPI.patchExitChatRoom(token, channelId, chatRoomId, next);
+
+            return data;
+        } catch (err) {
+            next(err)
+        }
+    }
 }
 
 export default chatService

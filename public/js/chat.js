@@ -66,10 +66,10 @@ const postSendChat = async () => {
     }
 }
 
+// 채팅방 퇴장
 const patchExitChatRoom = async () => {
     try {
-        const content = document.getElementById('content').value;
-        if(content == ""){
+        if(!confirm('퇴장시 모든 채팅내용이 삭제됩니다.\n퇴장 하시겠습니까?')){
             return;
         }
 
@@ -77,19 +77,23 @@ const patchExitChatRoom = async () => {
 
         const channelId = url.split('/')[5];
         const chatRoomId = url.split('/')[6];
-        const replaceContent = content.replace('\r\n', '<br>');
         console.log('channelId : ', channelId);
         console.log('chatRoomId : ', chatRoomId);
-        console.log('replaceContent : ', replaceContent);
 
-        const formData = new FormData();
-        formData.append('chat', replaceContent);
-
-        await fetch('http://localhost:3000/client/chat/' + channelId + '/' + chatRoomId, {
+        const response = await fetch(`http://localhost:3000/client/chat/exit-chat-room/${channelId}/${chatRoomId}`, {
             method: 'PATCH',
-            
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                channelId: channelId,
+                chatRoomId: chatRoomId
+            })
         });
-        console.log('채팅 처리 완료!!!');
+
+        const data = await response.json();
+
+        window.location.href = 'http://localhost:3000/mychannels?searchWord=all';
     } catch (err) {
         console.log(err);
     }
@@ -460,7 +464,8 @@ const createHamburgerMenu = () => {
     span.textContent = '채팅방 나가기';
     button.append(i);
     button.append(span);
-    button.id = 'exit';
+    button.setAttribute('type','button');
+    button.setAttribute('onclick','patchExitChatRoom()');
 
     hamburgerMenu.appendChild(button);
 

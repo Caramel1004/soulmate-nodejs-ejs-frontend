@@ -74,6 +74,25 @@ const chatAPI = {
         } catch (err) {
             next(err);
         }
+    },
+    // 5. 채팅방 퇴장
+    patchExitChatRoom: async (token, channelId, chatRoomId, next) => {
+        try {
+            const response = await fetch(`http://localhost:8080/v1/chat/exit/${channelId}/${chatRoomId}`, {
+                method: 'PATCH',
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    channelId: channelId,
+                    chatRoomId: chatRoomId
+                })
+            });
+            return await response.json();
+        } catch (err) {
+            next(err);
+        }
     }
 }
 

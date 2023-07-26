@@ -25,7 +25,7 @@ const channelAPI = {
             const response = await fetch('http://localhost:8080/v1/channel/openchannel-list/' + channelId, {
                 method: 'POST',
                 headers: {
-                    Authorization: 'Bearer ' + token
+                    Authorization: 'Bearer ' + token,
                 }
             });
 
@@ -42,7 +42,8 @@ const channelAPI = {
             const response = await fetch('http://localhost:8080/v1/channel/mychannels?searchWord=' + searchWord, {
                 method: 'GET',
                 headers: {
-                    Authorization: 'Bearer ' + token
+                    Authorization: 'Bearer ' + token,
+                    Refresh: refreshToken
                 }
             });
 

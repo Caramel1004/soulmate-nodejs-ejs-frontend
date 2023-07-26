@@ -285,6 +285,21 @@ const clientControlller = {
         } catch (err) {
             next(err)
         }
+    },
+    // 15. 채팅방 퇴장
+    patchExitChatRoom: async (req, res, next) => {
+        try {
+            const token = req.cookies.token;
+
+            const data = await chatService.patchExitChatRoom(token, req.body.channelId, req.body.chatRoomId, next);
+            hasError(data.error);
+
+            res.status(data.status.code).json({
+                removedChatRoom: data.removedChatRoom
+            });
+        } catch (err) {
+            next(err);
+        }
     }
 }
 

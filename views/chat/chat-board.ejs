@@ -26,17 +26,22 @@
                 <% if(chats.length > 0) { %>
                     <% for(let chatDetail of chats) { %>
                         <div class="board-chat__unit-chat-box">
-                            <div class="board-chat__unit-chat-img">
-                                <img src="<%= chatDetail.creator.photo %>">
-                            </div>
-                            <div class="chat">
-                                <div class="client-name"><%= chatDetail.creator.name %></div>
-                                <div class="board-chat__unit-chat"><%= chatDetail.chat %></div>
-                            </div>
-                            <div class="chat-date">
-                                <%= chatDetail.fomatDate %>
-                            </div>
+                            <% if(chatDetail.isNotice == 'N') { %>
+                                <div class="board-chat__unit-chat-img">
+                                    <img src="<%= chatDetail.creator.photo %>">
+                                </div>
+                                <div class="chat">
+                                    <div class="client-name"><%= chatDetail.creator.name %></div>
+                                    <div class="board-chat__unit-chat"><%= chatDetail.chat %></div>
+                                </div>
+                                <div class="chat-date">
+                                    <%= chatDetail.fomatDate %>
+                                </div>
+                            <% } %>
                         </div>
+                        <% if(chatDetail.isNotice == 'Y') { %>
+                            <p style="text-align: center;"><%= chatDetail.chat %></p>
+                        <% } %>
                     <% } %> 
                 <% } %>
             </div>
@@ -200,7 +205,14 @@
 
                 createUnitChatTag(data);
             });
-            
+            socket.on('exitUser', data => {
+                console.log('data: ',data)
+                const p = document.createElement('p');
+                p.style.color = '#1d1c1d';
+                p.textContent = `${data.exitUser.name}님이 퇴장하셨습니다.`
+
+                document.querySelector('.board-chat__box-history').appendChild(p);
+            })
           </script>
           <%- include('../includes/script.ejs') %>       
     </body>   

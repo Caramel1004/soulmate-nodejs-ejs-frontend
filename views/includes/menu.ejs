@@ -75,8 +75,16 @@
                         <a href="/channel/chat/<%= room.channelId %>/<%= room._id %>">
                             <i class="fa-solid fa-message"></i>
                             <span><%= room.roomName %></span>
-                            <p>2023-07-14</p>
-                            <p>안녕하세요 이번에 새로 입사하게된 개발자 입니다.</p>
+                            <% if(room.chats.length > 0) { 
+                                room.chats[0].createdAt = new Date(room.chats[0].createdAt).toLocaleDateString('ko', {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric',
+                                    weekday: 'long'
+                                });%>
+                                <p><%= room.chats[0].createdAt %></p>
+                                <p><%= room.chats[0].chat %></p>
+                            <% } %>
                         </a>
                     </div>
                 <% } %>

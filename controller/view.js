@@ -170,7 +170,7 @@ const viewController = {
             const matchedWorkSpaceList = workSpaceListData.workSpaces;
             console.log(matchedWorkSpaceList);
             // 4. 스크랩 목록 요청
-            
+
             const state = 'on';
             // 2. 해당 채널 렌더링
             res.status(chatRoomListData.status.code).render(fileName, {
@@ -202,7 +202,7 @@ const viewController = {
             // 2. 채팅방 목록
             const chatRoomListData = await channelService.getChatRoomList(jsonWebToken, channelId, next);
             hasError(chatRoomData.error);
-            
+
             // 3. 워크스페이스 목록 요청
             const workSpaceListData = await channelService.getWorkSpaceList(jsonWebToken, channelId, next);
             hasError(workSpaceListData.error);
@@ -236,7 +236,7 @@ const viewController = {
             const query = req.query;
 
             // 1. 워크스페잇 세부정보
-            const workSpaceData = await workspaceService.getLoadWorkspace(token, channelId, workspaceId, query,next);
+            const workSpaceData = await workspaceService.getLoadWorkspace(token, channelId, workspaceId, query, next);
             hasError(workSpaceData.error);
 
             // 2. 채팅룸 리스트
@@ -253,9 +253,9 @@ const viewController = {
                 path: '/channel/workspace/:channelId/:workspaceId',
                 title: workSpaceData.workSpace.workSpaceName,
                 chatRooms: matchedChatRoomList,
+                latestChat: chatRoomListData.chatRooms[0].chats,
                 clientName: req.cookies.clientName,
                 photo: req.cookies.photo,
-                chatRooms: chatRoomListData.chatRooms,
                 workSpaces: matchedWorkSpaceList,
                 workSpace: workSpaceData.workSpace,
                 channel: { _id: channelId },

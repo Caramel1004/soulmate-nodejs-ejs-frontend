@@ -58,4 +58,7 @@ router.post('/workspace/:channelId/:workSpaceId/post/create-reply', accessAuthor
 // POST /client/add-or-remove-wishchannel
 router.post('/add-or-remove-wishchannel', accessAuthorizedToken, clientController.postAddOpenChannelToWishChannel);// 14. 관심채널 추가 또는 삭제(토글 관계)
 
+// POST /client/chat/exit-chat-room/:channelId/:chatRoomId
+router.patch('/chat/exit-chat-room/:channelId/:chatRoomId', accessAuthorizedToken, clientController.patchExitChatRoom);// 15. 채팅방 퇴장
+
 export default router;

@@ -39,7 +39,7 @@ const channelService = {
         }
     },
     // 5. 관심 채널 목록 요청
-    getMyWishChannelList: async (token, searchWord, next) => {
+    getMyWishChannelList: async (token, refreshToken, searchWord, next) => {
         try {
             const data = await channelAPI.getMyWishChannelList(token, searchWord, next);
 
@@ -58,7 +58,7 @@ const channelService = {
             next(err);
         }
     },
-    
+
     // 7. 채팅방 목록 요청
     getChatRoomList: async (jsonWebToken, channelId, next) => {
         try {
@@ -73,7 +73,7 @@ const channelService = {
     postCreateChatRoom: async (jsonWebToken, channelId, roomName, next) => {
         try {
             const data = await channelAPI.postCreateChatRoom(jsonWebToken, channelId, roomName, next);
-            
+
             return data;
         } catch (err) {
             next(err);
@@ -113,7 +113,7 @@ const channelService = {
     postAddOpenChannelToWishChannel: async (token, channelId, next) => {
         try {
             const data = await channelAPI.postAddOpenChannelToWishChannel(token, channelId, next);
-            
+
             return data;
         } catch (err) {
             next(err)

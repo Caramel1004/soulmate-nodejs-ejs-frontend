@@ -70,6 +70,7 @@ const authController = {
             const data = await response.json();
             hasError(data.error);
 
+            console.log(data);
             // app.locals
             // 자바스크립트 객체이고, 프로퍼티들은 애플리케이션 내의 지역 변수들이다. 
             // 애플리케이션의 라이프 타임 동안 유효하다.
