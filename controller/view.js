@@ -54,7 +54,8 @@ const viewController = {
     // 2. 내 프로필 관리 페이지
     getMyProfile: async (req, res, next) => {
         try {
-            const jsonWebToken = req.cookies.token;
+            const accessToken = req.cookies.token;
+            const refreshToken = req.cookies.token;
 
             const resData = await viewAPI.getMyProfile(jsonWebToken);
 
@@ -75,13 +76,14 @@ const viewController = {
             next(err);
         }
     },
-    // 3. 나의 채널 페이지
+    // 3. 나의 채널목록 페이지
     getMyChannelListPage: async (req, res, next) => {
         try {
             console.log(req.query.searchWord);
             const jsonWebToken = req.cookies.token;// 쿠키 웹 토큰
+            const refreshToken = req.cookies.refreshToken;
 
-            const resData = await channelService.getChannelListByUserId(jsonWebToken, req.query.searchWord, next);
+            const resData = await channelService.getChannelListByUserId(jsonWebToken, refreshToken, req.query.searchWord, next);
             const staticData = await getCategoryData(next);
 
             hasError(resData.error);

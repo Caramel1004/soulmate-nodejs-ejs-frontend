@@ -81,8 +81,12 @@ const authController = {
             // res.locals
             // res.locals의 프로퍼티들은 request의 라이프 타임 동안에만 유효하다.
             // html/view 클라이언트 사이드로 변수들을 보낼 수 있으며, 그 변수들은 오로지 거기서만 사용할 수 있다.
-
             res.cookie('token', data.token, {
+                httpOnly: true,
+                secure: false
+            });
+
+            res.cookie('refreshToken', data.refreshToken, {
                 httpOnly: true,
                 secure: false
             });
@@ -110,6 +114,7 @@ const authController = {
         try {
             if (req.cookies) {
                 res.clearCookie('token');
+                res.clearCookie('refreshToken');
                 res.clearCookie('clientName');
                 res.clearCookie('photo');
             }

@@ -11,7 +11,7 @@ const channelService = {
     // 1. 생성된 오픈 채널 목록 요청
     getOpenChannelList: async next => {
         try {
-            const resData = await channelAPI.getOpenChannelList();
+            const resData = await channelAPI.getOpenChannelList(next);
 
             return resData;
         } catch (err) {
@@ -29,9 +29,9 @@ const channelService = {
         }
     },
     // 2. 해당 유저의 채널 리스트 요청
-    getChannelListByUserId: async (token, searchWord, next) => {
+    getChannelListByUserId: async (token, refreshToken, searchWord, next) => {
         try {
-            const data = await channelAPI.getChannelListByUserId(token, searchWord, next);
+            const data = await channelAPI.getChannelListByUserId(token, refreshToken, searchWord, next);
 
             return data;
         } catch (error) {

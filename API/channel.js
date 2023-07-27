@@ -3,7 +3,7 @@ import { successType, errorType } from '../util/status.js';
 
 const channelAPI = {
     // 1. 생성된 오픈 채널 목록
-    getOpenChannelList: async () => {
+    getOpenChannelList: async next => {
         try {
             const response = await fetch('http://localhost:8080/v1/channel/openchannel-list', {
                 method: 'GET',
@@ -37,7 +37,7 @@ const channelAPI = {
         }
     },
     // 2. 해당 유저의 채널 리스트 조회
-    getChannelListByUserId: async (token, searchWord, next) => {
+    getChannelListByUserId: async (token, refreshToken, searchWord, next) => {
         try {
             const response = await fetch('http://localhost:8080/v1/channel/mychannels?searchWord=' + searchWord, {
                 method: 'GET',
