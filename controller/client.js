@@ -28,6 +28,7 @@ const clientControlller = {
     postCreateChannel: async (req, res, next) => {
         try {
             const jsonWebToken = req.cookies.token;
+            const refreshToken = req.cookies.refreshToken;
             const channelName = req.body.channelName;// 채널 명
             const thumbnail = req.body.thumbnail;// 채널 썸네일
             const category = req.body.category;// 카테고리
@@ -38,6 +39,7 @@ const clientControlller = {
                 method: 'POST',
                 headers: {
                     Authorization: 'Bearer ' + jsonWebToken,
+                    RefreshToken: refreshToken,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
@@ -67,6 +69,7 @@ const clientControlller = {
                 method: 'PATCH',
                 headers: {
                     Authorization: 'Bearer ' + jsonWebToken,
+                    RefreshToken: refreshToken,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
@@ -92,7 +95,7 @@ const clientControlller = {
             console.log('invitedUserId: ', invitedUserId);
             console.log('channelId: ', channelId);
 
-            const data = await channelService.postInviteUserToChannel(jsonWebToken, channelId, invitedUserId, next);
+            const data = await channelService.postInviteUserToChannel(jsonWebToken, req.cookies.refreshToken, channelId, invitedUserId, next);
             hasError(data.error);
 
             console.log(data);
@@ -108,7 +111,7 @@ const clientControlller = {
             const channelId = req.params.channelId
             const roomName = req.body.roomName;
 
-            const data = await channelService.postCreateChatRoom(jsonWebToken, channelId, roomName, next);
+            const data = await channelService.postCreateChatRoom(jsonWebToken, req.cookies.refreshToken, channelId, roomName, next);
             hasError(data.error);
 
             res.redirect('/channel/chat/' + data.chatRoom.channelId + '/' + data.chatRoom._id);
@@ -148,7 +151,7 @@ const clientControlller = {
             }
             // console.log(checkedUsersId);
 
-            const data = await chatAPI.postInviteUsersToChatRoom(jsonWebToken, body, channelId, chatRoomId, next);
+            const data = await chatAPI.postInviteUsersToChatRoom(jsonWebToken, req.cookies.refreshToken, body, channelId, chatRoomId, next);
             hasError(data.error);
 
             res.redirect('http://localhost:3000/channel/chat/' + channelId + '/' + chatRoomId);
@@ -164,7 +167,7 @@ const clientControlller = {
             const formData = new FormData();
             formData.append('chat', req.body.chat);
 
-            const data = await chatService.postSendChat(token, req.params.channelId, req.params.chatRoomId, formData, next);
+            const data = await chatService.postSendChat(token, req.cookies.refreshToken, req.params.channelId, req.params.chatRoomId, formData, next);
             hasError(data.error);
 
             res.status(data.status.code).json({
@@ -189,7 +192,7 @@ const clientControlller = {
 
             // const getAll = formData.getAll();
             // console.log('getAll: ', getAll);
-            // const resData = await chatAPI.postUploadFileToChatRoom(token, req.params.channelId, req.params.chatRoomId, formData);
+            // const resData = await chatAPI.postUploadFileToChatRoom(token, req.cookies.refreshToken,req.params.channelId, req.params.chatRoomId, formData);
 
             // if(resData.error) {
             //     return res.status(resData.error.errReport.code).json({
@@ -210,7 +213,7 @@ const clientControlller = {
             const token = req.cookies.token;
             const workSpaceName = req.body.workSpaceName;
 
-            const data = await channelService.postCreateWorkSpace(token, req.params.channelId, workSpaceName, next);
+            const data = await channelService.postCreateWorkSpace(token, req.cookies.refreshToken, req.params.channelId, workSpaceName, next);
             hasError(data.error);
 
             res.redirect(`/channel/workspace/${data.workSpace.channelId}/${data.workSpace._id}`);
@@ -226,7 +229,7 @@ const clientControlller = {
             const formData = new FormData();
             formData.append('content', req.body.content);
 
-            const data = await workspaceService.postCreatePostToWorkSpace(token, req.params.channelId, req.params.workSpaceId, formData, next);
+            const data = await workspaceService.postCreatePostToWorkSpace(token, req.cookies.refreshToken, req.params.channelId, req.params.workSpaceId, formData, next);
             hasError(data.error);
 
             res.status(data.status.code).json({
@@ -241,7 +244,7 @@ const clientControlller = {
         try {
             const token = req.cookies.token;
 
-            const data = await workspaceService.getReplyToPost(token, req.body.postId, req.params.channelId, req.params.workSpaceId, next);
+            const data = await workspaceService.getReplyToPost(token, req.cookies.refreshToken, req.body.postId, req.params.channelId, req.params.workSpaceId, next);
             hasError(data.error);
 
             res.status(data.status.code).json({
@@ -260,7 +263,7 @@ const clientControlller = {
             formData.append('postId', req.body.postId);
             formData.append('content', req.body.content);
 
-            const data = await workspaceService.postCreateReplyToPost(token, req.params.channelId, req.params.workSpaceId, formData, next);
+            const data = await workspaceService.postCreateReplyToPost(token, req.cookies.refreshToken, req.params.channelId, req.params.workSpaceId, formData, next);
             hasError(data.error);
 
             res.status(data.status.code).json({
@@ -275,12 +278,12 @@ const clientControlller = {
         try {
             const token = req.cookies.token;
 
-            const data = await channelService.postAddOpenChannelToWishChannel(token, req.body.channelId, next);
-            console.log(data);
+            const data = await channelService.postAddOpenChannelToWishChannel(token, req.cookies.refreshToken, req.body.channelId, next);
             hasError(data.error);
 
             res.status(data.status.code).json({
-                status: data.status
+                status: data.status,
+                action: data.action
             });
         } catch (err) {
             next(err)
@@ -291,7 +294,7 @@ const clientControlller = {
         try {
             const token = req.cookies.token;
 
-            const data = await chatService.patchExitChatRoom(token, req.body.channelId, req.body.chatRoomId, next);
+            const data = await chatService.patchExitChatRoom(token, req.cookies.refreshToken, req.body.channelId, req.body.chatRoomId, next);
             hasError(data.error);
 
             res.status(data.status.code).json({

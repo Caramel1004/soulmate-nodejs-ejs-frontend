@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import multer from 'multer';
+import dotenv from 'dotenv';
 
 import socketClient from './socket-client.js';
 import { errorType } from './util/status.js';
@@ -15,6 +16,8 @@ import clientRoutes from './routes/client.js'
 import { validationResult } from 'express-validator';
 
 const app = express();
+
+dotenv.config();
 
 // 정적 file처리를 위한 변수
 const __filename = fileURLToPath(import.meta.url);
@@ -31,7 +34,7 @@ app.set('views', 'views');
 // 바디 파서
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(multer({ storage: multerStorage}).single('file'));
+app.use(multer({ storage: multerStorage }).single('file'));
 
 //쿠키 파서
 app.use(cookieParser());
@@ -40,26 +43,29 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
-
 // 동적 라우트 처리
 app.use(viewRoutes);
 app.use(authRoutes);
 app.use('/client', clientRoutes);
 
-// 접속한 유저 정보를 확인하기 위한 미들웨어
-app.use(async (req, res, next) => {
-    console.log('req.cookies: ', req.cookies);
+app.use((req, res, next) => {
+    const io = socketClient.getSocketClient();
+    console.log('웹소켓 미들웨어');
+    io.on('accessToken', data => {
+        console.log('재발급된 토큰: ', data);
+        res.cookie('token', data.accessToken);
+    });
     next();
-});
+})
 
 // 오류 처리
 app.use((error, req, res, next) => {
     console.log('미들웨어 함수 진입.... throw 된 에러: ', error);
-    if(!error.statusCode) {
+    if (!error.statusCode) {
         error = errorHandler(error);
     }
-    
-    if(error.statusCode == 404) {
+
+    if (error.statusCode == 404) {
         res.render('auth/auth', {
             title: '그이상의 소통 | Soulmate',
             path: '/login',
@@ -72,26 +78,27 @@ app.use((error, req, res, next) => {
         });
     }
 
-    if(error.statusCode == 401) {
-        console.log('401')
-        res.redirect('/logout');
-    }
+    // if(error.statusCode == 401) {
+    //     console.log('401')
+    //     res.redirect('/logout');
+    // }
 
-    if(error.statusCode == 422) {
+    if (error.statusCode == 422) {
         res.status(error.statusCode).json({
             error: error
         });
     }
-    res.status(error.statusCode || 500).render('error404',{
+    res.status(error.statusCode || 500).render('error404', {
         error: error
     });
 });
 
-// 웹 소켓 클라이언트
-app.use(socketClient);
-
-// 서버 실행
-app.listen(3000, () => console.log('클라이언트 접속!!'));
-
-
-
+app.listen(3000, () => {
+    console.log(`클라이언트 서버 가동!!`);
+    const io = socketClient.init(process.env.BACKEND_API_URL);
+    
+    // io.on('connection', text => {
+    //     console.log(text);
+    //     console.log('백엔드 서버와 클라이언트 서버 웹 소켓 연결 완료!!!');
+    // })
+});

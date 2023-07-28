@@ -1,10 +1,12 @@
-import { successType, errorType } from '../util/status.js';
 import channelService from '../service/channel.js'
 import workspaceService from '../service/workspace.js'
-import viewAPI from '../API/view.js';
-import { getCategoryData } from '../service/static-data.js';
+import userService from '../service/user.js';
 import chatService from '../service/chat.js';
+import { getCategoryData } from '../service/static-data.js';
+
 import { hasError } from '../validator/valid.js';
+import { successType, errorType } from '../util/status.js';
+
 
 /**
  * 1. 메인 페이지 == 오픈 채널 목록 페이지
@@ -23,9 +25,23 @@ const viewController = {
     getMainPage: async (req, res, next) => {
         try {
             const resData = await channelService.getOpenChannelList(next);
+            hasError(resData.error);
 
             const channelList = resData.channels;
-            // const status = resData.status;
+
+            if (req.cookies.token) {
+                const data = await userService.getMyProfile(req.cookies.token, req.cookies.refreshToken, next);
+                
+                for(const wishChannel of data.matchedUser.wishChannels){
+                    console.log(wishChannel)
+                    channelList.map(channel => {
+                        if(channel._id.toString() === wishChannel.toString()){
+                            channel.isUserWishChannel = true;
+                            return channel;
+                        }
+                    });
+                }
+            }
 
             res.render('index', {
                 path: '/',
@@ -45,19 +61,20 @@ const viewController = {
     getOpenChannelDetailPage: async (req, res, next) => {
         try {
             const { channelId } = req.body;
-            const data = await channelService.getOpenChannelDetail(req.cookies.token, channelId, next);
+            const data = await channelService.getOpenChannelDetail(channelId, next);
 
         } catch (err) {
             next(err)
         }
     },
     // 2. 내 프로필 관리 페이지
-    getMyProfile: async (req, res, next) => {
+    getMyProfilePage: async (req, res, next) => {
         try {
             const accessToken = req.cookies.token;
-            const refreshToken = req.cookies.token;
+            const refreshToken = req.cookies.refreshToken;
 
-            const resData = await viewAPI.getMyProfile(jsonWebToken);
+            const resData = await userService.getMyProfile(accessToken, refreshToken, next);
+            hasError(resData.error);
 
             console.log('resData: ', resData);
             const myProfile = resData.matchedUser;
@@ -125,7 +142,7 @@ const viewController = {
     // 5. 관심 채널 목록 페이지
     getMyWishChannelListPage: async (req, res, next) => {
         try {
-            const resData = await channelService.getMyWishChannelList(req.cookies.token, req.query.searchWord, next);// 관심 채널 리스트
+            const resData = await channelService.getMyWishChannelList(req.cookies.token, req.cookies.refreshToken, req.query.searchWord, next);// 관심 채널 리스트
 
             hasError(resData.error);
 
@@ -155,19 +172,17 @@ const viewController = {
             const fileName = `channel/channel-${searchWord}`
 
             // 1. 해당 채널아이디 보내주고 해당 채널 입장 요청
-            const channelDetailData = await channelService.getChannelDetailByChannelId(jsonWebToken, channelId, next);
+            const channelDetailData = await channelService.getChannelDetailByChannelId(jsonWebToken, req.cookies.refreshToken, channelId, next);
             hasError(channelDetailData.error);
             const matchedChannel = channelDetailData.channel;
 
-            console.log('matchedChannel: ', matchedChannel);
-
             // 2. 채팅방 목록 요청
-            const chatRoomListData = await channelService.getChatRoomList(jsonWebToken, channelId, next);
+            const chatRoomListData = await channelService.getChatRoomList(jsonWebToken, req.cookies.refreshToken, channelId, next);
             hasError(chatRoomListData.error);
             const matchedChatRoomList = chatRoomListData.chatRooms;
 
             // 3. 워크스페이스 목록 요청
-            const workSpaceListData = await channelService.getWorkSpaceList(jsonWebToken, channelId, next);
+            const workSpaceListData = await channelService.getWorkSpaceList(jsonWebToken, req.cookies.refreshToken, channelId, next);
             hasError(workSpaceListData.error);
             const matchedWorkSpaceList = workSpaceListData.workSpaces;
             console.log(matchedWorkSpaceList);
@@ -198,19 +213,18 @@ const viewController = {
             const chatRoomId = req.params.chatRoomId;
 
             // 1. 채팅 방
-            const chatRoomData = await chatService.getLoadChatRoom(jsonWebToken, channelId, chatRoomId, next);
+            const chatRoomData = await chatService.getLoadChatRoom(jsonWebToken, req.cookies.refreshToken, channelId, chatRoomId, next);
             hasError(chatRoomData.error);
 
             // 2. 채팅방 목록
-            const chatRoomListData = await channelService.getChatRoomList(jsonWebToken, channelId, next);
+            const chatRoomListData = await channelService.getChatRoomList(jsonWebToken, req.cookies.refreshToken, channelId, next);
             hasError(chatRoomData.error);
 
             // 3. 워크스페이스 목록 요청
-            const workSpaceListData = await channelService.getWorkSpaceList(jsonWebToken, channelId, next);
+            const workSpaceListData = await channelService.getWorkSpaceList(jsonWebToken, req.cookies.refreshToken, channelId, next);
             hasError(workSpaceListData.error);
             const matchedWorkSpaceList = workSpaceListData.workSpaces;
 
-            console.log(chatRoomData);
             res.status(chatRoomListData.status.code).render('chat/chat-board', {
                 path: '채팅방',
                 title: chatRoomData.chatRoom.roomName,
@@ -238,16 +252,16 @@ const viewController = {
             const query = req.query;
 
             // 1. 워크스페잇 세부정보
-            const workSpaceData = await workspaceService.getLoadWorkspace(token, channelId, workspaceId, query, next);
+            const workSpaceData = await workspaceService.getLoadWorkspace(token, req.cookies.refreshToken, channelId, workspaceId, query, next);
             hasError(workSpaceData.error);
 
             // 2. 채팅룸 리스트
-            const chatRoomListData = await channelService.getChatRoomList(token, channelId, next);
+            const chatRoomListData = await channelService.getChatRoomList(token, req.cookies.refreshToken, channelId, next);
             hasError(chatRoomListData.error);
             const matchedChatRoomList = chatRoomListData.chatRooms;
 
             // 3. 워크스페이스 목록 요청
-            const workSpaceListData = await channelService.getWorkSpaceList(token, channelId, next);
+            const workSpaceListData = await channelService.getWorkSpaceList(token, req.cookies.refreshToken, channelId, next);
             hasError(workSpaceListData.error);
             const matchedWorkSpaceList = workSpaceListData.workSpaces;
 

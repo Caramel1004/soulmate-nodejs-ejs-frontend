@@ -1,18 +1,20 @@
 import { io } from 'socket.io-client';
 
-const socketClient = (req, res, next) => {
-    const socket = io('http://localhost:8080');
-    console.log('클라이언트 소켓 가동 중!!!');
+let socket;
 
-    socket.on('sendChat', data => {
-        console.log('미들웨어 sendChat!!!');
-        console.log('백엔드에서 넘어온 데이터: ', data);
-        return data;
-    });
-
-    socket.on('connection', data => {
-        console.log('미들웨어 connection!!!');
-    });
+const socketClient = {
+    init: connectUrl => {
+        socket = io(connectUrl);
+        console.log('백엔드 서버와 웹소켓 통신 준비 완료!!')
+        return socket;
+    },
+    getSocketClient: socket => {
+        if (!socket) {
+            const error = new Error('소켓이 선언되지 않았습니다.');
+            error.stausCode = 404;
+        }
+        return socket;
+    }
 }
 
 export default socketClient;

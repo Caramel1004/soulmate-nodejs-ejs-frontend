@@ -19,9 +19,9 @@ const channelService = {
         }
     },
     // 1-1. 오픈 채널 세부 정보 요청
-    getOpenChannelDetail: async (token, channelId, next) => {
+    getOpenChannelDetail: async (channelId, next) => {
         try {
-            const data = await channelAPI.getOpenChannelDetail(token, channelId, next);
+            const data = await channelAPI.getOpenChannelDetail(channelId, next);
 
             return data;
         } catch (err) {
@@ -41,7 +41,7 @@ const channelService = {
     // 5. 관심 채널 목록 요청
     getMyWishChannelList: async (token, refreshToken, searchWord, next) => {
         try {
-            const data = await channelAPI.getMyWishChannelList(token, searchWord, next);
+            const data = await channelAPI.getMyWishChannelList(token, refreshToken, searchWord, next);
 
             return data;
         } catch (err) {
@@ -49,9 +49,9 @@ const channelService = {
         }
     },
     // 6. 채널 세부정보 요청
-    getChannelDetailByChannelId: async (jsonWebToken, channelId, next) => {
+    getChannelDetailByChannelId: async (token, refreshToken, channelId, next) => {
         try {
-            const data = await channelAPI.getChannelDetailByChannelId(jsonWebToken, channelId, next);
+            const data = await channelAPI.getChannelDetailByChannelId(token, refreshToken, channelId, next);
 
             return data;
         } catch (err) {
@@ -60,9 +60,9 @@ const channelService = {
     },
 
     // 7. 채팅방 목록 요청
-    getChatRoomList: async (jsonWebToken, channelId, next) => {
+    getChatRoomList: async (jsonWebToken, refreshToken, channelId, next) => {
         try {
-            const data = await channelAPI.getChatRoomList(jsonWebToken, channelId, next);
+            const data = await channelAPI.getChatRoomList(jsonWebToken, refreshToken, channelId, next);
 
             return data;
         } catch (err) {
@@ -70,9 +70,9 @@ const channelService = {
         }
     },
     // 8. 채팅방 생성
-    postCreateChatRoom: async (jsonWebToken, channelId, roomName, next) => {
+    postCreateChatRoom: async (jsonWebToken, refreshToken, channelId, roomName, next) => {
         try {
-            const data = await channelAPI.postCreateChatRoom(jsonWebToken, channelId, roomName, next);
+            const data = await channelAPI.postCreateChatRoom(jsonWebToken, refreshToken, channelId, roomName, next);
 
             return data;
         } catch (err) {
@@ -80,9 +80,9 @@ const channelService = {
         }
     },
     // 9. 해당 채널에 유저 초대
-    postInviteUserToChannel: async (jsonWebToken, channelId, invitedUserId, next) => {
+    postInviteUserToChannel: async (jsonWebToken, refreshToken, channelId, invitedUserId, next) => {
         try {
-            const data = await channelAPI.postInviteUserToChannel(jsonWebToken, channelId, invitedUserId, next);
+            const data = await channelAPI.postInviteUserToChannel(jsonWebToken, refreshToken, channelId, invitedUserId, next);
 
             return data;
         } catch (err) {
@@ -90,9 +90,9 @@ const channelService = {
         }
     },
     // 10. 워크스페이스 목록 요청
-    getWorkSpaceList: async (jsonWebToken, channelId, next) => {
+    getWorkSpaceList: async (jsonWebToken, refreshToken, channelId, next) => {
         try {
-            const data = await channelAPI.getWorkSpaceList(jsonWebToken, channelId, next);
+            const data = await channelAPI.getWorkSpaceList(jsonWebToken, refreshToken, channelId, next);
 
             return data;
         } catch (err) {
@@ -100,9 +100,9 @@ const channelService = {
         }
     },
     // 11. 워크스페이스 생성
-    postCreateWorkSpace: async (token, channelId, workSpaceName, next) => {
+    postCreateWorkSpace: async (token, refreshToken, channelId, workSpaceName, next) => {
         try {
-            const data = await channelAPI.postCreateWorkSpace(token, channelId, workSpaceName, next);
+            const data = await channelAPI.postCreateWorkSpace(token, refreshToken, channelId, workSpaceName, next);
 
             return data;
         } catch (err) {
@@ -110,9 +110,9 @@ const channelService = {
         }
     },
     // 14. 관심채널 추가 또는 삭제(토글 관계)
-    postAddOpenChannelToWishChannel: async (token, channelId, next) => {
+    postAddOpenChannelToWishChannel: async (token, refreshToken, channelId, next) => {
         try {
-            const data = await channelAPI.postAddOpenChannelToWishChannel(token, channelId, next);
+            const data = await channelAPI.postAddOpenChannelToWishChannel(token, refreshToken, channelId, next);
 
             return data;
         } catch (err) {
