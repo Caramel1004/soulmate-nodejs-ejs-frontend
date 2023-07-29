@@ -21,6 +21,7 @@ import workspaceService from '../service/workspace.js';
  * 12. 해당 게시물 댓글 조회
  * 13. 해당 게시물에 댓글 달기
  * 14. 관심채널 추가 또는 삭제(토글 관계)
+ * 15. 채팅방 퇴장
  */
 
 const clientControlller = {
@@ -235,6 +236,21 @@ const clientControlller = {
             res.status(data.status.code).json({
                 status: data.status
             });
+        } catch (err) {
+            next(err);
+        }
+    },
+    // 11. 워크 스페이스에 유저 초대 -> 전체공개 or 초대한 유저만 이용
+    postInviteUsersToWorkSpace: async (req, res, next) => {
+        try {
+            const jsonWebToken = req.cookies.token;
+            const channelId = req.params.channelId
+            const workSpaceId = req.params.workSpaceId;
+
+            const data = await workspaceService.postInviteUsersToWorkSpace(jsonWebToken, req.cookies.refreshToken, req.body, channelId, workSpaceId, next);
+            hasError(data.error);
+
+            res.redirect('http://localhost:3000/channel/chat/' + channelId + '/' + chatRoomId);
         } catch (err) {
             next(err);
         }

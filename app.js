@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 import multer from 'multer';
 import dotenv from 'dotenv';
 
-import socketClient from './socket-client.js';
+import sockeClient from './socket-client.js';
 import { errorType } from './util/status.js';
 import { errorHandler } from './error/error.js'
 
@@ -16,6 +16,7 @@ import clientRoutes from './routes/client.js'
 import { validationResult } from 'express-validator';
 
 const app = express();
+const socket = sockeClient.init(process.env.BACKEND_API_URL);
 
 dotenv.config();
 
@@ -47,16 +48,6 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use(viewRoutes);
 app.use(authRoutes);
 app.use('/client', clientRoutes);
-
-app.use((req, res, next) => {
-    const io = socketClient.getSocketClient();
-    console.log('웹소켓 미들웨어');
-    io.on('accessToken', data => {
-        console.log('재발급된 토큰: ', data);
-        res.cookie('token', data.accessToken);
-    });
-    next();
-})
 
 // 오류 처리
 app.use((error, req, res, next) => {
@@ -93,12 +84,12 @@ app.use((error, req, res, next) => {
     });
 });
 
+app.use((req, res, next) => {
+    console.log('req: ',req);
+    next();
+})
+
 app.listen(3000, () => {
     console.log(`클라이언트 서버 가동!!`);
-    const io = socketClient.init(process.env.BACKEND_API_URL);
-    
-    // io.on('connection', text => {
-    //     console.log(text);
-    //     console.log('백엔드 서버와 클라이언트 서버 웹 소켓 연결 완료!!!');
-    // })
+
 });

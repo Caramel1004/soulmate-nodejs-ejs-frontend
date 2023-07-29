@@ -49,6 +49,9 @@ router.post('/workspace/:channelId', accessAuthorizedToken, clientController.pos
 // POST /client/workspace/create-post/:channelId/:workSpaceId
 router.post('/workspace/create-post/:channelId/:workSpaceId', accessAuthorizedToken, clientController.postCreatePostToWorkSpace);// 9. 워크스페이스에 게시물 생성
 
+// POST /client/workspace/create-post/:channelId/:workSpaceId
+router.post('/workspace/invite/:channelId/:workSpaceId', accessAuthorizedToken, clientController.postInviteUsersToWorkSpace);// 11. 워크 스페이스에 유저 초대 -> 전체공개 or 초대한 유저만 이용
+
 // POST /client/workspace/:channelId/:workSpaceId/post/replies
 router.post('/workspace/:channelId/:workSpaceId/post/replies', accessAuthorizedToken, clientController.postGetReplyToPost);// 12. 해당 게시물 댓글 조회
 

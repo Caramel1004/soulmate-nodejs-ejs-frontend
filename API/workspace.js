@@ -8,8 +8,7 @@ const workspaceAPI = {
                 method: 'GET',
                 headers: {
                     Authorization: 'Bearer ' + token,
-                    RefreshToken: refreshToken,
-                    'Content-Type': 'application/json'
+                    RefreshToken: refreshToken
                 }
             });
             const resData = await response.json();
@@ -34,6 +33,23 @@ const workspaceAPI = {
             const resData = await response.json();
 
             return resData;
+        } catch (err) {
+            next(err);
+        }
+    },
+    // 4. 워크스페이스에 팀원 초대
+    postInviteUsersToWorkSpace: async (token, refreshToken, body, channelId, workSpaceId, next) => {
+        try {
+            const response = await fetch(`http://localhost:8080/v1/workspace/create-post/${channelId}/${workSpaceId}`, {
+                method: 'POST',
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                    RefreshToken: refreshToken,
+                },
+                body: JSON.stringify(body)
+            });
+
+            return await response.json();
         } catch (err) {
             next(err);
         }

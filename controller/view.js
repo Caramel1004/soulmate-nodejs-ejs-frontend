@@ -33,7 +33,6 @@ const viewController = {
                 const data = await userService.getMyProfile(req.cookies.token, req.cookies.refreshToken, next);
                 
                 for(const wishChannel of data.matchedUser.wishChannels){
-                    console.log(wishChannel)
                     channelList.map(channel => {
                         if(channel._id.toString() === wishChannel.toString()){
                             channel.isUserWishChannel = true;
@@ -250,7 +249,7 @@ const viewController = {
             const channelId = req.params.channelId;
             const workspaceId = req.params.workspaceId;
             const query = req.query;
-
+       
             // 1. 워크스페잇 세부정보
             const workSpaceData = await workspaceService.getLoadWorkspace(token, req.cookies.refreshToken, channelId, workspaceId, query, next);
             hasError(workSpaceData.error);

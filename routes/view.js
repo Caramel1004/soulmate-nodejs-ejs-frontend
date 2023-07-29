@@ -35,13 +35,13 @@ router.get('/channel', accessAuthorizedToken, viewController.getAddChannelPage);
 router.get('/wishchannels', accessAuthorizedToken, viewController.getMyWishChannelListPage);// 5. 나의 관심 채널 목록 페이지
 
 //GET /mychannel/:channelId
-router.get('/mychannel/:channelId', viewController.getEnterMyChannelPage);// 6. 채널입장 -> 채널 내부 페이지
+router.get('/mychannel/:channelId', accessAuthorizedToken, viewController.getEnterMyChannelPage);// 6. 채널입장 -> 채널 내부 페이지
 
 //GET /channel/chat/:channelId/:chatRoomId
-router.get('/channel/chat/:channelId/:chatRoomId', viewController.getEnterChatRoomPage);// 7. 채팅방 입장 -> 채팅방 페이지
+router.get('/channel/chat/:channelId/:chatRoomId', accessAuthorizedToken, viewController.getEnterChatRoomPage);// 7. 채팅방 입장 -> 채팅방 페이지
 
 //GET /channel/workspace/:channelId/:chatRoomId
-router.get('/channel/workspace/:channelId/:workspaceId', viewController.getEnterWorkSpacePage);// 8. 워크스페이스 입장 -> 워크스페이스 페이지
+router.get('/channel/workspace/:channelId/:workspaceId', accessAuthorizedToken, viewController.getEnterWorkSpacePage);// 8. 워크스페이스 입장 -> 워크스페이스 페이지
 
 
 export default router;

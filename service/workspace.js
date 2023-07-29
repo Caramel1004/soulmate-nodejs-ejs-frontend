@@ -72,6 +72,16 @@ const workspaceService = {
             next(err);
         }
     },
+    // 4. 워크스페이스에 팀원 초대
+    postInviteUsersToWorkSpace: async (token, refreshToken, body, channelId, workSpaceId, next) => {
+        try {
+            const data = await workspaceAPI.postInviteUsersToWorkSpace(token, refreshToken, body, channelId, workSpaceId, next);
+
+            return data;
+        } catch (err) {
+            next(err);
+        }
+    },
     // 6. 댓글 보기
     getReplyToPost: async (token, refreshToken, postId, channelId, workSpaceId, next) => {
         try {
