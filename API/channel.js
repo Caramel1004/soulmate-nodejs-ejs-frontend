@@ -171,7 +171,7 @@ const channelAPI = {
         }
     },
     // 11. 워크스페이스 생성
-    postCreateWorkSpace: async (token, refreshToken, channelId, workSpaceName, next) => {
+    postCreateWorkSpace: async (token, refreshToken, channelId, open, workSpaceName, comment, next) => {
         try {
             const response = await fetch(`http://localhost:8080/v1/channel/${channelId}/create-workspace`, {
                 method: 'POST',
@@ -181,7 +181,9 @@ const channelAPI = {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    workSpaceName: workSpaceName
+                    open: open,
+                    workSpaceName: workSpaceName,
+                    comment: comment
                 })
             });
             const resData = await response.json();

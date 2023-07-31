@@ -2,7 +2,7 @@ const onClickHeart = async channelId => {
     try {
         //firstChild는 텍스트 까지 취급
         // childNodes는 태그 아래에있는 텍스트 자식태그 등등 다가져옴
-        // children은 자직 태그만 취급
+        // children은 자식 태그만 취급
         const heartIcon = document.getElementById(channelId).children[0];
         const response = await fetch('http://localhost:3000/client/add-or-remove-wishchannel', {
             method: 'POST',

@@ -84,12 +84,11 @@ app.use((error, req, res, next) => {
     });
 });
 
-app.use((req, res, next) => {
-    console.log('req: ',req);
-    next();
-})
+// app.use((req, res, next) => {
+//     console.log('req: ',req);
+//     next();
+// })
 
 app.listen(3000, () => {
     console.log(`클라이언트 서버 가동!!`);
-
 });

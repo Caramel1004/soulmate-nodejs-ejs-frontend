@@ -53,6 +53,7 @@ body {
     display: flex;
     align-items: center;
 }
+
 /* 맨오른쪽 유저 정보 박스 안에 이미지 */
 .user-info img {
     width: 40px;
@@ -62,7 +63,7 @@ body {
 }
 
 /* 맨오른쪽 유저 정보 박스 안에 앵커태그(클라이언트 아이디)*/
-.user-info a{
+.user-info a {
     padding-left: 10px;
     text-decoration: none;
     color: black;
@@ -72,7 +73,7 @@ body {
 }
 
 /* 로그아웃 버튼 => 앵커 태그임 */
-.user-info #btn__log{
+.user-info #btn__log {
     margin-left: 8px;
     padding: 10px;
     text-decoration: none;
@@ -85,13 +86,24 @@ body {
     opacity: 0.8;
 }
 
+.icon {
+    padding: 10px;
+    padding-right: 20px;
+    cursor: pointer;
+}
+
+.icon i {
+    color: rgba(0, 0, 0, 0.26)
+}
+
 .box-contents {
+    margin-left: 20px;
     padding: 10px;
     padding-top: 20px;
     padding-bottom: 20px;
 }
 
-.box-contents a{
+.box-contents a {
     padding: 10px;
     padding-top: 20px;
     padding-bottom: 20px;
@@ -102,7 +114,6 @@ body {
 }
 
 .box-contents a:hover,
-.box-contents a:active{
+.box-contents a:active {
     border-bottom: 5px groove rgba(0, 0, 0, 0.26);
 }
-

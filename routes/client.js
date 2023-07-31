@@ -20,6 +20,8 @@ const router = Router();
  * 12. 해당 게시물 댓글 조회
  * 13. 해당 게시물에 댓글 달기
  * 14. 관심채널 추가 또는 삭제(토글 관계)
+ * 15. 채팅방 퇴장
+ * 16. 공용기능: 채널에있는 유저 목록 불러오기
  */
 
 //POST /client/channel/create
@@ -63,5 +65,8 @@ router.post('/add-or-remove-wishchannel', accessAuthorizedToken, clientControlle
 
 // POST /client/chat/exit-chat-room/:channelId/:chatRoomId
 router.patch('/chat/exit-chat-room/:channelId/:chatRoomId', accessAuthorizedToken, clientController.patchExitChatRoom);// 15. 채팅방 퇴장
+
+// GET /client/channel/member-list/:channelId
+router.get('/channel/member-list/:channelId', accessAuthorizedToken, clientController.getMemberListOnChannel);// 16. 공용기능: 채널에있는 유저 목록 불러오기
 
 export default router;

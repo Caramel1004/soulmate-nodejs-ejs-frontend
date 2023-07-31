@@ -22,6 +22,7 @@ import workspaceService from '../service/workspace.js';
  * 13. 해당 게시물에 댓글 달기
  * 14. 관심채널 추가 또는 삭제(토글 관계)
  * 15. 채팅방 퇴장
+ * 16. 공용기능: 채널에있는 유저 목록 불러오기
  */
 
 const clientControlller = {
@@ -212,9 +213,11 @@ const clientControlller = {
     postCreateWorkSpace: async (req, res, next) => {
         try {
             const token = req.cookies.token;
+            const open = req.body.open;
             const workSpaceName = req.body.workSpaceName;
+            const comment = req.body.comment;
 
-            const data = await channelService.postCreateWorkSpace(token, req.cookies.refreshToken, req.params.channelId, workSpaceName, next);
+            const data = await channelService.postCreateWorkSpace(token, req.cookies.refreshToken, req.params.channelId, open, workSpaceName, comment, next);
             hasError(data.error);
 
             res.redirect(`/channel/workspace/${data.workSpace.channelId}/${data.workSpace._id}`);
@@ -318,6 +321,20 @@ const clientControlller = {
             });
         } catch (err) {
             next(err);
+        }
+    },
+    // 16. 공용기능: 채널에있는 유저 목록 불러오기
+    getMemberListOnChannel: async (req, res, next) => {
+        try {
+            const data = await channelService.getChannelDetailByChannelId(req.cookies.token, req.cookies.refreshToken, req.params.channelId, next);
+            hasError(data.error);
+            console.log(data);
+            res.status(data.status.code).json({
+                status: data.status,
+                members: data.channel.members
+            });
+        } catch (err) {
+            next(err)
         }
     }
 }

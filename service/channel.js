@@ -100,9 +100,9 @@ const channelService = {
         }
     },
     // 11. 워크스페이스 생성
-    postCreateWorkSpace: async (token, refreshToken, channelId, workSpaceName, next) => {
+    postCreateWorkSpace: async (token, refreshToken, channelId, open, workSpaceName, comment, next) => {
         try {
-            const data = await channelAPI.postCreateWorkSpace(token, refreshToken, channelId, workSpaceName, next);
+            const data = await channelAPI.postCreateWorkSpace(token, refreshToken, channelId, open, workSpaceName, comment, next);
 
             return data;
         } catch (err) {

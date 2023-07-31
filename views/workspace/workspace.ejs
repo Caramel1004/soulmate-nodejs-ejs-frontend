@@ -17,9 +17,34 @@
                 <div class="box-workspace-explain">
                     <h1>#<%= workSpace.workSpaceName %></h1>
                     <p>#<%= workSpace.workSpaceName %> <%= workSpace.createdAt %>에 생성되었습니다.</p>
-                    <p>현재 <%= workSpace.users.length %>명이 참여하고있습니다.</p>
-                    <span>Edit</span>
-                    <p>설명: soulmate 백엔드 이슈를 정리하는 워크스페이스 입니다.</p>
+                    <p>현재 <%= workSpace.users.length %>명이 참여하고있습니다.
+                    <div class="workspace-member-list-box">
+                        <div class="workspace-member-icon-box">
+                            <div class="workspace-member-icon">
+                                <i class="fa-solid fa-chevron-left fa-xl"></i>
+                            </div>
+                        </div>
+                        <div class="workspace-member" onclick="getMemberListOnChannel()">
+                            <img id="add-icon" src="/images/icons8-add-50.png">
+                            <p>팀원 추가</p>
+                        </div>
+                        <% for(let user of workSpace.users) { %>
+                            <div class="workspace-member">
+                                <img src="<%= user.photo %>">
+                                <p><%= user.name %></p>
+                            </div>
+                        <% } %>
+                        <div class="workspace-member-icon-box">
+                            <div class="workspace-member-icon">
+                                <i class="fa-solid fa-chevron-right fa-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <% if(workSpace.comment) { %>
+                        <p><span><i class="fa-regular fa-pen-to-square"></i></span><%= workSpace.comment %></p>
+                    <% } else { %>
+                        <p><span><i class="fa-regular fa-pen-to-square"></i></span>설명 스크립트를 자유롭게 남겨보세요.</p>
+                    <% } %>
                 </div>
                 <div id="tab-box">
                     <a class="type" id="lastest" href="/channel/workspace/<%= workSpace.channelId %>/<%= workSpace._id %>?sort=lastest&&sortNum=-1">최신순</a>
@@ -44,6 +69,14 @@
                             </div>
                         </div>
                     <% } %>
+                <% } else { %>
+                    <div class="post-container" style="text-align: center;">
+                        <div class="posts" style="text-align: center;">
+                            <div class="post">
+                                <h1>새로운 게시물을 올려보세요.</h1>
+                            </div>
+                        </div>
+                    </div>
                 <% } %>
             </div>
             <div class="box-post-content">

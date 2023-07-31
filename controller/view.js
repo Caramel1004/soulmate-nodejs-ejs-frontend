@@ -268,7 +268,6 @@ const viewController = {
                 path: '/channel/workspace/:channelId/:workspaceId',
                 title: workSpaceData.workSpace.workSpaceName,
                 chatRooms: matchedChatRoomList,
-                latestChat: chatRoomListData.chatRooms[0].chats,
                 clientName: req.cookies.clientName,
                 photo: req.cookies.photo,
                 workSpaces: matchedWorkSpaceList,

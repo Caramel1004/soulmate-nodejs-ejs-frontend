@@ -79,11 +79,13 @@ body {
     padding: 10px;
     padding-left: 30px;
     text-align: left;
+    background: #ffffff;
     /* border: 0.5px groove rgba(0, 0, 0, 0.26); */
 }
 
 .box-workspace-explain span {
     padding: 5px;
+    margin-right: 5px;
     border: 0.5px groove rgba(0, 0, 0, 0.26);
     border-radius: 10px;
 }
@@ -92,6 +94,68 @@ body {
 .box-workspace-explain span:active {
     opacity: 0.6;
     cursor: pointer;
+}
+
+.workspace-member-list-box {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: flex;
+    align-items: center;
+    /* border: 1px groove rgba(0, 0, 0, 0.26); */
+}
+
+.workspace-member {
+    margin-right: 10px;
+    padding: 5px;
+    padding-top: 15px;
+    width: 110px;
+    height: auto;
+    display: block;
+    align-items: center;
+    text-align: center;
+    border: 1px groove rgba(0, 0, 0, 0.26);
+    border-radius: 10px;
+    cursor: pointer;
+    overflow: hidden;
+    overflow-x: hidden;
+}
+
+.workspace-member p {
+    white-space: pre;
+    text-overflow: ellipsis;
+    color: #1d1c1d;
+    overflow: hidden;
+    overflow-x: hidden;
+}
+
+.workspace-member img {
+    width: 55px;
+    height: 55px;
+    border-radius: 2rem;
+    opacity: 1;
+    cursor: pointer;
+}
+
+.workspace-member-icon-box {
+    margin: 0;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    color: #1d1c1d;
+    /* border: 1px groove rgba(0, 0, 0, 0.26); */
+    cursor: pointer;
+}
+
+.workspace-member-icon {
+    padding: 20px;
+    padding-left: 23px;
+    padding-right: 23px;
+}
+
+.workspace-member-icon:hover,
+.workspace-member-icon:active {
+    border-radius: 50px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.26);
 }
 
 #tab-box {
@@ -398,7 +462,7 @@ textarea:focus {
     flex-grow: 1;
     background: rgba(89, 87, 87, 0.26);
     height: 1px;
-    margin-right: 10px;
+    margin-left: 10px;
 }
 
 .thread::-webkit-scrollbar {
@@ -470,4 +534,129 @@ textarea:focus {
 .reply-content-form button:active {
     background: #007A5A;
     color: #ffffff;
+}
+
+/* 멤버추가모달창 */
+.modal-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.26);
+}
+
+.modal-invite-member {
+    padding: 20px;
+    width: 300px;
+    display: block;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.26);
+    background: #ffffff;
+}
+
+.channel-member-list {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px groove rgba(0, 0, 0, 0.26);
+    cursor: pointer;
+}
+.channel-member-list:hover,
+.channel-member-list:active{
+    opacity: 0.6;
+}
+
+.channel-member-list img {
+    width: 55px;
+    height: 55px;
+    border-radius: 2rem;
+    opacity: 1;
+    cursor: pointer;
+}
+
+.channel-member-list span {
+    padding-left: 30px;
+    font-size: 14px;
+    color: #1d1c1d;
+}
+
+.channel-member-list i {
+    margin-left: 80px;
+    color: rgba(0, 0, 0, 0.26);
+    float: right;
+}
+
+.channel-member-list button {
+    margin-left: 5px;
+    padding: 10px;
+    padding-left: 16px;
+    padding-right: 16px;
+    background: #ffffff;
+    font-size: 20px;
+    font-weight: lighter;
+    border-radius: 25px;
+    border: 1px groove rgba(0, 0, 0, 0.26);
+    float: right;
+    cursor: pointer;
+}
+
+.selected-member-container {
+    padding: 15px;
+    padding-left: 13px;
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.26);
+    overflow: scroll;
+    overflow-x: scroll;
+    /* overflow-y: hidden; */
+}
+
+.selected-member-box {
+    padding: 5px;
+    width: 70px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.selected-member-box p {
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.26);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+}
+
+.selected-member-box img {
+    width: 55px;
+    height: 55px;
+    border-radius: 2rem;
+    text-align: center;
+    opacity: 1;
+    cursor: pointer;
+}
+
+/* 채팅 히스토리 박스 스크롤 디자인 */
+.selected-member-container::-webkit-scrollbar {
+    height: 6px;
+    background: #ffffff;
+}
+
+.selected-member-container::-webkit-scrollbar-thumb {
+    width: 4px;
+    height: 6px;
+    background: rgb(155, 151, 151);
+    border-radius: 50px;
+}
+
+.selected-member-container::-webkit-scrollbar-track {
+    height: 6px;
+    border-radius: 50px;
+    background: #ffffff;
 }

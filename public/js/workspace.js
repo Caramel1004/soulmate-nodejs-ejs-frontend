@@ -53,7 +53,7 @@ const postCreateReplyToWorkSpace = async postId => {
         const url = window.location.href;
 
         const channelId = url.split('/')[5];
-        const workSpaceId = url.split('/')[6];
+        const workSpaceId = url.split('/')[6].split('?')[0];
         const replaceContent = content.replace('\r\n', '<br>');
         console.log('channelId : ', channelId);
         console.log('workSpaceId : ', workSpaceId);
@@ -109,13 +109,13 @@ const onKeyDownCreateUnitPost = async event => {
         }
     }
 
-    // const textarea = document.getElementById('content');
-    // textarea.style.height = '2px';
-    // textarea.style.height = (12 + textarea.scrollHeight) + 'px';
+    const textarea = document.getElementById('content');
+    textarea.style.height = '2px';
+    textarea.style.height = (12 + textarea.scrollHeight) + 'px';
 
-    // const history = document.getElementById('history');
-    // // history.style.height = '2px';
-    // history.style.height = (history.style.height - 2) + 'px';
+    const history = document.getElementById('history');
+    // history.style.height = '2px';
+    history.style.height = (history.style.height - 2) + 'px';
 
     console.log('replacedContent: ', replacedContent);
     console.log('엔터키 안누름!!');
@@ -169,7 +169,7 @@ const createThreadTag = async postId => {
         closeBox.classList.add('box-close');
 
         const closeBtn = document.createElement('button');
-        closeBtn.setAttribute('onclick', 'onClickThredCloseBtn()')
+        closeBtn.setAttribute('onclick', "onClickCloseBtn('thread')")
         closeBtn.textContent = 'x';
 
         closeBox.appendChild(closeBtn);
@@ -335,12 +335,12 @@ const formatter = createdAt => {
     return fomatDate;
 }
 
-const onClickThredCloseBtn = () => {
+const onClickCloseBtn = className => {
     console.log('close');
-    const thread = document.querySelector('.thread');
+    const parentNode = document.querySelector(`.${className}`);
 
     document.querySelector('.board-workspace').style.width = '100%';
-    document.body.removeChild(thread);
+    document.body.removeChild(parentNode);
 }
 
 const activeSortTypeBtnColor = () => {
@@ -348,7 +348,7 @@ const activeSortTypeBtnColor = () => {
     const queryString = url.split('?')[1];
     const query = queryString.split('&&')[0];
     const sortType = query.split('=')[1];
-    
+
     console.log('sortType: ', sortType);
     document.getElementById(sortType).style.color = '#ffffff';
     document.getElementById(sortType).style.background = 'black';
@@ -358,3 +358,171 @@ const activeSortTypeBtnColor = () => {
 document.getElementById('send').addEventListener('click', postCreatePostToWorkSpace);
 document.getElementById('content').addEventListener('keydown', onKeyDownCreateUnitPost);
 window.addEventListener('DOMContentLoaded', activeSortTypeBtnColor);
+
+// ---------------- 멤버 초대 모달창 로직 구간 ------------------
+const createInviteMemberModalTag = data => {
+    const body = document.body;
+
+    const modalBackGround = document.createElement('div');
+    modalBackGround.classList.add('modal-background');
+
+    const modal = document.createElement('div');
+    modal.classList.add('modal-invite-member');
+
+    // 박스안에 닫기 버튼
+    const closeBox = document.createElement('div');
+    closeBox.classList.add('channel-member-list');
+    closeBox.style.border = 'none';
+    // closeBox.style.display = 'block'; 
+    // closeBox.style.float = 'right'; 
+
+    const closeBtn = document.createElement('button');
+    closeBtn.style.float = 'right';
+    closeBtn.setAttribute('onclick', "onClickCloseBtn('modal-background')")
+    closeBtn.textContent = 'x';
+
+    closeBox.appendChild(closeBtn);
+    modal.appendChild(closeBox);
+
+    const selectedMemberListBox = document.createElement('div');
+    selectedMemberListBox.classList.add('selected-member-container');
+    selectedMemberListBox.textContent = '멤버들을 선택하세요.';
+    modal.appendChild(selectedMemberListBox);
+
+    for (const member of data.members) {
+        const memberListBox = document.createElement('div');
+        memberListBox.classList.add('channel-member-list');
+        memberListBox.id = `${member._id}`;
+        memberListBox.setAttribute('onclick', `onClickSelectMemberBox(${JSON.stringify(member)})`);
+        // 이미지
+        const img = document.createElement('img');
+        img.setAttribute('src', member.photo);
+        const span = document.createElement('span');
+        span.textContent = member.name;
+
+        const i = document.createElement('i');
+        i.className = 'fa-regular fa-circle fa-xl';
+
+        memberListBox.appendChild(img);
+        memberListBox.appendChild(span);
+        memberListBox.appendChild(i);
+
+        modal.appendChild(memberListBox);
+    }
+
+    modalBackGround.appendChild(modal);
+
+
+    body.appendChild(modalBackGround);
+}
+
+const getMemberListOnChannel = async () => {
+    try {
+        const url = window.location.href;
+        const channelId = url.split('/')[5];
+        const response = await fetch('http://localhost:3000/client/channel/member-list/' + channelId, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await response.json();
+        createInviteMemberModalTag(data);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+let selectedMembers = [];// 선택한 유저들 doc아이디 배열로 저장
+const onClickSelectMemberBox = member => {
+    const selectedMemberListBox = document.querySelector('.selected-member-container');
+    if (selectedMembers.length <= 0) {
+        selectedMemberListBox.textContent = '';
+        selectedMembers.push(member._id);
+        pushSelectedMemberToMemberListBox(member);
+        checkIcon(member._id);
+        return;
+    }
+
+    const result = selectedMembers.includes(member._id);
+    console.log(result)
+    if (result) {
+        const filter = selectedMembers.filter(id => id !== member._id);
+        selectedMembers = [...filter];
+        removeMember(member._id);
+        unCheckIcon(member._id);
+    } else {
+        selectedMembers.push(member._id);
+        pushSelectedMemberToMemberListBox(member);
+        checkIcon(member._id);
+    }
+
+    console.log(selectedMembers);
+}
+
+const pushSelectedMemberToMemberListBox = member => {
+    const selectedMemberListBox = document.querySelector('.selected-member-container');
+
+    const div = document.createElement('div');
+    div.setAttribute('class', 'selected-member-box');
+    div.setAttribute('id', member._id);
+
+    const img = document.createElement('img');
+    img.setAttribute('src', member.photo);
+
+    const p = document.createElement('p');
+    p.textContent = member.name;
+
+    div.appendChild(img);
+    div.appendChild(p);
+
+    selectedMemberListBox.appendChild(div);
+}
+
+const removeMember = id => {
+    const parentNode = document.querySelector('.selected-member-container');
+    const removeTag = document.getElementById(id);
+
+    parentNode.removeChild(removeTag);
+
+    if (selectedMembers.length <= 0) {
+        parentNode.textContent = '멤버들을 선택하세요.';
+    }
+}
+
+const checkIcon = _id => {
+    const memberListBox = document.querySelectorAll('.channel-member-list');
+    console.log(memberListBox.length);
+    let circleIcon;
+
+    for (let i = 1; i < memberListBox.length; i++) {
+        console.log('for문')
+        console.log(memberListBox[i].id);
+        if (memberListBox[i].id == _id) {
+            circleIcon = memberListBox[i].children[2];
+            break;
+        }
+    }
+    console.log(circleIcon);
+    circleIcon.className = 'fa-solid fa-circle-check fa-xl';
+    circleIcon.style.color = ' #42af2c';
+    circleIcon.style.opacity = '0.8';
+}
+
+const unCheckIcon = _id => {
+    const memberListBox = document.querySelectorAll('.channel-member-list');
+    console.log(memberListBox.length);
+    let circleIcon;
+
+    for (let i = 1; i < memberListBox.length; i++) {
+        console.log('for문')
+        console.log(memberListBox[i].id);
+        if (memberListBox[i].id == _id) {
+            circleIcon = memberListBox[i].children[2];
+            break;
+        }
+    }
+    console.log(circleIcon);
+    circleIcon.className = 'fa-regular fa-circle fa-xl';
+    circleIcon.style.color = 'rgba(0, 0, 0, 0.26)';
+}
