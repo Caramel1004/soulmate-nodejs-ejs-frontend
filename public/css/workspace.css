@@ -567,8 +567,9 @@ textarea:focus {
     border-bottom: 1px groove rgba(0, 0, 0, 0.26);
     cursor: pointer;
 }
+
 .channel-member-list:hover,
-.channel-member-list:active{
+.channel-member-list:active {
     opacity: 0.6;
 }
 
@@ -623,6 +624,9 @@ textarea:focus {
     width: 70px;
     text-align: center;
     cursor: pointer;
+    animation: move 0.5s;
+    -webkit-animation: move 0.5s;
+    -moz-animation: move 0.5s;
 }
 
 .selected-member-box p {
@@ -659,4 +663,40 @@ textarea:focus {
     height: 6px;
     border-radius: 50px;
     background: #ffffff;
+}
+
+@keyframes move {
+    from {
+        margin-left: 50px;
+        opacity: 0;
+    }
+
+    to {
+        margin-left: 0;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes move {
+    from {
+        margin-left: 50px;
+        opacity: 0;
+    }
+
+    to {
+        margin-left: 0;
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes move {
+    from {
+        margin-left: 50px;
+        opacity: 0;
+    }
+
+    to {
+        margin-left: 0;
+        opacity: 1;
+    }
 }

@@ -50,6 +50,7 @@
                     <a class="type" id="lastest" href="/channel/workspace/<%= workSpace.channelId %>/<%= workSpace._id %>?sort=lastest&&sortNum=-1">최신순</a>
                     <a class="type" id="old" href="/channel/workspace/<%= workSpace.channelId %>/<%= workSpace._id %>?sort=old&&sortNum=1">오래된순</a>
                     <a class="type" id="date" href="/channel/workspace/<%= workSpace.channelId %>/<%= workSpace._id %>?sort=select&&sortNum=1">날짜 선택</a>
+                    <a class="type" style="float: right;"><i class="fa-solid fa-arrow-right-from-bracket"></i>워크스페이스 퇴장</a>
                 </div>
                 <% if(workSpace.posts.length > 0) { %>
                     <% for(let post of workSpace.posts) { %>

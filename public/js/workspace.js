@@ -341,6 +341,7 @@ const onClickCloseBtn = className => {
 
     document.querySelector('.board-workspace').style.width = '100%';
     document.body.removeChild(parentNode);
+    this.selectedMembers = [];
 }
 
 const activeSortTypeBtnColor = () => {
@@ -433,7 +434,7 @@ const getMemberListOnChannel = async () => {
     }
 }
 
-let selectedMembers = [];// 선택한 유저들 doc아이디 배열로 저장
+this.selectedMembers = [];// 선택한 유저들 doc아이디 배열로 저장
 const onClickSelectMemberBox = member => {
     const selectedMemberListBox = document.querySelector('.selected-member-container');
     if (selectedMembers.length <= 0) {
@@ -445,7 +446,7 @@ const onClickSelectMemberBox = member => {
     }
 
     const result = selectedMembers.includes(member._id);
-    console.log(result)
+
     if (result) {
         const filter = selectedMembers.filter(id => id !== member._id);
         selectedMembers = [...filter];
@@ -492,18 +493,16 @@ const removeMember = id => {
 
 const checkIcon = _id => {
     const memberListBox = document.querySelectorAll('.channel-member-list');
-    console.log(memberListBox.length);
+
     let circleIcon;
 
     for (let i = 1; i < memberListBox.length; i++) {
-        console.log('for문')
-        console.log(memberListBox[i].id);
         if (memberListBox[i].id == _id) {
             circleIcon = memberListBox[i].children[2];
             break;
         }
     }
-    console.log(circleIcon);
+
     circleIcon.className = 'fa-solid fa-circle-check fa-xl';
     circleIcon.style.color = ' #42af2c';
     circleIcon.style.opacity = '0.8';
@@ -515,14 +514,11 @@ const unCheckIcon = _id => {
     let circleIcon;
 
     for (let i = 1; i < memberListBox.length; i++) {
-        console.log('for문')
-        console.log(memberListBox[i].id);
         if (memberListBox[i].id == _id) {
             circleIcon = memberListBox[i].children[2];
             break;
         }
     }
-    console.log(circleIcon);
     circleIcon.className = 'fa-regular fa-circle fa-xl';
     circleIcon.style.color = 'rgba(0, 0, 0, 0.26)';
 }

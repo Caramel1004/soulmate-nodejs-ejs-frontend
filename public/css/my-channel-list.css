@@ -146,8 +146,6 @@ body::-webkit-scrollbar-track {
     from {
         opacity: 0;
         transform: translate(-20px,-20px);
-        /* transform: matrix(20px); */
-        
     }
 
     to {
