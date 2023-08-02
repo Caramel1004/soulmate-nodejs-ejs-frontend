@@ -456,7 +456,52 @@ body {
     padding: 5px;
     text-align: center;
     cursor: pointer;
-    /* border: 1px groove rgb(169, 156, 156); */
+    animation: move 0.5s;
+    -webkit-animation: move 0.5s;
+    -moz-animation: move 0.5s;
+}
+.select-user p{
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.26);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+}
+
+@keyframes move {
+    from {
+        margin-left: 50px;
+        opacity: 0;
+    }
+
+    to {
+        margin-left: 0;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes move {
+    from {
+        margin-left: 50px;
+        opacity: 0;
+    }
+
+    to {
+        margin-left: 0;
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes move {
+    from {
+        margin-left: 50px;
+        opacity: 0;
+    }
+
+    to {
+        margin-left: 0;
+        opacity: 1;
+    }
 }
 
 .box__div-select-push.hidden {

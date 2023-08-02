@@ -195,6 +195,9 @@ body::-webkit-scrollbar-track {
 .card h2 {
     font-size: 17px;
     font-weight: bolder;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
 }
 
 .heart {

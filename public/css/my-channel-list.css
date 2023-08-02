@@ -134,7 +134,6 @@ body::-webkit-scrollbar-track {
     text-align: left;
     display: inline-block;
     justify-content: flex-end;
-    /* align-items: center; */
     border: 1px groove rgba(0, 0, 0, 0.26);
     /* 박스 서서히 나타나기 */
     animation: fadein 0.7s;
@@ -191,13 +190,15 @@ body::-webkit-scrollbar-track {
 /* card */
 .card {
     padding-top: 0px;
-
     /* border: 1px solid black; */
 }
 
 .card h2 {
     font-size: 17px;
     font-weight: bolder;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
 }
 
 

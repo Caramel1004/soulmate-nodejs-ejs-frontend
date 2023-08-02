@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="/css/menu.css">
     <!-- <link rel="stylesheet" href="/css/load.css"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <% if(path === '/' || path === '/wishchannels') { %><link rel="stylesheet" href="/css/main.css"><% } %>
+    <% if(path === '/') { %><link rel="stylesheet" href="/css/main.css"><% } %>
     <% if(path === '/myprofile') { %><link rel="stylesheet" href="/css/my-profile.css"><% } %>
-    <% if(path === '/mychannels') { %><link rel="stylesheet" href="/css/my-channel-list.css"><% } %>
+    <% if(path === '/mychannels' || path === '/wishchannels') { %><link rel="stylesheet" href="/css/my-channel-list.css"><% } %>
     <% if(path === '채널 추가 페이지') { %><link rel="stylesheet" href="/css/create-channel-form.css"><% } %>
     <% if(path === '/mychannel/:channelId?searchWord=member') { %><link rel="stylesheet" href="/css/my-channel-member.css"><% } %>
     <% if(path === '/mychannel/:channelId?searchWord=info') { %><link rel="stylesheet" href="/css/my-channel-info.css"><% } %>

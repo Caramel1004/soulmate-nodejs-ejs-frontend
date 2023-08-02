@@ -34,28 +34,26 @@
                 </div>
                 <%if(channelList.length > 0) { %>
                     <% for(let channel of channelList) { %>
-                        <form action="/client/remove-wishchannel" method="post">
-                            <div class="contents__div-wrapper">
-                                <img src="<%= channel.thumbnail %>">
-                                <div class="card">
-                                    <h2>채널명 | <%= channel.channelName %></h2>
-                                </div>
-                                <div class="card">
-                                    <div class="box-member">
-                                        <!-- <% for(let member of channel.members) { %>
-                                            <img src="<%= member.photo %>">
-                                        <% } %> -->
-                                        <h5><%= channel.members.length %>명의 크루</h5>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <% for(let category of channel.category) { %>
-                                        <h5 href="/client/mychannels/<%= channel._id %>"> 카테고리 | <a class="hash" href="#">#<%= channel.category %></a></h5>
-                                    <% } %>
-                                </div>
-                                <input type="hidden" name="channelId" value="<%= channel._id %>">
+                        <div class="contents__div-wrapper">
+                            <img src="<%= channel.thumbnail %>">
+                            <div class="card">
+                                <h2>채널명 | <%= channel.channelName %></h2>
                             </div>
-                        </form>
+                            <div class="card">
+                                <div class="box-member">
+                                    <!-- <% for(let member of channel.members) { %>
+                                        <img src="<%= member.photo %>">
+                                    <% } %> -->
+                                    <h5><%= channel.members.length %>명의 크루</h5>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <% for(let category of channel.category) { %>
+                                    <h5 href="/client/mychannels/<%= channel._id %>"> 카테고리 | <a class="hash" href="#">#<%= channel.category %></a></h5>
+                                <% } %>
+                            </div>
+                            <input type="hidden" name="channelId" value="<%= channel._id %>">
+                        </div>
                     <% } %>
                 <% } else { %>
                     <h1 style="text-align: center;">나만의 채널을 추가 해보세요!!</h1>

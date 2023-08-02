@@ -251,33 +251,82 @@ span.buttonText {
 
 /* SNS로그인 버튼 css */
 #kakao {
-    padding: 15px;
+    padding: 0;
+    padding-left: 9px;
+    /* padding-left: 30px; */
+    display: flex;
+    align-items: center;
     background: #FEE500;
-    color: #000000;
-    font-size: 17px;
+    /* background: #ffffff; */
     border: none;
     border-radius: 5px;
+}
+
+#kakao span {
+    /* text-align: center; */
+    padding-left: 50px;
+    padding-right: 50px;
+    color: #000000;
+    font-size: 20px;
+    font-weight: bold;
+    /* border: 1px solid black; */
+}
+
+#kakao img {
+    width: 43px;
+    height: 43px;
+    float: left;
 }
 
 #naver {
-    padding: 15px;
+    padding: 0;
+    padding-left: 9px;
+    display: flex;
+    align-items: center;
     background: #03c75a;
     color: #ffffff;
-    font-size: 17px;
     border: none;
     border-radius: 5px;
 }
 
+#naver span {
+    padding-left: 50px;
+    padding-right: 50px;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#naver img {
+    width: 43px;
+    height: 43px;
+    float: left;
+}
+
 #google {
-    padding: 15px;
-    display: inline-block;
-    background: white;
+    padding: 0;
+    padding-top: 5px;
+    display: flex;
+    align-items: center;
+    background: #ffffff;
     color: #444;
-    font-size: 17px;
     border-radius: 5px;
     border: thin solid #888;
-    /* box-shadow: 1px 1px 1px grey; */
-    white-space: nowrap;
+    text-align: center;
+}
+
+#google svg {
+    float: left;
+}
+
+#google span {
+    /* text-align: center; */
+    padding-left: 35px;
+    padding-right: 50px;
+    color: #000000;
+    font-size: 20px;
+    font-weight: bold;
+    /* border: 1px solid black; */
 }
 
 #google:hover {
