@@ -40,7 +40,7 @@ router.get('/mychannel/:channelId', accessAuthorizedToken, viewController.getEnt
 //GET /channel/chat/:channelId/:chatRoomId
 router.get('/channel/chat/:channelId/:chatRoomId', accessAuthorizedToken, viewController.getEnterChatRoomPage);// 7. 채팅방 입장 -> 채팅방 페이지
 
-//GET /channel/workspace/:channelId/:chatRoomId
+//GET /channel/workspace/:channelId/:workspaceId
 router.get('/channel/workspace/:channelId/:workspaceId', accessAuthorizedToken, viewController.getEnterWorkSpacePage);// 8. 워크스페이스 입장 -> 워크스페이스 페이지
 
 

@@ -253,7 +253,7 @@ const clientControlller = {
             const data = await workspaceService.postInviteUsersToWorkSpace(jsonWebToken, req.cookies.refreshToken, req.body, channelId, workSpaceId, next);
             hasError(data.error);
 
-            res.redirect('http://localhost:3000/channel/chat/' + channelId + '/' + chatRoomId);
+            res.redirect(`/channel/workspace/${channelId}/${workSpaceId}`);
         } catch (err) {
             next(err);
         }

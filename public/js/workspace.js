@@ -7,7 +7,7 @@ function init() {
     // historyTag.scrollTop = historyTag.scrollHeight;
 }
 
-// 채팅 내용 post요청
+// 게시물 내용 post요청
 const postCreatePostToWorkSpace = async () => {
     if (!confirm('게시물을 업로드 하시겠습니까?')) {
         return;
@@ -72,6 +72,16 @@ const postCreateReplyToWorkSpace = async postId => {
     } catch (err) {
         console.log(err);
     }
+}
+
+const patchAddMemeberToWorkSpace = () => {
+    const url = window.location.href;
+
+    const channelId = url.split('/')[5];
+    const workSpaceId = url.split('/')[6].split('?')[0];
+    const replaceContent = content.replace('\r\n', '<br>');
+    console.log('channelId : ', channelId);
+    console.log('workSpaceId : ', workSpaceId);
 }
 
 const replaceText = text => {
