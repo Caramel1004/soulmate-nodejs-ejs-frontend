@@ -22,6 +22,7 @@ const router = Router();
  * 14. 관심채널 추가 또는 삭제(토글 관계)
  * 15. 채팅방 퇴장
  * 16. 공용기능: 채널에있는 유저 목록 불러오기
+ * 17. 워크스페이스 퇴장
  */
 
 //POST /client/channel/create
@@ -51,8 +52,8 @@ router.post('/workspace/:channelId', accessAuthorizedToken, clientController.pos
 // POST /client/workspace/create-post/:channelId/:workSpaceId
 router.post('/workspace/create-post/:channelId/:workSpaceId', accessAuthorizedToken, clientController.postCreatePostToWorkSpace);// 9. 워크스페이스에 게시물 생성
 
-// POST /client/workspace/create-post/:channelId/:workSpaceId
-router.post('/workspace/invite/:channelId/:workSpaceId', accessAuthorizedToken, clientController.postInviteUsersToWorkSpace);// 11. 워크 스페이스에 유저 초대 -> 전체공개 or 초대한 유저만 이용
+// POST /client/workspace/invite/:channelId/:workSpaceId
+router.patch('/workspace/invite/:channelId/:workSpaceId', accessAuthorizedToken, clientController.postInviteUsersToWorkSpace);// 11. 워크 스페이스에 유저 초대 -> 전체공개 or 초대한 유저만 이용
 
 // POST /client/workspace/:channelId/:workSpaceId/post/replies
 router.post('/workspace/:channelId/:workSpaceId/post/replies', accessAuthorizedToken, clientController.postGetReplyToPost);// 12. 해당 게시물 댓글 조회
@@ -63,10 +64,13 @@ router.post('/workspace/:channelId/:workSpaceId/post/create-reply', accessAuthor
 // POST /client/add-or-remove-wishchannel
 router.post('/add-or-remove-wishchannel', accessAuthorizedToken, clientController.postAddOpenChannelToWishChannel);// 14. 관심채널 추가 또는 삭제(토글 관계)
 
-// POST /client/chat/exit-chat-room/:channelId/:chatRoomId
+// PATCH /client/chat/exit-chat-room/:channelId/:chatRoomId
 router.patch('/chat/exit-chat-room/:channelId/:chatRoomId', accessAuthorizedToken, clientController.patchExitChatRoom);// 15. 채팅방 퇴장
 
 // GET /client/channel/member-list/:channelId
 router.get('/channel/member-list/:channelId', accessAuthorizedToken, clientController.getMemberListOnChannel);// 16. 공용기능: 채널에있는 유저 목록 불러오기
+
+// PATCH /client/workspace/exit/:channelId/:workSpaceId
+router.patch('/workspace/exit/:channelId/:workSpaceId', accessAuthorizedToken, clientController.patchExitWorkSpace);//17. 워크스페이스 퇴장
 
 export default router;

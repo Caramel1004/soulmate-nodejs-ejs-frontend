@@ -8,6 +8,7 @@ import workspaceAPI from '../API/workspace.js'
  * 5. 스크랩 따기
  * 6. 댓글 보기
  * 7. 워크스페이스 설명 코멘트 편집
+ * 8. 워크스페이스 퇴장
  */
 const workspaceService = {
     // 1. 워크스페이스 입장 -> 워크스페이스 페이지
@@ -101,7 +102,17 @@ const workspaceService = {
         } catch (err) {
             next(err);
         }
-    }
+    },
+    // 8. 워크스페이스 퇴장
+    patchExitWorkSpace: async (token, refreshToken, channelId, workSpaceId, next) => {
+        try {
+            const data = await workspaceAPI.patchExitWorkSpace(token, refreshToken, channelId, workSpaceId, next);
+
+            return data;
+        } catch (err) {
+            next(err);
+        }
+    },
 }
 
 export default workspaceService

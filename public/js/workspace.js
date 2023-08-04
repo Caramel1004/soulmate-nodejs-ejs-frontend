@@ -1,10 +1,8 @@
-window.onload = init();
+window.onload = Init();
 
-function init() {
-    // const historyTag = document.querySelector('.box-post-history');
-
-    // //채팅박스 스크롤 맨 아래로 위치
-    // historyTag.scrollTop = historyTag.scrollHeight;
+function Init() {
+    this.selectedMembers = [];// 선택한 유저들 doc아이디 배열로 저장
+    console.log(selectedMembers);
 }
 
 // 게시물 내용 post요청
@@ -74,14 +72,56 @@ const postCreateReplyToWorkSpace = async postId => {
     }
 }
 
-const patchAddMemeberToWorkSpace = () => {
-    const url = window.location.href;
+const patchAddMemeberToWorkSpace = async () => {
+    try {
+        console.log('팀원추가 시작')
+        const url = window.location.href;
 
-    const channelId = url.split('/')[5];
-    const workSpaceId = url.split('/')[6].split('?')[0];
-    const replaceContent = content.replace('\r\n', '<br>');
-    console.log('channelId : ', channelId);
-    console.log('workSpaceId : ', workSpaceId);
+        const channelId = url.split('/')[5];
+        const workSpaceId = url.split('/')[6].split('?')[0];
+        console.log('channelId : ', channelId);
+        console.log('workSpaceId : ', workSpaceId);
+        console.log(this.selectedMembers);
+        await fetch(`http://localhost:3000/client/workspace/invite/${channelId}/${workSpaceId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                selectedId: this.selectedMembers
+            })
+        });
+
+        // return window.location.replace(`http://localhost:3000/channel/workspace/${channelId}/${workSpaceId}?sort=lastest&&sortNum=-1`);
+    } catch (err) {
+        console, log(err);
+    }
+}
+
+const patchRemoveMemeberToWorkSpace = async () => {
+    try {
+        console.log('팀원추가 시작')
+        const url = window.location.href;
+
+        const channelId = url.split('/')[5];
+        const workSpaceId = url.split('/')[6].split('?')[0];
+        console.log('channelId : ', channelId);
+        console.log('workSpaceId : ', workSpaceId);
+        console.log(this.selectedMembers);
+        await fetch(`http://localhost:3000/client/workspace/invite/${channelId}/${workSpaceId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                selectedId: this.selectedMembers
+            })
+        });
+
+        // return window.location.replace(`http://localhost:3000/channel/workspace/${channelId}/${workSpaceId}?sort=lastest&&sortNum=-1`);
+    } catch (err) {
+        console, log(err);
+    }
 }
 
 const replaceText = text => {
@@ -370,7 +410,7 @@ document.getElementById('send').addEventListener('click', postCreatePostToWorkSp
 document.getElementById('content').addEventListener('keydown', onKeyDownCreateUnitPost);
 window.addEventListener('DOMContentLoaded', activeSortTypeBtnColor);
 
-// ---------------- 멤버 초대 모달창 로직 구간 ------------------
+// ---------------- 멤버 초대 모달창 로직 구간 ------------------ //
 const createInviteMemberModalTag = data => {
     const body = document.body;
 
@@ -381,19 +421,27 @@ const createInviteMemberModalTag = data => {
     modal.classList.add('modal-invite-member');
 
     // 박스안에 닫기 버튼
-    const closeBox = document.createElement('div');
-    closeBox.classList.add('channel-member-list');
-    closeBox.style.border = 'none';
+    const btnBox = document.createElement('div');
+    btnBox.classList.add('icon-btn-box');
+    btnBox.style.border = 'none';
     // closeBox.style.display = 'block'; 
     // closeBox.style.float = 'right'; 
 
+    const addBtn = document.createElement('button');
+    const addIcon = document.createElement('i');
+    addIcon.className = 'fa-solid fa-user-plus';
+
+    addBtn.appendChild(addIcon);
+    addBtn.id = 'add';
+
     const closeBtn = document.createElement('button');
-    closeBtn.style.float = 'right';
+    closeBtn.id = 'modal-close-btn';
     closeBtn.setAttribute('onclick', "onClickCloseBtn('modal-background')")
     closeBtn.textContent = 'x';
 
-    closeBox.appendChild(closeBtn);
-    modal.appendChild(closeBox);
+    btnBox.appendChild(addBtn);
+    btnBox.appendChild(closeBtn);
+    modal.appendChild(btnBox);
 
     const selectedMemberListBox = document.createElement('div');
     selectedMemberListBox.classList.add('selected-member-container');
@@ -422,9 +470,8 @@ const createInviteMemberModalTag = data => {
     }
 
     modalBackGround.appendChild(modal);
-
-
     body.appendChild(modalBackGround);
+    document.getElementById('add').addEventListener('click', patchAddMemeberToWorkSpace);
 }
 
 const getMemberListOnChannel = async () => {
@@ -444,7 +491,6 @@ const getMemberListOnChannel = async () => {
     }
 }
 
-this.selectedMembers = [];// 선택한 유저들 doc아이디 배열로 저장
 const onClickSelectMemberBox = member => {
     const selectedMemberListBox = document.querySelector('.selected-member-container');
     if (selectedMembers.length <= 0) {
@@ -506,7 +552,7 @@ const checkIcon = _id => {
 
     let circleIcon;
 
-    for (let i = 1; i < memberListBox.length; i++) {
+    for (let i = 0; i < memberListBox.length; i++) {
         if (memberListBox[i].id == _id) {
             circleIcon = memberListBox[i].children[2];
             break;
@@ -520,10 +566,10 @@ const checkIcon = _id => {
 
 const unCheckIcon = _id => {
     const memberListBox = document.querySelectorAll('.channel-member-list');
-    console.log(memberListBox.length);
+
     let circleIcon;
 
-    for (let i = 1; i < memberListBox.length; i++) {
+    for (let i = 0; i < memberListBox.length; i++) {
         if (memberListBox[i].id == _id) {
             circleIcon = memberListBox[i].children[2];
             break;

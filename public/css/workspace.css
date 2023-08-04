@@ -593,7 +593,15 @@ textarea:focus {
     float: right;
 }
 
-.channel-member-list button {
+.icon-btn-box {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px groove rgba(0, 0, 0, 0.26);
+}
+
+#modal-close-btn {
     margin-left: 5px;
     padding: 10px;
     padding-left: 16px;
@@ -603,8 +611,22 @@ textarea:focus {
     font-weight: lighter;
     border-radius: 25px;
     border: 1px groove rgba(0, 0, 0, 0.26);
-    float: right;
     cursor: pointer;
+}
+
+#add {
+    padding: 10px;
+    background: #ffffff;
+    font-size: 20px;
+    font-weight: lighter;
+    border-radius: 25px;
+    border: 1px groove rgba(0, 0, 0, 0.26);
+    cursor: pointer;
+}
+
+#add i{
+    margin-left: 0;
+    color:rgba(0, 0, 0, 0.26);
 }
 
 .selected-member-container {

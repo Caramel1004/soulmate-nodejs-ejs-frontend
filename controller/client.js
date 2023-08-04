@@ -23,6 +23,7 @@ import workspaceService from '../service/workspace.js';
  * 14. 관심채널 추가 또는 삭제(토글 관계)
  * 15. 채팅방 퇴장
  * 16. 공용기능: 채널에있는 유저 목록 불러오기
+ * 17. 워크스페이스 퇴장
  */
 
 const clientControlller = {
@@ -65,6 +66,7 @@ const clientControlller = {
     postExitChannel: async (req, res, next) => {
         try {
             const jsonWebToken = req.cookies.token;
+            const refreshToken = req.cookies.refreshToken;
             const channelId = req.params.channelId;
             console.log(channelId);
             const response = await fetch('http://localhost:8080/v1/channel/exit/' + channelId, {
@@ -253,7 +255,9 @@ const clientControlller = {
             const data = await workspaceService.postInviteUsersToWorkSpace(jsonWebToken, req.cookies.refreshToken, req.body, channelId, workSpaceId, next);
             hasError(data.error);
 
-            res.redirect(`/channel/workspace/${channelId}/${workSpaceId}`);
+            res.status(data.status.code).json({
+                status: data.status
+            });
         } catch (err) {
             next(err);
         }
@@ -336,7 +340,22 @@ const clientControlller = {
         } catch (err) {
             next(err)
         }
-    }
+    },
+    // 17. 워크스페이스 퇴장
+    patchExitWorkSpace: async (req, res, next) => {
+        try {
+            const token = req.cookies.token;
+
+            const data = await workspaceService.patchExitWorkSpace(token, req.cookies.refreshToken, req.body.channelId, req.body.workSpaceId, next);
+            hasError(data.error);
+
+            res.status(data.status.code).json({
+                removedChatRoom: data.removedChatRoom
+            });
+        } catch (err) {
+            next(err);
+        }
+    },
 }
 
 export default clientControlller;
