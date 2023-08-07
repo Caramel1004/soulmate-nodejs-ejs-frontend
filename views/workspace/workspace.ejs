@@ -20,7 +20,7 @@
                     <p>현재 <%= workSpace.users.length %>명이 참여하고있습니다.
                     <div class="workspace-member-list-box">
                         <div class="workspace-member-icon-box">
-                            <div class="workspace-member-icon">
+                            <div id="workspace-member-icon-left">
                                 <i class="fa-solid fa-chevron-left fa-xl"></i>
                             </div>
                         </div>
@@ -34,23 +34,23 @@
                                 <p><%= user.name %></p>
                             </div>
                         <% } %>
-                        <div class="workspace-member-icon-box">
-                            <div class="workspace-member-icon">
+                        <div id="workspace-member-icon-box">
+                            <div id="workspace-member-icon-right">
                                 <i class="fa-solid fa-chevron-right fa-xl"></i>
                             </div>
                         </div>
                     </div>
                     <% if(workSpace.comment) { %>
-                        <p><span><i class="fa-regular fa-pen-to-square"></i></span><%= workSpace.comment %></p>
+                        <p id="script-comment"><span id="script"><i class="fa-regular fa-pen-to-square"></i></span><%= workSpace.comment %></p>
                     <% } else { %>
-                        <p><span><i class="fa-regular fa-pen-to-square"></i></span>설명 스크립트를 자유롭게 남겨보세요.</p>
+                        <p id="script-comment"><span id="script"><i class="fa-regular fa-pen-to-square"></i></span>설명 스크립트를 자유롭게 남겨보세요.</p>
                     <% } %>
                 </div>
                 <div id="tab-box">
                     <a class="type" id="lastest" href="/channel/workspace/<%= workSpace.channelId %>/<%= workSpace._id %>?sort=lastest&&sortNum=-1">최신순</a>
                     <a class="type" id="old" href="/channel/workspace/<%= workSpace.channelId %>/<%= workSpace._id %>?sort=old&&sortNum=1">오래된순</a>
                     <a class="type" id="date" href="/channel/workspace/<%= workSpace.channelId %>/<%= workSpace._id %>?sort=select&&sortNum=1">날짜 선택</a>
-                    <a class="type" style="float: right;"><i class="fa-solid fa-arrow-right-from-bracket"></i>워크스페이스 퇴장</a>
+                    <a class="type" style="float: right;" onclick="onClickWorkSpaceExitBtn()"><i class="fa-solid fa-arrow-right-from-bracket"></i>워크스페이스 퇴장</a>
                 </div>
                 <% if(workSpace.posts.length > 0) { %>
                     <% for(let post of workSpace.posts) { %>

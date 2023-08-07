@@ -24,6 +24,7 @@ import workspaceService from '../service/workspace.js';
  * 15. 채팅방 퇴장
  * 16. 공용기능: 채널에있는 유저 목록 불러오기
  * 17. 워크스페이스 퇴장
+ * 18. 워크스페이스 설명 스크립트 편집
  */
 
 const clientControlller = {
@@ -222,7 +223,7 @@ const clientControlller = {
             const data = await channelService.postCreateWorkSpace(token, req.cookies.refreshToken, req.params.channelId, open, workSpaceName, comment, next);
             hasError(data.error);
 
-            res.redirect(`/channel/workspace/${data.workSpace.channelId}/${data.workSpace._id}`);
+            res.redirect(`/channel/workspace/${data.workSpace.channelId}/${data.workSpace._id}?sort=lastest&&sortNum=-1`);
         } catch (err) {
             next(err);
         }
@@ -344,18 +345,32 @@ const clientControlller = {
     // 17. 워크스페이스 퇴장
     patchExitWorkSpace: async (req, res, next) => {
         try {
+            console.log('퇴장');
             const token = req.cookies.token;
 
             const data = await workspaceService.patchExitWorkSpace(token, req.cookies.refreshToken, req.body.channelId, req.body.workSpaceId, next);
             hasError(data.error);
 
             res.status(data.status.code).json({
-                removedChatRoom: data.removedChatRoom
+                workSpace: data.workSpace
             });
         } catch (err) {
             next(err);
         }
     },
+    //18. 워크스페이스 설명 스크립트 편집
+    patchEditCommentScript: async (req, res, next) => {
+        try {
+            const data = await workspaceService.patchEditCommentScript(req.cookies.token, req.cookies.refreshToken, req.body, next);
+            hasError(data.error);
+
+            res.status(data.status.code).json({
+                status: data.status
+            });
+        } catch (err) {
+            next(err);
+        }
+    }
 }
 
 export default clientControlller;

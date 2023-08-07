@@ -7,8 +7,9 @@ import workspaceAPI from '../API/workspace.js'
  * 4. 워크스페이스에 팀원 초대
  * 5. 스크랩 따기
  * 6. 댓글 보기
- * 7. 워크스페이스 설명 코멘트 편집
+ * 7. 해당 게시물에 댓글 달기
  * 8. 워크스페이스 퇴장
+ * 9. 워크스페이스 설명 스크립트 편집
  */
 const workspaceService = {
     // 1. 워크스페이스 입장 -> 워크스페이스 페이지
@@ -113,6 +114,19 @@ const workspaceService = {
             next(err);
         }
     },
+    // 9. 워크스페이스 설명 스크립트 편집
+    patchEditCommentScript: async (token, refreshToken, body, next) => {
+        try {
+            const data = await workspaceAPI.patchEditCommentScript(token, refreshToken, body, next);
+            hasError(data.error);
+
+            res.status(data.status.code).json({
+                status: data.status
+            });
+        } catch (err) {
+            next(err);
+        }
+    }
 }
 
 export default workspaceService

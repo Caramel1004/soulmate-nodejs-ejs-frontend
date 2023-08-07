@@ -23,6 +23,7 @@ const router = Router();
  * 15. 채팅방 퇴장
  * 16. 공용기능: 채널에있는 유저 목록 불러오기
  * 17. 워크스페이스 퇴장
+ * 18. 워크스페이스 설명 스크립트 편집
  */
 
 //POST /client/channel/create
@@ -71,6 +72,9 @@ router.patch('/chat/exit-chat-room/:channelId/:chatRoomId', accessAuthorizedToke
 router.get('/channel/member-list/:channelId', accessAuthorizedToken, clientController.getMemberListOnChannel);// 16. 공용기능: 채널에있는 유저 목록 불러오기
 
 // PATCH /client/workspace/exit/:channelId/:workSpaceId
-router.patch('/workspace/exit/:channelId/:workSpaceId', accessAuthorizedToken, clientController.patchExitWorkSpace);//17. 워크스페이스 퇴장
+router.patch('/workspace/exit/:channelId/:workSpaceId', accessAuthorizedToken, clientController.patchExitWorkSpace);// 17. 워크스페이스 퇴장
+
+// PATCH /client/workspace/edit-comment/:channelId/:workSpaceId
+router.patch('/workspace/edit-comment/:channelId/:workSpaceId', accessAuthorizedToken, clientController.patchEditCommentScript);// 18. 워크스페이스 설명 스크립트 편집
 
 export default router;

@@ -146,14 +146,25 @@ body {
     cursor: pointer;
 }
 
-.workspace-member-icon {
+#workspace-member-icon-left {
+    padding: 20px;
+    padding-left: 23px;
+    padding-right: 23px;
+}
+
+#workspace-member-icon-right {
+    margin-left: -5px;
     padding: 20px;
     padding-left: 23px;
     padding-right: 23px;
 }
 
 .workspace-member-icon:hover,
-.workspace-member-icon:active {
+.workspace-member-icon:active,
+#workspace-member-icon-left:hover,
+#workspace-member-icon-left:active,
+#workspace-member-icon-right:hover,
+#workspace-member-icon-right:active {
     border-radius: 50px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.26);
 }
@@ -359,7 +370,7 @@ textarea:focus {
     border-top: none;
     border-left: none;
     width: 40%;
-    height: 100vh;
+    height: 93.5vh;
     background: #ffffff;
     display: block;
     overflow-y: scroll;
@@ -393,7 +404,6 @@ textarea:focus {
 }
 
 .replies {
-    margin-top: 5px;
     padding: 20px;
     display: flex;
     text-align: left;
@@ -483,26 +493,12 @@ textarea:focus {
 }
 
 .thread.reply-content-form {
+    padding-top: 30px;
     width: 100%;
     height: auto;
-    display: flex;
+    display: block;
     text-align: center;
-    position: fixed;
-}
-
-.reply-content-form textarea {
-    margin-top: 10px;
-    margin-left: 15px;
-    padding-top: 20px;
-    padding-left: 20px;
-    width: 95%;
-    height: auto;
-    border: 1px groove rgba(0, 0, 0, 0.26);
-    border-radius: 10px;
-    box-sizing: border-box;
-    resize: none;
-    font-size: 15px;
-    overflow: hidden;
+    /* position: fixed; */
 }
 
 .reply-content-form textarea {
@@ -521,6 +517,37 @@ textarea:focus {
 }
 
 .reply-content-form button {
+    padding: 10px;
+    border: 0.5px groove rgba(0, 0, 0, 0.26);
+    border-radius: 10px;
+    background: #ffffff;
+    cursor: pointer;
+    margin: auto;
+}
+
+.reply-content-form button:hover,
+.reply-content-form button:active {
+    background: #007A5A;
+    color: #ffffff;
+}
+/* 설명 코멘트 스크립트 쓰레드 */
+.textarea__comment-box {
+    margin-top: 10px;
+    margin-left: 15px;
+    padding-top: 10px;
+    padding-left: 10px;
+    width: 95%;
+    height: 50vh;
+    border: 1px groove rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-sizing: border-box;
+    resize: none;
+    font-size: 15px;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.button__edit-mode-comment-script {
     margin-right: 15px;
     padding: 10px;
     border: 0.5px groove rgba(0, 0, 0, 0.26);
@@ -529,11 +556,31 @@ textarea:focus {
     cursor: pointer;
     float: right;
 }
+.button__edit-mode-comment-script i{
+    color: #000000;
+}
 
-.reply-content-form button:hover,
-.reply-content-form button:active {
-    background: #007A5A;
-    color: #ffffff;
+.button__edit-mode-comment-script:hover,
+.button__edit-mode-comment-script:active {
+    opacity: 0.7;
+}
+
+.textarea__comment-box::-webkit-scrollbar {
+    width: 6px;
+    background: #ffffff;
+    border-radius: 60px;
+}
+
+.textarea__comment-box::-webkit-scrollbar-thumb {
+    width: 6px;
+    background: rgb(155, 151, 151);
+    border-radius: 50px;
+}
+
+.textarea__comment-box::-webkit-scrollbar-track {
+    width: 6px;
+    border-radius: 50px;
+    background: #ffffff;
 }
 
 /* 멤버추가모달창 */
@@ -624,9 +671,9 @@ textarea:focus {
     cursor: pointer;
 }
 
-#add i{
+#add i {
     margin-left: 0;
-    color:rgba(0, 0, 0, 0.26);
+    color: rgba(0, 0, 0, 0.26);
 }
 
 .selected-member-container {
@@ -668,7 +715,7 @@ textarea:focus {
     cursor: pointer;
 }
 
-/* 채팅 히스토리 박스 스크롤 디자인 */
+/* 멤버 초대 프리뷰 박스 스크롤 디자인 */
 .selected-member-container::-webkit-scrollbar {
     height: 6px;
     background: #ffffff;

@@ -7,8 +7,9 @@ import fetch from 'node-fetch';
  * 4. 워크스페이스에 팀원 초대
  * 5. 스크랩 따기
  * 6. 댓글 보기
- * 7. 워크스페이스 설명 코멘트 편집
+ * 7. 해당 게시물에 댓글 달기
  * 8. 워크스페이스 퇴장
+ * 9. 워크스페이스 설명 스크립트 편집
  */
 
 const workspaceAPI = {
@@ -109,13 +110,17 @@ const workspaceAPI = {
     // 8. 워크스페이스 퇴장
     patchExitWorkSpace: async (token, refreshToken, channelId, workSpaceId, next) => {
         try {
-            const response = await fetch(`http://localhost:8080/v1/workspace/${channelId}/${workSpaceId}/post/create-reply`, {
+            const response = await fetch(`http://localhost:8080/v1/workspace/exit/${channelId}/${workSpaceId}`, {
                 method: 'PATCH',
                 headers: {
                     Authorization: 'Bearer ' + token,
                     RefreshToken: refreshToken,
+                    'Content-Type': 'application/json'
                 },
-                body: formData
+                body: JSON.stringify({
+                    channelId: channelId,
+                    workSpaceId: workSpaceId
+                })
             });
             const resData = await response.json();
 
@@ -124,6 +129,25 @@ const workspaceAPI = {
             next(err);
         }
     },
+    // 9. 워크스페이스 설명 스크립트 편집
+    patchEditCommentScript: async (token, refreshToken, body, next) => {
+        try {
+            const response = await fetch(`http://localhost:8080/v1/workspace/edit-comment/${body.channelId}/${body.workSpaceId}`, {
+                method: 'PATCH',
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                    RefreshToken: refreshToken,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            });
+            const resData = await response.json();
+
+            return resData;
+        } catch (err) {
+            next(err);
+        }
+    }
 }
 
 export default workspaceAPI;

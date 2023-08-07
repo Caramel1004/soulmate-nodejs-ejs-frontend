@@ -12,7 +12,7 @@
         <%- include('../includes/header.ejs') %>
         <%- include('../includes/menu.ejs') %>
         <%- include('../includes/loading.ejs') %>
-        <div id="channel-container">
+        <div class="channel-container">
             <div class="channel-list">
                 <div id="box-search">
                     <select id="category" name="category">
@@ -29,35 +29,39 @@
                         <a class="type" href="/wishchannels?searchWord=<%= category.keyword %>"><%= category.name %></a>
                     <% } %>
                 </div>
-                <div id="title">
-                    🥰 <span class="client-name"><%= clientName %></span> 님이 만든 채널 | 그이상의 소통을 만들어 보세요
-                </div>
-                <%if(channelList.length > 0) { %>
-                    <% for(let channel of channelList) { %>
-                        <div class="contents__div-wrapper">
-                            <img src="<%= channel.thumbnail %>">
-                            <div class="card">
-                                <h2>채널명 | <%= channel.channelName %></h2>
-                            </div>
-                            <div class="card">
-                                <div class="box-member">
-                                    <!-- <% for(let member of channel.members) { %>
-                                        <img src="<%= member.photo %>">
-                                    <% } %> -->
-                                    <h5><%= channel.members.length %>명의 크루</h5>
+                <div class="wrapper-title-channel-container">
+                    <div id="title">
+                        🥰 <span class="client-name"><%= clientName %></span> 님이 찜한 채널
+                    </div>
+                    <div class="channel-box-items">
+                        <%if(channelList.length > 0) { %>
+                            <% for(let channel of channelList) { %>
+                                <div class="contents__div-wrapper">
+                                    <img src="<%= channel.thumbnail %>">
+                                    <div class="card">
+                                        <h2>채널명 | <%= channel.channelName %></h2>
+                                    </div>
+                                    <div class="card">
+                                        <div class="box-member">
+                                            <!-- <% for(let member of channel.members) { %>
+                                                <img src="<%= member.photo %>">
+                                            <% } %> -->
+                                            <h5><%= channel.members.length %>명의 크루</h5>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <% for(let category of channel.category) { %>
+                                            <h5 href="/client/mychannels/<%= channel._id %>"> 카테고리 | <a class="hash" href="#">#<%= channel.category %></a></h5>
+                                        <% } %>
+                                    </div>
+                                    <input type="hidden" name="channelId" value="<%= channel._id %>">
                                 </div>
-                            </div>
-                            <div class="card">
-                                <% for(let category of channel.category) { %>
-                                    <h5 href="/client/mychannels/<%= channel._id %>"> 카테고리 | <a class="hash" href="#">#<%= channel.category %></a></h5>
-                                <% } %>
-                            </div>
-                            <input type="hidden" name="channelId" value="<%= channel._id %>">
-                        </div>
-                    <% } %>
-                <% } else { %>
-                    <h1 style="text-align: center;">나만의 채널을 추가 해보세요!!</h1>
-                <% } %>
+                            <% } %>
+                        <% } else { %>
+                            <h1 style="text-align: center;">나만의 채널을 추가 해보세요!!</h1>
+                        <% } %>
+                    </div>
+                </div>
             </div>
         </div>		
         <%- include('../includes/script.ejs') %>

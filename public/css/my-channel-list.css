@@ -21,25 +21,24 @@ body::-webkit-scrollbar-track {
     background: #ffffff;
 }
 
-#channel-container {
-    /* margin-top: 70px; */
+.channel-container {
     margin-left: 250px;
     padding: 70px;
-    width: 77%;
+    padding-left: 0;
+    padding-right: 0;
+    width: auto;
     display: block;
-    justify-content: space-between;
     align-items: center;
     background: #ffffff;
-    text-align: center;
     /* border: 1px groove black; */
 }
 
 .channel-list {
     margin-top: 0;
-    /* padding: 50px; */
+    padding: 0;
     display: block;
     /* border: 1px solid black; */
-    text-align: left;
+    text-align: center;
 }
 
 #box-search {
@@ -76,16 +75,6 @@ body::-webkit-scrollbar-track {
     padding: 5px;
     font-weight: bold;
     text-align: center;
-    /* border: 1px solid black; */
-}
-
-#title {
-    margin-top: 40px;
-    /* margin-left: 10px; */
-    /* padding: 5px; */
-    text-align: left;
-    font-size: 22px;
-    font-weight: bold;
     /* border: 1px solid black; */
 }
 
@@ -126,15 +115,42 @@ body::-webkit-scrollbar-track {
     /* border: 1px solid black; */
 }
 
+/* 타이틀과 채널박스 아이템들 */
+.wrapper-title-channel-container {
+    display: block;
+    justify-content: center;
+}
+
+#title {
+    margin-top: 40px;
+    padding-left: 60px;
+    text-align: left;
+    font-size: 22px;
+    font-weight: bold;
+    /* border: 1px solid black; */
+}
+
+.channel-box-items {
+    padding: 0;
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fill, 250px);
+    grid-gap: 20px;
+    grid-auto-flow: row;
+    /* border: 1px groove rgba(0, 0, 0, 0.26); */
+}
+
+
 .contents__div-wrapper {
     margin-right: 20px;
-    margin-top: 30px;
+    margin-top: 20px;
     padding: 5px;
-    width: 270px;
+    width: 250px;
     text-align: left;
     display: inline-block;
-    justify-content: flex-end;
-    border: 1px groove rgba(0, 0, 0, 0.26);
+    /* justify-content: flex-end; */
+    border: 1px groove rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
     /* 박스 서서히 나타나기 */
     animation: fadein 0.7s;
     -webkit-animation: fadein 0.7s;
@@ -144,7 +160,7 @@ body::-webkit-scrollbar-track {
 @keyframes fadein {
     from {
         opacity: 0;
-        transform: translate(-20px,-20px);
+        transform: translate(-10px, -10px);
     }
 
     to {

@@ -274,7 +274,6 @@ const viewController = {
                 workSpace: workSpaceData.workSpace,
                 channel: { _id: channelId },
                 state: 'on'
-
             });
         } catch (err) {
             next(err);

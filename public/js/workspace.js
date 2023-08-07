@@ -47,7 +47,7 @@ const postCreateReplyToWorkSpace = async postId => {
         if (content == "") {
             return;
         }
-        document.getElementById('content').value = "";
+        document.getElementById('replyContent').value = "";
         const url = window.location.href;
 
         const channelId = url.split('/')[5];
@@ -66,6 +66,7 @@ const postCreateReplyToWorkSpace = async postId => {
             method: 'POST',
             body: formData
         });
+
         console.log('댓글 처리 완료!!!');
     } catch (err) {
         console.log(err);
@@ -74,7 +75,6 @@ const postCreateReplyToWorkSpace = async postId => {
 
 const patchAddMemeberToWorkSpace = async () => {
     try {
-        console.log('팀원추가 시작')
         const url = window.location.href;
 
         const channelId = url.split('/')[5];
@@ -92,7 +92,7 @@ const patchAddMemeberToWorkSpace = async () => {
             })
         });
 
-        // return window.location.replace(`http://localhost:3000/channel/workspace/${channelId}/${workSpaceId}?sort=lastest&&sortNum=-1`);
+        return window.location.replace(`http://localhost:3000/channel/workspace/${channelId}/${workSpaceId}?sort=lastest&&sortNum=-1`);
     } catch (err) {
         console, log(err);
     }
@@ -100,27 +100,55 @@ const patchAddMemeberToWorkSpace = async () => {
 
 const patchRemoveMemeberToWorkSpace = async () => {
     try {
-        console.log('팀원추가 시작')
         const url = window.location.href;
 
         const channelId = url.split('/')[5];
         const workSpaceId = url.split('/')[6].split('?')[0];
         console.log('channelId : ', channelId);
         console.log('workSpaceId : ', workSpaceId);
-        console.log(this.selectedMembers);
-        await fetch(`http://localhost:3000/client/workspace/invite/${channelId}/${workSpaceId}`, {
+
+        await fetch(`http://localhost:3000/client/workspace/exit/${channelId}/${workSpaceId}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                selectedId: this.selectedMembers
+                channelId: channelId,
+                workSpaceId: workSpaceId
             })
         });
 
-        // return window.location.replace(`http://localhost:3000/channel/workspace/${channelId}/${workSpaceId}?sort=lastest&&sortNum=-1`);
+        return window.location.replace(`http://localhost:3000/channel/workspace/${channelId}/${workSpaceId}?sort=lastest&&sortNum=-1`);
     } catch (err) {
         console, log(err);
+    }
+}
+
+const patchEditCommentScriptToWorkSpace = async () => {
+    try {
+        const url = window.location.href;
+
+        const channelId = url.split('/')[5];
+        const workSpaceId = url.split('/')[6].split('?')[0];
+        const comment = document.querySelector('.textarea__comment-box').value;
+        console.log('channelId : ', channelId);
+        console.log('workSpaceId : ', workSpaceId);
+
+        await fetch(`http://localhost:3000/client/workspace/edit-comment/${channelId}/${workSpaceId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                channelId: channelId,
+                workSpaceId: workSpaceId,
+                comment: comment
+            })
+        });
+
+        return window.location.replace(`http://localhost:3000/channel/workspace/${channelId}/${workSpaceId}?sort=lastest&&sortNum=-1`);
+    } catch (err) {
+        console.log(err);
     }
 }
 
@@ -131,6 +159,8 @@ const replaceText = text => {
 
     return replacedText;
 }
+
+//--------------이벤트 함수------------------//
 
 // 채팅 박스에 textarea 키보드 엔터 시 이벤트
 // 이슈: 한글입력 후 엔터시 중복 입력되는 현상 발생. -> 이벤트가 두번 발생함
@@ -178,6 +208,65 @@ const onKeyPressEnter = async event => {
     } catch (err) {
         console.log(err);
     }
+}
+
+const onClickWorkSpaceExitBtn = async event => {
+    try {
+        await patchRemoveMemeberToWorkSpace();
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+// 설명 스크립트 편집 버튼 클릭 이벤트 -> 입력 태그로 변환
+const onClickWorkSpaceEditCommentScriptBtn = () => {
+    console.log('스크립트!!');
+    createEditCommentTag();
+}
+
+//----------태그 생성 함수들-------------//
+const createEditCommentTag = () => {
+    if (document.querySelector('.thread')) {
+        document.body.removeChild(document.querySelector('.thread'));
+    }
+
+    document.querySelector('.board-workspace').style.width = '60%';
+
+    // 쓰레드 생성
+    const thread = document.createElement('div');
+    thread.classList.add('thread');
+
+    // 박스안에 닫기 버튼
+    const closeBox = document.createElement('div');
+    closeBox.classList.add('box-close');
+    closeBox.style.borderBottom = '1px groove rgba(0, 0, 0, 0.1)';
+
+    const closeBtn = document.createElement('button');
+    closeBtn.setAttribute('onclick', "onClickCloseBtn('thread')")
+    closeBtn.textContent = 'x';
+
+    closeBox.appendChild(closeBtn);
+
+    //닫기 박스, 게시물 박스
+    thread.appendChild(closeBox);
+
+    // 코멘트 입력 태그생성
+    const textarea = document.createElement('textarea');
+    textarea.classList.add('textarea__comment-box');
+    textarea.value = document.getElementById('script-comment').textContent;
+    thread.appendChild(textarea);
+
+    const i = document.createElement('i');
+    i.className = 'fa-regular fa-pen-to-square fa-xl';
+
+    const button = document.createElement('button');
+    button.classList.add('button__edit-mode-comment-script');
+    button.setAttribute('onclick', `patchEditCommentScriptToWorkSpace()`)
+    button.append(i);
+
+    thread.appendChild(button);
+
+    document.body.appendChild(thread);
 }
 
 // 맨 오른쪽 쓰레드 박스 생성
@@ -234,6 +323,22 @@ const createThreadTag = async postId => {
         p.textContent = `${data.post.replies.length}개의 댓글`
         postTag.appendChild(p);
 
+        // 댓글 작성 박스 생성
+        const replyContentForm = document.createElement('div');
+        replyContentForm.classList.add('reply-content-form');
+
+        const textarea = document.createElement('textarea');
+        textarea.id = 'replyContent';
+
+        replyContentForm.appendChild(textarea);
+        thread.appendChild(replyContentForm);
+
+        const button = document.createElement('button');
+        button.setAttribute('onclick', `postCreateReplyToWorkSpace('${data.post._id}')`)
+        button.textContent = '댓글 올리기';
+
+        replyContentForm.appendChild(button);
+
         for (const reply of data.post.replies) {
             // 댓글 박스
             const replyBox = document.createElement('div');
@@ -281,22 +386,6 @@ const createThreadTag = async postId => {
 
             thread.appendChild(replyBox);
         }
-
-        // 댓글 작성 박스 생성
-        const replyContentForm = document.createElement('div');
-        replyContentForm.classList.add('reply-content-form');
-
-        const textarea = document.createElement('textarea');
-        textarea.id = 'replyContent';
-
-        replyContentForm.appendChild(textarea);
-        thread.appendChild(replyContentForm);
-
-        const button = document.createElement('button');
-        button.setAttribute('onclick', `postCreateReplyToWorkSpace('${data.post._id}')`)
-        button.textContent = '댓글 올리기';
-
-        replyContentForm.appendChild(button);
 
         document.body.appendChild(thread);
     } catch (err) {
@@ -398,8 +487,8 @@ const activeSortTypeBtnColor = () => {
     const url = window.location.href;
     const queryString = url.split('?')[1];
     const query = queryString.split('&&')[0];
-    const sortType = query.split('=')[1];
-
+    const sortType = query.split('=')[1] || 'lastest';
+    console.log('query : ', query);
     console.log('sortType: ', sortType);
     document.getElementById(sortType).style.color = '#ffffff';
     document.getElementById(sortType).style.background = 'black';
@@ -408,6 +497,7 @@ const activeSortTypeBtnColor = () => {
 
 document.getElementById('send').addEventListener('click', postCreatePostToWorkSpace);
 document.getElementById('content').addEventListener('keydown', onKeyDownCreateUnitPost);
+document.getElementById('script').addEventListener('click', onClickWorkSpaceEditCommentScriptBtn);
 window.addEventListener('DOMContentLoaded', activeSortTypeBtnColor);
 
 // ---------------- 멤버 초대 모달창 로직 구간 ------------------ //
