@@ -39,39 +39,38 @@
                         </div>
                     </div>
                 </div>
-                <div class="box-post">
-                    <div class="post">
-                        <p>2023-07-14</p>
-                        <h2>우리들의 기술스택 입니다.</h2>
-                        <p>작성자<span>카라멜프라푸치노</span></p>
-                    </div>
-                    <div id="second" class="post">
-                        <p>2023-07-13</p>
-                        <h2>현재 프로젝트 진행 상황</h2>
-                        <p>작성자<span>카라멜프라푸치노</span></p>
-                    </div>
-                </div>
                 <div class="content">
-                <p>
-                <%= channel.comment %>
-                주요업무
-                - On/Off Site Salesforce 개발 운영 및 유지보수
-                - On/Off Site Salesforce 개발 프로젝트 수행
-
-                자격요건
-                - 2년 이상의 개발 경력
-                - Java, Javascript 언어 활용 가능자
-                - REST API 개발 유경험자
-                - DB : SQL이해 및 DB스키마 설계 가능자
-                - MS Office 활용 능력 보유자(PPT, Excel)
-                - IT에 대한 열정, 배움의 의지 소유자
-
-                우대사항
-                - 영어 활용 가능자
-                - 뛰어난 커뮤니케이션 능력 소유자
-                - Salesforce 개발 및 운영 경험자
-                - Salesforce Developer 자격증 보유자
-                </p>
+                    <% if(channel.comment !== '') { %>
+                        <p><%= channel.comment %></p>
+                    <% } else { %>
+                        <p>채널의 목적을 스크립트로 적어보세요.</p>
+                    <% } %>
+                </div>
+                <div class="box-post">
+                    <% if(openWorkSpaces.length > 0) { %>
+                        <% for(const post of openWorkSpaces[0].posts) { 
+                            post.createdAt = new Date(post.createdAt).toLocaleDateString('ko', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                                weekday: 'long'
+                            })
+                            %>
+                            <div class="post">
+                                <p><%= post.createdAt %></p>
+                                <p>작성자<span><%= post.creator.name %></span></p>
+                                <p>워크스페이스<span><%= openWorkSpaces[0].workSpaceName %></span></p>
+                                <p><%= post.content %></p>
+                            </div>
+                        <% } %>
+                    <% } else { %>
+                        <div class="post">
+                            <h2 style="text-align: center;"> 워크스페이스에 공지사항을 남겨보세요. </h2>
+                        </div>
+                        <div class="post">
+                            <h2 style="text-align: center;"> 워크스페이스에 공지사항을 남겨보세요. </h2>
+                        </div>
+                    <% } %>
                 </div>
             </div>
         </div>		

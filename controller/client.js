@@ -215,6 +215,7 @@ const clientControlller = {
     // 8. 워크스페이스 생성
     postCreateWorkSpace: async (req, res, next) => {
         try {
+            console.log(req.body.open);
             const token = req.cookies.token;
             const open = req.body.open;
             const workSpaceName = req.body.workSpaceName;

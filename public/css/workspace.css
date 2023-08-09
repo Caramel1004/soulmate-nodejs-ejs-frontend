@@ -204,7 +204,7 @@ body {
 .box-post-history {
     /* border: 0.5px groove rgba(0, 0, 0, 0.26); */
     border-bottom: none;
-    width: 100%;
+    width: auto;
     height: 80vh;
     background: #ffffff;
     display: block;
@@ -233,9 +233,9 @@ body {
 
 .board-workspace.box-post-content {
     width: 100%;
-    height: auto;
+    height: 20vh;
     display: block;
-    position: fixed;
+    /* position: fixed; */
     /* border: 0.5px groove rgba(0, 0, 0, 0.26); */
     /* overflow: scroll; */
 }

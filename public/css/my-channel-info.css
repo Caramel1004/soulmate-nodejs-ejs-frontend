@@ -23,14 +23,16 @@ body::-webkit-scrollbar-track {
 
 #channel-profile-container {
     /* margin-top: 70px; */
-    margin-left: 300px;
+    margin-left: 250px;
     padding: 70px;
-    width: 73%;
-    display: block;
-    justify-content: space-between;
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     align-items: center;
     background: #ffffff;
     text-align: center;
+    /* border: 1px solid black; */
     /* border: 1px groove black; */
     /* 박스 서서히 나타나기 */
     animation: fadein 1s;
@@ -105,7 +107,7 @@ body::-webkit-scrollbar-track {
 }
 
 /* 1. 채널 정보 패널 */
-.info{
+.info {
     margin-top: 40px;
     /* padding: 20px; */
     /* 박스 중앙으로 정렬 하기 */
@@ -141,7 +143,7 @@ body::-webkit-scrollbar-track {
     /* border: 1px groove rgba(0, 0, 0, 0.26); */
 }
 
-.text p{
+.text p {
     font-family: 'Roboto';
     font-size: 13px;
     color: #000000;
@@ -152,30 +154,47 @@ body::-webkit-scrollbar-track {
 .box-post {
     margin-top: 40px;
     padding: 0;
-    /* padding: 20px; */
-    /* width: 50%; */
-    display: flex;
+    display: grid;
+    align-items: center;
     justify-content: space-between;
+    grid-template-columns: 49% 49%;
+    grid-auto-flow: row;
+    /* grid-gap: 10px; */
     /* border: 1px groove rgba(0, 0, 0, 0.26); */
     border-radius: 10px;
 }
+
 .post {
     /* margin-left: 10px; */
     padding: 10px;
+    padding-top: -10px;
     text-align: left;
-    width: 50vw;
     border: 1px groove rgba(0, 0, 0, 0.26);
     border-radius: 10px;
+    /* display: grid;
+    grid-template-rows: 50px 100px 50px;
+    grid-gap: 0; */
+    white-space: normal;
+    /* text-overflow: ellipsis; */
+     display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    line-height: 1.2;
+    /* word-wrap: break-word; */
+    overflow: hidden;
+    overflow-y: hidden;
 }
+
 .post:hover,
-.post:active{
+.post:active {
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.26);
 }
-.post p{
+
+.post p {
     color: rgba(0, 0, 0, 0.26);
 }
 
-.post span{
+.post span {
     padding-left: 30px;
     color: rgb(212, 78, 21);
 }
@@ -187,10 +206,9 @@ body::-webkit-scrollbar-track {
 /* 3. 소개 박스 */
 .content {
     margin-top: 40px;
-    padding-top: 10px;
-    /* padding-left: -10px; */
+    padding: 0;
+    height: auto;
     text-align: left;
     border: 1px groove rgba(0, 0, 0, 0.26);
-    border-radius: 20px;
-    white-space: pre-wrap;
+    border-radius: 10px;
 }

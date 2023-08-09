@@ -22,36 +22,109 @@ body::-webkit-scrollbar-track {
 }
 
 #myprofile-container {
-    /* margin-top: 70px; */
     margin-left: 250px;
     padding: 70px;
-    width: 75.5%;
-    display: block;
+    width: auto;
     background: #ffffff;
-    border: 1px groove black;
+    /* border: 1px groove black; */
 }
 
-.myprofile {
-    margin-top: 0;
-    /* padding: 50px; */
-    /* display: flex; */
-    display: flex;
-    justify-content: center;
-    border: 1px groove black;
-}
 
-.card {
-    padding: 20px;
+.photo-box {
+    margin-top: 50px;
     text-align: center;
-    border: 1px groove black;
+    color: #1d1c1d;
+    /* border: 1px groove black; */
 }
-.card img{
-    margin-top: 0;
-    /* padding: 50px; */
-    width: 300px;
-    height: 300px;
+
+.photo-box span {
+    color: rgb(212, 78, 21);
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+.photo-box img {
+    width: 200px;
+    height: 200px;
     border-radius: 400px;
     cursor: pointer;
 }
 
+.myprofile {
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* border: 1px groove black; */
+}
 
+ul {
+    padding: 20px;
+    display: grid;
+    justify-content: center;
+    grid-template-rows: repeat(auto-fill);
+    grid-gap: 0;
+    grid-auto-flow: row;
+    border: 1px groove rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    color: #1d1c1d;
+}
+
+ul>li {
+    padding: 1px;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: 120px 400px;
+    grid-gap: 0;
+    list-style: none;
+    border-bottom: 1px groove rgba(0, 0, 0, 0.1);
+    font-size: 15px;
+}
+
+li p {
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+li>#email {
+    color: #1d1c1d;
+}
+
+#name,
+#phone,
+#sns {
+    cursor: pointer;
+}
+
+#name:hover,
+#name:active,
+#phone:hover,
+#phone:active,
+#sns:hover,
+#sns:active {
+    opacity: 0.7;
+}
+
+li i {
+    color: rgba(0, 0, 0, 0.5);
+    float: right;
+}
+
+#comment {
+    margin-top: -20px;
+    padding: 0;
+    padding-bottom: 20px;
+    border: none;
+    grid-template-columns: 520px;
+}
+
+#comment p{
+    font-size: 20px;
+    color: #1d1c1d;
+}
+
+#comment span{
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.5);
+}

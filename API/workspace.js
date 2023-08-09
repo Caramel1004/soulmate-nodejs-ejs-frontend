@@ -33,7 +33,7 @@ const workspaceAPI = {
     // 2. 워크스페이스에 게시물 생성
     postCreatePostToWorkSpace: async (token, refreshToken, channelId, workSpaceId, formData, next) => {
         try {
-            const response = await fetch(`http://localhost:8080/v1/workspace/exit/${channelId}/${workSpaceId}`, {
+            const response = await fetch(`http://localhost:8080/v1/workspace/create-post/${channelId}/${workSpaceId}`, {
                 method: 'POST',
                 headers: {
                     Authorization: 'Bearer ' + token,

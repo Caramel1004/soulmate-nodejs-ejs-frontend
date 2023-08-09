@@ -184,7 +184,8 @@ const viewController = {
             const workSpaceListData = await channelService.getWorkSpaceList(jsonWebToken, req.cookies.refreshToken, channelId, next);
             hasError(workSpaceListData.error);
             const matchedWorkSpaceList = workSpaceListData.workSpaces;
-            console.log(matchedWorkSpaceList);
+            const matchedOpenWorkSpaceList = workSpaceListData.openWorkSpaces
+
             // 4. 스크랩 목록 요청
 
             const state = 'on';
@@ -198,6 +199,7 @@ const viewController = {
                 channel: matchedChannel,
                 chatRooms: matchedChatRoomList,
                 workSpaces: matchedWorkSpaceList,
+                openWorkSpaces: matchedOpenWorkSpaceList,
                 state: state
             });
         } catch (err) {
