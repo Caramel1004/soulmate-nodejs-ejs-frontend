@@ -12,6 +12,9 @@ router.get('/login', authController.getLoginPage);// 로그인 페이지 렌더�
 // POST /login
 router.post('/login', checkValidEmailAndPassWord, authController.postLogin);// 로그인
 
+// GET /kakao/oauth/authorize
+router.get('/kakao/oauth/authorize', authController.getKakaoLoginPage);
+
 // get /logout
 router.get('/logout', authController.getLogout);// 로그 아웃
 

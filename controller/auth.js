@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
 import { hasError } from '../validator/valid.js';
+import authAPI from '../API/auth.js';
 
 const authController = {
     // 로그인 페이지 렌더링
@@ -108,7 +109,17 @@ const authController = {
         } catch (err) {
             next(err);
         }
-    } ,
+    },
+    // 카카오 로그인 페이지
+    getKakaoLoginPage: async (req, res, next) => {
+        try {
+            const data = authAPI.getKakaoLoginPage(next);
+            console.log(data);
+            res.redirect(data)
+        } catch (err) {
+            console.log(err)
+        }
+    },
     //로그 아웃
     getLogout: (req, res, next) => {
         try {
