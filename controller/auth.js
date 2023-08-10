@@ -111,13 +111,24 @@ const authController = {
         }
     },
     // 카카오 로그인 페이지
-    getKakaoLoginPage: async (req, res, next) => {
+    getKakaoLoginPageURL: async (req, res, next) => {
         try {
-            const data = authAPI.getKakaoLoginPage(next);
-            console.log(data);
-            res.redirect(data)
+            const kakaoResData = await authAPI.getKakaoLoginPageURL(next);
+            hasError(kakaoResData.error);
+
+            res.status(302).redirect(kakaoResData.url);
         } catch (err) {
             console.log(err)
+        }
+    },
+    // 카카오 추가 정보 제공 선택 창
+    getKakaoAddScopePage: async (req, res, next) => {
+        try {
+            const kakaoResData = await authAPI.getKakaoAddScopePage(next);
+
+            res.status(302).redirect(kakaoResData.url);
+        } catch (err) {
+            next(err);
         }
     },
     //로그 아웃
