@@ -1,46 +1,37 @@
 import fetch from 'node-fetch';
 
 const authAPI = {
-    // 카카오 로그인 페이지
+    // 카카오 로그인 페이지 URL
     getKakaoLoginPageURL: async next => {
         try {
-            const response = await fetch(`http://localhost:8080/v1/user/kakao-account`, {
+            const response = await fetch(`http://localhost:8080/v1/user/kakao/oauth/authorize`, {
                 method: 'GET'
             });
             const data = await response.json();
-            console.log(data);
+
             return data;
         } catch (err) {
             next(err);
         }
     },
-    // 카카오 추가 정보 제공 선택 창
-    getKakaoAddScopePage: async next => {
+    // 카카오에 토큰 요청
+    postRequestTokenToKakao: async (code, next) => {
         try {
-            const response = await fetch(`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=${process.env.REDIRECT_URI}&response_type=code&scope=profile_nickname,profile_image,account_email,gender`, {
-                method:'GET',
-                scope: 'account_email, gender'
-            });
-
-            return response;
-        } catch (err) {
-            next(err);
-        }
-    },
-    postSignUpByKakaoAccountEmail: async next => {
-        try {
-            const response = await fetch('http://localhost:8080/v1/user/kakao-account/token', {
+            const response = await fetch('http://localhost:8080/v1/user/kakao/oauth/token', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+                body: JSON.stringify({
+                    code: code
+                })
             });
 
             const data = await response.json();
 
             return data;
         } catch (err) {
-
+            next(err);
         }
     }
 }

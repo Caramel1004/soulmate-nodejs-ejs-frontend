@@ -115,18 +115,20 @@ const authController = {
         try {
             const kakaoResData = await authAPI.getKakaoLoginPageURL(next);
             hasError(kakaoResData.error);
-
+            console.log(kakaoResData)
             res.status(302).redirect(kakaoResData.url);
         } catch (err) {
             console.log(err)
         }
     },
-    // 카카오 추가 정보 제공 선택 창
-    getKakaoAddScopePage: async (req, res, next) => {
+    // 카카오에 토큰 요청
+    postRequestTokenToKakao: async (req, res, next) => {
         try {
-            const kakaoResData = await authAPI.getKakaoAddScopePage(next);
+            console.log('req.query : ', req.query);
+            const kakaoResData = await authAPI.postRequestTokenToKakao(req.query.code, next);
+            hasError(kakaoResData.error);
 
-            res.status(302).redirect(kakaoResData.url);
+            res.redirect('/');
         } catch (err) {
             next(err);
         }

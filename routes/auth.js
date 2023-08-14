@@ -15,8 +15,8 @@ router.post('/login', checkValidEmailAndPassWord, authController.postLogin);// �
 // GET /kakao/oauth/authorize
 router.get('/kakao/oauth/authorize', authController.getKakaoLoginPageURL);
 
-// GET /kakao/oauth/authorize/scope
-router.get('/kakao/oauth/authorize/scope', authController.getKakaoAddScopePage);
+// GET /kakao/oauth/token
+router.get('/kakao/oauth/token', authController.postRequestTokenToKakao);
 
 // get /logout
 router.get('/logout', authController.getLogout);// 로그 아웃
