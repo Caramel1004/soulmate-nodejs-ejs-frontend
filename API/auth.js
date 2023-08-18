@@ -28,12 +28,29 @@ const authAPI = {
             });
 
             const data = await response.json();
-
+            console.log(data);
             return data;
         } catch (err) {
             next(err);
         }
-    }
+    },
+    // sns로 회원가입 또는 로그인
+    postSignUpOrLoginBySNSAccount: async (body, next) => {
+        try {
+            const response = await fetch('http://localhost:8080/v1/user/sns-account/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            });
+            const data = await response.json();
+            console.log(data);
+            return data;
+        } catch (err) {
+            next(err);
+        }
+    },
 }
 
 export default authAPI

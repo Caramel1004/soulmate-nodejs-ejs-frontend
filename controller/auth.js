@@ -124,9 +124,43 @@ const authController = {
     // 카카오에 토큰 요청
     postRequestTokenToKakao: async (req, res, next) => {
         try {
+            const company = 'kakao';
             console.log('req.query : ', req.query);
             const kakaoResData = await authAPI.postRequestTokenToKakao(req.query.code, next);
             hasError(kakaoResData.error);
+
+            kakaoResData.body.company = company;
+            req.kakaoResTokenBody = kakaoResData.body;
+            next();
+        } catch (err) {
+            next(err);
+        }
+    },
+    // sns로 회원가입 또는 로그인
+    postSignUpOrLoginBySNSAccount: async (req, res, next) => {
+        try {
+            const data = await authAPI.postSignUpOrLoginBySNSAccount(req.kakaoResTokenBody, next);
+            hasError(data.error);
+
+            res.cookie('token', data.token, {
+                httpOnly: true,
+                secure: false
+            });
+
+            res.cookie('refreshToken', data.refreshToken, {
+                httpOnly: true,
+                secure: false
+            });
+
+            res.cookie('photo', data.photo, {
+                httpOnly: true,
+                secure: false
+            });
+
+            res.cookie('clientName', data.name, {
+                httpOnly: true,
+                secure: false
+            });
 
             res.redirect('/');
         } catch (err) {
