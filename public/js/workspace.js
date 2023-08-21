@@ -650,7 +650,7 @@ const checkIcon = _id => {
     }
 
     circleIcon.className = 'fa-solid fa-circle-check fa-xl';
-    circleIcon.style.color = ' #42af2c';
+    circleIcon.style.color = '#42af2c';
     circleIcon.style.opacity = '0.8';
 }
 

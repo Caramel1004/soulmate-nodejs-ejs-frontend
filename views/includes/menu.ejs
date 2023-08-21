@@ -1,95 +1,102 @@
 <div id="menu">
     <div id="menu__inner">
-        <a class="menu__a-wrapper" href="/" id="/">
-            <i class="fa-solid fa-door-open"></i>
-            <span>오픈 채널</span>
-        </a>
-        <a class="menu__a-wrapper" href="/myprofile" id="myprofile">
-            <i class="fa-solid fa-user fa-lg"></i>
-            <span>내 프로필 관리</span>
-        </a>
-        <a class="menu__a-wrapper" href="/mychannels?searchWord=all" id="mychannels">
-            <i class="fa-solid fa-list fa-lg"></i>
-            <span>내 채널</span>
-        </a>
-        <!-- <a class="menu__a-wrapper" href="#">알림</a> -->
-        <a class="menu__a-wrapper" href="/channel" id="channel">
-            <i class="fa-solid fa-plus fa-lg"></i>
-            <span>채널 추가</span>
-         </a>
-        <a class="menu__a-wrapper" href="/wishchannels?searchWord=all" id="wishchannels">
-            <i class="fa-solid fa-heart fa-lg"></i>
-            <span>관심 채널</span>
-        </a>
-        <% if(state === 'on') { %>
-            <a class="menu__a-wrapper" href="/mychannel/<%= channel._id %>?searchWord=info" id="mychannel">
-                <i class="fa-solid fa-info fa-xl"></i>
-                <span>채널 정보</span> 
+        <section>
+            <div class="menu__type-title">홈</div>
+            <a class="menu__a-wrapper" href="/" id="/">
+                <i class="fa-solid fa-door-open"></i>
+                <span>오픈 채널</span>
             </a>
-            <% if(workSpaces){ %>
-                <div id="workspace" class="title">
-                    <i class="fa-solid fa-cubes-stacked fa-lg"></i>
-                    <span>워크스페이스</span>
+            <a class="menu__a-wrapper" href="/myprofile" id="myprofile">
+                <i class="fa-regular fa-user"></i>
+                <span>내 프로필 관리</span>
+            </a>
+            <a class="menu__a-wrapper" href="/mychannels?searchWord=all" id="mychannels">
+                <i class="fa-solid fa-list"></i>
+                <span>내 채널</span>
+            </a>
+            <!-- <a class="menu__a-wrapper" href="#">알림</a> -->
+            <a class="menu__a-wrapper" href="/channel" id="channel">
+                <i class="fa-regular fa-plus"></i>
+                <span>채널 추가</span>
+            </a>
+            <a class="menu__a-wrapper" href="/wishchannels?searchWord=all" id="wishchannels">
+                <i class="fa-regular fa-heart"></i>
+                <span>관심 채널</span>
+            </a>
+        </section>
+        <section>
+            <div class="menu__type-title">참여 채널</div>
+            <% for(const channel of channels) { %>
+                <a class="menu__channel" href="/mychannel/<%= channel._id %>?searchWord=info" id="mychannel">
+                    <img src="<%= channel.thumbnail %>"><span><%= channel.channelName %></span> 
+                </a>
+            <% } %>
+            <% if(state === 'on') { %>
+                <% if(workSpaces){ %>
+                    <div id="workspace" class="title">
+                        <i class="fa-solid fa-cubes-stacked fa-lg"></i>
+                        <span>워크스페이스</span>
+                    </div>
+                    <div id="workspace-list" class="menu__div-wrapper">
+                        <div class="item">
+                            <button id="modal-open-add-workspace">
+                                <i class="fa-solid fa-plus fa-lg"></i>
+                                <span>워크스페이스 추가</span> 
+                            </button>
+                        </div>
+                        <% for(let workSpace of workSpaces) { %>
+                            <div class="item">
+                                <a href="/channel/workspace/<%= workSpace.channelId %>/<%= workSpace._id %>?sort=lastest&&sortNum=-1">
+                                    <i class="fa-solid fa-hashtag fa-sm"></i>
+                                    <span><%= workSpace.workSpaceName %></span>
+                                    <p>2023-07-14</p>
+                                    <p>안녕하세요 이번에 새로 입사하게된 개발자 입니다.</p>
+                                </a>
+                            </div>
+                        <% } %>
+                    </div>
+                <% } %>    
+                <!-- <div id="workspace-list" class="menu__a-wrapper">
+                    <i class="fa-solid fa-bookmark fa-lg"></i>
+                    <span>스크랩</span>
                 </div>
-                <div id="workspace-list" class="menu__div-wrapper">
+                <div id="workspace-list" class="menu__a-wrapper">
+                    <span>채널 소식</span>
+                </div> -->
+            <% } %>
+            <% if(chatRooms){ %>
+                <div id="chat" class="title">
+                    <i class="fa-regular fa-comment fa-lg"></i>
+                    <span>채팅 방</span>
+                </div>
+                <div id="chat-list" class="menu__div-wrapper">
                     <div class="item">
-                        <button id="modal-open-add-workspace">
+                        <button id="modal-open-add-chat"> 
                             <i class="fa-solid fa-plus fa-lg"></i>
-                            <span>워크스페이스 추가</span> 
+                            <span>채팅방 추가</span> 
                         </button>
                     </div>
-                    <% for(let workSpace of workSpaces) { %>
+                    <% for(let room of chatRooms) { %>
                         <div class="item">
-                            <a href="/channel/workspace/<%= workSpace.channelId %>/<%= workSpace._id %>?sort=lastest&&sortNum=-1">
-                                <i class="fa-solid fa-hashtag fa-sm"></i>
-                                <span><%= workSpace.workSpaceName %></span>
-                                <p>2023-07-14</p>
-                                <p>안녕하세요 이번에 새로 입사하게된 개발자 입니다.</p>
+                            <a href="/channel/chat/<%= room.channelId %>/<%= room._id %>">
+                                <i class="fa-regular fa-message"></i>
+                                <span><%= room.roomName %></span>
+                                <% if(room.chats.length > 0) { 
+                                    room.chats[0].createdAt = new Date(room.chats[0].createdAt).toLocaleDateString('ko', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric',
+                                        weekday: 'long'
+                                    });%>
+                                    <p><%= room.chats[0].createdAt %></p>
+                                    <p><%= room.chats[0].chat %></p>
+                                <% } %>
                             </a>
                         </div>
                     <% } %>
                 </div>
-            <% } %>    
-            <div id="workspace-list" class="menu__a-wrapper">
-                <i class="fa-solid fa-bookmark fa-lg"></i>
-                <span>스크랩</span>
-            </div>
-            <div id="workspace-list" class="menu__a-wrapper">
-                <span>채널 소식</span>
-            </div>
-        <% } %>
-        <% if(chatRooms){ %>
-            <div id="chat" class="title">
-                <i class="fa-solid fa-comment fa-lg"></i>
-                <span>채팅 방</span>
-            </div>
-            <div id="chat-list" class="menu__div-wrapper">
-                <div class="item">
-                    <button id="modal-open-add-chat"> 
-                        <i class="fa-solid fa-plus fa-lg"></i>
-                        <span>채팅방 추가</span> 
-                    </button>
-                </div>
-                <% for(let room of chatRooms) { %>
-                    <div class="item">
-                        <a href="/channel/chat/<%= room.channelId %>/<%= room._id %>">
-                            <i class="fa-solid fa-message"></i>
-                            <span><%= room.roomName %></span>
-                            <% if(room.chats.length > 0) { 
-                                room.chats[0].createdAt = new Date(room.chats[0].createdAt).toLocaleDateString('ko', {
-                                    year: 'numeric',
-                                    month: 'long',
-                                    day: 'numeric',
-                                    weekday: 'long'
-                                });%>
-                                <p><%= room.chats[0].createdAt %></p>
-                                <p><%= room.chats[0].chat %></p>
-                            <% } %>
-                        </a>
-                    </div>
-                <% } %>
-            </div>
-        <% } %>
+            <% } %>
+        </section>
         <%- include('./copyright.ejs') %>
         <!-- 워크스페이스 추가창(모달창) => 채널에 접속 중일때-->
         <% if(workSpaces) { %>

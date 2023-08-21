@@ -71,7 +71,7 @@ const authController = {
             const data = await response.json();
             hasError(data.error);
 
-            console.log(data);
+            // console.log(data);
             // app.locals
             // 자바스크립트 객체이고, 프로퍼티들은 애플리케이션 내의 지역 변수들이다. 
             // 애플리케이션의 라이프 타임 동안 유효하다.
@@ -84,27 +84,36 @@ const authController = {
             // html/view 클라이언트 사이드로 변수들을 보낼 수 있으며, 그 변수들은 오로지 거기서만 사용할 수 있다.
             res.cookie('token', data.token, {
                 httpOnly: true,
-                secure: false
+                secure: false,
+                signed: true
             });
 
             res.cookie('refreshToken', data.refreshToken, {
                 httpOnly: true,
-                secure: false
+                secure: false,
+                signed: true
             });
 
             res.cookie('photo', data.photo, {
                 httpOnly: true,
-                secure: false
+                secure: false,
+                signed: true
             });
 
             res.cookie('clientName', data.name, {
                 httpOnly: true,
-                secure: false
+                secure: true,
+                signed: true
             });
 
+            req.session.channels = data.channels;
+            res.cookie('sid', req.session, {
+                httpOnly: true,
+                secure: false,
+                signed: true
+            });
 
-            console.log('req.cookies: ', req.cookies);
-
+            console.log(req.signedCookies.sid);
             res.redirect('/');
         } catch (err) {
             next(err);
@@ -144,24 +153,29 @@ const authController = {
 
             res.cookie('token', data.token, {
                 httpOnly: true,
-                secure: false
+                secure: false,
+                signed: true
             });
 
             res.cookie('refreshToken', data.refreshToken, {
                 httpOnly: true,
-                secure: false
+                secure: false,
+                signed: true
             });
 
             res.cookie('photo', data.photo, {
                 httpOnly: true,
-                secure: false
+                secure: false,
+                signed: true
             });
 
             res.cookie('clientName', data.name, {
                 httpOnly: true,
-                secure: false
+                secure: false,
+                signed: true
             });
-
+            console.log(res.cookie)
+            req.session = res.cookie;
             res.redirect('/');
         } catch (err) {
             next(err);
@@ -170,7 +184,7 @@ const authController = {
     //로그 아웃
     getLogout: (req, res, next) => {
         try {
-            if (req.cookies) {
+            if (req.signedCookies) {
                 res.clearCookie('token');
                 res.clearCookie('refreshToken');
                 res.clearCookie('clientName');

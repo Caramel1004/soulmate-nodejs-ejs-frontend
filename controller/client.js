@@ -31,12 +31,12 @@ const clientControlller = {
     // 1. 채널 생성
     postCreateChannel: async (req, res, next) => {
         try {
-            const jsonWebToken = req.cookies.token;
-            const refreshToken = req.cookies.refreshToken;
+            const jsonWebToken = req.signedCookies.token;
+            const refreshToken = req.signedCookies.refreshToken;
             const channelName = req.body.channelName;// 채널 명
             const thumbnail = req.body.thumbnail;// 채널 썸네일
             const category = req.body.category;// 카테고리
-            const contents = req.body.contents;// 채널 멘트
+            const comment = req.body.comment;// 채널 멘트
             const open = req.body.open;
 
             const response = await fetch('http://localhost:8080/v1/channel/create', {
@@ -50,7 +50,7 @@ const clientControlller = {
                     channelName: channelName,
                     thumbnail: thumbnail,
                     category: category,
-                    contents: contents,
+                    comment: comment,
                     open: open
                 })
             });
@@ -66,8 +66,8 @@ const clientControlller = {
     // 2. 채널 퇴장
     postExitChannel: async (req, res, next) => {
         try {
-            const jsonWebToken = req.cookies.token;
-            const refreshToken = req.cookies.refreshToken;
+            const jsonWebToken = req.signedCookies.token;
+            const refreshToken = req.signedCookies.refreshToken;
             const channelId = req.params.channelId;
             console.log(channelId);
             const response = await fetch('http://localhost:8080/v1/channel/exit/' + channelId, {
@@ -93,14 +93,14 @@ const clientControlller = {
     //3. 해당 채널에 유저 초대
     postInviteUserToChannel: async (req, res, next) => {
         try {
-            const jsonWebToken = req.cookies.token;
+            const jsonWebToken = req.signedCookies.token;
             const channelId = req.params.channelId;
             const invitedUserId = req.body.invitedUserId;
 
             console.log('invitedUserId: ', invitedUserId);
             console.log('channelId: ', channelId);
 
-            const data = await channelService.postInviteUserToChannel(jsonWebToken, req.cookies.refreshToken, channelId, invitedUserId, next);
+            const data = await channelService.postInviteUserToChannel(jsonWebToken, req.signedCookies.refreshToken, channelId, invitedUserId, next);
             hasError(data.error);
 
             console.log(data);
@@ -112,11 +112,11 @@ const clientControlller = {
     // 4. 채팅방 생성
     postCreateChatRoom: async (req, res, next) => {
         try {
-            const jsonWebToken = req.cookies.token;
+            const jsonWebToken = req.signedCookies.token;
             const channelId = req.params.channelId
             const roomName = req.body.roomName;
 
-            const data = await channelService.postCreateChatRoom(jsonWebToken, req.cookies.refreshToken, channelId, roomName, next);
+            const data = await channelService.postCreateChatRoom(jsonWebToken, req.signedCookies.refreshToken, channelId, roomName, next);
             hasError(data.error);
 
             res.redirect('/channel/chat/' + data.chatRoom.channelId + '/' + data.chatRoom._id);
@@ -127,7 +127,7 @@ const clientControlller = {
     // 5. 해당 채널에 속한 선택된 유저들을 채팅방에 초대
     postInviteUsersToChatRoom: async (req, res, next) => {
         try {
-            const jsonWebToken = req.cookies.token;
+            const jsonWebToken = req.signedCookies.token;
             const channelId = req.params.channelId
             const chatRoomId = req.params.chatRoomId;
             const usersJson = req.body.users;
@@ -156,7 +156,7 @@ const clientControlller = {
             }
             // console.log(checkedUsersId);
 
-            const data = await chatAPI.postInviteUsersToChatRoom(jsonWebToken, req.cookies.refreshToken, body, channelId, chatRoomId, next);
+            const data = await chatAPI.postInviteUsersToChatRoom(jsonWebToken, req.signedCookies.refreshToken, body, channelId, chatRoomId, next);
             hasError(data.error);
 
             res.redirect('http://localhost:3000/channel/chat/' + channelId + '/' + chatRoomId);
@@ -167,12 +167,12 @@ const clientControlller = {
     // 6. 실시간 채팅
     postSendChat: async (req, res, next) => {
         try {
-            const token = req.cookies.token;//jwt
+            const token = req.signedCookies.token;//jwt
 
             const formData = new FormData();
             formData.append('chat', req.body.chat);
 
-            const data = await chatService.postSendChat(token, req.cookies.refreshToken, req.params.channelId, req.params.chatRoomId, formData, next);
+            const data = await chatService.postSendChat(token, req.signedCookies.refreshToken, req.params.channelId, req.params.chatRoomId, formData, next);
             hasError(data.error);
 
             res.status(data.status.code).json({
@@ -185,7 +185,7 @@ const clientControlller = {
     // 7. 채팅방 실시간 파일 업로드
     postUploadFileToChatRoom: async (req, res, next) => {
         try {
-            const token = req.cookies.token;//jwt
+            const token = req.signedCookies.token;//jwt
 
             console.log(req.file);
             console.log(req.file.buffer);
@@ -197,7 +197,7 @@ const clientControlller = {
 
             // const getAll = formData.getAll();
             // console.log('getAll: ', getAll);
-            // const resData = await chatAPI.postUploadFileToChatRoom(token, req.cookies.refreshToken,req.params.channelId, req.params.chatRoomId, formData);
+            // const resData = await chatAPI.postUploadFileToChatRoom(token, req.signedCookies.refreshToken,req.params.channelId, req.params.chatRoomId, formData);
 
             // if(resData.error) {
             //     return res.status(resData.error.errReport.code).json({
@@ -216,12 +216,12 @@ const clientControlller = {
     postCreateWorkSpace: async (req, res, next) => {
         try {
             console.log(req.body.open);
-            const token = req.cookies.token;
+            const token = req.signedCookies.token;
             const open = req.body.open;
             const workSpaceName = req.body.workSpaceName;
             const comment = req.body.comment;
 
-            const data = await channelService.postCreateWorkSpace(token, req.cookies.refreshToken, req.params.channelId, open, workSpaceName, comment, next);
+            const data = await channelService.postCreateWorkSpace(token, req.signedCookies.refreshToken, req.params.channelId, open, workSpaceName, comment, next);
             hasError(data.error);
 
             res.redirect(`/channel/workspace/${data.workSpace.channelId}/${data.workSpace._id}?sort=lastest&&sortNum=-1`);
@@ -232,12 +232,12 @@ const clientControlller = {
     // 9. 워크스페이스에 게시물 생성
     postCreatePostToWorkSpace: async (req, res, next) => {
         try {
-            const token = req.cookies.token;
+            const token = req.signedCookies.token;
 
             const formData = new FormData();
             formData.append('content', req.body.content);
 
-            const data = await workspaceService.postCreatePostToWorkSpace(token, req.cookies.refreshToken, req.params.channelId, req.params.workSpaceId, formData, next);
+            const data = await workspaceService.postCreatePostToWorkSpace(token, req.signedCookies.refreshToken, req.params.channelId, req.params.workSpaceId, formData, next);
             hasError(data.error);
 
             res.status(data.status.code).json({
@@ -250,11 +250,11 @@ const clientControlller = {
     // 11. 워크 스페이스에 유저 초대 -> 전체공개 or 초대한 유저만 이용
     postInviteUsersToWorkSpace: async (req, res, next) => {
         try {
-            const jsonWebToken = req.cookies.token;
+            const jsonWebToken = req.signedCookies.token;
             const channelId = req.params.channelId
             const workSpaceId = req.params.workSpaceId;
 
-            const data = await workspaceService.postInviteUsersToWorkSpace(jsonWebToken, req.cookies.refreshToken, req.body, channelId, workSpaceId, next);
+            const data = await workspaceService.postInviteUsersToWorkSpace(jsonWebToken, req.signedCookies.refreshToken, req.body, channelId, workSpaceId, next);
             hasError(data.error);
 
             res.status(data.status.code).json({
@@ -267,9 +267,9 @@ const clientControlller = {
     // 12. 해당 게시물 댓글 조회
     postGetReplyToPost: async (req, res, next) => {
         try {
-            const token = req.cookies.token;
+            const token = req.signedCookies.token;
 
-            const data = await workspaceService.getReplyToPost(token, req.cookies.refreshToken, req.body.postId, req.params.channelId, req.params.workSpaceId, next);
+            const data = await workspaceService.getReplyToPost(token, req.signedCookies.refreshToken, req.body.postId, req.params.channelId, req.params.workSpaceId, next);
             hasError(data.error);
 
             res.status(data.status.code).json({
@@ -283,12 +283,12 @@ const clientControlller = {
     // 13. 해당 게시물에 댓글 달기
     postCreateReplyToPost: async (req, res, next) => {
         try {
-            const token = req.cookies.token;
+            const token = req.signedCookies.token;
             const formData = new FormData();
             formData.append('postId', req.body.postId);
             formData.append('content', req.body.content);
 
-            const data = await workspaceService.postCreateReplyToPost(token, req.cookies.refreshToken, req.params.channelId, req.params.workSpaceId, formData, next);
+            const data = await workspaceService.postCreateReplyToPost(token, req.signedCookies.refreshToken, req.params.channelId, req.params.workSpaceId, formData, next);
             hasError(data.error);
 
             res.status(data.status.code).json({
@@ -301,9 +301,9 @@ const clientControlller = {
     // 14. 관심채널 추가 또는 삭제(토글 관계)
     postAddOpenChannelToWishChannel: async (req, res, next) => {
         try {
-            const token = req.cookies.token;
+            const token = req.signedCookies.token;
 
-            const data = await channelService.postAddOpenChannelToWishChannel(token, req.cookies.refreshToken, req.body.channelId, next);
+            const data = await channelService.postAddOpenChannelToWishChannel(token, req.signedCookies.refreshToken, req.body.channelId, next);
             hasError(data.error);
 
             res.status(data.status.code).json({
@@ -317,9 +317,9 @@ const clientControlller = {
     // 15. 채팅방 퇴장
     patchExitChatRoom: async (req, res, next) => {
         try {
-            const token = req.cookies.token;
+            const token = req.signedCookies.token;
 
-            const data = await chatService.patchExitChatRoom(token, req.cookies.refreshToken, req.body.channelId, req.body.chatRoomId, next);
+            const data = await chatService.patchExitChatRoom(token, req.signedCookies.refreshToken, req.body.channelId, req.body.chatRoomId, next);
             hasError(data.error);
 
             res.status(data.status.code).json({
@@ -332,7 +332,7 @@ const clientControlller = {
     // 16. 공용기능: 채널에있는 유저 목록 불러오기
     getMemberListOnChannel: async (req, res, next) => {
         try {
-            const data = await channelService.getChannelDetailByChannelId(req.cookies.token, req.cookies.refreshToken, req.params.channelId, next);
+            const data = await channelService.getChannelDetailByChannelId(req.signedCookies.token, req.signedCookies.refreshToken, req.params.channelId, next);
             hasError(data.error);
             console.log(data);
             res.status(data.status.code).json({
@@ -347,9 +347,9 @@ const clientControlller = {
     patchExitWorkSpace: async (req, res, next) => {
         try {
             console.log('퇴장');
-            const token = req.cookies.token;
+            const token = req.signedCookies.token;
 
-            const data = await workspaceService.patchExitWorkSpace(token, req.cookies.refreshToken, req.body.channelId, req.body.workSpaceId, next);
+            const data = await workspaceService.patchExitWorkSpace(token, req.signedCookies.refreshToken, req.body.channelId, req.body.workSpaceId, next);
             hasError(data.error);
 
             res.status(data.status.code).json({
@@ -362,7 +362,7 @@ const clientControlller = {
     //18. 워크스페이스 설명 스크립트 편집
     patchEditCommentScript: async (req, res, next) => {
         try {
-            const data = await workspaceService.patchEditCommentScript(req.cookies.token, req.cookies.refreshToken, req.body, next);
+            const data = await workspaceService.patchEditCommentScript(req.signedCookies.token, req.signedCookies.refreshToken, req.body, next);
             hasError(data.error);
 
             res.status(data.status.code).json({

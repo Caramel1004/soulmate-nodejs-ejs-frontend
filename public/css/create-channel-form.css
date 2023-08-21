@@ -23,9 +23,10 @@ body::-webkit-scrollbar-track {
 
 #container__form-box {
     /* margin-top: 70px; */
-    margin-left: 300px;
+    margin-left: 250px;
     padding: 70px;
-    width: 65%;
+    width: auto;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -34,13 +35,14 @@ body::-webkit-scrollbar-track {
 }
 
 .box__div-form {
-    margin-top: 0;
+    /* margin-top: 50px; */
     padding: 50px;
-    display: block;
     text-align: center;
+    display: block;
     align-items: center;
     justify-content: center;
-    /* border: 1px groove black; */
+    border-radius: 10px;
+    border: 1px groove rgba(0, 0, 0, 0.1);
 }
 
 #thema001 {
@@ -52,24 +54,59 @@ body::-webkit-scrollbar-track {
 }
 
 #open {
-    padding: 0.5rem;
-}
-#open label{
-    margin-right: 50px;
+    padding: 11px;
+    display: flex;
+    align-items: center;
+    text-align: left;
 }
 
+#open label {
+    margin-right: 20px;
+    /* border: 1px groove rgba(0, 0, 0, 0.1); */
+    cursor: pointer;
+}
+
+#open i {
+    padding-right: 10px;
+    color: rgba(0, 0, 0, 0.1);
+}
+
+#open input[type=radio] {
+    display: none;
+}
+
+#open input[type=radio]+label {
+    /* border: 1px groove rgba(0, 0, 0, 0.1); */
+    cursor: pointer;
+}
+
+/* #open input[type=radio]+label {
+    background-color: #fff;
+    color: #333;
+} */
+/* 
+#open input[type=radio]:checked+i {
+    color: #42af2c;
+} */
+
 .box__input {
-    padding: 0;
-    margin-top: 20px;
-    border: 1px solid rgb(214, 211, 211);
+    padding: 1px;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: 120px 400px;
+    grid-gap: 0;
+    list-style: none;
+    /* border: 1px groove rgba(0, 0, 0, 0.1); */
+    font-size: 15px;
 }
 
 .box__input label {
-    margin-left: -40px;
+    /* margin-left: -40px; */
     padding: 10px;
     font-size: 14px;
     font-weight: 400;
-    font-family: dotum;
+    text-align: left;
     /* border: 1px groove black; */
 }
 
@@ -79,21 +116,18 @@ body::-webkit-scrollbar-track {
 
 .box__input input {
     padding: 10px;
-    /* padding-left: 20px; */
     width: 350px;
-    /* height: 4vh' */
     font-size: 15px;
-    border: none;
+    border: 1px groove rgba(0, 0, 0, 0.1);
 }
 
 .box__input select {
-    padding: 10px;
-    padding-right: 0px;
-    /* padding-left: 20px; */
-    width: 350px;
-    /* height: 4vh' */
+    /* margin-left: -15px; */
+    padding: 9px;
+    width: 370px;
     font-size: 15px;
-    border: none;
+    color: rgba(0, 0, 0, 0.1);
+    border: 1px groove rgba(0, 0, 0, 0.1);
 }
 
 .box__input select:focus {
@@ -123,7 +157,7 @@ body::-webkit-scrollbar-track {
 
 #box__button__submit button {
     padding: 10px;
-    width: 500px;
+    width: 490px;
     /* height: 5vh; */
     text-align: center;
     text-decoration: none;
@@ -146,10 +180,10 @@ body::-webkit-scrollbar-track {
 
 /* 채팅 입력폼 스크롤 디자인 */
 .contents-form__textarea {
-    padding-top: 20px;
-    width: 500px;
+    padding: 10px;
+    width: 473px;
     height: 21vh;
-    border: none;
+    border: 1px groove rgba(0, 0, 0, 0.1);
     resize: none;
 }
 

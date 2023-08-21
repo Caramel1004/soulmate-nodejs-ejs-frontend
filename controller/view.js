@@ -29,8 +29,8 @@ const viewController = {
 
             const channelList = resData.channels;
 
-            if (req.cookies.token) {
-                const data = await userService.getMyProfile(req.cookies.token, req.cookies.refreshToken, next);
+            if (req.signedCookies.token) {
+                const data = await userService.getMyProfile(req.signedCookies.token, req.signedCookies.refreshToken, next);
                 
                 for(const wishChannel of data.matchedUser.wishChannels){
                     channelList.map(channel => {
@@ -41,12 +41,13 @@ const viewController = {
                     });
                 }
             }
-
+            console.log('req.signedCookies.sid',req.signedCookies.sid.channels);
             res.render('index', {
                 path: '/',
                 title: 'Soulmate 메인 페이지',
-                clientName: req.cookies.clientName,
-                photo: req.cookies.photo,
+                clientName: req.signedCookies.clientName,
+                photo: req.signedCookies.photo,
+                channels: req.session.channels,
                 channelList: channelList,
                 chatRooms: null,
                 workSpaces: null,
@@ -69,8 +70,8 @@ const viewController = {
     // 2. 내 프로필 관리 페이지
     getMyProfilePage: async (req, res, next) => {
         try {
-            const accessToken = req.cookies.token;
-            const refreshToken = req.cookies.refreshToken;
+            const accessToken = req.signedCookies.token;
+            const refreshToken = req.signedCookies.refreshToken;
 
             const resData = await userService.getMyProfile(accessToken, refreshToken, next);
             hasError(resData.error);
@@ -81,8 +82,9 @@ const viewController = {
             res.render('user/myprofile', {
                 path: '/myprofile',
                 title: 'Soulmate | ' + myProfile.name + '님의 프로필',
-                clientName: req.cookies.clientName,
-                photo: req.cookies.photo,
+                clientName: req.signedCookies.clientName,
+                photo: req.signedCookies.photo,
+                channels: req.session.channels,
                 myProfile: myProfile,
                 state: 'off',
                 chatRooms: null,
@@ -96,8 +98,8 @@ const viewController = {
     getMyChannelListPage: async (req, res, next) => {
         try {
             console.log(req.query.searchWord);
-            const jsonWebToken = req.cookies.token;// 쿠키 웹 토큰
-            const refreshToken = req.cookies.refreshToken;
+            const jsonWebToken = req.signedCookies.token;// 쿠키 웹 토큰
+            const refreshToken = req.signedCookies.refreshToken;
 
             const resData = await channelService.getChannelListByUserId(jsonWebToken, refreshToken, req.query.searchWord, next);
             const staticData = await getCategoryData(next);
@@ -108,8 +110,9 @@ const viewController = {
             res.status(resData.status.code).render('channel/mychannel', {
                 path: '/mychannels',
                 title: 'Soulmate',
-                clientName: req.cookies.clientName,
-                photo: req.cookies.photo,
+                clientName: req.signedCookies.clientName,
+                photo: req.signedCookies.photo,
+                channels: req.session.channels,
                 staticCategoryList: staticData.category,
                 channelList: resData.channels,
                 chatRooms: null,
@@ -127,8 +130,9 @@ const viewController = {
             res.render('menu/create-channel', {
                 path: '채널 추가 페이지',
                 title: 'Soulmate',
-                clientName: req.cookies.clientName,
-                photo: req.cookies.photo,
+                clientName: req.signedCookies.clientName,
+                photo: req.signedCookies.photo,
+                channels: req.session.channels,
                 staticCategoryList: staticData.category,
                 chatRooms: null,
                 workSpaces: null,
@@ -141,7 +145,7 @@ const viewController = {
     // 5. 관심 채널 목록 페이지
     getMyWishChannelListPage: async (req, res, next) => {
         try {
-            const resData = await channelService.getMyWishChannelList(req.cookies.token, req.cookies.refreshToken, req.query.searchWord, next);// 관심 채널 리스트
+            const resData = await channelService.getMyWishChannelList(req.signedCookies.token, req.signedCookies.refreshToken, req.query.searchWord, next);// 관심 채널 리스트
 
             hasError(resData.error);
 
@@ -149,11 +153,12 @@ const viewController = {
 
             res.status(resData.status.code).render('channel/mywishchannels', {
                 path: '/wishchannels',
-                title: 'soulmate | ' + req.cookies.clientName + '님의 관심 채널',
+                title: 'soulmate | ' + req.signedCookies.clientName + '님의 관심 채널',
                 staticCategoryList: staticData.category,
                 channelList: resData.wishChannels,
-                clientName: req.cookies.clientName,
-                photo: req.cookies.photo,
+                clientName: req.signedCookies.clientName,
+                photo: req.signedCookies.photo,
+                channels: req.session.channels,
                 chatRooms: null,
                 workSpaces: null,
                 state: 'off'
@@ -165,23 +170,23 @@ const viewController = {
     // 6. 채널입장 -> 채널 내부 페이지
     getEnterMyChannelPage: async (req, res, next) => {
         try {
-            const jsonWebToken = req.cookies.token;
+            const jsonWebToken = req.signedCookies.token;
             const channelId = req.params.channelId;
             const searchWord = req.query.searchWord;
             const fileName = `channel/channel-${searchWord}`
 
             // 1. 해당 채널아이디 보내주고 해당 채널 입장 요청
-            const channelDetailData = await channelService.getChannelDetailByChannelId(jsonWebToken, req.cookies.refreshToken, channelId, next);
+            const channelDetailData = await channelService.getChannelDetailByChannelId(jsonWebToken, req.signedCookies.refreshToken, channelId, next);
             hasError(channelDetailData.error);
             const matchedChannel = channelDetailData.channel;
 
             // 2. 채팅방 목록 요청
-            const chatRoomListData = await channelService.getChatRoomList(jsonWebToken, req.cookies.refreshToken, channelId, next);
+            const chatRoomListData = await channelService.getChatRoomList(jsonWebToken, req.signedCookies.refreshToken, channelId, next);
             hasError(chatRoomListData.error);
             const matchedChatRoomList = chatRoomListData.chatRooms;
 
             // 3. 워크스페이스 목록 요청
-            const workSpaceListData = await channelService.getWorkSpaceList(jsonWebToken, req.cookies.refreshToken, channelId, next);
+            const workSpaceListData = await channelService.getWorkSpaceList(jsonWebToken, req.signedCookies.refreshToken, channelId, next);
             hasError(workSpaceListData.error);
             const matchedWorkSpaceList = workSpaceListData.workSpaces;
             const matchedOpenWorkSpaceList = workSpaceListData.openWorkSpaces
@@ -194,8 +199,9 @@ const viewController = {
                 path: `/mychannel/:channelId?searchWord=${searchWord}`,
                 searchWord: searchWord,
                 title: matchedChannel.channelName,
-                clientName: req.cookies.clientName,
-                photo: req.cookies.photo,
+                clientName: req.signedCookies.clientName,
+                channels: req.session.channels,
+                photo: req.signedCookies.photo,
                 channel: matchedChannel,
                 chatRooms: matchedChatRoomList,
                 workSpaces: matchedWorkSpaceList,
@@ -209,20 +215,20 @@ const viewController = {
     // 7. 채팅방 입장 -> 채팅방 페이지
     getEnterChatRoomPage: async (req, res, next) => {
         try {
-            const jsonWebToken = req.cookies.token;
+            const jsonWebToken = req.signedCookies.token;
             const channelId = req.params.channelId;
             const chatRoomId = req.params.chatRoomId;
 
             // 1. 채팅 방
-            const chatRoomData = await chatService.getLoadChatRoom(jsonWebToken, req.cookies.refreshToken, channelId, chatRoomId, next);
+            const chatRoomData = await chatService.getLoadChatRoom(jsonWebToken, req.signedCookies.refreshToken, channelId, chatRoomId, next);
             hasError(chatRoomData.error);
 
             // 2. 채팅방 목록
-            const chatRoomListData = await channelService.getChatRoomList(jsonWebToken, req.cookies.refreshToken, channelId, next);
+            const chatRoomListData = await channelService.getChatRoomList(jsonWebToken, req.signedCookies.refreshToken, channelId, next);
             hasError(chatRoomData.error);
 
             // 3. 워크스페이스 목록 요청
-            const workSpaceListData = await channelService.getWorkSpaceList(jsonWebToken, req.cookies.refreshToken, channelId, next);
+            const workSpaceListData = await channelService.getWorkSpaceList(jsonWebToken, req.signedCookies.refreshToken, channelId, next);
             hasError(workSpaceListData.error);
             const matchedWorkSpaceList = workSpaceListData.workSpaces;
 
@@ -230,8 +236,9 @@ const viewController = {
                 path: '채팅방',
                 title: chatRoomData.chatRoom.roomName,
                 currentDate: `${new Date().getFullYear()}년  ${new Date().getMonth() + 1}월  ${new Date().getDate()}일`,
-                clientName: req.cookies.clientName,
-                photo: req.cookies.photo,
+                clientName: req.signedCookies.clientName,
+                photo: req.signedCookies.photo,
+                channels: req.session.channels,
                 chatRooms: chatRoomListData.chatRooms,
                 workSpaces: matchedWorkSpaceList,
                 chats: chatRoomData.chatRoom.chats,
@@ -247,22 +254,22 @@ const viewController = {
     // 8. 워크스페이스 입장 -> 워크스페이스 페이지
     getEnterWorkSpacePage: async (req, res, next) => {
         try {
-            const token = req.cookies.token;
+            const token = req.signedCookies.token;
             const channelId = req.params.channelId;
             const workspaceId = req.params.workspaceId;
             const query = req.query;
        
-            // 1. 워크스페잇 세부정보
-            const workSpaceData = await workspaceService.getLoadWorkspace(token, req.cookies.refreshToken, channelId, workspaceId, query, next);
+            // 1. 워크스페이스 세부정보
+            const workSpaceData = await workspaceService.getLoadWorkspace(token, req.signedCookies.refreshToken, channelId, workspaceId, query, next);
             hasError(workSpaceData.error);
 
             // 2. 채팅룸 리스트
-            const chatRoomListData = await channelService.getChatRoomList(token, req.cookies.refreshToken, channelId, next);
+            const chatRoomListData = await channelService.getChatRoomList(token, req.signedCookies.refreshToken, channelId, next);
             hasError(chatRoomListData.error);
             const matchedChatRoomList = chatRoomListData.chatRooms;
 
             // 3. 워크스페이스 목록 요청
-            const workSpaceListData = await channelService.getWorkSpaceList(token, req.cookies.refreshToken, channelId, next);
+            const workSpaceListData = await channelService.getWorkSpaceList(token, req.signedCookies.refreshToken, channelId, next);
             hasError(workSpaceListData.error);
             const matchedWorkSpaceList = workSpaceListData.workSpaces;
 
@@ -270,8 +277,9 @@ const viewController = {
                 path: '/channel/workspace/:channelId/:workspaceId',
                 title: workSpaceData.workSpace.workSpaceName,
                 chatRooms: matchedChatRoomList,
-                clientName: req.cookies.clientName,
-                photo: req.cookies.photo,
+                clientName: req.signedCookies.clientName,
+                photo: req.signedCookies.photo,
+                channels: req.session.channels,
                 workSpaces: matchedWorkSpaceList,
                 workSpace: workSpaceData.workSpace,
                 channel: { _id: channelId },

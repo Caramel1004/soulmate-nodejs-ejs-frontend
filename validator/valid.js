@@ -43,7 +43,7 @@ const validResult = (req, res, next) => {
 
 // 인증 토큰 검사(JWT)
 export function accessAuthorizedToken(req, res, next) {
-    const token = req.cookies.token;
+    const token = req.signedCookies.token;
     if (!token) {
         res.redirect('/login');
     } else {

@@ -31,7 +31,7 @@ const chatService = {
                     if (day < 10) {
                         day = '0' + day
                     }
-                    if (when === '오후') {
+                    if (when === '오후' && hour > 12) {
                         hour %= 12;
                     }
 

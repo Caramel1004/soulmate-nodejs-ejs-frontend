@@ -5,6 +5,7 @@ import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import multer from 'multer';
 import dotenv from 'dotenv';
+import session from 'express-session';
 
 import sockeClient from './socket-client.js';
 import { errorType } from './util/status.js';
@@ -31,19 +32,35 @@ const multerStorage = multer.memoryStorage();
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
-
 // 바디 파서
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(multer({ storage: multerStorage }).single('file'));
 
-//쿠키 파서
-app.use(cookieParser());
+// 쿠키 파서
+app.use(cookieParser(process.env.COOKIE_SECRET_KEY));
+
+// 세션
+app.use(session({
+    resave: false,
+    saveUninitialized: false,
+    secret: process.env.COOKIE_SECRET_KEY,
+    cookie: {
+        httpOnly: true,
+        secure: false
+    },
+    name: 'sid'
+}))
+
 
 // 정적 파일 처리
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
+app.use((req, res, next) => {
+    console.log('req.session: ',req.session);
+    next();
+});
 // 동적 라우트 처리
 app.use(viewRoutes);
 app.use(authRoutes);
@@ -83,11 +100,6 @@ app.use((error, req, res, next) => {
         error: error
     });
 });
-
-// app.use((req, res, next) => {
-//     console.log('req: ',req);
-//     next();
-// })
 
 app.listen(3000, () => {
     console.log(`클라이언트 서버 가동!!`);
