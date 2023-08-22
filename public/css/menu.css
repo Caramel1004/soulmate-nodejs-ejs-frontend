@@ -6,7 +6,7 @@ i {
     color: #000000;
 }
 
-section {
+.menu__section {
     border-bottom: 1px groove rgba(0, 0, 0, 0.1);
 }
 

@@ -37,9 +37,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(multer({ storage: multerStorage }).single('file'));
 
-// 쿠키 파서
-app.use(cookieParser(process.env.COOKIE_SECRET_KEY));
-
 // 세션
 app.use(session({
     resave: false,
@@ -47,11 +44,14 @@ app.use(session({
     secret: process.env.COOKIE_SECRET_KEY,
     cookie: {
         httpOnly: true,
-        secure: false
+        secure: false,
+        signed: true
     },
-    name: 'sid'
+    name: '__secure'
 }))
 
+// 쿠키 파서
+app.use(cookieParser(process.env.COOKIE_SECRET_KEY));
 
 // 정적 파일 처리
 app.use(express.static(path.join(__dirname, 'public')));

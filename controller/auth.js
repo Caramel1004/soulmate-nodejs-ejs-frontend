@@ -82,6 +82,13 @@ const authController = {
             // res.locals
             // res.locals의 프로퍼티들은 request의 라이프 타임 동안에만 유효하다.
             // html/view 클라이언트 사이드로 변수들을 보낼 수 있으며, 그 변수들은 오로지 거기서만 사용할 수 있다.
+
+            /** 쿠키: 저장데이터
+             *  인증토큰
+             *  리프레쉬 토큰
+             *  닉네임
+             *  포
+             */
             res.cookie('token', data.token, {
                 httpOnly: true,
                 secure: false,
@@ -94,26 +101,21 @@ const authController = {
                 signed: true
             });
 
+            res.cookie('clientName', data.name, {
+                httpOnly: true,
+                secure: false,
+                signed: true
+            });
+
             res.cookie('photo', data.photo, {
                 httpOnly: true,
                 secure: false,
                 signed: true
             });
 
-            res.cookie('clientName', data.name, {
-                httpOnly: true,
-                secure: true,
-                signed: true
-            });
+            // 유저 보유 채널 세션에 저장
+            req.session.userChannels = data.channels;
 
-            req.session.channels = data.channels;
-            res.cookie('sid', req.session, {
-                httpOnly: true,
-                secure: false,
-                signed: true
-            });
-
-            console.log(req.signedCookies.sid);
             res.redirect('/');
         } catch (err) {
             next(err);
@@ -127,7 +129,7 @@ const authController = {
             console.log(kakaoResData)
             res.status(302).redirect(kakaoResData.url);
         } catch (err) {
-            console.log(err)
+            next(err)
         }
     },
     // 카카오에 토큰 요청
@@ -151,6 +153,12 @@ const authController = {
             const data = await authAPI.postSignUpOrLoginBySNSAccount(req.kakaoResTokenBody, next);
             hasError(data.error);
 
+            /** 쿠키: 저장데이터
+             *  인증토큰
+             *  리프레쉬 토큰
+             *  닉네임
+             *  포
+             */
             res.cookie('token', data.token, {
                 httpOnly: true,
                 secure: false,
@@ -163,19 +171,19 @@ const authController = {
                 signed: true
             });
 
-            res.cookie('photo', data.photo, {
-                httpOnly: true,
-                secure: false,
-                signed: true
-            });
-
             res.cookie('clientName', data.name, {
                 httpOnly: true,
                 secure: false,
                 signed: true
             });
-            console.log(res.cookie)
-            req.session = res.cookie;
+
+            res.cookie('photo', data.photo, {
+                httpOnly: true,
+                secure: false,
+                signed: true
+            });
+            
+            req.session.userChannels = data.channels;
             res.redirect('/');
         } catch (err) {
             next(err);
@@ -190,6 +198,7 @@ const authController = {
                 res.clearCookie('clientName');
                 res.clearCookie('photo');
             }
+            req.session.destroy();
             res.redirect('/login');
         } catch (err) {
             next(err);

@@ -41,13 +41,13 @@ const viewController = {
                     });
                 }
             }
-            console.log('req.signedCookies.sid',req.signedCookies.sid.channels);
+            console.log('req.session',req.session);
             res.render('index', {
                 path: '/',
                 title: 'Soulmate 메인 페이지',
                 clientName: req.signedCookies.clientName,
                 photo: req.signedCookies.photo,
-                channels: req.session.channels,
+                channels: req.session.userChannels,
                 channelList: channelList,
                 chatRooms: null,
                 workSpaces: null,
@@ -84,7 +84,7 @@ const viewController = {
                 title: 'Soulmate | ' + myProfile.name + '님의 프로필',
                 clientName: req.signedCookies.clientName,
                 photo: req.signedCookies.photo,
-                channels: req.session.channels,
+                channels: req.session.userChannels,
                 myProfile: myProfile,
                 state: 'off',
                 chatRooms: null,
@@ -112,7 +112,7 @@ const viewController = {
                 title: 'Soulmate',
                 clientName: req.signedCookies.clientName,
                 photo: req.signedCookies.photo,
-                channels: req.session.channels,
+                channels: req.session.userChannels,
                 staticCategoryList: staticData.category,
                 channelList: resData.channels,
                 chatRooms: null,
@@ -132,7 +132,7 @@ const viewController = {
                 title: 'Soulmate',
                 clientName: req.signedCookies.clientName,
                 photo: req.signedCookies.photo,
-                channels: req.session.channels,
+                channels: req.session.userChannels,
                 staticCategoryList: staticData.category,
                 chatRooms: null,
                 workSpaces: null,
@@ -158,7 +158,7 @@ const viewController = {
                 channelList: resData.wishChannels,
                 clientName: req.signedCookies.clientName,
                 photo: req.signedCookies.photo,
-                channels: req.session.channels,
+                channels: req.session.userChannels,
                 chatRooms: null,
                 workSpaces: null,
                 state: 'off'
@@ -200,7 +200,7 @@ const viewController = {
                 searchWord: searchWord,
                 title: matchedChannel.channelName,
                 clientName: req.signedCookies.clientName,
-                channels: req.session.channels,
+                channels: req.session.userChannels,
                 photo: req.signedCookies.photo,
                 channel: matchedChannel,
                 chatRooms: matchedChatRoomList,
@@ -238,7 +238,7 @@ const viewController = {
                 currentDate: `${new Date().getFullYear()}년  ${new Date().getMonth() + 1}월  ${new Date().getDate()}일`,
                 clientName: req.signedCookies.clientName,
                 photo: req.signedCookies.photo,
-                channels: req.session.channels,
+                channels: req.session.userChannels,
                 chatRooms: chatRoomListData.chatRooms,
                 workSpaces: matchedWorkSpaceList,
                 chats: chatRoomData.chatRoom.chats,
@@ -279,7 +279,7 @@ const viewController = {
                 chatRooms: matchedChatRoomList,
                 clientName: req.signedCookies.clientName,
                 photo: req.signedCookies.photo,
-                channels: req.session.channels,
+                channels: req.session.userChannels,
                 workSpaces: matchedWorkSpaceList,
                 workSpace: workSpaceData.workSpace,
                 channel: { _id: channelId },
