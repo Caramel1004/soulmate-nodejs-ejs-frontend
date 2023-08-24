@@ -49,6 +49,24 @@ const workspaceAPI = {
             next(err);
         }
     },
+    // 3. 워크스페이스에서 해당 유저의 게시물 삭제
+    deletePostByCreatorInWorkSpace: async (token, refreshToken, channelId, workSpaceId, postId, next) => {
+        try {
+            const response = await fetch(`http://localhost:8080/v1/workspace/delete-post/${channelId}/${workSpaceId}/${postId}`, {
+                method: 'DELETE',
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                    RefreshToken: refreshToken,
+                    'Content-Type': 'application/json'
+                }
+            });
+            const resData = await response.json();
+
+            return resData;
+        } catch (err) {
+            next(err);
+        }
+    },
     // 4. 워크스페이스에 팀원 초대
     postInviteUsersToWorkSpace: async (token, refreshToken, body, channelId, workSpaceId, next) => {
         try {

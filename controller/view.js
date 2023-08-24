@@ -273,6 +273,7 @@ const viewController = {
             hasError(workSpaceListData.error);
             const matchedWorkSpaceList = workSpaceListData.workSpaces;
 
+            console.log(workSpaceData.workSpace.posts);
             res.status(workSpaceData.status.code).render('workspace/workspace', {
                 path: '/channel/workspace/:channelId/:workspaceId',
                 title: workSpaceData.workSpace.workSpaceName,

@@ -19,7 +19,7 @@ const postCreatePostToWorkSpace = async () => {
         const url = window.location.href;
 
         const channelId = url.split('/')[5];
-        const workSpaceId = url.split('/')[6];
+        const workSpaceId = url.split('/')[6].split('?')[0];
         const replaceContent = content.replace('\r\n', '<br>');
         console.log('channelId : ', channelId);
         console.log('workSpaceId : ', workSpaceId);
@@ -224,7 +224,109 @@ const onClickWorkSpaceEditCommentScriptBtn = () => {
     createEditCommentTag();
 }
 
+const onClickWorkSpacePostEditOrRemoveBtn = (action, postId) => {
+    console.log(action);
+    switch (action) {
+        case 'edit': changePostEditModeTag(postId);
+            break;
+        case 'remove': deletePostByCreatorInWorkSpace(postId);
+            break;
+    }
+}
+
+// 게시물 수정 모드 태그로 변경
+const changePostEditModeTag = postId => {
+    const postContentTag = document.getElementById(`post-${postId}`);
+    console.log(postContentTag);
+    const textarea = document.createElement('textarea');
+    textarea.value = postContentTag.textContent;
+    postContentTag.textContent = "";
+    // postContentTag.style.width = '100%';
+    // postContentTag.style.height = 'auto';
+    
+    // 수정 버튼 생성
+    const editIcon = document.createElement('i');
+    editIcon.className = 'fa-regular fa-pen-to-square fa-xl';
+    
+    const editBtn = document.createElement('button');
+    editBtn.classList.add('button__edit-mode-comment-script');
+    editBtn.setAttribute('onclick', `onClickWorkSpacePostEditContent(${postId})`)
+    editBtn.append(editIcon);
+
+    const closeIcon = document.createElement('i');
+    closeIcon.className = 'fa-solid fa-x';
+
+    const closeBtn = document.createElement('button');
+    closeBtn.classList.add('button__edit-mode-comment-script');
+    closeBtn.setAttribute('onclick', `onClickPostEditModTagCloseBtn()`)
+    closeBtn.append(closeIcon);
+
+    
+    document.querySelector('.post-comment').appendChild(textarea);
+    document.querySelector('.post-comment').appendChild(editBtn);
+    document.querySelector('.post-comment').appendChild(closeBtn);
+}
+
+const onClickWorkSpacePostEditContent = async postId => {
+    patchEditPostByCreatorInWorkSpace(postId);
+}
+
+const patchEditPostByCreatorInWorkSpace = async postId => {
+    if (!confirm('게시물 내용을 수정 하시겠습니까?')) {
+        return;
+    }
+    try {
+        const url = window.location.href;
+
+        const channelId = url.split('/')[5];
+        const workSpaceId = url.split('/')[6].split('?')[0];
+
+        console.log('channelId : ', channelId);
+        console.log('workSpaceId : ', workSpaceId);
+        console.log('postId : ', postId);
+
+        await fetch(`http://localhost:3000/client/workspace/edit-post/${channelId}/${workSpaceId}/${postId}`, {
+            method: 'PATCH',
+            body: JSON.stringify({
+                postId: postId
+            })
+        });
+        console.log('게시물 처리 완료!!!');
+
+        return window.location.replace(`http://localhost:3000/channel/workspace/${channelId}/${workSpaceId}?sort=lastest&&sortNum=-1`);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+const deletePostByCreatorInWorkSpace = async postId => {
+    if (!confirm('게시물을 삭제 하시겠습니까?')) {
+        return;
+    }
+    try {
+        const url = window.location.href;
+
+        const channelId = url.split('/')[5];
+        const workSpaceId = url.split('/')[6].split('?')[0];
+
+        console.log('channelId : ', channelId);
+        console.log('workSpaceId : ', workSpaceId);
+        console.log('postId : ', postId);
+
+        await fetch(`http://localhost:3000/client/workspace/delete-post/${channelId}/${workSpaceId}/${postId}`, {
+            method: 'DELETE'
+        });
+        console.log('게시물 처리 완료!!!');
+
+        return window.location.replace(`http://localhost:3000/channel/workspace/${channelId}/${workSpaceId}?sort=lastest&&sortNum=-1`);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 //----------태그 생성 함수들-------------//
+
+// 설명 스크립트 편집 쓰레드 생성
 const createEditCommentTag = () => {
     if (document.querySelector('.thread')) {
         document.body.removeChild(document.querySelector('.thread'));
@@ -497,7 +599,7 @@ const activeSortTypeBtnColor = () => {
 
 document.getElementById('send').addEventListener('click', postCreatePostToWorkSpace);
 document.getElementById('content').addEventListener('keydown', onKeyDownCreateUnitPost);
-document.getElementById('script').addEventListener('click', onClickWorkSpaceEditCommentScriptBtn);
+document.getElementById('comment-edit-mode').addEventListener('click', onClickWorkSpaceEditCommentScriptBtn);
 window.addEventListener('DOMContentLoaded', activeSortTypeBtnColor);
 
 // ---------------- 멤버 초대 모달창 로직 구간 ------------------ //

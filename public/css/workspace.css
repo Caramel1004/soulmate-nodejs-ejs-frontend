@@ -83,17 +83,32 @@ body {
     /* border: 0.5px groove rgba(0, 0, 0, 0.26); */
 }
 
-.box-workspace-explain span {
+.box-workspace-explain p {
+    color: #1d1c1d;
+    white-space: pre-wrap;
+}
+
+.edit-icon {
     padding: 5px;
-    margin-right: 5px;
+    margin-right: 3px;
+    color: #000000;
+    background: #ffffff;
     border: 0.5px groove rgba(0, 0, 0, 0.26);
     border-radius: 10px;
 }
 
-.box-workspace-explain span:hover,
-.box-workspace-explain span:active {
+.edit-icon:hover,
+.edit-icon:active {
     opacity: 0.6;
     cursor: pointer;
+}
+
+#post-edit-mode {
+    font-weight: 500;
+}
+
+#post-remove-mode {
+    font-weight: 500;
 }
 
 .workspace-member-list-box {
@@ -342,14 +357,13 @@ textarea:focus {
     font-weight: bolder;
 }
 
-
 /* 단위 채팅 내용 */
 .post-comment {
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.26);
-    /* padding-top: 1px; */
+    margin-top: 10px;
     padding: 5px;
-    padding-left: 10px;
+    /* padding-left: 10px; */
     padding-right: 10px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.26);
     max-width: 95%;
     /* max-width: 500px; */
     display: inline-block;
@@ -361,6 +375,30 @@ textarea:focus {
     border-radius: 0.5rem;
     box-sizing: border-box;
     white-space: pre-wrap;
+}
+
+.post textarea {
+    margin: 10px;
+    margin-top: 10px;
+    padding: 5px;
+    padding-left: 10px;
+    /* padding-right: 10px; */
+    max-width: 100%;
+    height: 50vh;
+    /* resize: none; */
+    text-align: left;
+    font-size: 15px;
+    color: #1d1c1d;
+    background: #ffffff;
+    border: 1px groove rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    /* overflow: hidden; */
+    white-space: pre-wrap;
+}
+.post textarea:focus {
+    outline: auto;
+    outline-color: rgba(0, 0, 0, 0.26);
+    outline-offset: 0.5px;
 }
 
 /* 쓰레드 css */
@@ -530,6 +568,7 @@ textarea:focus {
     background: #007A5A;
     color: #ffffff;
 }
+
 /* 설명 코멘트 스크립트 쓰레드 */
 .textarea__comment-box {
     margin-top: 10px;
@@ -556,7 +595,8 @@ textarea:focus {
     cursor: pointer;
     float: right;
 }
-.button__edit-mode-comment-script i{
+
+.button__edit-mode-comment-script i {
     color: #000000;
 }
 

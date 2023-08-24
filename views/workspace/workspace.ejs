@@ -41,9 +41,9 @@
                         </div>
                     </div>
                     <% if(workSpace.comment) { %>
-                        <p id="script-comment"><span id="script"><i class="fa-regular fa-pen-to-square"></i></span><%= workSpace.comment %></p>
+                        <p id="script-comment"><span id="comment-edit-mode" class="edit-icon"><i class="fa-regular fa-pen-to-square"></i></span><%= workSpace.comment %></p>
                     <% } else { %>
-                        <p id="script-comment"><span id="script"><i class="fa-regular fa-pen-to-square"></i></span>설명 스크립트를 자유롭게 남겨보세요.</p>
+                        <p id="script-comment"><span id="comment-edit-mode" class="edit-icon"><i class="fa-regular fa-pen-to-square"></i></span>설명 스크립트를 자유롭게 남겨보세요.</p>
                     <% } %>
                 </div>
                 <div id="tab-box">
@@ -63,8 +63,16 @@
                                     <img src="<%= post.creator.photo %>">
                                 </div>
                                 <div class="post">
-                                    <div class="client-name"><%= post.creator.name %></div>
-                                    <div class="post-comment"><%= post.content %></div>
+                                    <div class="client-name">
+                                        <% if(post.isCreator) { %>
+                                            <%= post.creator.name %>(나)
+                                            <% } else { %>
+                                                <%= post.creator.name %>
+                                                <span id="post-edit-mode" class="edit-icon" onclick="onClickWorkSpacePostEditOrRemoveBtn('edit', '<%= post._id %>')"><i class="fa-regular fa-pen-to-square"></i>수정</span>
+                                                <span id="post-remove-mode" class="edit-icon" onclick="onClickWorkSpacePostEditOrRemoveBtn('remove', '<%= post._id %>')"><i class="fa-regular fa-trash-can" style="color: red;"></i>삭제</span>
+                                        <% } %>
+                                    </div>
+                                    <div id="post-<%= post._id %>" class="post-comment"><%= post.content %></div>
                                     <p onclick="createThreadTag('<%= post._id %>')"><%= post.replies.length %>개의 댓글</p>
                                 </div>
                             </div>
@@ -236,26 +244,27 @@
             }
 
             const dataLoading = (data, className, callback) => {
+                const div = document.createElement('div');
                 const img = document.createElement('img')
                 const p = document.createElement('p');
                 img.setAttribute('src','/images/icons8-spinner.gif');
                 img.setAttribute('width','100px');
                 img.setAttribute('height','100px');
-                p.id = 'load';
-                img.id = 'img'
+                img.setAttribute('text-align','center');
+                div.id = 'load'
                 p.textContent = '새로운 데이터가 업로드 되고있습니다.';
-                document.querySelector(className).appendChild(p);
-                document.querySelector(className).appendChild(img);
+                div.style.textAlign = 'center';
+                div.appendChild(p);
+                div.appendChild(img);
+                document.querySelector(className).appendChild(div);
                 const historyTag = document.querySelector(className);
 
                 //채팅박스 스크롤 맨 아래로 위치
                 historyTag.scrollTop = historyTag.scrollHeight;
         
                 setTimeout(() => {
-                    const removeTag1 = document.getElementById('load');
-                    const removeTag2 = document.getElementById('img');
-                    document.querySelector(className).removeChild(removeTag1);
-                    document.querySelector(className).removeChild(removeTag2);
+                    const removeTag = document.getElementById('load');
+                    document.querySelector(className).removeChild(removeTag);
                     // 실시간으로 게시물 업데이트
                     callback(data);
                 }, 3000);

@@ -15,8 +15,8 @@ const router = Router();
  * 7. 실시간 파일(자료) 업로드
  * 8. 워크 스페이스 생성
  * 9. 워크스페이스에 게시물 생성
- * 10. 워크스페이스에서 해당 게시물에 댓글 달기
- * 11. 워크 스페이스에 유저 초대 -> 전체공개 or 초대한 유저만 이용
+ * 10. 워크스페이스에서 해당 유저의 게시물 삭제
+ * 11. 워크스페이스에서 해당 유저의 게시물 내용 수정
  * 12. 해당 게시물 댓글 조회
  * 13. 해당 게시물에 댓글 달기
  * 14. 관심채널 추가 또는 삭제(토글 관계)
@@ -24,6 +24,7 @@ const router = Router();
  * 16. 공용기능: 채널에있는 유저 목록 불러오기
  * 17. 워크스페이스 퇴장
  * 18. 워크스페이스 설명 스크립트 편집
+ * 19. 워크 스페이스에 유저 초대 -> 전체공개 or 초대한 유저만 이용
  */
 
 //POST /client/channel/create
@@ -53,8 +54,11 @@ router.post('/workspace/:channelId', accessAuthorizedToken, clientController.pos
 // POST /client/workspace/create-post/:channelId/:workSpaceId
 router.post('/workspace/create-post/:channelId/:workSpaceId', accessAuthorizedToken, clientController.postCreatePostToWorkSpace);// 9. 워크스페이스에 게시물 생성
 
-// POST /client/workspace/invite/:channelId/:workSpaceId
-router.patch('/workspace/invite/:channelId/:workSpaceId', accessAuthorizedToken, clientController.postInviteUsersToWorkSpace);// 11. 워크 스페이스에 유저 초대 -> 전체공개 or 초대한 유저만 이용
+// DELETE /client/workspace/delete-post/:channelId/:workSpaceId
+router.delete('/workspace/delete-post/:channelId/:workSpaceId/:postId', accessAuthorizedToken, clientController.deletePostByCreatorInWorkSpace);//10. 워크스페이스에서 해당 유저의 게시물 삭제
+
+//  PATCH/client/workspace/edit-post/:channelId/:workSpaceId
+router.patch('/workspace/edit-post/:channelId/:workSpaceId', accessAuthorizedToken, clientController.patchEditPostByCreatorInWorkSpace);//11. 워크스페이스에서 해당 유저의 게시물 내용 수정
 
 // POST /client/workspace/:channelId/:workSpaceId/post/replies
 router.post('/workspace/:channelId/:workSpaceId/post/replies', accessAuthorizedToken, clientController.postGetReplyToPost);// 12. 해당 게시물 댓글 조회
@@ -77,4 +81,6 @@ router.patch('/workspace/exit/:channelId/:workSpaceId', accessAuthorizedToken, c
 // PATCH /client/workspace/edit-comment/:channelId/:workSpaceId
 router.patch('/workspace/edit-comment/:channelId/:workSpaceId', accessAuthorizedToken, clientController.patchEditCommentScript);// 18. 워크스페이스 설명 스크립트 편집
 
+// PATCH /client/workspace/invite/:channelId/:workSpaceId
+router.patch('/workspace/invite/:channelId/:workSpaceId', accessAuthorizedToken, clientController.postInviteUsersToWorkSpace);// 19. 워크 스페이스에 유저 초대 -> 전체공개 or 초대한 유저만 이용
 export default router;

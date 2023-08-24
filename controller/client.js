@@ -16,8 +16,8 @@ import workspaceService from '../service/workspace.js';
  * 7. 실시간 파일(자료) 업로드
  * 8. 워크 스페이스 생성
  * 9. 워크스페이스에 게시물 생성
- * 10. 워크스페이스에서 해당 게시물에 댓글 달기
- * 11. 워크 스페이스에 유저 초대 -> 전체공개 or 초대한 유저만 이용
+ * 10. 워크스페이스에서 해당 유저의 게시물 삭제
+ * 11. 워크스페이스에서 해당 유저의 게시물 내용 수정 
  * 12. 해당 게시물 댓글 조회
  * 13. 해당 게시물에 댓글 달기
  * 14. 관심채널 추가 또는 삭제(토글 관계)
@@ -25,6 +25,7 @@ import workspaceService from '../service/workspace.js';
  * 16. 공용기능: 채널에있는 유저 목록 불러오기
  * 17. 워크스페이스 퇴장
  * 18. 워크스페이스 설명 스크립트 편집
+ * 19. 워크 스페이스에 유저 초대 -> 전체공개 or 초대한 유저만 이용
  */
 
 const clientControlller = {
@@ -247,18 +248,32 @@ const clientControlller = {
             next(err);
         }
     },
-    // 11. 워크 스페이스에 유저 초대 -> 전체공개 or 초대한 유저만 이용
-    postInviteUsersToWorkSpace: async (req, res, next) => {
+    // 10. 워크스페이스에서 해당 유저의 게시물 삭제
+    deletePostByCreatorInWorkSpace: async (req, res, next) => {
         try {
-            const jsonWebToken = req.signedCookies.token;
-            const channelId = req.params.channelId
-            const workSpaceId = req.params.workSpaceId;
-
-            const data = await workspaceService.postInviteUsersToWorkSpace(jsonWebToken, req.signedCookies.refreshToken, req.body, channelId, workSpaceId, next);
+            const token = req.signedCookies.token;
+            console.log(req.params.postId);
+            const data = await workspaceService.deletePostByCreatorInWorkSpace(token, req.signedCookies.refreshToken, req.params.channelId, req.params.workSpaceId, req.params.postId, next);
             hasError(data.error);
 
             res.status(data.status.code).json({
                 status: data.status
+            });
+        } catch (err) {
+            next(err);
+        }
+    },
+    // 11. 워크스페이스에서 해당 유저의 게시물 내용 수정
+    patchEditPostByCreatorInWorkSpace: async (req, res, next) => {
+        try {
+            const token = req.signedCookies.token;
+
+            const data = await workspaceService.getReplyToPost(token, req.signedCookies.refreshToken, req.params.channelId, req.params.workSpaceId, req.body.postId, next);
+            hasError(data.error);
+
+            res.status(data.status.code).json({
+                status: data.status,
+                post: data.post
             });
         } catch (err) {
             next(err);
@@ -371,7 +386,24 @@ const clientControlller = {
         } catch (err) {
             next(err);
         }
-    }
+    },
+    // 19. 워크 스페이스에 유저 초대 -> 전체공개 or 초대한 유저만 이용
+    postInviteUsersToWorkSpace: async (req, res, next) => {
+        try {
+            const jsonWebToken = req.signedCookies.token;
+            const channelId = req.params.channelId
+            const workSpaceId = req.params.workSpaceId;
+
+            const data = await workspaceService.postInviteUsersToWorkSpace(jsonWebToken, req.signedCookies.refreshToken, req.body, channelId, workSpaceId, next);
+            hasError(data.error);
+
+            res.status(data.status.code).json({
+                status: data.status
+            });
+        } catch (err) {
+            next(err);
+        }
+    },
 }
 
 export default clientControlller;
