@@ -65,11 +65,11 @@
                                 <div class="post">
                                     <div class="client-name">
                                         <% if(post.isCreator) { %>
-                                            <%= post.creator.name %>(나)
+                                            <%= post.creator.name %> (나)
+                                            <span id="post-edit-mode" class="edit-icon" onclick="onClickWorkSpacePostEditOrRemoveBtn('edit', '<%= post._id %>')"><i class="fa-regular fa-pen-to-square"></i>수정</span>
+                                            <span id="post-remove-mode" class="edit-icon" onclick="onClickWorkSpacePostEditOrRemoveBtn('remove', '<%= post._id %>')"><i class="fa-regular fa-trash-can" style="color: red;"></i>삭제</span>
                                             <% } else { %>
                                                 <%= post.creator.name %>
-                                                <span id="post-edit-mode" class="edit-icon" onclick="onClickWorkSpacePostEditOrRemoveBtn('edit', '<%= post._id %>')"><i class="fa-regular fa-pen-to-square"></i>수정</span>
-                                                <span id="post-remove-mode" class="edit-icon" onclick="onClickWorkSpacePostEditOrRemoveBtn('remove', '<%= post._id %>')"><i class="fa-regular fa-trash-can" style="color: red;"></i>삭제</span>
                                         <% } %>
                                     </div>
                                     <div id="post-<%= post._id %>" class="post-comment"><%= post.content %></div>

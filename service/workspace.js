@@ -4,8 +4,8 @@ import workspaceAPI from '../API/workspace.js'
  * 1. 워크스페이스 입장 -> 워크스페이스 페이지
  * 2. 게시물 생성
  * 3. 워크스페이스에서 해당 유저의 게시물 삭제
- * 4. 워크스페이스에 팀원 초대
- * 5. 스크랩 따기
+ * 4. 워크스페이스에서 해당 유저의 게시물 내용 수정
+ * 5. 워크스페이스에 팀원 초대
  * 6. 댓글 보기
  * 7. 해당 게시물에 댓글 달기
  * 8. 워크스페이스 퇴장
@@ -80,25 +80,27 @@ const workspaceService = {
             const data = await workspaceAPI.deletePostByCreatorInWorkSpace(token, refreshToken, channelId, workSpaceId, postId, next);
             hasError(data.error);
 
-            res.status(data.status.code).json({
-                status: data.status
-            });
+            return data
         } catch (err) {
             next(err);
         }
     },
     // 4. 워크스페이스에서 해당 유저의 게시물 내용 수정 
-    patchEditPostByCreatorInWorkSpace: async (token, refreshToken, channelId, workSpaceId, postId, next) => {
+    patchEditPostByCreatorInWorkSpace: async (token, refreshToken, channelId, workSpaceId, formData, next) => {
         try {
-            const token = req.signedCookies.token;
+            const data = await workspaceAPI.patchEditPostByCreatorInWorkSpace(token, refreshToken, channelId, workSpaceId, formData, next);
 
-            const data = await workspaceService.patchEditPostByCreatorInWorkSpace(token, refreshToken, channelId, workSpaceId, postId, next);
-            hasError(data.error);
+            return data;
+        } catch (err) {
+            next(err);
+        }
+    },
+    // 5. 워크스페이스에 팀원 초대
+    postInviteUsersToWorkSpace: async (token, refreshToken, body, channelId, workSpaceId, next) => {
+        try {
+            const data = await workspaceAPI.postInviteUsersToWorkSpace(token, refreshToken, body, channelId, workSpaceId, next);
 
-            res.status(data.status.code).json({
-                status: data.status,
-                post: data.post
-            });
+            return data;
         } catch (err) {
             next(err);
         }
@@ -138,16 +140,6 @@ const workspaceService = {
         try {
             const data = await workspaceAPI.patchEditCommentScript(token, refreshToken, body, next);
             
-            return data;
-        } catch (err) {
-            next(err);
-        }
-    },
-    // 10. 워크스페이스에 팀원 초대
-    postInviteUsersToWorkSpace: async (token, refreshToken, body, channelId, workSpaceId, next) => {
-        try {
-            const data = await workspaceAPI.postInviteUsersToWorkSpace(token, refreshToken, body, channelId, workSpaceId, next);
-
             return data;
         } catch (err) {
             next(err);

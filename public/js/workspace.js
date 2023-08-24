@@ -240,17 +240,18 @@ const changePostEditModeTag = postId => {
     console.log(postContentTag);
     const textarea = document.createElement('textarea');
     textarea.value = postContentTag.textContent;
+    textarea.id = 'post-edit-content';
     postContentTag.textContent = "";
     // postContentTag.style.width = '100%';
     // postContentTag.style.height = 'auto';
-    
+
     // 수정 버튼 생성
     const editIcon = document.createElement('i');
     editIcon.className = 'fa-regular fa-pen-to-square fa-xl';
-    
+
     const editBtn = document.createElement('button');
     editBtn.classList.add('button__edit-mode-comment-script');
-    editBtn.setAttribute('onclick', `onClickWorkSpacePostEditContent(${postId})`)
+    editBtn.setAttribute('onclick', `onClickWorkSpacePostEditContent('${postId}')`)
     editBtn.append(editIcon);
 
     const closeIcon = document.createElement('i');
@@ -261,13 +262,14 @@ const changePostEditModeTag = postId => {
     closeBtn.setAttribute('onclick', `onClickPostEditModTagCloseBtn()`)
     closeBtn.append(closeIcon);
 
-    
+
     document.querySelector('.post-comment').appendChild(textarea);
     document.querySelector('.post-comment').appendChild(editBtn);
     document.querySelector('.post-comment').appendChild(closeBtn);
 }
 
 const onClickWorkSpacePostEditContent = async postId => {
+    console.log(postId)
     patchEditPostByCreatorInWorkSpace(postId);
 }
 
@@ -280,17 +282,27 @@ const patchEditPostByCreatorInWorkSpace = async postId => {
 
         const channelId = url.split('/')[5];
         const workSpaceId = url.split('/')[6].split('?')[0];
+        const content = document.getElementById('post-edit-content').value;
+        const replaceContent = content.replace('\r\n', '<br>');
 
         console.log('channelId : ', channelId);
         console.log('workSpaceId : ', workSpaceId);
         console.log('postId : ', postId);
+        console.log('content : ', content);
 
-        await fetch(`http://localhost:3000/client/workspace/edit-post/${channelId}/${workSpaceId}/${postId}`, {
+        const formData = new FormData();
+        formData.append('postId', postId);
+        formData.append('content', replaceContent);
+
+        const data = await fetch(`http://localhost:3000/client/workspace/edit-post/${channelId}/${workSpaceId}`, {
             method: 'PATCH',
-            body: JSON.stringify({
-                postId: postId
-            })
+            body: formData
         });
+
+        if(data.error) {
+            alert(data.error);
+            return;
+        }
         console.log('게시물 처리 완료!!!');
 
         return window.location.replace(`http://localhost:3000/channel/workspace/${channelId}/${workSpaceId}?sort=lastest&&sortNum=-1`);

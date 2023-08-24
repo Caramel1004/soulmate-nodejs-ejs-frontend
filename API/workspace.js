@@ -3,9 +3,9 @@ import fetch from 'node-fetch';
 /**
  * 1. 워크스페이스 입장 -> 워크스페이스 페이지
  * 2. 게시물 생성
- * 3. 댓글 달기 -> 게시물이 있어야 함
- * 4. 워크스페이스에 팀원 초대
- * 5. 스크랩 따기
+ * 3. 워크스페이스에서 해당 유저의 게시물 삭제
+ * 4. 워크스페이스에서 해당 유저의 게시물 내용 수정
+ * 5. 워크스페이스에 팀원 초대
  * 6. 댓글 보기
  * 7. 해당 게시물에 댓글 달기
  * 8. 워크스페이스 퇴장
@@ -67,7 +67,25 @@ const workspaceAPI = {
             next(err);
         }
     },
-    // 4. 워크스페이스에 팀원 초대
+    // 4. 워크스페이스에서 해당 유저의 게시물 내용 수정
+    patchEditPostByCreatorInWorkSpace: async (token, refreshToken, channelId, workSpaceId, formData, next) => {
+        try {
+            const response = await fetch(`http://localhost:8080/v1/workspace/edit-post/${channelId}/${workSpaceId}`, {
+                method: 'PATCH',
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                    RefreshToken: refreshToken
+                },
+                body: formData
+            });
+            const resData = await response.json();
+
+            return resData;
+        } catch (err) {
+            next(err);
+        }
+    },
+    // 5. 워크스페이스에 팀원 초대
     postInviteUsersToWorkSpace: async (token, refreshToken, body, channelId, workSpaceId, next) => {
         try {
             const response = await fetch(`http://localhost:8080/v1/workspace/invite/${channelId}/${workSpaceId}`, {

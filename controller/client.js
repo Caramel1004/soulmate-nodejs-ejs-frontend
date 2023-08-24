@@ -267,13 +267,15 @@ const clientControlller = {
     patchEditPostByCreatorInWorkSpace: async (req, res, next) => {
         try {
             const token = req.signedCookies.token;
+            const formData = new FormData();
+            formData.append('postId', req.body.postId);
+            formData.append('content', req.body.content);
 
-            const data = await workspaceService.getReplyToPost(token, req.signedCookies.refreshToken, req.params.channelId, req.params.workSpaceId, req.body.postId, next);
+            const data = await workspaceService.patchEditPostByCreatorInWorkSpace(token, req.signedCookies.refreshToken, req.params.channelId, req.params.workSpaceId, formData, next);
             hasError(data.error);
 
             res.status(data.status.code).json({
-                status: data.status,
-                post: data.post
+                status: data.status
             });
         } catch (err) {
             next(err);
