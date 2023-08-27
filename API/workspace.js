@@ -128,13 +128,47 @@ const workspaceAPI = {
     // 7. 해당 게시물에 댓글 달기
     postCreateReplyToPost: async (token, refreshToken, channelId, workSpaceId, formData, next) => {
         try {
-            const response = await fetch(`http://localhost:8080/v1/workspace/${channelId}/${workSpaceId}/post/create-reply`, {
+            const response = await fetch(`http://localhost:8080/v1/workspace/post/create-reply/${channelId}/${workSpaceId}`, {
                 method: 'POST',
                 headers: {
                     Authorization: 'Bearer ' + token,
                     RefreshToken: refreshToken,
                 },
                 body: formData
+            });
+            const resData = await response.json();
+
+            return resData;
+        } catch (err) {
+            next(err);
+        }
+    },
+    patchEditReplyByCreatorInPost: async (token, refreshToken, channelId, workSpaceId, formData, next) => {
+        try {
+            const response = await fetch(`http://localhost:8080/v1/workspace/post/edit-reply/${channelId}/${workSpaceId}`, {
+                method: 'PATCH',
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                    RefreshToken: refreshToken
+                },
+                body: formData
+            });
+            const resData = await response.json();
+
+            return resData;
+        } catch (err) {
+            next(err);
+        }
+    },
+    deleteReplyByCreatorInPost: async (token, refreshToken, channelId, workSpaceId, postId, replyId, next) => {
+        try {
+            const response = await fetch(`http://localhost:8080/v1/workspace/post/delete-reply/${channelId}/${workSpaceId}/${postId}/${replyId}`, {
+                method: 'DELETE',
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                    RefreshToken: refreshToken,
+                    'Content-Type': 'application/json'
+                }
             });
             const resData = await response.json();
 

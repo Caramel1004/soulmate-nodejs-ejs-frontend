@@ -267,7 +267,7 @@
                     document.querySelector(className).removeChild(removeTag);
                     // 실시간으로 게시물 업데이트
                     callback(data);
-                }, 3000);
+                }, 1000);
             }
             // 게시물 업데이트
             socket.on('uploadPost', async data => {

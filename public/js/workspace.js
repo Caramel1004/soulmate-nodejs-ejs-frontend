@@ -62,7 +62,7 @@ const postCreateReplyToWorkSpace = async postId => {
         formData.append('postId', postId);
         formData.append('content', replaceContent);
 
-        await fetch(`http://localhost:3000/client/workspace/${channelId}/${workSpaceId}/post/create-reply`, {
+        await fetch(`http://localhost:3000/client/workspace/post/create-reply/${channelId}/${workSpaceId}`, {
             method: 'POST',
             body: formData
         });
@@ -152,6 +152,79 @@ const patchEditCommentScriptToWorkSpace = async () => {
     }
 }
 
+const deleteReplyByCreatorInPost = async (postId, replyId) => {
+    if (!confirm('댓글 삭제 하시겠습니까?')) {
+        return;
+    }
+    try {
+        const url = window.location.href;
+
+        const channelId = url.split('/')[5];
+        const workSpaceId = url.split('/')[6].split('?')[0];
+
+        console.log('channelId : ', channelId);
+        console.log('workSpaceId : ', workSpaceId);
+        console.log('postId : ', postId);
+        console.log('replyId : ', replyId);
+
+        const response = await fetch(`http://localhost:3000/client/workspace/post/delete-reply/${channelId}/${workSpaceId}/${postId}/${replyId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const data = await response.json();
+        console.log('댓글 삭제 완료!!!');
+        console.log(data);
+        console.log(document.querySelector('thread'));
+        if (data) {
+            document.querySelector('.thread').removeChild(document.getElementById(`reply-${replyId}`));
+        }
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+const patchEditReplyByCreatorInPost = async (postId, replyId) => {
+    const content = document.querySelector('.modal-reply-edit-mode').querySelector('textarea').value;
+    console.log(content)
+    if (!confirm('댓글 수정 하시겠습니까?')) {
+        return;
+    }
+    try {
+        const url = window.location.href;
+
+        const channelId = url.split('/')[5];
+        const workSpaceId = url.split('/')[6].split('?')[0];
+        const replaceContent = content.replace('\r\n', '<br>');
+        
+        console.log('channelId : ', channelId);
+        console.log('workSpaceId : ', workSpaceId);
+        console.log('postId : ', postId);
+        console.log('replyId : ', replyId);
+        console.log('replaceContent : ', replaceContent);
+
+        const formData = new FormData();
+        formData.append('postId', postId);
+        formData.append('replyId', replyId);
+        formData.append('content', replaceContent);
+
+        const response = await fetch(`http://localhost:3000/client/workspace/post/edit-reply/${channelId}/${workSpaceId}`, {
+            method: 'PATCH',
+            body: formData
+        });
+
+        const data = await response.json();
+        console.log('댓글 수정 완료!!!');
+        console.log(data);
+        onClickCloseBtn('modal-background');
+        document.getElementById(`reply-${replyId}`).querySelector('.reply-comment').textContent = data.updatedReply.content;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 const replaceText = text => {
     let replacedText = text;
     replacedText = text.replace(/\s|/gi, '');
@@ -234,16 +307,87 @@ const onClickWorkSpacePostEditOrRemoveBtn = (action, postId) => {
     }
 }
 
+const onClickReplyEditOrRemoveBtn = (action, postId, replyId) => {
+    switch (action) {
+        case 'edit': createReplyEditModalTag(postId, replyId);
+            break;
+        case 'delete': deleteReplyByCreatorInPost(postId, replyId);
+            break;
+    }
+}
+
+const createReplyEditModalTag = (postId, replyId) => {
+    const body = document.body;
+
+    // 모달창 백그라운드
+    const modalBackGround = document.createElement('div');
+    modalBackGround.classList.add('modal-background');
+
+    body.appendChild(modalBackGround);
+
+    // 모달창
+    const modal = document.createElement('div');
+    modal.classList.add('modal-reply-edit-mode');
+
+    // 버튼 박스
+    const btnBox = document.createElement('div');
+    btnBox.classList.add('icon-btn-box');
+    btnBox.style.border = 'none';
+    btnBox.style.float = 'right';
+
+    // 수정 버튼 안에 아이콘 생성
+    const editIcon = document.createElement('i');
+    editIcon.className = 'fa-regular fa-pen-to-square';
+    editIcon.textContent = '수정'
+
+    // 수정 버튼 생성
+    const editBtn = document.createElement('button');
+    editBtn.classList.add('edit-icon');
+    editBtn.style.marginLeft = '10px';
+    editBtn.setAttribute('onclick', `patchEditReplyByCreatorInPost('${postId}','${replyId}')`)
+    editBtn.append(editIcon);
+
+    // 닫기 버튼 생성
+    const closeBtn = document.createElement('button');
+    closeBtn.id = 'modal-close-btn';
+    closeBtn.setAttribute('onclick', "onClickCloseBtn('modal-background')")
+    closeBtn.textContent = 'x';
+
+    btnBox.appendChild(closeBtn);
+    
+    modal.appendChild(btnBox);
+    
+    const textarea = document.createElement('textarea');
+    const replyTag = document.getElementById(`reply-${replyId}`);// 특정 하나의 댓글 태그
+    textarea.value = replyTag.querySelector('.reply-comment').textContent;// 댓글 내용 가져오기
+    modal.appendChild(textarea);
+    modal.appendChild(editBtn);
+
+    modalBackGround.appendChild(modal);
+}
+
 // 게시물 수정 모드 태그로 변경
 const changePostEditModeTag = postId => {
     const postContentTag = document.getElementById(`post-${postId}`);
-    console.log(postContentTag);
+    // console.log(document.querySelector('.post-container').children);
     const textarea = document.createElement('textarea');
     textarea.value = postContentTag.textContent;
     textarea.id = 'post-edit-content';
+    const content = textarea.value;
+    const replacedContent = replaceText(content);
+
+    // 스타일 변경
+    postContentTag.parentNode.style.width = '93%';
+    postContentTag.parentNode.style.height = 'auto';
+    postContentTag.parentNode.parentNode.style.background = 'rgb(235, 222, 203)';
+    postContentTag.style.width = '200%';
+    postContentTag.style.height = 'auto';
+    textarea.style.width = '98%';
+    textarea.style.height = '60vh';
     postContentTag.textContent = "";
-    // postContentTag.style.width = '100%';
-    // postContentTag.style.height = 'auto';
+
+    const btnBox = document.createElement('div');
+    btnBox.style.paddingLeft = '8px';
 
     // 수정 버튼 생성
     const editIcon = document.createElement('i');
@@ -251,6 +395,7 @@ const changePostEditModeTag = postId => {
 
     const editBtn = document.createElement('button');
     editBtn.classList.add('button__edit-mode-comment-script');
+    editBtn.style.float = 'left';
     editBtn.setAttribute('onclick', `onClickWorkSpacePostEditContent('${postId}')`)
     editBtn.append(editIcon);
 
@@ -259,13 +404,41 @@ const changePostEditModeTag = postId => {
 
     const closeBtn = document.createElement('button');
     closeBtn.classList.add('button__edit-mode-comment-script');
-    closeBtn.setAttribute('onclick', `onClickPostEditModTagCloseBtn()`)
+    closeBtn.style.marginLeft = '-3px';
+    closeBtn.style.float = 'left';
+    closeBtn.setAttribute('onclick', `onClickPostEditModTagCloseBtn('${postId}', '${replacedContent}')`)
     closeBtn.append(closeIcon);
 
+    btnBox.appendChild(editBtn);
+    btnBox.appendChild(closeBtn);
 
-    document.querySelector('.post-comment').appendChild(textarea);
-    document.querySelector('.post-comment').appendChild(editBtn);
-    document.querySelector('.post-comment').appendChild(closeBtn);
+    postContentTag.appendChild(textarea);
+    postContentTag.appendChild(btnBox);
+    // postContentTag.appendChild(closeBtn);
+}
+// 자식요소 모두 제거 하는 함수
+const removeAllChild = parent => {
+    console.log(parent);
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+}
+
+const onClickPostEditModTagCloseBtn = (postId, content) => {
+    const parentNode = document.getElementById(`post-${postId}`).parentNode;// post
+    const postContentTag = document.getElementById(`post-${postId}`);
+    const replyTag = parentNode.querySelector('p');
+
+    postContentTag.parentNode.parentNode.style.background = '#ffffff';
+    parentNode.removeChild(postContentTag);
+    parentNode.removeChild(replyTag);
+
+    const div = document.createElement('div');
+    div.id = `post-${postId}`;
+    div.className = 'post-comment';
+    div.textContent = content;
+    parentNode.appendChild(div);
+    parentNode.appendChild(replyTag);
 }
 
 const onClickWorkSpacePostEditContent = async postId => {
@@ -299,7 +472,7 @@ const patchEditPostByCreatorInWorkSpace = async postId => {
             body: formData
         });
 
-        if(data.error) {
+        if (data.error) {
             alert(data.error);
             return;
         }
@@ -457,6 +630,7 @@ const createThreadTag = async postId => {
             // 댓글 박스
             const replyBox = document.createElement('div');
             replyBox.classList.add('replies');
+            replyBox.id = `reply-${reply._id}`;
 
             // 이미지 박스
             const replyImgBox = document.createElement('div');
@@ -482,10 +656,45 @@ const createThreadTag = async postId => {
             // 닉네임
             const clientNameTag = document.createElement('div');
             clientNameTag.classList.add('client-name');
-            clientNameTag.textContent = reply.creator.name;
-            clientNameTag.appendChild(passedTimeSpan);
-            creatorBox.appendChild(clientNameTag);
-            console.log('clientNameTag: ', clientNameTag);
+
+            if (reply.isCreator) {
+                clientNameTag.textContent = reply.creator.name + '(나)';
+
+                // 수정 버튼 생성
+                const editIcon = document.createElement('i');
+                editIcon.className = 'fa-regular fa-pen-to-square';
+                editIcon.textContent = '수정'
+
+                const editBtn = document.createElement('button');
+                editBtn.classList.add('edit-icon');
+                editBtn.style.marginLeft = '10px';
+                editBtn.setAttribute('onclick', `onClickReplyEditOrRemoveBtn('edit','${postId}','${reply._id}')`)
+                editBtn.append(editIcon);
+
+                // 삭제 버튼 생성
+                const removeIcon = document.createElement('i');
+                removeIcon.className = 'fa-regular fa-trash-can';
+                removeIcon.style.color = 'red';
+                removeIcon.textContent = '삭제';
+
+                const removeBtn = document.createElement('button');
+                removeBtn.classList.add('edit-icon');
+                removeBtn.style.marginLeft = '3px';
+                removeBtn.setAttribute('onclick', `onClickReplyEditOrRemoveBtn('delete','${postId}','${reply._id}')`)
+                removeBtn.append(removeIcon);
+
+                // btnBox.appendChild(editBtn);
+                // btnBox.appendChild(removeBtn);
+                clientNameTag.appendChild(passedTimeSpan);
+                clientNameTag.appendChild(editBtn);
+                clientNameTag.appendChild(removeBtn);
+                creatorBox.appendChild(clientNameTag);
+                console.log('clientNameTag: ', clientNameTag);
+            } else {
+                clientNameTag.textContent = reply.creator.name;
+                clientNameTag.appendChild(passedTimeSpan);
+                creatorBox.appendChild(clientNameTag);
+            }
 
 
             // 댓글멘트

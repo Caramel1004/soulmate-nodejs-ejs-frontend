@@ -63,8 +63,14 @@ router.patch('/workspace/edit-post/:channelId/:workSpaceId', accessAuthorizedTok
 // POST /client/workspace/:channelId/:workSpaceId/post/replies
 router.post('/workspace/:channelId/:workSpaceId/post/replies', accessAuthorizedToken, clientController.postGetReplyToPost);// 12. 해당 게시물 댓글 조회
 
-// POST /client/workspace/:channelId/:workSpaceId/post/create-reply
-router.post('/workspace/:channelId/:workSpaceId/post/create-reply', accessAuthorizedToken, clientController.postCreateReplyToPost);// 13. 해당 게시물에 댓글 달기
+// POST /client/workspace/post/create-reply/:channelId/:workSpaceId
+router.post('/workspace/post/create-reply/:channelId/:workSpaceId', accessAuthorizedToken, clientController.postCreateReplyToPost);// 13. 해당 게시물에 댓글 달기
+
+// PATCH /client/workspace/post/edit-reply/:channelId/:workSpaceId
+router.patch('/workspace/post/edit-reply/:channelId/:workSpaceId', accessAuthorizedToken, clientController.patchEditReplyByCreatorInPost);// 13. 해당 게시물에 댓글 수정
+
+// DELETE /client/workspace/post/delete-reply/:channelId/:workSpaceId/:postId/:replyId
+router.delete('/workspace/post/delete-reply/:channelId/:workSpaceId/:postId/:replyId', accessAuthorizedToken, clientController.deleteReplyByCreatorInPost);// 13. 해당 게시물에서 해당 댓글삭제 
 
 // POST /client/add-or-remove-wishchannel
 router.post('/add-or-remove-wishchannel', accessAuthorizedToken, clientController.postAddOpenChannelToWishChannel);// 14. 관심채널 추가 또는 삭제(토글 관계)

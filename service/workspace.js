@@ -125,6 +125,24 @@ const workspaceService = {
             next(err);
         }
     },
+    patchEditReplyByCreatorInPost: async (token, refreshToken, channelId, workSpaceId, formData, next) => {
+        try {
+            const data = await workspaceAPI.patchEditReplyByCreatorInPost(token, refreshToken, channelId, workSpaceId, formData, next);
+
+            return data;
+        } catch (err) {
+            next(err);
+        }
+    },
+    deleteReplyByCreatorInPost: async (token, refreshToken, channelId, workSpaceId, postId, replyId, next) => {
+        try {
+            const data = await workspaceAPI.deleteReplyByCreatorInPost(token, refreshToken, channelId, workSpaceId, postId, replyId, next);
+
+            return data;
+        } catch (err) {
+            next(err);
+        }
+    },
     // 8. 워크스페이스 퇴장
     patchExitWorkSpace: async (token, refreshToken, channelId, workSpaceId, next) => {
         try {
@@ -139,7 +157,7 @@ const workspaceService = {
     patchEditCommentScript: async (token, refreshToken, body, next) => {
         try {
             const data = await workspaceAPI.patchEditCommentScript(token, refreshToken, body, next);
-            
+
             return data;
         } catch (err) {
             next(err);

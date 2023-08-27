@@ -315,6 +315,43 @@ const clientControlller = {
             next(err);
         }
     },
+    // 댓글 수정
+    patchEditReplyByCreatorInPost: async (req, res, next) => {
+        try {
+            console.log(req.body);
+            const { token, refreshToken } = req.signedCookies;
+            const { channelId, workSpaceId } = req.params;
+            const formData = new FormData();
+            formData.append('postId', req.body.postId);
+            formData.append('replyId', req.body.replyId);
+            formData.append('content', req.body.content);
+
+            const data = await workspaceService.patchEditReplyByCreatorInPost(token, refreshToken, channelId, workSpaceId, formData, next);
+            hasError(data.error);
+
+            res.status(data.status.code).json({
+                status: data.status,
+                updatedReply: data.updatedReply
+            });
+        } catch (err) {
+            next(err);
+        }
+    },
+    deleteReplyByCreatorInPost: async (req, res, next) => {
+        try {
+            const { token, refreshToken } = req.signedCookies;
+            const { channelId, workSpaceId, postId, replyId } = req.params;
+
+            const data = await workspaceService.deleteReplyByCreatorInPost(token, refreshToken, channelId, workSpaceId, postId, replyId, next);
+            hasError(data.error);
+
+            res.status(data.status.code).json({
+                status: data.status
+            });
+        } catch (err) {
+            next(err);
+        }
+    },
     // 14. 관심채널 추가 또는 삭제(토글 관계)
     postAddOpenChannelToWishChannel: async (req, res, next) => {
         try {
