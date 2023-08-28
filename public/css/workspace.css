@@ -624,6 +624,18 @@ textarea:focus {
 }
 
 /* 모달창 공통 css */
+.modal-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.26);
+}
+
 #modal-close-btn {
     margin-left: 5px;
     padding: 10px;
@@ -638,18 +650,6 @@ textarea:focus {
 }
 
 /* 멤버추가모달창 */
-.modal-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: rgba(0, 0, 0, 0.26);
-}
-
 .modal-invite-member {
     padding: 20px;
     width: 300px;

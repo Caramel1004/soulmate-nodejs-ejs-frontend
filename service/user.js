@@ -12,7 +12,16 @@ const userService = {
         } catch (err) {
             next(err);
         }
-    }
+    },
+    patchEditMyProfileByReqUser: async (token, refreshToken, formData, next) => {
+        try {
+            const resData = await userAPI.patchEditMyProfileByReqUser(token, refreshToken, formData, next);
+
+            return resData;
+        } catch (err) {
+            next(err);
+        }
+    },
 }
 
 export default userService;

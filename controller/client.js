@@ -1,10 +1,14 @@
 import fetch from 'node-fetch';
 import { FormData, Blob } from 'formdata-node';
-import channelService from '../service/channel.js'
-import chatAPI from '../API/chat.js'
-import chatService from '../service/chat.js';
-import { hasError } from '../validator/valid.js';
+
 import workspaceService from '../service/workspace.js';
+import channelService from '../service/channel.js'
+import chatService from '../service/chat.js';
+import userService from '../service/user.js';
+
+import chatAPI from '../API/chat.js'
+
+import { hasError } from '../validator/valid.js';
 
 /**
  * 1. 채널 생성
@@ -318,7 +322,6 @@ const clientControlller = {
     // 댓글 수정
     patchEditReplyByCreatorInPost: async (req, res, next) => {
         try {
-            console.log(req.body);
             const { token, refreshToken } = req.signedCookies;
             const { channelId, workSpaceId } = req.params;
             const formData = new FormData();
@@ -443,6 +446,26 @@ const clientControlller = {
             next(err);
         }
     },
+    patchEditMyProfileByReqUser: async (req, res, next) => {
+        try {
+            const { token, refreshToken } = req.signedCookies;
+
+            const formData = new FormData();
+            formData.append('data', req.body.data);
+            formData.append('hasNameToBeEdit', req.body.hasNameToBeEdit);
+            formData.append('hasPhotoToBeEdit', req.body.hasPhotoToBeEdit);
+            formData.append('hasPhoneToBeEdit', req.body.hasPhoneToBeEdit);
+
+            const data = await userService.patchEditMyProfileByReqUser(token, refreshToken, formData, next);
+            hasError(data.error);
+
+            res.status(data.status.code).json({
+                status: data.status
+            });
+        } catch (err) {
+            next(err);
+        }
+    }
 }
 
 export default clientControlller;
