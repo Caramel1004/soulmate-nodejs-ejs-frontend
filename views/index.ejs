@@ -30,48 +30,52 @@
                     <a class="type" href="#">교육</a>
                     <a class="type" href="#">기타</a>
                 </div>
-                <div id="title">
-                    🥰 그이상의 소통 | 공개 채널
+                <div class="wrapper-title-channel-container">
+                    <div id="title">
+                        🥰 그이상의 소통 | 공개 채널
+                    </div>
+                    <div class="channel-box-items">
+                        <%if(channelList.length > 0) { %>
+                            <% for(let channel of channelList) { %>
+                                <div class="contents__div-wrapper">
+                                    <img src="<%= channel.thumbnail %>">
+                                    <div class="card">
+                                        <h2>채널명 | <%= channel.channelName %></h2>
+                                    </div>
+                                    <div class="card">
+                                        <% for(let category of channel.category) { %>
+                                            <h5 href="/client/mychannels/<%= channel._id %>"> 카테고리 | <a class="hash" href="#">#<%= channel.category %></a></h5>
+                                        <% } %>
+                                    </div>
+                                    <div class="card">
+                                        <button id="<%= channel._id %>" class="heart" type="button" onclick="onClickHeart('<%= channel._id %>')">
+                                            <% if(channel.isUserWishChannel) { %>
+                                                <i class="fa-solid fa-heart fa-xl"></i>
+                                            <% } else { %>
+                                                <i class="fa-regular fa-heart fa-xl"></i>
+                                            <% } %>
+                                        </button>
+                                    </div>
+                                </div>
+                            <% } %>
+                        <% } else if(!channelList){ %>
+                            <div id="channel-container">
+                                <div class="channel-list">
+                                    <div id="error">
+                                        <img src="/images/icons8-spinner.gif" alt="loading">
+                                        <h1>서버와 연결이 끊겼습니다.</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }else { %>
+                            <div id="channel-container">
+                                <div class="channel-list">
+                                    <h1>현재 개설된 채널이 없습니다.</h1>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
                 </div>
-                <%if(channelList.length > 0) { %>
-                    <% for(let channel of channelList) { %>
-                        <div class="contents__div-wrapper">
-                            <img src="<%= channel.thumbnail %>">
-                            <div class="card">
-                                <h2>채널명 | <%= channel.channelName %></h2>
-                            </div>
-                            <div class="card">
-                                <% for(let category of channel.category) { %>
-                                    <h5 href="/client/mychannels/<%= channel._id %>"> 카테고리 | <a class="hash" href="#">#<%= channel.category %></a></h5>
-                                <% } %>
-                            </div>
-                            <div class="card">
-                                <button id="<%= channel._id %>" class="heart" type="button" onclick="onClickHeart('<%= channel._id %>')">
-                                    <% if(channel.isUserWishChannel) { %>
-                                        <i class="fa-solid fa-heart fa-2xl"></i>
-                                    <% } else { %>
-                                        <i class="fa-regular fa-heart fa-2xl"></i>
-                                    <% } %>
-                                </button>
-                            </div>
-                        </div>
-                    <% } %>
-                <% } else if(!channelList){ %>
-                    <div id="channel-container">
-                        <div class="channel-list">
-                            <div id="error">
-                                <img src="/images/icons8-spinner.gif" alt="loading">
-                                <h1>서버와 연결이 끊겼습니다.</h1>
-                            </div>
-                        </div>
-                    </div>
-                <% }else { %>
-                    <div id="channel-container">
-                        <div class="channel-list">
-                            <h1>현재 개설된 채널이 없습니다.</h1>
-                        </div>
-                    </div>
-                <% } %>
             </div>
         </div>	
         <%- include('./includes/script.ejs') %>

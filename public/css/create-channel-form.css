@@ -23,8 +23,9 @@ body::-webkit-scrollbar-track {
 
 #container__form-box {
     /* margin-top: 70px; */
-    margin-left: 250px;
+    margin-left: 230px;
     padding: 70px;
+    padding-top: 20px;
     width: auto;
     height: 100vh;
     display: flex;
