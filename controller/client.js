@@ -460,7 +460,8 @@ const clientControlller = {
             hasError(data.error);
 
             res.status(data.status.code).json({
-                status: data.status
+                status: data.status,
+                updatedData: data.updatedData
             });
         } catch (err) {
             next(err);
