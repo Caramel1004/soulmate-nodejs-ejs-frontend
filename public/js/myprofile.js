@@ -1,20 +1,22 @@
 /** ----------------- 이벤트 함수 ----------------- */
 
 // 프로필 박스에 한개의 엘리먼트 클릭 이벤트
-const onClickMyProfileEditBtn = reqBody => {
-    createMyProfileEditModalTag(reqBody);
+const onClickMyProfileEditBtn = id => {
+    createMyProfileEditModalTag(id);
+}
+
+const onClickpatchEditMyProfileByReqUserBtn = id => {
+    patchEditMyProfileByReqUser(id);
 }
 
 const onClickCloseBtn = className => {
-    const parentNode = document.querySelector(`.${className}`);
-
-    document.body.removeChild(parentNode);
+    removeChildrenTag(className);
 }
 
 /** ----------------- 태그관련 함수 ----------------- */
 
 // 이름, 이미지, 등등
-const createMyProfileEditModalTag = reqBody => {
+const createMyProfileEditModalTag = id => {
     const body = document.body;
 
     // 모달창 백그라운드
@@ -44,7 +46,7 @@ const createMyProfileEditModalTag = reqBody => {
     // 수정 버튼
     const editBtn = document.createElement('button');
     editBtn.classList.add('edit-icon');
-    editBtn.setAttribute('onclick', `patchEditMyProfileByReqUser('${reqBody}')`)
+    editBtn.setAttribute('onclick', `onClickpatchEditMyProfileByReqUserBtn('${id}')`)
     editBtn.append(editIcon);
 
     // 취소 버튼
@@ -67,14 +69,38 @@ const createMyProfileEditModalTag = reqBody => {
     modal.appendChild(btnBox);
 
     const input = document.createElement('input');
-    input.name = reqBody;
+    input.name = id;
     input.type = 'text'
-    input.value = document.getElementById(`${reqBody}`).querySelector('p').textContent;
+    input.value = document.getElementById(`${id}`).querySelector('p').textContent;
 
     modal.appendChild(input);
     modal.appendChild(editBtn);
     modal.appendChild(cancelBtn);
     modalBackGround.appendChild(modal);
+}
+
+// 부모 태그에서 자식 태그 삭제 -> 모달창 제거
+const removeChildrenTag = className => {
+    const parentNode = document.querySelector(`.${className}`);
+    document.body.removeChild(parentNode);
+}
+
+// 업데이트 태그
+const updatedTag = (id, data) => {
+    if(id === 'name'){
+        document.getElementById(id).querySelector('p').textContent = data.updatedData;
+        document.getElementById('client').textContent = data.updatedData;
+        const i = document.createElement('i');
+        i.className = 'fa-regular fa-pen-to-square';
+
+        document.getElementById(id).querySelector('p').appendChild(i);
+    }else {
+        document.getElementById(id).querySelector('p').textContent = data.updatedData;
+        const i = document.createElement('i');
+        i.className = 'fa-regular fa-pen-to-square';
+
+        document.getElementById(id).querySelector('p').appendChild(i);
+    }
 }
 
 /** ----------------- 이벤트리스너 ----------------- */
@@ -86,15 +112,15 @@ document.getElementById('phone').addEventListener('click', () => {
 });
 
 /** ----------------- API 요청 함수 -----------------*/
-const patchEditMyProfileByReqUser = async body => {
-    console.log(body);
-    const dataToBeEdit = document.querySelector(`input[name="${body}"]`).value;
+const patchEditMyProfileByReqUser = async id => {
+    console.log(id);
+    const dataToBeEdit = document.querySelector(`input[name="${id}"]`).value;
     console.log(dataToBeEdit)
     try {
         let hasNameToBeEdit = false;
         let hasPhotoToBeEdit = false;
         let hasPhoneToBeEdit = false;
-        switch (body) {
+        switch (id) {
             case 'name': hasNameToBeEdit = true;
                 break;
             case 'photo': hasPhotoToBeEdit = true;
@@ -116,7 +142,8 @@ const patchEditMyProfileByReqUser = async body => {
 
         const data = await response.json();
         console.log(data);
-        // return window.location.replace(`http://localhost:3000/myprofile`);
+        removeChildrenTag('modal-background');
+        updatedTag(id, data);
     } catch (err) {
         console.log(err)
     }
