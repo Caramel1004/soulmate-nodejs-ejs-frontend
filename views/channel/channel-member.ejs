@@ -15,13 +15,7 @@
         <!-- 상위 부모 컨테이너 -->
         <div id="div__channel-profile-container">
             <div class="div__user-list">
-                <div id="tab-box">
-                    <a class="type" id="info" href="/mychannel/<%= channel._id %>?searchWord=info"> 채널 정보 </a>
-                    <a class="type" id="member" href="/mychannel/<%= channel._id %>?searchWord=member"> 팀원</a>
-                    <a class="type" id="member" href="/client/channel/exit/<%= channel._id %>" style="float: right;">
-                        <i class="fa-solid fa-arrow-right-from-bracket"></i>  채널 탈퇴
-                    </a>
-                </div>
+                <%- include('../includes/channel-tab-box.ejs') %>
                 <div id="title">
                     👍🏻 팀원 목록
                 </div>

@@ -7,7 +7,7 @@ body {
 /* 채팅박스 큰 컨테이너 */
 .board-chat {
     margin-top: 70px;
-    margin-left: 250px;
+    margin-left: 230px;
     --box-width: 100%;
     --box-height: 92vh;
     /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26); */

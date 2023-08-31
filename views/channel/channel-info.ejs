@@ -15,18 +15,12 @@
         <!-- 프로필 영역 -->
         <div id="channel-profile-container">
             <div class="box-profile">
-                <div id="tab-box">
-                    <a class="type" id="info" href="/mychannel/<%= channel._id %>?searchWord=info"> 채널 정보 </a>
-                    <a class="type" id="member" href="/mychannel/<%= channel._id %>?searchWord=member"> 팀원</a>
-                    <a class="type" href="/client/channel/exit/<%= channel._id %>" style="float: right;">
-                        <i class="fa-solid fa-arrow-right-from-bracket"></i>  채널 탈퇴
-                    </a>
-                </div>
+                <%- include('../includes/channel-tab-box.ejs') %>
                 <div class="info">
-                    <img src=<%=channel.thumbnail %>>
+                    <img src=<%= channel.thumbnail %>>
                     <div class="box-text">
                         <div class="text">
-                            <p>채널 명</p><p><%= channel.channelName %></p>
+                            <span>채널 명</span><p><%= channel.channelName %></p>
                         </div>
                         <div class="text">
                             <p>카테고리</p><p><%= channel.category %></p>
@@ -37,9 +31,16 @@
                         <div class="text">
                             <p>채널 타입</p><p>워크스페이스</p>
                         </div>
+                        <button id="<%= channel._id %>" class="heart" type="button" onclick="onClickHeartToggleBtn('<%= channel._id %>')">
+                            <% if(channel.isUserWishChannel) { %>
+                                <i class="fa-solid fa-heart fa-xl"></i>
+                            <% } else { %>
+                                <i class="fa-regular fa-heart fa-xl"></i>
+                            <% } %>
+                        </button>
                     </div>
                 </div>
-                <div class="content">
+                <div class="comment">
                     <% if(channel.comment !== '') { %>
                         <p><%= channel.comment %></p>
                     <% } else { %>

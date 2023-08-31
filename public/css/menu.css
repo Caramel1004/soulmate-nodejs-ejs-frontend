@@ -12,8 +12,8 @@ i {
 
 #menu {
     margin-top: 70px;
-    padding: 0;
-    width: 230px;
+    padding: 10px;
+    width: 210px;
     height: 100vh;
     display: block;
     position: fixed;
@@ -64,13 +64,14 @@ i {
     text-decoration: none;
     color: #0f0f0f;
     font-weight: 400;
+    border-radius: 10px;
 }
 
-.menu__a-wrapper img {
+/* .menu__a-wrapper img {
     width: 40px;
     height: 40px;
     border-radius: 50px;
-}
+} */
 
 .menu__a-wrapper span {
     padding-left: 10px;
@@ -80,6 +81,7 @@ i {
 .menu__a-wrapper:hover,
 .menu__a-wrappe:active {
     background: rgb(219, 219, 232);
+    border-radius: 10px;
 }
 
 .menu__type-title {
@@ -88,7 +90,7 @@ i {
 }
 
 .menu__channel {
-    padding: 5px;
+    padding: 10px;
     padding-left: 10px;
     display: flex;
     align-items: center;
@@ -106,8 +108,8 @@ i {
 
 .menu__channel img {
     /* padding-left: 20px; */
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 30px;
     border-radius: 50px;
 }
 

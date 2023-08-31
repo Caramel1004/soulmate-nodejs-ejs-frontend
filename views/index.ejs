@@ -48,7 +48,7 @@
                                         <% } %>
                                     </div>
                                     <div class="card">
-                                        <button id="<%= channel._id %>" class="heart" type="button" onclick="onClickHeart('<%= channel._id %>')">
+                                        <button id="<%= channel._id %>" class="heart" type="button" onclick="onClickHeartToggleBtn('<%= channel._id %>')">
                                             <% if(channel.isUserWishChannel) { %>
                                                 <i class="fa-solid fa-heart fa-xl"></i>
                                             <% } else { %>

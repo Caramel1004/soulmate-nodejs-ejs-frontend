@@ -59,13 +59,6 @@ const createMyProfileEditModalTag = id => {
     cancelBtn.style.paddingLeft = '17px';
     cancelBtn.style.paddingRight = '17px';
 
-    // 닫기 버튼 생성
-    // const closeBtn = document.createElement('button');
-    // closeBtn.id = 'modal-close-btn';
-    // closeBtn.setAttribute('onclick', "onClickCloseBtn('modal-background')")
-    // closeBtn.textContent = 'x';
-    // modal.appendChild(closeBtn);
-
     modal.appendChild(btnBox);
 
     const input = document.createElement('input');

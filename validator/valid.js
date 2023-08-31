@@ -60,6 +60,21 @@ export function hasError(error) {
     return '에러가 없습니다.';
 }
 
+/** 인증 토큰 관련 함수 */
+export const hasNewAuthToken = (res, status) => {
+    console.log(status)
+    if(status.hasNewAccessToken) {
+        console.log('새로운 토큰 발급')
+        res.cookie('token', status.newAccessToken, {
+            httpOnly: true,
+            secure: false,
+            signed: true
+        });
+    }
+    return;
+}
+
+
 // 이메일 비밀번호 데이터 있는지 체크
 export const checkValidEmailAndPassWord = [
     body('email').isEmail().withMessage('이메일을 입력하세요.'),
