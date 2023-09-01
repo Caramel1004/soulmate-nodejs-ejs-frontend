@@ -207,6 +207,7 @@ const viewController = {
             hasError(workSpaceListData.error);
             const matchedWorkSpaceList = workSpaceListData.workSpaces;
             const matchedOpenWorkSpaceList = workSpaceListData.openWorkSpaces
+            console.log(matchedWorkSpaceList);
 
             // 4. 스크랩 목록 요청
 

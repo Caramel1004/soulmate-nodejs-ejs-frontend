@@ -198,7 +198,7 @@ const patchEditReplyByCreatorInPost = async (postId, replyId) => {
         const channelId = url.split('/')[5];
         const workSpaceId = url.split('/')[6].split('?')[0];
         const replaceContent = content.replace('\r\n', '<br>');
-        
+
         console.log('channelId : ', channelId);
         console.log('workSpaceId : ', workSpaceId);
         console.log('postId : ', postId);
@@ -354,9 +354,9 @@ const createReplyEditModalTag = (postId, replyId) => {
     closeBtn.textContent = 'x';
 
     btnBox.appendChild(closeBtn);
-    
+
     modal.appendChild(btnBox);
-    
+
     const textarea = document.createElement('textarea');
     const replyTag = document.getElementById(`reply-${replyId}`);// 특정 하나의 댓글 태그
     textarea.value = replyTag.querySelector('.reply-comment').textContent;// 댓글 내용 가져오기
@@ -891,7 +891,7 @@ const getMemberListOnChannel = async () => {
     try {
         const url = window.location.href;
         const channelId = url.split('/')[5];
-        const response = await fetch('http://localhost:3000/client/channel/member-list/' + channelId, {
+        const response = await fetch(`http://localhost:3000/client/channel/member-list/${channelId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
