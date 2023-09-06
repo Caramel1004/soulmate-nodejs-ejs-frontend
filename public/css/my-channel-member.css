@@ -39,36 +39,6 @@ body::-webkit-scrollbar-track {
     display: block;
 }
 
-#tab-box {
-    padding: 5px 12px;
-    /* border: 1px solid black; */
-}
-
-.type {
-    margin-left: 5px;
-    /* margin-right: 5px; */
-    padding: 10px;
-    text-align: center;
-    text-decoration: none;
-    border: none;
-    font: inherit;
-    font-size: 14px;
-    font-weight: bold;
-    color: black;
-    background: rgb(243, 243, 246);
-    border-radius: 15px;
-    cursor: pointer;
-}
-.type.active{
-    color: #ffffff;
-    background: black;
-}
-
-.type:hover,
-.type:active {
-    background: rgb(233, 233, 237);
-}
-
 #title {
     margin-top: 40px;
     margin-left: 10px;

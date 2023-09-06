@@ -1,0 +1,30 @@
+#tab-box {
+    padding: 5px 12px;
+    text-align: left;
+    /* border: 1px solid black; */
+}
+
+.type {
+    margin-left: 5px;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    font: inherit;
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+    background: rgb(243, 243, 246);
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.type.active {
+    color: #ffffff;
+    background: black;
+}
+
+.type:hover,
+.type:active {
+    background: rgb(233, 233, 237);
+}

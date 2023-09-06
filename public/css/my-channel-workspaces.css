@@ -27,54 +27,25 @@ body::-webkit-scrollbar-track {
     padding-left: 0;
     padding-right: 0;
     width: auto;
+    height: auto;
     display: block;
     align-items: center;
     background: #ffffff;
-    /* border: 1px groove black; */
+    border: 1px groove black;
 }
 
 .channel-workspace-list-box {
     margin-top: 0;
     padding: 0;
     display: block;
-    /* border: 1px solid black; */
+    border: 1px solid black;
     text-align: center;
-}
-
-#tab-box {
-    padding: 5px 12px;
-    text-align: left;
-    /* border: 1px solid black; */
-}
-
-.type {
-    margin-left: 5px;
-    padding: 10px;
-    text-align: center;
-    text-decoration: none;
-    border: none;
-    font: inherit;
-    font-size: 14px;
-    font-weight: bold;
-    color: black;
-    background: rgb(243, 243, 246);
-    border-radius: 20px;
-    cursor: pointer;
-}
-
-.type.active {
-    color: #ffffff;
-    background: black;
-}
-
-.type:hover,
-.type:active {
-    background: rgb(233, 233, 237);
 }
 
 /* 타이틀과 채널박스 아이템들 */
 .wrapper-title-workspace-container {
     display: block;
+    align-items: center;
     justify-content: center;
 }
 
@@ -90,8 +61,9 @@ body::-webkit-scrollbar-track {
 .workspace-box-items {
     padding: 0;
     display: grid;
+    align-items: center;
     justify-content: center;
-    grid-template-columns: repeat(5, 230px);
+    grid-template-columns: repeat(auto-fill, 230px);
     grid-gap: 25px;
     grid-auto-flow: row;
     /* border: 1px groove rgba(0, 0, 0, 0.26); */
