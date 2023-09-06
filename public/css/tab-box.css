@@ -1,11 +1,13 @@
-#tab-box {
-    padding: 5px 12px;
-    text-align: left;
+.tab-box {
+    /* padding: 5px 12px; */
+    padding: 30px;
+    /* padding-top: 20px; */
+    text-align: center;
     /* border: 1px solid black; */
 }
 
 .type {
-    margin-left: 5px;
+    margin-right: 5px;
     padding: 10px;
     text-align: center;
     text-decoration: none;

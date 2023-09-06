@@ -21,8 +21,8 @@ body::-webkit-scrollbar-track {
     background: #ffffff;
 }
 
-.channel-workspace-list-container {
-    margin-left: 250px;
+.channel-chatRoom-list-container {
+    margin-left: 230px;
     padding: 70px;
     padding-left: 0;
     padding-right: 0;
@@ -33,10 +33,117 @@ body::-webkit-scrollbar-track {
     /* border: 1px groove black; */
 }
 
-.channel-workspace-list-box {
+.channel-chatRoom-list-box {
     margin-top: 0;
     padding: 0;
     display: block;
     /* border: 1px solid black; */
     text-align: center;
+}
+
+.chatRoom-box-items {
+    padding: 0;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: repeat(1, 400px);
+    grid-gap: 25px;
+    grid-auto-flow: row;
+    /* border: 1px groove rgba(0, 0, 0, 0.26); */
+}
+
+.contents__div-wrapper {
+    /* margin-right: 20px; */
+    /* margin-top: 20px; */
+    padding: 5px;
+    width: 400px;
+    text-align: left;
+    display: inline-block;
+    /* justify-content: flex-end; */
+    border: 1px groove rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    /* 박스 서서히 나타나기 */
+    animation: fadein 0.7s;
+    -webkit-animation: fadein 0.7s;
+    -moz-animation: fadein 0.7s;
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+        transform: translate(-10px, -10px);
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.contents__div-wrapper:hover,
+.contents__div-wrapper:active {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.26);
+    transition: all 0.3s;
+}
+
+.contents__div-wrapper img {
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    border-bottom: 1px groove rgb(157, 153, 153);
+}
+
+
+/* card */
+.card {
+    padding-top: 0px;
+    /* border: 1px solid black; */
+}
+
+.card h2 {
+    font-size: 17px;
+    font-weight: bolder;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+}
+
+
+.a__btn-enter {
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    font: inherit;
+    font-size: 15px;
+    color: black;
+    display: block;
+    background: rgb(243, 243, 246);
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.a__btn-enter:hover,
+.a__btn-enter:active {
+    background: rgb(180, 180, 189);
 }

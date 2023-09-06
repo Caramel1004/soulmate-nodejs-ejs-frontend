@@ -206,8 +206,7 @@ const viewController = {
             const workSpaceListData = await channelService.getWorkSpaceList(jsonWebToken, req.signedCookies.refreshToken, channelId, next);
             hasError(workSpaceListData.error);
             const matchedWorkSpaceList = workSpaceListData.workSpaces;
-            const matchedOpenWorkSpaceList = workSpaceListData.openWorkSpaces
-            console.log(matchedWorkSpaceList);
+            const matchedOpenWorkSpaceList = workSpaceListData.openWorkSpace;
 
             // 4. 스크랩 목록 요청
 

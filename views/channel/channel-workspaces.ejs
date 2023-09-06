@@ -13,60 +13,64 @@
         <%- include('../includes/menu.ejs') %>
         <%- include('../includes/loading.ejs') %>
         <div class="channel-workspace-list-container">
+            <%- include('../includes/channel-tab-box.ejs') %>
             <div class="channel-workspace-list-box">
-                <%- include('../includes/channel-tab-box.ejs') %>
                 <div class="wrapper-title-workspace-container">
-                    <div id="title">
-                        🥰 <span class="client-name"><%= clientName %></span>님이 참여한 워크스페이스
-                    </div>
-                    <div class="workspace-box-items">
-                        <%if(workSpaces.length > 0) { %>
-                            <% for(let workSpace of workSpaces) { %>
-                                <div class="contents__div-wrapper">
-                                    <!-- <img src="<%= channel.thumbnail %>"> -->
-                                    <div class="card">
-                                        <h2><i class="fa-solid fa-hashtag fa-sm"></i><%= workSpace.workSpaceName %></h2>
+                    <div class="inner">
+                        <div id="title">
+                            🥰 <span class="client-name"><%= clientName %></span>님이 참여한 워크스페이스
+                        </div>
+                        <div class="workspace-box-items">
+                            <%if(workSpaces.length > 0) { %>
+                                <% for(let workSpace of workSpaces) { %>
+                                    <div class="contents__div-wrapper">
+                                        <!-- <img src="<%= channel.thumbnail %>"> -->
+                                        <div class="card">
+                                            <h2><i class="fa-solid fa-hashtag fa-sm"></i><%= workSpace.workSpaceName %></h2>
+                                        </div>
+                                        <div class="card">
+                                            <h5>인원수 <%= workSpace.users.length %>명</h5>
+                                            <% for(let user of workSpace.users) { %>
+                                                <img src="<%= user.photo %>">
+                                            <% } %>
+                                        </div>
+                                        <div class="card">
+                                            <a class="a__btn-enter" href="/channel/workspace/<%= workSpace.channelId %>/<%= workSpace._id %>?sort=lastest&&sortNum=-1">워크스페이스 입장</a>
+                                        </div>
                                     </div>
-                                    <div class="card">
-                                        <h5>인원수 <%= workSpace.users.length %>명</h5>
-                                        <% for(let user of workSpace.users) { %>
-                                            <img src="<%= user.photo %>">
-                                        <% } %>
-                                    </div>
-                                    <div class="card">
-                                        <a class="a__btn-enter" href="/channel/workspace/<%= workSpace.channelId %>/<%= workSpace._id %>?sort=lastest&&sortNum=-1">워크스페이스 입장</a>
-                                    </div>
-                                </div>
+                                <% } %>
+                            <% } else { %>
+                                <h1 style="text-align: center;">나만의 채널을 추가 해보세요!!</h1>
                             <% } %>
-                        <% } else { %>
-                            <h1 style="text-align: center;">나만의 채널을 추가 해보세요!!</h1>
-                        <% } %>
+                        </div>
                     </div>
-                    <div id="title">
-                        🥰 공개 워크스페이스
-                    </div>
-                    <div class="workspace-box-items">
-                        <%if(workSpaces.length > 0) { %>
-                            <% for(let workSpace of openWorkSpaces) { %>
-                                <div class="contents__div-wrapper">
-                                    <!-- <img src="<%= channel.thumbnail %>"> -->
-                                    <div class="card">
-                                        <h2><i class="fa-solid fa-hashtag fa-sm"></i><%= workSpace.workSpaceName %></h2>
+                    <div class="inner">
+                        <div id="title">
+                            🥰 공개 워크스페이스
+                        </div>
+                        <div class="workspace-box-items">
+                            <%if(workSpaces.length > 0) { %>
+                                <% for(let workSpace of openWorkSpaces) { %>
+                                    <div class="contents__div-wrapper">
+                                        <!-- <img src="<%= channel.thumbnail %>"> -->
+                                        <div class="card">
+                                            <h2><i class="fa-solid fa-hashtag fa-sm"></i><%= workSpace.workSpaceName %></h2>
+                                        </div>
+                                        <div class="card">
+                                            <h5>인원수 <%= workSpace.users.length %>명</h5>
+                                            <% for(let user of workSpace.users) { %>
+                                                <img src="<%= user.photo %>">
+                                            <% } %>
+                                        </div>
+                                        <div class="card">
+                                            <a class="a__btn-enter" href="/channel/workspace/<%= workSpace.channelId %>/<%= workSpace._id %>?sort=lastest&&sortNum=-1">워크스페이스 입장</a>
+                                        </div>
                                     </div>
-                                    <div class="card">
-                                        <h5>인원수 <%= workSpace.users.length %>명</h5>
-                                        <% for(let user of workSpace.users) { %>
-                                            <img src="<%= user.photo %>">
-                                        <% } %>
-                                    </div>
-                                    <div class="card">
-                                        <a class="a__btn-enter" href="/channel/workspace/<%= workSpace.channelId %>/<%= workSpace._id %>?sort=lastest&&sortNum=-1">워크스페이스 입장</a>
-                                    </div>
-                                </div>
+                                <% } %>
+                            <% } else { %>
+                                <h1 style="text-align: center;">나만의 채널을 추가 해보세요!!</h1>
                             <% } %>
-                        <% } else { %>
-                            <h1 style="text-align: center;">나만의 채널을 추가 해보세요!!</h1>
-                        <% } %>
+                        </div>
                     </div>
                 </div>
             </div>

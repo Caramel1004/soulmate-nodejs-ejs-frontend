@@ -12,31 +12,39 @@
         <%- include('../includes/header.ejs') %>
         <%- include('../includes/menu.ejs') %>
         <%- include('../includes/loading.ejs') %>
-        <div class="channel-workspace-list-container">
-            <div class="channel-workspace-list-box">
-                <div id="chat" class="title">
-                    <i class="fa-regular fa-comment fa-lg"></i>
-                    <span>채팅 방</span>
+        <div class="channel-chatRoom-list-container">
+            <%- include('../includes/channel-tab-box.ejs') %>
+            <div class="channel-chatRoom-list-box">
+                <div class="chatRoom-box-items">
+                    <% for(let room of chatRooms) { %>
+                        <div class="contents__div-wrapper">
+                            <div class="card">
+                                <h2><i class="fa-regular fa-message"></i><%= room.roomName %></h2>
+                            </div>
+                            <div class="card">
+                                <h5>인원수 <%= room.users.length %>명</h5>
+                                <% for(let user of room.users) { %>
+                                    <img src="<%= user.photo %>">
+                                <% } %>
+                            </div>
+                            <div class="card">
+                                <% if(room.chats.length > 0) { 
+                                    room.chats[0].createdAt = new Date(room.chats[0].createdAt).toLocaleDateString('ko', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric',
+                                        weekday: 'long'
+                                    });%>
+                                    <p><%= room.chats[0].createdAt %></p>
+                                    <p><%= room.chats[0].chat %></p>
+                                <% } %>
+                            </div>
+                            <div class="card">
+                                <a class="a__btn-enter" href="/channel/chat/<%= room.channelId %>/<%= room._id %>">채팅방 입장</a>
+                            </div>
+                        </div>
+                    <% } %>
                 </div>
-                <%- include('../includes/channel-tab-box.ejs') %>
-                <% for(let room of chatRooms) { %>
-                    <div class="">
-                        <a href="/channel/chat/<%= room.channelId %>/<%= room._id %>">
-                            <i class="fa-regular fa-message"></i>
-                            <span><%= room.roomName %></span>
-                            <% if(room.chats.length > 0) { 
-                                room.chats[0].createdAt = new Date(room.chats[0].createdAt).toLocaleDateString('ko', {
-                                    year: 'numeric',
-                                    month: 'long',
-                                    day: 'numeric',
-                                    weekday: 'long'
-                                });%>
-                                <p><%= room.chats[0].createdAt %></p>
-                                <p><%= room.chats[0].chat %></p>
-                            <% } %>
-                        </a>
-                    </div>
-                <% } %>
             </div>
         </div>		
         <%- include('../includes/script.ejs') %>
