@@ -12,18 +12,15 @@
     text-align: center;
     text-decoration: none;
     border: none;
-    font: inherit;
     font-size: 14px;
-    font-weight: bold;
+    /* font-weight: bold; */
     color: black;
     background: rgb(243, 243, 246);
     border-radius: 20px;
     cursor: pointer;
 }
-
-.type.active {
-    color: #ffffff;
-    background: black;
+.type i{
+    padding-right: 5px;
 }
 
 .type:hover,

@@ -8,6 +8,20 @@ const activeMenuBtnColor = () => {
     }
 
     console.log('replaceUrl: ', replaceUrl);
+    console.log('path: ', path);
+    if(path === 'mychannel') {
+        const channelPath = replaceUrl.split('/')[4];
+        document.getElementById(`${path}-${channelPath}`).style.background = 'rgb(219, 219, 232)';
+        return;
+    }
+
+    if(path === 'channel') {
+        const channelPath =  replaceUrl.split('/')[5];
+        console.log(channelPath);
+        document.getElementById(`mychannel-${channelPath}`).style.background = 'rgb(219, 219, 232)';
+        return;
+    }
+    
     document.getElementById(path).style.background = 'rgb(219, 219, 232)';
 }
 

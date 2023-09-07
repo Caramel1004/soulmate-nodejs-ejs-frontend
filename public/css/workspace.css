@@ -18,9 +18,9 @@ body {
     overflow-y: hidden;
     overflow-x: hidden;
     /* 박스 서서히 나타나기 */
-    animation: fadein 2s;
-    -webkit-animation: fadein 2s;
-    -moz-animation: fadein 2s;
+    animation: fadein 0.7s;
+    -webkit-animation: fadein 0.7s;
+    -moz-animation: fadein 0.7s;
     /* resize: horizontal; */
 }
 
@@ -188,7 +188,7 @@ body {
     margin-bottom: 13px;
     padding: 10px;
     padding-left: 25px;
-    font-weight: bold;
+    /* font-weight: bold; */
     text-align: left;
     /* border: 1px solid black; */
 }
@@ -204,6 +204,9 @@ body {
     background: rgb(243, 243, 246);
     border-radius: 20px;
     cursor: pointer;
+}
+.type i{
+    padding-right: 5px;
 }
 
 .type.active {

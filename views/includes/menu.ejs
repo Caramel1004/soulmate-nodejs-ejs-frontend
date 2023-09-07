@@ -28,7 +28,7 @@
             <div class="menu__type-title">참여 채널</div>
             <% if(channels) { %>
                 <% for(const channel of channels) { %>
-                    <a class="menu__channel" href="/mychannel/<%= channel._id %>?searchWord=info" id="mychannel">
+                    <a class="menu__channel" href="/mychannel/<%= channel._id %>?searchWord=info" id="mychannel-<%= channel._id %>">
                         <img src="<%= channel.thumbnail %>"><span><%= channel.channelName %></span> 
                     </a>
                 <% } %>

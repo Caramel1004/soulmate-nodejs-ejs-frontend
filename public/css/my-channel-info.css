@@ -34,16 +34,13 @@ body::-webkit-scrollbar-track {
     align-items: center;
     background: #ffffff;
     text-align: center;
-    /* border: 1px solid black; */
     /* border: 1px groove black; */
-    /* 박스 서서히 나타나기 */
-    /* animation: fadein 1s; */
-    /* -webkit-animation: fadein 1s; */
 }
 
 @keyframes fadein {
     from {
         opacity: 0;
+        transform: translate(-10px, -10px);
     }
 
     to {
@@ -54,6 +51,7 @@ body::-webkit-scrollbar-track {
 @-webkit-keyframes fadein {
     from {
         opacity: 0;
+        transform: translate(-10px, -10px);
     }
 
     to {
@@ -64,6 +62,7 @@ body::-webkit-scrollbar-track {
 @-moz-keyframes fadein {
     from {
         opacity: 0;
+        transform: translate(-10px, -10px);
     }
 
     to {
@@ -75,6 +74,10 @@ body::-webkit-scrollbar-track {
     margin-top: 0;
     padding: 50px;
     display: block;
+    /* 박스 서서히 나타나기 */
+    animation: fadein 0.7s;
+    -webkit-animation: fadein 0.7s;
+    -moz-animation: fadein 0.7s;
     /* border: 1px groove black; */
 }
 
@@ -201,8 +204,9 @@ body::-webkit-scrollbar-track {
 
 /* 3. 소개 박스 */
 .comment {
+    padding: 0;
     margin-top: 40px;
-    padding-left: 30px;
+    padding-left: 20px;
     width: auto;
     /* height: auto; */
     text-align: left;

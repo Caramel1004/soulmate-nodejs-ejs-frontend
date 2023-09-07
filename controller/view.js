@@ -215,7 +215,6 @@ const viewController = {
             // 2. 해당 채널 렌더링
             res.status(chatRoomListData.status.code).render(fileName, {
                 path: `/mychannel/:channelId?searchWord=${searchWord}`,
-                searchWord: searchWord,
                 title: matchedChannel.channelName,
                 clientName: req.signedCookies.clientName,
                 channels: req.session.userChannels,
@@ -293,7 +292,6 @@ const viewController = {
             hasError(workSpaceListData.error);
             const matchedWorkSpaceList = workSpaceListData.workSpaces;
 
-            console.log(workSpaceData.workSpace.posts);
             res.status(workSpaceData.status.code).render('workspace/workspace', {
                 path: '/channel/workspace/:channelId/:workspaceId',
                 title: workSpaceData.workSpace.workSpaceName,

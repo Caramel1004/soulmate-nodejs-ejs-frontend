@@ -16,7 +16,7 @@ const workspaceAPI = {
     // 1. 워크스페이스 입장 -> 워크스페이스 페이지
     getLoadWorkspace: async (token, refreshToken, channelId, workspaceId, query, next) => {
         try {
-            const response = await fetch(`http://localhost:8080/v1/workspace/${channelId}/${workspaceId}?sort=${query.sort}&&sortNum=${query.sortNum}`, {
+            const response = await fetch(`http://localhost:8080/v1/workspace/${channelId}/${workspaceId}?sortType=${query.sortType}&&sortNum=${query.sortNum}`, {
                 method: 'GET',
                 headers: {
                     Authorization: 'Bearer ' + token,

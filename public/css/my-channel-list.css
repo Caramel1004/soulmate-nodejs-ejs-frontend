@@ -171,6 +171,7 @@ body::-webkit-scrollbar-track {
 @-webkit-keyframes fadein {
     from {
         opacity: 0;
+        transform: translate(-10px, -10px);
     }
 
     to {
@@ -181,6 +182,7 @@ body::-webkit-scrollbar-track {
 @-moz-keyframes fadein {
     from {
         opacity: 0;
+        transform: translate(-10px, -10px);
     }
 
     to {

@@ -20,30 +20,36 @@
                     <img src=<%= channel.thumbnail %>>
                     <div class="box-text">
                         <div class="text">
-                            <span>채널 명</span><p><%= channel.channelName %></p>
+                            <span>채널 명</span>
+                            <span>
+                                <%= channel.channelName %>
+                                <button id="<%= channel._id %>" class="heart" type="button" onclick="onClickHeartToggleBtn('<%= channel._id %>')">
+                                    <% if(channel.isUserWishChannel) { %>
+                                        <i class="fa-solid fa-heart fa-xl"></i>
+                                    <% } else { %>
+                                        <i class="fa-regular fa-heart fa-xl"></i>
+                                    <% } %>
+                                </button>
+                            </span>
                         </div>
                         <div class="text">
-                            <p>카테고리</p><p><%= channel.category %></p>
+                            <span>카테고리</span><p><%= channel.category %></p>
                         </div>
                         <div class="text">
-                            <p>참여 인원</p><p><%= channel.members.length %> 명</p>
+                            <span>참여 인원</span><p><%= channel.members.length %> 명</p>
                         </div>
                         <div class="text">
-                            <p>채널 타입</p><p>워크스페이스</p>
+                            <span>채널 타입</span><p>워크스페이스</p>
                         </div>
                         <div class="text">
-                            <p>워크스페이스</p><p><%= channel.workSpaces.length %> 개</p>
+                            <span>워크스페이스</span><p><%= channel.workSpaces.length %> 개</p>
                         </div>
                         <div class="text">
-                            <p>채팅 방</p><p><%= channel.chatRooms.length %> 개</p>
+                            <span>채팅 방</span><p><%= channel.chatRooms.length %> 개</p>
                         </div>
-                        <button id="<%= channel._id %>" class="heart" type="button" onclick="onClickHeartToggleBtn('<%= channel._id %>')">
-                            <% if(channel.isUserWishChannel) { %>
-                                <i class="fa-solid fa-heart fa-xl"></i>
-                            <% } else { %>
-                                <i class="fa-regular fa-heart fa-xl"></i>
-                            <% } %>
-                        </button>
+                        <div class="text">
+                            <span>공개</span><p><%= channel.open %></p>
+                        </div>
                     </div>
                 </div>
                 <% if(channel.comment !== '' && channel.comment) { %>

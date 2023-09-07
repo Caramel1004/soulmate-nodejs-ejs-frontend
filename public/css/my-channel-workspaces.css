@@ -97,6 +97,7 @@ body::-webkit-scrollbar-track {
     animation: fadein 0.7s;
     -webkit-animation: fadein 0.7s;
     -moz-animation: fadein 0.7s;
+    -moz-animation: fadein 0.7s;
 }
 
 @keyframes fadein {
@@ -113,6 +114,7 @@ body::-webkit-scrollbar-track {
 @-webkit-keyframes fadein {
     from {
         opacity: 0;
+        transform: translate(-10px, -10px);
     }
 
     to {
@@ -123,6 +125,7 @@ body::-webkit-scrollbar-track {
 @-moz-keyframes fadein {
     from {
         opacity: 0;
+        transform: translate(-10px, -10px);
     }
 
     to {
