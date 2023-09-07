@@ -197,6 +197,7 @@ const viewController = {
                 }
             }
 
+            console.log(channelDetailData)
             // 2. 채팅방 목록 요청
             const chatRoomListData = await channelService.getChatRoomList(jsonWebToken, req.signedCookies.refreshToken, channelId, next);
             hasError(chatRoomListData.error);
@@ -206,7 +207,7 @@ const viewController = {
             const workSpaceListData = await channelService.getWorkSpaceList(jsonWebToken, req.signedCookies.refreshToken, channelId, next);
             hasError(workSpaceListData.error);
             const matchedWorkSpaceList = workSpaceListData.workSpaces;
-            const matchedOpenWorkSpaceList = workSpaceListData.openWorkSpaces
+            const matchedOpenWorkSpaceList = workSpaceListData.openWorkSpaces;
 
             // 4. 스크랩 목록 요청
 

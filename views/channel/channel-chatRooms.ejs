@@ -19,15 +19,15 @@
                     <% for(let room of chatRooms) { %>
                         <div class="contents__div-wrapper">
                             <div class="card">
-                                <h2><i class="fa-regular fa-message"></i><%= room.roomName %></h2>
+                                <i class="fa-regular fa-message"></i><h2><%= room.roomName %></h2>
                             </div>
                             <div class="card">
-                                <h5>인원수 <%= room.users.length %>명</h5>
+                                <span>인원수 <%= room.users.length %>명</span>
                                 <% for(let user of room.users) { %>
                                     <img src="<%= user.photo %>">
                                 <% } %>
                             </div>
-                            <div class="card">
+                            <div class="chat-box">
                                 <% if(room.chats.length > 0) { 
                                     room.chats[0].createdAt = new Date(room.chats[0].createdAt).toLocaleDateString('ko', {
                                         year: 'numeric',
@@ -35,11 +35,11 @@
                                         day: 'numeric',
                                         weekday: 'long'
                                     });%>
-                                    <p><%= room.chats[0].createdAt %></p>
                                     <p><%= room.chats[0].chat %></p>
+                                    <p id="date"><%= room.chats[0].createdAt %></p>
                                 <% } %>
                             </div>
-                            <div class="card">
+                            <div>
                                 <a class="a__btn-enter" href="/channel/chat/<%= room.channelId %>/<%= room._id %>">채팅방 입장</a>
                             </div>
                         </div>

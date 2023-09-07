@@ -31,6 +31,12 @@
                         <div class="text">
                             <p>채널 타입</p><p>워크스페이스</p>
                         </div>
+                        <div class="text">
+                            <p>워크스페이스</p><p><%= channel.workSpaces.length %> 개</p>
+                        </div>
+                        <div class="text">
+                            <p>채팅 방</p><p><%= channel.chatRooms.length %> 개</p>
+                        </div>
                         <button id="<%= channel._id %>" class="heart" type="button" onclick="onClickHeartToggleBtn('<%= channel._id %>')">
                             <% if(channel.isUserWishChannel) { %>
                                 <i class="fa-solid fa-heart fa-xl"></i>
@@ -40,14 +46,12 @@
                         </button>
                     </div>
                 </div>
-                <div class="comment">
-                    <% if(channel.comment !== '') { %>
+                <% if(channel.comment !== '' && channel.comment) { %>
+                    <div class="comment">
                         <p><%= channel.comment %></p>
-                    <% } else { %>
-                        <p>채널의 목적을 스크립트로 적어보세요.</p>
-                    <% } %>
-                </div>
-                <div class="box-post">
+                    </div>
+                <% } %>
+                    <div class="box-post">
                     <% if(openWorkSpaces.length > 0) { %>
                         <% for(const post of openWorkSpaces[0].posts) { 
                             post.createdAt = new Date(post.createdAt).toLocaleDateString('ko', {

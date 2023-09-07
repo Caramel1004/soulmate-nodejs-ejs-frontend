@@ -46,7 +46,7 @@ body::-webkit-scrollbar-track {
     display: grid;
     align-items: center;
     justify-content: center;
-    grid-template-columns: repeat(1, 400px);
+    grid-template-columns: repeat(auto-fill, 300px);
     grid-gap: 25px;
     grid-auto-flow: row;
     /* border: 1px groove rgba(0, 0, 0, 0.26); */
@@ -56,7 +56,7 @@ body::-webkit-scrollbar-track {
     /* margin-right: 20px; */
     /* margin-top: 20px; */
     padding: 5px;
-    width: 400px;
+    width: 300px;
     text-align: left;
     display: inline-block;
     /* justify-content: flex-end; */
@@ -106,6 +106,7 @@ body::-webkit-scrollbar-track {
 }
 
 .contents__div-wrapper img {
+    margin-left: 3px;
     padding: 0;
     width: 30px;
     height: 30px;
@@ -116,18 +117,57 @@ body::-webkit-scrollbar-track {
 
 /* card */
 .card {
+    padding-left: 5px;
     padding-top: 0px;
+    display: flex;
+    align-items: center;
     /* border: 1px solid black; */
 }
 
+#date {
+    font-size: 10px;
+    color: rgba(0, 0, 0, 0.26);
+    text-align: right;
+    /* white-space : nowrap; */
+    /* text-overflow: ellipsis; */
+    /* overflow: hidden; */
+}
+
 .card h2 {
-    font-size: 17px;
+    padding-left: 5px;
+    font-size: 15px;
     font-weight: bolder;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow-x: hidden;
 }
 
+.card span {
+    margin-right: 20px;
+    font-size: 13px;
+    font-weight: bolder;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+}
+
+.chat-box {
+    padding: 10px;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: 150px 100px;
+    grid-gap: 35px;
+    grid-auto-flow: row;
+    /* border: 1px solid black; */
+}
+.chat-box p{
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.4);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+}
 
 .a__btn-enter {
     padding: 10px;

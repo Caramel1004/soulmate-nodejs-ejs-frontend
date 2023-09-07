@@ -342,7 +342,7 @@ body {
 
 .room-name-container {
     padding: 20px;
-    width: 51.5%;
+    width: auto;
     height: auto;
     text-align: left;
     display: block;
