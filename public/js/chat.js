@@ -454,26 +454,44 @@ const onClickHamburgerIcon = () => {
 
 //roomname 박스 밑에 생성 시킬거임
 const createHamburgerMenu = () => {
-    const hamburgerMenu = document.createElement('div');
-    hamburgerMenu.className = 'hamburger-menu';
+    const url = window.location.href;
+    const channelId = url.split('/')[5];
     
-    const button = document.createElement('button');
-    const i = document.createElement('i');
+    const hamburgerMenu = document.createElement('div');
+    const hamburgerMenu2 = document.createElement('div');
+    hamburgerMenu.className = 'hamburger-menu';
+    hamburgerMenu2.className = 'hamburger-menu';
+    
+    const chatRoomListAtag = document.createElement('a');
+    const listIcon = document.createElement('i');
     const span = document.createElement('span');
-    i.className = 'fa-solid fa-arrow-right-from-bracket';
-    span.textContent = '채팅방 나가기';
-    button.append(i);
-    button.append(span);
-    button.setAttribute('type','button');
-    button.setAttribute('onclick','patchExitChatRoom()');
+    listIcon.className = 'fa-solid fa-list';
+    span.textContent = '채팅방 목록';
+    chatRoomListAtag.append(listIcon);
+    chatRoomListAtag.append(span);
+    chatRoomListAtag.setAttribute('href',`/mychannel/${channelId}?searchWord=chatRooms`);
 
-    hamburgerMenu.appendChild(button);
+    const chatRoomExitBtn = document.createElement('button');
+    const exitIcon = document.createElement('i');
+    const span2 = document.createElement('span');
+    exitIcon.className = 'fa-solid fa-arrow-right-from-bracket';
+    span2.textContent = '채팅방 나가기';
+    chatRoomExitBtn.append(exitIcon);
+    chatRoomExitBtn.append(span2);
+    chatRoomExitBtn.setAttribute('type','button');
+    chatRoomExitBtn.setAttribute('onclick','');
+
+
+    hamburgerMenu.appendChild(chatRoomListAtag);
+    hamburgerMenu2.appendChild(chatRoomExitBtn);
 
     document.querySelector('.hamburger-menu-container').appendChild(hamburgerMenu);
+    document.querySelector('.hamburger-menu-container').appendChild(hamburgerMenu2);
 }
 
 document.getElementById('send').addEventListener('click', postSendChat);
 document.getElementById('content').addEventListener('keydown', onKeyDownCreateUnitChat);
 document.getElementById('file').addEventListener('change', onChangeSelectFile);
 document.getElementById('sendFile').addEventListener('click', postUploadFileToChatRoom);
-document.getElementById('hamburger').addEventListener('click', onClickHamburgerIcon);
+// document.getElementById('hamburger').addEventListener('click', onClickHamburgerIcon);
+document.querySelector('.room-name-box').addEventListener('click', onClickHamburgerIcon);

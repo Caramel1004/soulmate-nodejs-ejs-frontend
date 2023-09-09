@@ -50,6 +50,9 @@
                         <div class="text">
                             <span>공개</span><p><%= channel.open %></p>
                         </div>
+                        <div class="text">
+                            <span>크리에이터</span><p><%= channel.owner %></p>
+                        </div>
                     </div>
                 </div>
                 <% if(channel.comment !== '' && channel.comment) { %>

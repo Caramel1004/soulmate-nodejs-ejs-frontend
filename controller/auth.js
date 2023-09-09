@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 import { hasError } from '../validator/valid.js';
 import authAPI from '../API/auth.js';
+import redisClient from '../util/redis.js';
 
 const authController = {
     // 로그인 페이지 렌더링
@@ -115,6 +116,10 @@ const authController = {
 
             // 유저 보유 채널 세션에 저장
             req.session.userChannels = data.channels;
+            // console.log(req.sessionStore.client.get(sid));
+            console.log(req.sessionID);
+            const result = await redisClient.v4.set(req.sessionID, data.channels);
+            console.log(result);
 
             res.redirect('/');
         } catch (err) {
@@ -182,7 +187,7 @@ const authController = {
                 secure: false,
                 signed: true
             });
-            
+
             req.session.userChannels = data.channels;
             res.redirect('/');
         } catch (err) {
@@ -190,7 +195,7 @@ const authController = {
         }
     },
     //로그 아웃
-    getLogout: (req, res, next) => {
+    getLogout: async (req, res, next) => {
         try {
             if (req.signedCookies) {
                 res.clearCookie('token');
@@ -198,7 +203,9 @@ const authController = {
                 res.clearCookie('clientName');
                 res.clearCookie('photo');
             }
-            req.session.destroy();
+
+            const logoutResult = await redisClient.v4.del(req.signedCookies.sid);
+            console.log('logoutResult: ', logoutResult);
             res.redirect('/login');
         } catch (err) {
             next(err);

@@ -3,6 +3,10 @@ body {
     padding: 0;
 }
 
+h1 {
+    font-size: 25px;
+}
+
 .login-form.hidden {
     display: none;
 }
@@ -45,8 +49,11 @@ body {
 }
 
 .login-form__box {
-    /* margin-top: -50px; */
-    padding: 50px;
+    /* margin-top: 150px; */
+    padding: 10px 50px 10px 50px;
+    /* padding-top: 10px;
+    padding-bottom: 10px;
+    padding: 50px; */
     height: auto;
     display: block;
     justify-content: center;
@@ -73,7 +80,7 @@ body {
 .input-box {
     padding: 0.5rem;
     text-align: center;
-    /* border: groove; */
+    /* border: 1px groove rgba(0, 0, 0, 0.26); */
 }
 
 .input-box a {
@@ -82,7 +89,7 @@ body {
 }
 
 .input-box p {
-    font-size: 15px;
+    font-size: 13px;
 }
 
 .input-box img {
@@ -109,18 +116,13 @@ body {
     border-top: 1px groove rgba(0, 0, 0, 0.26);
 }
 
-.btn__login {
-    height: 45px;
-}
-
 .input-box input {
-    padding: 10px;
-    /* padding-left: 20px; */
-    width: 310px;
-    /* height: 4vh' */
+    padding: 15px;
+    width: 305px;
     font-size: 15px;
-    /* border: none; */
-    border-bottom: 0.1rem groove (0, 0, 0, 0.26);
+    border: 1px groove rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    outline: none;
 }
 
 #gender {
@@ -138,17 +140,10 @@ body {
     padding: 10px;
 } */
 .input-box ::placeholder {
-    padding: 10px;
-    padding-left: 0;
+    font-size: 13px;
+    opacity: 0.7;
 }
 
-/* .input-box ::cursor {
-    padding: 10px;
-} */
-
-.input-box input:focus {
-    outline: 1px groove #ffffff;
-}
 
 .input-box span {
     padding: 20px;
@@ -159,14 +154,13 @@ body {
     margin-top: 5px;
     margin-left: 10px;
     padding: 5px;
-    width: 315px;
+    width: 320px;
     height: 8vh;
-    /* border: groove rgba(0, 0, 0, 0.26) 0.1rem; */
-    /* border-radius: 10px; */
+    border: 1px groove rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
     letter-spacing: 0.5px;
     resize: none;
     outline: none;
-    /* border: none; */
 }
 
 #comment ::placeholder {
@@ -181,12 +175,12 @@ body {
     text-decoration: none;
     font: inherit;
     border: none;
-    font-size: 15px;
+    font-size: 14px;
     /* border: 1px solid black; */
     /* background: rgb(235, 222, 203); */
     background: rgb(21, 21, 21);
     color: #ffffff;
-    border-radius: 3px;
+    border-radius: 30px;
     opacity: 0.9;
     cursor: pointer;
 }
@@ -199,12 +193,12 @@ body {
     text-decoration: none;
     font: inherit;
     border: none;
-    font-size: 15px;
+    font-size: 14px;
     /* border: 1px solid black; */
     /* background: rgb(235, 222, 203); */
     background: rgb(21, 21, 21);
     color: #ffffff;
-    border-radius: 3px;
+    border-radius: 30px;
     opacity: 0.9;
     cursor: pointer;
 }
@@ -229,7 +223,7 @@ body {
     text-align: left;
 }
 
-span.label {
+/* span.label {
     font-family: serif;
     font-weight: normal;
 }
@@ -240,7 +234,7 @@ span.icon {
     vertical-align: middle;
     width: 42px;
     height: 42px;
-}
+} */
 
 span.buttonText {
     display: inline-block;
@@ -256,30 +250,31 @@ span.buttonText {
 /* SNS로그인 버튼 css */
 #kakao {
     padding: 0;
-    padding-left: 9px;
+    padding-left: 10px;
     /* padding-left: 30px; */
     display: flex;
     align-items: center;
+    /* justify-content: center; */
     background: #FEE500;
     /* background: #ffffff; */
     border: none;
-    border-radius: 5px;
+    border-radius: 30px;
 }
 
 #kakao span {
-    /* text-align: center; */
-    padding-left: 50px;
-    padding-right: 50px;
+    padding: 15px 77px 15px 77px;
+    text-align: center;
     color: #000000;
-    font-size: 20px;
+    font-size: 14px;
     font-weight: bold;
     /* border: 1px solid black; */
 }
 
 #kakao img {
-    width: 43px;
-    height: 43px;
+    width: 30px;
+    height: 30px;
     float: left;
+    /* border: 1px solid black; */
 }
 
 #naver {
@@ -290,31 +285,29 @@ span.buttonText {
     background: #03c75a;
     color: #ffffff;
     border: none;
-    border-radius: 5px;
+    border-radius: 30px;
 }
 
 #naver span {
-    padding-left: 50px;
-    padding-right: 50px;
+    padding: 15px 77px 15px 77px;
     color: #ffffff;
-    font-size: 20px;
+    font-size: 14px;
     font-weight: bold;
 }
 
 #naver img {
-    width: 43px;
-    height: 43px;
+    width: 32px;
+    height: 32px;
     float: left;
 }
 
 #google {
     padding: 0;
-    padding-top: 5px;
     display: flex;
     align-items: center;
     background: #ffffff;
     color: #444;
-    border-radius: 5px;
+    border-radius: 30px;
     border: thin solid #888;
     text-align: center;
 }
@@ -324,11 +317,9 @@ span.buttonText {
 }
 
 #google span {
-    /* text-align: center; */
-    padding-left: 35px;
-    padding-right: 50px;
+    padding: 15px 63px 15px 63px;
     color: #000000;
-    font-size: 20px;
+    font-size: 14px;
     font-weight: bold;
     /* border: 1px solid black; */
 }
