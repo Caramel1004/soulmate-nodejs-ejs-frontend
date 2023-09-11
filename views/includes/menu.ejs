@@ -78,15 +78,17 @@
                             <span>채팅방 추가</span> 
                         </button>
                     </div>
-                    <% for(let room of chatRooms) { %>
-                        <div class="item">
-                            <a href="/channel/chat/<%= room.channelId %>/<%= room._id %>">
-                                <i class="fa-regular fa-message"></i>
-                                <span><%= room.roomName %></span>
-                                    <p><%= room.chats[0].createdAt %></p>
-                                    <p><%= room.chats[0].chat %></p>
-                            </a>
-                        </div>
+                    <% if(chatRooms.length > 0) { %>
+                        <% for(let room of chatRooms) { %>
+                            <div class="item">
+                                <a href="/channel/chat/<%= room.channelId %>/<%= room._id %>">
+                                    <i class="fa-regular fa-message"></i>
+                                    <span><%= room.roomName %></span>
+                                        
+                      
+                                </a>
+                            </div>
+                        <% } %>
                     <% } %>
                 </div>
             <% } %>

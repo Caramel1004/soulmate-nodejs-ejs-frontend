@@ -115,6 +115,10 @@ h1 {
     padding-top: 20px;
     border-top: 1px groove rgba(0, 0, 0, 0.26);
 }
+.copyright p{
+    font-size: 12px;
+    color: #888;
+}
 
 .input-box input {
     padding: 15px;

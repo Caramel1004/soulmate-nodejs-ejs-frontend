@@ -208,7 +208,8 @@ li i {
     background: #ffffff;
 }
 
-.modal-edit-mode input[name="name"] {
+.modal-edit-mode input[name="name"],
+.modal-edit-mode input[name="phone"] {
     margin-top: 25px;
     padding: 10px;
     width: 327px;
@@ -217,7 +218,8 @@ li i {
     border-radius: 3px;
 }
 
-.modal-edit-mode input[name="name"]:focus {
+.modal-edit-mode input[name="name"]:focus,
+.modal-edit-mode input[name="phone"]:focus {
     outline: none;
 }
 

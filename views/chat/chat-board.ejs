@@ -31,7 +31,11 @@
                                     <img src="<%= chatDetail.creator.photo %>">
                                 </div>
                                 <div class="chat">
-                                    <div class="client-name"><%= chatDetail.creator.name %></div>
+                                    <% if(chatDetail.isCreator) { %>
+                                        <div class="client-name"><%= chatDetail.creator.name %>(나)</div>
+                                    <% } else { %>
+                                        <div class="other-client-name"><%= chatDetail.creator.name %></div>
+                                    <% } %>
                                     <div class="board-chat__unit-chat"><%= chatDetail.chat %></div>
                                 </div>
                                 <div class="chat-date">
@@ -61,7 +65,7 @@
             </div>
             <div class="board-user">
                 <div class="box__btn__add-member">
-                    <button type="button" class="btn__add-member" onclick="onClickLoadUsersInChannel(event)"> + </button>
+                    <button type="button" class="btn__add-member" onclick="onClickAddMemberBtn(event)"> + </button>
                     <span>팀원 목록</span>
                 </div>
                 <div class="number">

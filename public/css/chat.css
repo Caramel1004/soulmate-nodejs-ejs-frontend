@@ -105,6 +105,11 @@ body {
     font-weight: bolder;
 }
 
+.other-client-name {
+    color: rgb(169, 151, 143);
+    font-weight: bolder;
+}
+
 .chat-date {
     margin-left: 10px;
     display: flex;
@@ -116,6 +121,7 @@ body {
 
 /* 단위 채팅 내용 */
 .board-chat__unit-chat {
+    margin-top: 5px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.26);
     /* padding-top: 1px; */
     padding: 5px;
@@ -302,12 +308,27 @@ body {
     align-items: center;
 }
 
+
 .box {
     padding: 10px;
     padding-left: 23px;
     display: flex;
     align-items: center;
-    /* border: groove; */
+    background: #ffffff;
+    cursor: pointer;
+    /* border: 1px groove rgb(157, 153, 153); */
+}
+
+.box:hover,
+.box:active {
+    opacity: 0.5;
+}
+
+.box p {
+    padding-left: 20px;
+    font-size: 16px;
+    color: rgb(73, 71, 71);
+    font-weight: bolder;
 }
 
 .box a {
@@ -574,68 +595,43 @@ body {
     cursor: pointer;
 }
 
-.box label {
-    margin-left: auto;
-    width: 30px;
-    height: 30px;
-    border: #817575;
-    text-align: right;
+/* 채널에있는 유저리스트 박스 */
+
+.new-box {
+    background: #ffffff;
+    /* border: 1px groove rgb(157, 153, 153); */
 }
 
-.checkbox {
-    display: inline-block;
-    /* 영역적용가능해짐 */
-    width: 20px;
-    height: 20px;
-    border: 1px solid #c2b7b7;
-    box-sizing: border-box;
-    border-radius: 20px;
-    /* 모서리둥글게 처리 */
-    position: relative;
-    top: 4px;
+.new-box:hover,
+.new-box:active {
+    opacity: 0.7;
+}
+
+.new-box p {
+    padding-left: 20px;
+    font-size: 16px;
+    color: rgb(73, 71, 71);
+    font-weight: bolder;
+}
+
+.new-box label {
+    padding: 10px;
+    padding-left: 23px;
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
     cursor: pointer;
-    /* 마우스 올렸을때 손모양 처리 */
+    /* border: 1px groove rgb(157, 153, 153); */
 }
 
-.checkbox :checked::after {
-    width: 30px;
-    height: 30px;
-    border-radius: 50px;
-    border: #817575;
-    float: right;
+.new-box i {
+    color: rgba(0, 0, 0, 0.2);
 }
 
-.box input[type='checkbox'] {
-    width: 30px;
-    height: 30px;
-    border: #817575;
-    /* display: none; */
-}
-
-.box input[type='checkbox']+label {
-    margin-left: auto;
-    width: 30px;
-    height: 30px;
-    border-radius: 20px 50px;
-    border: #817575;
-    text-align: right;
-}
-
-.box input[name="users"]:checked::before {
-    width: 30px;
-    height: 30px;
-    border-radius: 50px;
-    border: #817575;
-
-}
-
-.box input[name="users"]:checked::after {
-    width: 30px;
-    height: 30px;
-    border-radius: 50px;
-    border: #817575;
-    float: right;
-    background: red;
+.new-box input[type='checkbox'] {
+    display: none;
 }
 
 .box__top {

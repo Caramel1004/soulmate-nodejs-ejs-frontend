@@ -213,8 +213,8 @@ i {
     padding-top: 20px;
     display: flex;
     align-items: end;
-    font-size: 13px;
-    color: rgba(0, 0, 0, 0.26);
+    font-size: 12px;
+    color: #888;
     border-top: 1px groove rgba(0, 0, 0, 0.26);
 }
 

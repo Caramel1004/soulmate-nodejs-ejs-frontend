@@ -116,10 +116,10 @@ const authController = {
 
             // 유저 보유 채널 세션에 저장
             req.session.userChannels = data.channels;
-            // console.log(req.sessionStore.client.get(sid));
-            console.log(req.sessionID);
-            const result = await redisClient.v4.set(req.sessionID, data.channels);
-            console.log(result);
+            // // console.log(req.sessionStore.client.get(sid));
+            // console.log(req.sessionID);
+            // const result = await redisClient.v4.set(req.sessionID, data.channels);
+            // console.log(result);
 
             res.redirect('/');
         } catch (err) {

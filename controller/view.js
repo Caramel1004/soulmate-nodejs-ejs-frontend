@@ -205,6 +205,7 @@ const viewController = {
             const chatRoomListData = await channelService.getChatRoomList(jsonWebToken, req.signedCookies.refreshToken, channelId, next);
             hasError(chatRoomListData.error);
             const matchedChatRoomList = chatRoomListData.chatRooms;
+            console.log(matchedChatRoomList)
 
             // 3. 워크스페이스 목록 요청
             const workSpaceListData = await channelService.getWorkSpaceList(jsonWebToken, req.signedCookies.refreshToken, channelId, next);

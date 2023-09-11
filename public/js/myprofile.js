@@ -1,8 +1,8 @@
 /** ----------------- 이벤트 함수 ----------------- */
 
 // 프로필 박스에 한개의 엘리먼트 클릭 이벤트
-const onClickMyProfileEditBtn = id => {
-    createMyProfileEditModalTag(id);
+const onClickMyProfileEditBtn = (id, text) => {
+    createMyProfileEditModalTag(id, text);
 }
 
 const onClickpatchEditMyProfileByReqUserBtn = id => {
@@ -16,7 +16,7 @@ const onClickCloseBtn = className => {
 /** ----------------- 태그관련 함수 ----------------- */
 
 // 이름, 이미지, 등등
-const createMyProfileEditModalTag = id => {
+const createMyProfileEditModalTag = (id, text) => {
     const body = document.body;
 
     // 모달창 백그라운드
@@ -34,7 +34,7 @@ const createMyProfileEditModalTag = id => {
     btnBox.classList.add('icon-btn-box');
     const h2 = document.createElement('h2');
     h2.style.textAlign = 'center';
-    h2.textContent = '이름';
+    h2.textContent = text;
     btnBox.appendChild(h2);
 
     // 수정 버튼 안에 아이콘 생성
@@ -61,6 +61,7 @@ const createMyProfileEditModalTag = id => {
 
     modal.appendChild(btnBox);
 
+    // 입력 태그
     const input = document.createElement('input');
     input.name = id;
     input.type = 'text'
@@ -80,14 +81,14 @@ const removeChildrenTag = className => {
 
 // 업데이트 태그
 const updatedTag = (id, data) => {
-    if(id === 'name'){
+    if (id === 'name') {
         document.getElementById(id).querySelector('p').textContent = data.updatedData;
         document.getElementById('client').textContent = data.updatedData;
         const i = document.createElement('i');
         i.className = 'fa-regular fa-pen-to-square';
 
         document.getElementById(id).querySelector('p').appendChild(i);
-    }else {
+    } else {
         document.getElementById(id).querySelector('p').textContent = data.updatedData;
         const i = document.createElement('i');
         i.className = 'fa-regular fa-pen-to-square';
@@ -98,10 +99,10 @@ const updatedTag = (id, data) => {
 
 /** ----------------- 이벤트리스너 ----------------- */
 document.getElementById('name').addEventListener('click', () => {
-    onClickMyProfileEditBtn('name');
+    onClickMyProfileEditBtn('name', '이름');
 });
 document.getElementById('phone').addEventListener('click', () => {
-    onClickMyProfileEditBtn('phone');
+    onClickMyProfileEditBtn('phone', '핸드폰 번호');
 });
 
 /** ----------------- API 요청 함수 -----------------*/
