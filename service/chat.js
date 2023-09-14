@@ -61,7 +61,17 @@ const chatService = {
             next(err);
         }
     },
-    // 3. 채팅방 퇴장
+    // 3. 실시간으로 채팅방에 파일 업로드(이미지, 문서등) 요청
+    postUploadFileToChatRoom: async (token, refreshToken, channelId, chatRoomId, formData, next) => {
+        try {
+            const data = await chatAPI.postUploadFileToChatRoom(token, refreshToken, channelId, chatRoomId, formData, next);
+
+            return data;
+        } catch (err) {
+            next(err);
+        }
+    },
+    // 4. 채팅방 퇴장
     patchExitChatRoom: async (token, refreshToken, channelId, chatRoomId, next) => {
         try {
             const data = await chatAPI.patchExitChatRoom(token, refreshToken, channelId, chatRoomId, next);

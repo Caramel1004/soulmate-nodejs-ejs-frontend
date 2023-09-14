@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import { FormData, Blob } from 'formdata-node';
+import { FormData } from 'formdata-node';
 
 import workspaceService from '../service/workspace.js';
 import channelService from '../service/channel.js'
@@ -190,28 +190,20 @@ const clientControlller = {
     // 7. 채팅방 실시간 파일 업로드
     postUploadFileToChatRoom: async (req, res, next) => {
         try {
-            const token = req.signedCookies.token;//jwt
+            const { token, refreshToken } = req.signedCookies;
+            const { channelId, chatRoomId } = req.params;
 
-            console.log(req.file);
-            console.log(req.file.buffer);
+            console.log(req.body.image);
+            console.log(req.body.fileUrl);
             const formData = new FormData();
-            const blob = new Blob([req.file.originalname], { type: 'multipart/form-data' });
+            formData.set('file', req.body.image);
+            formData.set('fileUrl', req.file.filename);
 
-            formData.set('file', req.file.buffer, req.file.originalname);
-            const filenameBlob = formData.get('file');
+            const data = await chatService.postUploadFileToChatRoom(token, refreshToken, channelId, chatRoomId, formData, next);
+            hasError(data.error);
 
-            // const getAll = formData.getAll();
-            // console.log('getAll: ', getAll);
-            // const resData = await chatAPI.postUploadFileToChatRoom(token, req.signedCookies.refreshToken,req.params.channelId, req.params.chatRoomId, formData);
-
-            // if(resData.error) {
-            //     return res.status(resData.error.errReport.code).json({
-            //         errReport: resData.error.errReport
-            //     })
-            // }
-            // console.log(resData);
-            res.status(200).json({
-                status: 'test'
+            res.status(data.status.code).json({
+                status: data.status
             });
         } catch (err) {
             next(err);

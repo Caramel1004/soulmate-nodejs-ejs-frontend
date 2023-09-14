@@ -225,11 +225,11 @@ const toggleCheckBoxIcon = nodeList => {
         const checkedIcon = node.parentNode.querySelector('i');
 
         // 체크박스인 nodeList에 checked라는 프로퍼티가 있음 체킹되있으면 true 아니면 false
-        if(node.checked){
+        if (node.checked) {
             checkedIcon.className = 'fa-solid fa-circle-check fa-xl';
             checkedIcon.style.color = '#42af2c';
             checkedIcon.style.opacity = '0.8';
-        }else {
+        } else {
             checkedIcon.className = 'fa-regular fa-circle fa-xl';
             checkedIcon.style.color = 'rgba(0, 0, 0, 0.2)';
         }
@@ -270,7 +270,7 @@ const createUserListInChannelTag = data => {
         // 클라이언트 아이디
         const clientNameTag = document.createElement('p');
         clientNameTag.textContent = user.name;
-        
+
         imgClientNameBox.appendChild(img);
         imgClientNameBox.appendChild(clientNameTag);
 
@@ -321,6 +321,7 @@ const createPreviewTag = e => {
     console.log(fileInfo.size);
     console.log(fileInfo.createdAt);
     const file = e.target.result;
+    console.log(file)
 
     const parentNode = document.querySelector('.task-date__box');
     removeAllChild(parentNode);
@@ -435,6 +436,8 @@ const postUploadFileToChatRoom = async () => {
     console.log('tag 생성!!!');
     try {
         const file = document.getElementById('file').files[0];
+        const img = document.getElementById('preview').querySelector('img').src;
+        console.log('img: ', img)
         if (!file) {
             return;
         }
@@ -447,12 +450,20 @@ const postUploadFileToChatRoom = async () => {
         console.log('file : ', file);
 
         const formData = new FormData();
-        formData.append('file', file);
+        formData.set('file', file);
+        formData.set('image', img)
+        formData.set('fileUrl', file.name);
 
         const response = await fetch('http://localhost:3000/client/chat/upload-file/' + channelId + '/' + chatRoomId, {
             method: 'POST',
             body: formData
         });
+
+        const data = await response.json();
+        if (data.error) {
+            throw new Error('이미지 처리 실패!!');
+        }
+
         console.log('채팅 처리 완료!!!');
     } catch (err) {
         console.log(err);
@@ -551,5 +562,3 @@ document.getElementById('file').addEventListener('change', onChangeSelectFile);
 document.getElementById('sendFile').addEventListener('click', postUploadFileToChatRoom);
 // document.getElementById('hamburger').addEventListener('click', onClickHamburgerIcon);
 document.querySelector('.room-name-box').addEventListener('click', onClickHamburgerIcon);
-document.getElementById('yes').addEventListener('click', onClickOpenYNRadio);
-document.getElementById('no').addEventListener('click', onClickOpenYNRadio);

@@ -47,7 +47,7 @@ const chatAPI = {
                 method: 'POST',
                 headers: {
                     Authorization: 'Bearer ' + token,
-                    Refresh: refreshToken
+                    Refresh: refreshToken,
                 },
                 body: formData
             });

@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import multer from 'multer';
+import { v4 } from 'uuid';
 import dotenv from 'dotenv';
 
 import session from 'express-session';
@@ -28,20 +29,11 @@ const socket = sockeClient.init(process.env.BACKEND_API_URL);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// 파일 data를 백엔드 서버로 보내기 위한 임시메모리에 저장 => 버퍼형태로 저장
-const multerStorage = multer.memoryStorage();
+// 파일 data를 백엔드 서버로 보내기 위한 임시메모리에 저장 => 버퍼형태로 저장(formData)
+// const memoryStorage = multer.memoryStorage();
 
-// 템플릿 엔진 세팅
-app.set('view engine', 'ejs');
-app.set('views', 'views');
-
-// 바디 파서
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(multer({ storage: multerStorage }).single('file'));
-
-// 세션
-app.use(session({
+// 세션 옵션
+const sessionOption = {
     resave: false,
     saveUninitialized: false,
     secret: process.env.COOKIE_SECRET_KEY,
@@ -54,7 +46,45 @@ app.use(session({
     store: new RedisStore({
         client: redisClient
     })
-}))
+};
+
+// 파일 확장자 검사
+const fileFilter = (req, file, callback) => {
+    // const fileObj = JSON.parse(req.body.file);
+    // console.log(fileObj);
+    console.log('file: ', file);
+    console.log('file.mimetype : ', file.mimetype);
+    const fileType = ['image/jpeg', 'image/png', 'image/jpg'];
+    const mimeType = fileType.find(fileType => fileType === file.mimetype);
+    console.log('mimeType : ', mimeType);
+    if (mimeType) {
+        callback(null, true);
+    } else {
+        callback(null, false);
+    }
+}
+
+const fileStorage = multer.diskStorage({
+    destination: (req, file, callback) => {
+        console.log(file)
+        callback(null, 'file');
+    },
+    filename: (req, file, callback) => {
+        callback(null, v4());
+    }
+});
+
+// 템플릿 엔진 세팅
+app.set('view engine', 'ejs');
+app.set('views', 'views');
+
+// 바디 파서
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('file'));
+
+// 세션
+app.use(session(sessionOption));
 
 // 쿠키 파서
 app.use(cookieParser(process.env.COOKIE_SECRET_KEY));
@@ -62,6 +92,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET_KEY));
 // 정적 파일 처리
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/file', express.static(path.join(__dirname, 'file')));
 
 // 동적 라우트 처리
 app.use(viewRoutes);

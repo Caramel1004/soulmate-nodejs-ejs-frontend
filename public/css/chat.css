@@ -9,7 +9,7 @@ body {
     margin-top: 70px;
     margin-left: 230px;
     --box-width: 100%;
-    --box-height: 92vh;
+    --box-height: auto;
     /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26); */
     border: groove rgba(0, 0, 0, 0.26) 0.5px;
     width: var(--box-width);
@@ -58,9 +58,9 @@ body {
     /* border: groove black 0.5px; */
     margin-top: 60px;
     width: var(--box-width);
-    height: 73vh;
-    /* background: rgb(219, 216, 216); */
+    height: 71vh;
     background: rgb(235, 222, 203);
+    /* background: #ffffff; */
     overflow: scroll;
     overflow-x: hidden;
 }
@@ -68,6 +68,7 @@ body {
 /* 단위 채팅 내용 큰박스 */
 .board-chat__unit-chat-box {
     margin-top: 35px;
+    margin-bottom: 35px;
     margin-left: 20px;
     /* padding-top: 1px; */
     padding: 0;
@@ -75,8 +76,8 @@ body {
     display: flex;
     text-align: left;
     font-size: 15px;
-    /* background: rgb(157, 155, 155); */
     background: rgb(235, 222, 203);
+    /* background: #ffffff; */
     /* border: groove black 0.5px; */
 }
 
@@ -98,6 +99,11 @@ body {
 .chat {
     margin-left: 10px;
     /* border: groove black 0.5px; */
+}
+
+#images {
+    width: 200px;
+    height: 200px;
 }
 
 .client-name {
@@ -164,7 +170,7 @@ body {
     /* border: groove black 0.5px; */
     padding-top: 10px;
     width: var(--box-width);
-    height: 10vh;
+    height: auto;
     /* display: block; */
     /* background: black; */
 }
@@ -175,7 +181,7 @@ body {
     padding-top: 20px;
     padding-left: 20px;
     width: calc(var(--box-width) - 40px);
-    height: 5vh;
+    height: auto;
     border: groove rgba(0, 0, 0, 0.26) 0.1rem;
     border-radius: 10px;
     letter-spacing: 0.5px;
