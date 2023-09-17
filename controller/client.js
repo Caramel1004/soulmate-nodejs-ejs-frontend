@@ -172,12 +172,13 @@ const clientControlller = {
     // 6. 실시간 채팅
     postSendChat: async (req, res, next) => {
         try {
-            const token = req.signedCookies.token;//jwt
+            const { token, refreshToken } = req.signedCookies;
+            const { channelId, chatRoomId } = req.params;
 
             const formData = new FormData();
             formData.append('chat', req.body.chat);
 
-            const data = await chatService.postSendChat(token, req.signedCookies.refreshToken, req.params.channelId, req.params.chatRoomId, formData, next);
+            const data = await chatService.postSendChat(token, refreshToken, channelId, chatRoomId, formData, next);
             hasError(data.error);
 
             res.status(data.status.code).json({

@@ -37,7 +37,7 @@
                                         <div class="other-client-name"><%= chatDetail.creator.name %></div>
                                     <% } %>
                                     <% if(chatDetail.fileUrl) { %>
-                                        <div class="board-chat__unit-chat"><img id="images" src="http://localhost:8080/<%= chatDetail.fileUrl %>"></div>
+                                        <img id="images" src="http://localhost:8080/<%= chatDetail.fileUrl %>">
                                     <% } else { %>
                                         <div class="board-chat__unit-chat"><%= chatDetail.chat %></div>
                                     <% } %>
@@ -55,9 +55,12 @@
             </div>
             <div class="board-chat__box-chat">
                 <textarea class="board-chat__textarea" name="content" id="content" placeholder="메세지 보내기"></textarea>
-                <input type="file" id="file" name="file" multiple>
                 <button class="board-chat__btn" type="button" id="send"><i class="fa-solid fa-paper-plane fa-xl"></i></button>
-                <button class="board-chat__btn" type="button" id="sendFile"><i class="fa-solid fa-image fa-xl"></i></button>
+                <label for="file">
+                    <input type="file" id="file" name="file" multiple>
+                    <i class="fa-solid fa-image fa-lg"></i>
+                </label>
+                <!-- <button class="board-chat__btn" type="button" id="sendFile"><i class="fa-solid fa-image fa-xl"></i></button> -->
             </div>
         </div>
 
@@ -87,6 +90,7 @@
                 <div class="task-date__box">
                     <!-- 이미지 쓰레드 -->
                 </div>
+                <button class="board-chat__btn" type="button" id="sendFile"><i class="fa-solid fa-image fa-xl"></i><span>전송</span></button>
             </div>
             <div class="board-channel-user-list hidden">
                 <div class="box__top">
@@ -110,112 +114,7 @@
                 </form>
             </div>
         </div>
-
-        <script type="module">
-            import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
-
-            const socket = io('http://localhost:8080');
-            console.log('스크립트 소켓 가동 중!!!');
-
-            const formatter = createdAt => {
-                let year = new Date(createdAt).getFullYear();
-                let month = new Date(createdAt).getMonth() + 1;
-                let day = new Date(createdAt).getDate();
-                const timestamp = new Date(createdAt).toTimeString().split(' ')[0];//ex)09:51:35 GMT+0900 (한국 표준시)
-
-                let hour = parseInt(timestamp.split(':')[0]);
-
-                const when = hour >= 12 ? '오후' : '오전';
-
-                if(month < 10) {
-                    month = '0' + month;
-                }else if(month > 12) {
-                    month = '0' + 1;
-                }
-
-                if(day < 10) {
-                    day = '0' + day
-                }
-                if (when === '오후' && hour > 12) {
-                    hour %= 12;
-                }
-
-                const min = timestamp.split(':')[1];
-
-                const fomatDate = `${year}-${month}-${day}  ${when} ${hour}:${min}`;
-
-                return fomatDate;
-            }
-
-            const createUnitChatTag = async data => {
-                // 제일 큰 유닛 박스
-                const chatUnitBox = document.createElement('div');
-                chatUnitBox.classList.add('board-chat__unit-chat-box');
-
-                // 이미지 박스
-                const imgBox = document.createElement('div');
-                const img = document.createElement('img');
-                img.setAttribute('src', data.photo);
-                imgBox.classList.add('board-chat__unit-chat-img');
-                imgBox.appendChild(img);
-                console.log('imgBox: ', imgBox);
-
-                // 챗박스
-                const chatBox = document.createElement('div');
-                chatBox.classList.add('chat');
-
-                // 닉네임
-                const clientNameTag = document.createElement('div');
-                clientNameTag.classList.add('client-name');
-                clientNameTag.textContent = data.name;
-                chatBox.appendChild(clientNameTag);
-                console.log('clientNameTag: ', clientNameTag);
-
-                // 챗
-                const unitChat = document.createElement('div');
-                unitChat.classList.add('board-chat__unit-chat');
-                unitChat.textContent = data.currentChat;
-                chatBox.appendChild(unitChat);
-                console.log('unitChat: ', unitChat);
-
-                // 타임 스탬프
-                const time = document.createElement('div');
-                const formatedTime = formatter(new Date());
-                time.classList.add('chat-date');
-                time.textContent = formatedTime;
-
-                chatUnitBox.appendChild(imgBox);
-                chatUnitBox.appendChild(chatBox);
-                chatUnitBox.appendChild(time);
-                console.log('chatUnitBox: ', chatUnitBox);
-
-
-                const historyTag = document.querySelector('.board-chat__box-history');
-                historyTag.appendChild(chatUnitBox);
-
-                document.getElementById('content').value = "";
-
-                //스크롤 맨아래로 조정
-                historyTag.scrollTop = historyTag.scrollHeight;
-            }
-
-            // 채팅 업데이트
-            socket.on('sendChat', data => {
-                console.log('미들웨어 sendChat!!!');
-                console.log('백엔드에서 넘어온 데이터: ', data);
-                console.log('채팅 내용: ', data.currentChat);
-
-                createUnitChatTag(data);
-            });
-            socket.on('exitUser', data => {
-                console.log('data: ',data)
-                const p = document.createElement('p');
-                p.style.color = '#1d1c1d';
-                p.textContent = `${data.exitUser.name}님이 퇴장하셨습니다.`
-
-                document.querySelector('.board-chat__box-history').appendChild(p);
-            })
-          </script>
-          <%- include('../includes/script.ejs') %>       
+        <script type="module" src="/js/socket.js"></script>
+        <%- include('../includes/script.ejs') %>       
     </body>   
 </html>

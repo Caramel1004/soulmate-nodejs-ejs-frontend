@@ -357,7 +357,7 @@ textarea:focus {
 .client-name {
     color: rgb(212, 78, 21);
     font-size: 15px;
-    font-weight: bolder;
+    /* font-weight: bolder; */
 }
 
 /* 단위 채팅 내용 */

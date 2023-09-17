@@ -11,16 +11,16 @@ body {
     --box-width: 100%;
     --box-height: auto;
     /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26); */
-    border: groove rgba(0, 0, 0, 0.26) 0.5px;
+    border: 0.5px groove rgba(0, 0, 0, 0.1);
     width: var(--box-width);
     height: var(--box-height);
     display: inline-block;
     text-align: center;
     overflow: hidden;
     /* 박스 서서히 나타나기 */
-    animation: fadein 1s;
-    -webkit-animation: fadein 1s;
-    -moz-animation: fadein 1s;
+    animation: fadein 0.5s;
+    -webkit-animation: fadein 0.5s;
+    -moz-animation: fadein 0.5s;
 }
 
 @keyframes fadein {
@@ -59,8 +59,10 @@ body {
     margin-top: 60px;
     width: var(--box-width);
     height: 71vh;
-    background: rgb(235, 222, 203);
-    /* background: #ffffff; */
+    /* background: rgb(235, 222, 203); */
+    /* background: rgba(0, 0, 0, 0.2); */
+    /* background: rgb(243, 243, 246); */
+    background: #ffffff;
     overflow: scroll;
     overflow-x: hidden;
 }
@@ -76,8 +78,9 @@ body {
     display: flex;
     text-align: left;
     font-size: 15px;
-    background: rgb(235, 222, 203);
-    /* background: #ffffff; */
+    /* background: rgb(235, 222, 203); */
+    /* background: rgb(243, 243, 246); */
+    background: #ffffff;
     /* border: groove black 0.5px; */
 }
 
@@ -102,15 +105,15 @@ body {
 }
 
 #images {
-    width: 300px;
-    height: 300px;
+    width: 400px;
+    height: 400px;
     border: 1px groove rgba(0, 0, 0, 0.2);
     border-radius: 0.5rem;
 }
 
 .client-name {
     color: rgb(212, 78, 21);
-    font-weight: bolder;
+    /* font-weight: bolder; */
 }
 
 .other-client-name {
@@ -130,18 +133,18 @@ body {
 /* 단위 채팅 내용 박스*/
 .board-chat__unit-chat {
     margin-top: 5px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.26);
+    /* box-shadow: 0 1px 4px rgba(0, 0, 0, 0.26); */
     /* padding-top: 1px; */
-    padding: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
     /* max-width: 500px; */
     display: inline-block;
     text-align: left;
     font-size: 15px;
-    background: #ffffff;
+    background: rgb(243, 243, 246);
     /* border: groove black 0.5px; */
-    border-radius: 0.5rem;
+    border-radius: 20px;
     box-sizing: border-box;
     white-space: pre-wrap;
     cursor: pointer;
@@ -150,7 +153,8 @@ body {
 /* 채팅 히스토리 박스 스크롤 디자인 */
 .board-chat__box-history::-webkit-scrollbar {
     width: 6px;
-    background: rgb(235, 222, 203);
+    /* background: rgb(235, 222, 203); */
+    background: #ffffff;
 }
 
 .board-chat__box-history::-webkit-scrollbar-thumb {
@@ -162,7 +166,9 @@ body {
 .board-chat__box-history::-webkit-scrollbar-track {
     width: 6px;
     border-radius: 50px;
-    background: rgb(235, 222, 203);
+    background: #ffffff;
+    /* background: rgb(243, 243, 246); */
+    /* background: rgb(235, 222, 203); */
 }
 
 
@@ -233,6 +239,36 @@ body {
 
 .board-chat__btn:hover,
 .board-chat__btn:active {
+    opacity: 0.7;
+}
+
+#sendFile {
+    padding: 7px;
+}
+
+/* 파일 박스, 버튼 커스텀 */
+label[for='file'] {
+    margin-right: 10px;
+    padding: 10px;
+    padding-bottom: 7px;
+    border: 0.5px groove rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    background: #ffffff;
+    cursor: pointer;
+    float: right;
+    /* border: 1px groove rgb(157, 153, 153); */
+}
+
+input[type="file"] {
+    display: none;
+}
+
+label[for='file'] i {
+    color: #007A5A;
+}
+
+label[for='file']:hover,
+label[for='file']:active {
     opacity: 0.7;
 }
 
@@ -376,10 +412,10 @@ body {
     width: auto;
     height: auto;
     text-align: left;
-    display: block;
+    display: inline-block;
     position: fixed;
-    /* border: 1px groove rgba(0, 0, 0, 0.26); */
-    background: #ffffff;
+    border: 1px groove rgba(0, 0, 0, 0.26);
+    /* background: #3C3C42; */
     /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.26); */
 }
 
@@ -605,7 +641,6 @@ body {
 }
 
 /* 채널에있는 유저리스트 박스 */
-
 .new-box {
     background: #ffffff;
     /* border: 1px groove rgb(157, 153, 153); */
