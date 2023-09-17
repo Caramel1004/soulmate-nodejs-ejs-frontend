@@ -102,8 +102,10 @@ body {
 }
 
 #images {
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
+    border: 1px groove rgba(0, 0, 0, 0.2);
+    border-radius: 0.5rem;
 }
 
 .client-name {
@@ -125,7 +127,7 @@ body {
     /* border: groove black 0.5px; */
 }
 
-/* 단위 채팅 내용 */
+/* 단위 채팅 내용 박스*/
 .board-chat__unit-chat {
     margin-top: 5px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.26);
@@ -142,6 +144,7 @@ body {
     border-radius: 0.5rem;
     box-sizing: border-box;
     white-space: pre-wrap;
+    cursor: pointer;
 }
 
 /* 채팅 히스토리 박스 스크롤 디자인 */

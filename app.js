@@ -30,7 +30,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // 파일 data를 백엔드 서버로 보내기 위한 임시메모리에 저장 => 버퍼형태로 저장(formData)
-// const memoryStorage = multer.memoryStorage();
+const memoryStorage = multer.memoryStorage();
 
 // 세션 옵션
 const sessionOption = {
@@ -49,30 +49,30 @@ const sessionOption = {
 };
 
 // 파일 확장자 검사
-const fileFilter = (req, file, callback) => {
-    // const fileObj = JSON.parse(req.body.file);
-    // console.log(fileObj);
-    console.log('file: ', file);
-    console.log('file.mimetype : ', file.mimetype);
-    const fileType = ['image/jpeg', 'image/png', 'image/jpg'];
-    const mimeType = fileType.find(fileType => fileType === file.mimetype);
-    console.log('mimeType : ', mimeType);
-    if (mimeType) {
-        callback(null, true);
-    } else {
-        callback(null, false);
-    }
-}
+// const fileFilter = (req, file, callback) => {
+//     // const fileObj = JSON.parse(req.body.file);
+//     // console.log(fileObj);
+//     console.log('file: ', file);
+//     console.log('file.mimetype : ', file.mimetype);
+//     const fileType = ['image/jpeg', 'image/png', 'image/jpg'];
+//     const mimeType = fileType.find(fileType => fileType === file.mimetype);
+//     console.log('mimeType : ', mimeType);
+//     if (mimeType) {
+//         callback(null, true);
+//     } else {
+//         callback(null, false);
+//     }
+// }
 
-const fileStorage = multer.diskStorage({
-    destination: (req, file, callback) => {
-        console.log(file)
-        callback(null, 'file');
-    },
-    filename: (req, file, callback) => {
-        callback(null, v4());
-    }
-});
+// const fileStorage = multer.diskStorage({
+//     destination: (req, file, callback) => {
+//         console.log(file)
+//         callback(null, 'file');
+//     },
+//     filename: (req, file, callback) => {
+//         callback(null, v4());
+//     }
+// });
 
 // 템플릿 엔진 세팅
 app.set('view engine', 'ejs');
@@ -81,7 +81,8 @@ app.set('views', 'views');
 // 바디 파서
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('file'));
+// app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('file'));
+app.use(multer({ storage: memoryStorage }).single('file'));
 
 // 세션
 app.use(session(sessionOption));

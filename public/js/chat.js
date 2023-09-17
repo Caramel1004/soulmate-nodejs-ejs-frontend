@@ -436,8 +436,8 @@ const postUploadFileToChatRoom = async () => {
     console.log('tag 생성!!!');
     try {
         const file = document.getElementById('file').files[0];
-        const img = document.getElementById('preview').querySelector('img').src;
-        console.log('img: ', img)
+        // const img = document.getElementById('preview').querySelector('img').src;
+        // console.log('img: ', img)
         if (!file) {
             return;
         }
@@ -451,7 +451,7 @@ const postUploadFileToChatRoom = async () => {
 
         const formData = new FormData();
         formData.set('file', file);
-        formData.set('image', img)
+        // formData.set('image', img)
         formData.set('fileUrl', file.name);
 
         const response = await fetch('http://localhost:3000/client/chat/upload-file/' + channelId + '/' + chatRoomId, {

@@ -37,7 +37,7 @@
                                         <div class="other-client-name"><%= chatDetail.creator.name %></div>
                                     <% } %>
                                     <% if(chatDetail.fileUrl) { %>
-                                        <div class="board-chat__unit-chat"><img id="images" src="http://localhost:3000/<%= chatDetail.fileUrl %>"></div>
+                                        <div class="board-chat__unit-chat"><img id="images" src="http://localhost:8080/<%= chatDetail.fileUrl %>"></div>
                                     <% } else { %>
                                         <div class="board-chat__unit-chat"><%= chatDetail.chat %></div>
                                     <% } %>
