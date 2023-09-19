@@ -33,39 +33,7 @@
                     </a>
                 <% } %>
             <% } %>
-            <% if(state === 'on') { %>
-                <% if(workSpaces){ %>
-                    <div id="workspace" class="title">
-                        <i class="fa-solid fa-cubes-stacked fa-lg"></i>
-                        <span>워크스페이스</span>
-                    </div>
-                    <div id="workspace-list" class="menu__div-wrapper">
-                        <div class="item">
-                            <button id="modal-open-add-workspace">
-                                <i class="fa-solid fa-plus fa-lg"></i>
-                                <span>워크스페이스 추가</span> 
-                            </button>
-                        </div>
-                        <% for(let workSpace of workSpaces) { %>
-                            <div class="item">
-                                <a href="/channel/workspace/<%= workSpace.channelId %>/<%= workSpace._id %>?sort=lastest&&sortNum=-1">
-                                    <i class="fa-solid fa-hashtag fa-sm"></i>
-                                    <span><%= workSpace.workSpaceName %></span>
-                                    <p>2023-07-14</p>
-                                    <p>안녕하세요 이번에 새로 입사하게된 개발자 입니다.</p>
-                                </a>
-                            </div>
-                        <% } %>
-                    </div>
-                <% } %>    
-                <!-- <div id="workspace-list" class="menu__a-wrapper">
-                    <i class="fa-solid fa-bookmark fa-lg"></i>
-                    <span>스크랩</span>
-                </div>
-                <div id="workspace-list" class="menu__a-wrapper">
-                    <span>채널 소식</span>
-                </div> -->
-            <% } %>
+            
             <% if(chatRooms){ %>
                 <div id="chat" class="title">
                     <i class="fa-regular fa-comment fa-lg"></i>
@@ -94,34 +62,6 @@
             <% } %>
         </section>
         <%- include('./copyright.ejs') %>
-        <!-- 워크스페이스 추가창(모달창) => 채널에 접속 중일때-->
-        <% if(workSpaces) { %>
-            <div class="container-workspace hidden">
-                <div class="modal-workspace hidden">
-                    <form action="/client/workspace/<%= channel._id %>" method="post">
-                        <h2>워크스페이스</h2>
-                        <div class="box__input">
-                            <label>공개설정</label>
-                            <div id="open">
-                                <label for="yes"><i class="fa-regular fa-circle fa-lg"></i>공개<input type="radio" id="yes" name="open" value="Y"></label>
-                                <label for="no"><i class="fa-regular fa-circle fa-lg"></i>비공개<input type="radio" id="no" name="open" value="N"></label>
-                            </div>
-                        </div>
-                        <div class="box__input">
-                            <label for="workSpaceName">워크스페이스 명</label>
-                            <span><input type="text" name="workSpaceName" id="workSpaceName" placeholder="워크스페이스명을 입력하세요."></span>
-                        </div>
-                        <div class="box__input">
-                            <span><textarea class="contents-form__textarea" name="comment" placeholder="워크스페이스 설명 스크립트를 자유롭게 입력하세요."></textarea></span>
-                        </div>
-                        <div class="box__button__submit">
-                            <button type="submit">완료</button>
-                            <a id="modal-close-add-workspace">취소</a>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        <% } %> 
         <!-- 대화방 추가창(모달창) => 채널에 접속 중일때-->
         <% if(chatRooms) { %>
             <div class="container-chat hidden">

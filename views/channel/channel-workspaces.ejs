@@ -11,7 +11,6 @@
     <body>
         <%- include('../includes/header.ejs') %>
         <%- include('../includes/menu.ejs') %>
-        <%- include('../includes/loading.ejs') %>
         <div class="channel-workspace-list-container">
             <%- include('../includes/channel-tab-box.ejs') %>
             <div class="channel-workspace-list-box">
@@ -82,8 +81,6 @@
             </div>
         </div>		
         <%- include('../includes/script.ejs') %>
-        <script type="module" src="/js/modal.js">
-            document.getElementById('workspace-add__btn').addEventListener('click', onClickOpenModalWorkSpace);
-        </script>
+        <script src="/js/channel-workspace.js"></script>
     </body>
 </html>

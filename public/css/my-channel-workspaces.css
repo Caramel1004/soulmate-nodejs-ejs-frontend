@@ -87,6 +87,7 @@ body::-webkit-scrollbar-track {
     border-radius: 20px;
     cursor: pointer;
 }
+
 #workspace-add__btn i{
     color: #ffffff;
 }

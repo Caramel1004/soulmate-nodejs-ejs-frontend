@@ -10,5 +10,4 @@ const onClickWorkSpaceAddBtn = () => {
 
 
 /** ----------------- 이벤트리스너 ----------------- */
-// document.getElementById('workspace-add__btn').addEventListener('click', onClickOpenModalWorkSpace);
 document.getElementById('chatRoom-add__btn').addEventListener('click', onClickOpenModalChat);
