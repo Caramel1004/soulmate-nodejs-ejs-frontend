@@ -6,7 +6,7 @@ body {
 
 /* 채팅박스 큰 컨테이너 */
 .board-chat {
-    margin-top: 70px;
+    margin-top: 68px;
     margin-left: 230px;
     --box-width: 100%;
     --box-height: auto;
@@ -14,7 +14,7 @@ body {
     border: 0.5px groove rgba(0, 0, 0, 0.1);
     width: var(--box-width);
     height: var(--box-height);
-    display: inline-block;
+    /* display: inline-block; */
     text-align: center;
     overflow: hidden;
     /* 박스 서서히 나타나기 */
@@ -56,7 +56,7 @@ body {
 /* 채팅 히스토리 박스 */
 .board-chat__box-history {
     /* border: groove black 0.5px; */
-    margin-top: 60px;
+    /* margin-top: 60px; */
     width: var(--box-width);
     height: 71vh;
     /* background: rgb(235, 222, 203); */
@@ -69,7 +69,7 @@ body {
 
 /* 단위 채팅 내용 큰박스 */
 .board-chat__unit-chat-box {
-    margin-top: 35px;
+    margin-top: 30px;
     margin-bottom: 35px;
     margin-left: 20px;
     /* padding-top: 1px; */
@@ -78,9 +78,9 @@ body {
     display: flex;
     text-align: left;
     font-size: 15px;
+    background: #ffffff;
     /* background: rgb(235, 222, 203); */
     /* background: rgb(243, 243, 246); */
-    background: #ffffff;
     /* border: groove black 0.5px; */
 }
 
@@ -112,13 +112,15 @@ body {
 }
 
 .client-name {
+    font-size: 14px;
     color: rgb(212, 78, 21);
     /* font-weight: bolder; */
 }
 
 .other-client-name {
-    color: rgb(169, 151, 143);
-    font-weight: bolder;
+    font-size: 14px;
+    color: #1d1c1d;
+    /* font-weight: bolder; */
 }
 
 .chat-date {
@@ -148,6 +150,16 @@ body {
     box-sizing: border-box;
     white-space: pre-wrap;
     cursor: pointer;
+}
+
+/* 공식 멘트 css*/
+.broad-comment {
+    margin: auto;
+    padding: 5px 13px 5px 13px;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.26);
+    background: rgb(243, 243, 246);
+    border-radius: 20px;
 }
 
 /* 채팅 히스토리 박스 스크롤 디자인 */
@@ -191,7 +203,7 @@ body {
     padding-left: 20px;
     width: calc(var(--box-width) - 40px);
     height: auto;
-    border: groove rgba(0, 0, 0, 0.26) 0.1rem;
+    border: groove rgba(0, 0, 0, 0.1) 0.1rem;
     border-radius: 10px;
     letter-spacing: 0.5px;
     resize: none;
@@ -412,27 +424,29 @@ label[for='file']:active {
     width: auto;
     height: auto;
     text-align: left;
-    display: inline-block;
-    position: fixed;
-    border: 1px groove rgba(0, 0, 0, 0.26);
-    /* background: #3C3C42; */
-    /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.26); */
+    display: flex;
+    /* position: fixed; */
+    /* border: 1px groove rgba(0, 0, 0, 0.26); */
+    background: #3C3C42;
+    /* opacity: 0.9; */
 }
 
 .room-name-box {
     padding: 0;
-    background: #ffffff;
+    /* background: #ffffff; */
     cursor: pointer;
 }
 
 .room-name-box span {
     padding-left: 20px;
-    color: #1d1c1d;
+    /* color: #1d1c1d; */
+    color: #ffffff;
 }
 
 .room-name-box i {
     width: 10px;
     height: 10px;
+    color: #ffffff;
     opacity: 0.7;
     cursor: pointer;
 }
@@ -713,11 +727,11 @@ label[for='file']:active {
 .box__btn__add-member span {
     padding-left: 15px;
     font-size: 20px;
-    color: black;
+    color: #1d1c1d;
 }
 
 .btn__add-member {
-    background-color: rgb(235, 222, 203);
+    background: rgb(243, 243, 246);
     border-radius: 20rem;
     /* border: 1px solid #ffffff; */
     width: 50px;
@@ -728,13 +742,12 @@ label[for='file']:active {
     font-weight: 100px;
     color: black;
     font-family: Arial;
-    font-size: 30px;
+    font-size: 20px;
     padding: 5px 14px;
     text-decoration: none;
 }
 
 .btn__add-member:hover,
 .btn_add-memver:active {
-    color: black;
-    background-color: rgb(234, 212, 179);
+    opacity: 0.5;
 }

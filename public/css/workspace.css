@@ -205,7 +205,8 @@ body {
     border-radius: 20px;
     cursor: pointer;
 }
-.type i{
+
+.type i {
     padding-right: 5px;
 }
 
@@ -352,6 +353,17 @@ textarea:focus {
 .post {
     margin-left: 10px;
     /* border: groove black 0.5px; */
+}
+
+/* 게시물이 완전 비어있을때 멘트 */
+.first-comment {
+    margin: auto;
+    padding: 10px 15px 10px 15px;
+    font-size: 20px;
+    color: rgba(0, 0, 0, 0.3);
+    background: rgb(243, 243, 246);
+    border-radius: 25px;
+    text-align: center;
 }
 
 .client-name {

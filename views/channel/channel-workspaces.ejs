@@ -19,6 +19,10 @@
                     <div class="inner">
                         <div id="title">
                             🥰 <span class="client-name"><%= clientName %></span>님이 참여한 워크스페이스
+                            <button type="button" id="workspace-add__btn">
+                                <i class="fa-solid fa-plus fa-lg"></i>
+                                <span>추가</span> 
+                            </button>
                         </div>
                         <div class="workspace-box-items">
                             <%if(workSpaces.length > 0) { %>
@@ -78,5 +82,8 @@
             </div>
         </div>		
         <%- include('../includes/script.ejs') %>
+        <script type="module" src="/js/modal.js">
+            document.getElementById('workspace-add__btn').addEventListener('click', onClickOpenModalWorkSpace);
+        </script>
     </body>
 </html>

@@ -10,7 +10,7 @@ body {
     background: rgb(243, 243, 246);
     position: fixed;
     z-index: 99;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.26);
+    /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.26); */
 }
 
 /* logo부모 */

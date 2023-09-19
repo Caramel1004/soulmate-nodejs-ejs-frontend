@@ -81,15 +81,6 @@ body::-webkit-scrollbar-track {
     cursor: pointer;
 }
 
-/* #open input[type=radio]+label {
-    background-color: #fff;
-    color: #333;
-} */
-/* 
-#open input[type=radio]:checked+i {
-    color: #42af2c;
-} */
-
 .box__input {
     padding: 1px;
     display: grid;
@@ -179,7 +170,7 @@ body::-webkit-scrollbar-track {
     background: rgb(180, 180, 189);
 }
 
-/* 채팅 입력폼 스크롤 디자인 */
+/* 스크립트 인풋  */
 .contents-form__textarea {
     padding: 10px;
     width: 473px;
@@ -211,7 +202,6 @@ body::-webkit-scrollbar-track {
     background: #ffffff;
 }
 
-/* 채팅 입력 폼 눌렀을 때 */
 .contents-form__textarea:focus {
     outline: none;
 }

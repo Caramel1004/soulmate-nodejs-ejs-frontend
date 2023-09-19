@@ -16,6 +16,10 @@
             <%- include('../includes/channel-tab-box.ejs') %>
             <div class="channel-chatRoom-list-box">
                 <div class="chatRoom-box-items">
+                    <div id="chatRoom-add__btn" class="contents__div-wrapper">
+                        <img id="add-icon" src="/images/icons8-add-50.png">
+                        <h2>채팅방 추가</h2>
+                    </div>
                     <% for(let room of chatRooms) { %>
                         <div class="contents__div-wrapper">
                             <div class="card">
@@ -48,5 +52,8 @@
             </div>
         </div>		
         <%- include('../includes/script.ejs') %>
+        <script type="module" src="/js/modal.js">
+            document.getElementById('chatRoom-add__btn').addEventListener('click', onClickOpenModalChat);
+        </script>
     </body>
 </html>

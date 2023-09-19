@@ -63,12 +63,32 @@ body::-webkit-scrollbar-track {
 
 #title {
     /* margin-top: 40px; */
+    display: flex;
+    align-items: center;
     padding-left: 30px;
-    padding-bottom: 20px;
+    padding-bottom: 15px;
     text-align: left;
     font-size: 22px;
     font-weight: bold;
     /* border: 1px solid black; */
+}
+
+#workspace-add__btn {
+    margin-top: -5px;
+    margin-left: 10px;
+    padding: 7px;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    font-size: 14px;
+    /* font-weight: bold; */
+    color: #ffffff;
+    background: #1d1c1d;
+    border-radius: 20px;
+    cursor: pointer;
+}
+#workspace-add__btn i{
+    color: #ffffff;
 }
 
 .workspace-box-items {

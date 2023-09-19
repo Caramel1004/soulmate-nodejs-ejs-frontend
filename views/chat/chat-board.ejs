@@ -11,7 +11,6 @@
     <body>
         <%- include('../includes/header.ejs') %>
         <%- include('../includes/menu.ejs') %>
-        <%- include('../includes/loading.ejs') %>
         <!-- 챗 보드 -->
         <div class="board-chat">
             <div class="room-name-container">
@@ -33,7 +32,7 @@
                                 <div class="chat">
                                     <% if(chatDetail.isCreator) { %>
                                         <div class="client-name"><%= chatDetail.creator.name %>(나)</div>
-                                    <% } else { %>s
+                                    <% } else { %>
                                         <div class="other-client-name"><%= chatDetail.creator.name %></div>
                                     <% } %>
                                     <% if(chatDetail.fileUrl) { %>
@@ -46,10 +45,10 @@
                                     <%= chatDetail.fomatDate %>
                                 </div>
                             <% } %>
+                            <% if(chatDetail.isNotice == 'Y') { %>
+                                <p class="broad-comment"><%= chatDetail.chat %></p>
+                            <% } %>
                         </div>
-                        <% if(chatDetail.isNotice == 'Y') { %>
-                            <p style="text-align: center;"><%= chatDetail.chat %></p>
-                        <% } %>
                     <% } %> 
                 <% } %>
             </div>
