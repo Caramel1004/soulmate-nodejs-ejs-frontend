@@ -1,0 +1,60 @@
+<!-- This favicon was generated using the following font:
+
+- Font Title: League Spartan
+- Font Author: Copyright 2020 The League Spartan Project Authors (https://github.com/theleagueof/league-spartan)
+- Font Source: http://fonts.gstatic.com/s/leaguespartan/v11/kJEnBuEW6A0lliaV_m88ja5Twtx8BWhtkDVmjZvM_oTpBMdcFguczA.ttf
+- Font License: SIL Open Font License, 1.1 (http://scripts.sil.org/OFL)) -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('../includes/head.ejs') %>
+    <body>
+        <%- include('../includes/header.ejs') %>
+        <%- include('../includes/menu.ejs') %>
+        <%- include('../includes/loading.ejs') %>
+        <!-- 프로필 영역 -->
+        <div id="channel-profile-container">
+            <div class="box-profile">
+                <div class="info">
+                    <img src=<%= channel.thumbnail %>>
+                    <div class="box-text">
+                        <div class="text">
+                            <span>채널 명</span>
+                            <span>
+                                <%= channel.channelName %>
+                                <button id="<%= channel._id %>" class="heart" type="button" onclick="onClickHeartToggleBtn('<%= channel._id %>')">
+                                    <% if(channel.isUserWishChannel) { %>
+                                        <i class="fa-solid fa-heart fa-xl"></i>
+                                    <% } else { %>
+                                        <i class="fa-regular fa-heart fa-xl"></i>
+                                    <% } %>
+                                </button>
+                            </span>
+                        </div>
+                        <div class="text">
+                            <span>카테고리</span><p><%= channel.category %></p>
+                        </div>
+                        <div class="text">
+                            <span>참여 인원</span><p><%= channel.members.length %> 명</p>
+                        </div>
+                        <div class="text">
+                            <span>채널 타입</span><p>워크스페이스</p>
+                        </div>
+                        <div class="text">
+                            <span>공개</span><p><%= channel.open %></p>
+                        </div>
+                        <div class="text">
+                            <span>크리에이터</span><p><%= channel.owner %></p>
+                        </div>
+                    </div>
+                </div>
+                <% if(channel.comment !== '' && channel.comment) { %>
+                    <div class="comment">
+                        <p><%= channel.comment %></p>
+                    </div>
+                <% } %>
+            </div>
+        </div>		
+        <%- include('../includes/script.ejs') %>
+    </body>
+</html>

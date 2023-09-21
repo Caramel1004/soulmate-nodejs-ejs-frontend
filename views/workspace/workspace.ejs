@@ -88,10 +88,20 @@
                 <% } %>
             </div>
             <div class="box-post-content">
-                <textarea id="content" name="content" placeholder="#<%= workSpace.workSpaceName %>에 내용 올리기"></textarea>
-                <div class="btn-group">
-                    <button type="button" id="image"><i class="fa-solid fa-image fa-xl"></i></button>
-                    <button type="button" id="send"><i class="fa-solid fa-paper-plane fa-xl"></i></button>
+                <div class="inner">
+                    <div class="group">
+                        일단 보류
+                    </div>
+                    <div id="content" name="content" contenteditable="true">
+                        <span id="placeholder">#<%= workSpace.workSpaceName %>에 내용 올리기</span>
+                    </div>
+                    <div class="btn-group">
+                        <label for="file">
+                            <input type="file" id="file" name="file" multiple>
+                            <i class="fa-solid fa-image fa-lg"></i>
+                        </label>
+                        <button type="button" id="send"><i class="fa-solid fa-paper-plane fa-xl"></i></button>
+                    </div>
                 </div>
             </div>
         </div>

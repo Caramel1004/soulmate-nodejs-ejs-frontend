@@ -38,8 +38,13 @@
                                         month: 'long',
                                         day: 'numeric',
                                         weekday: 'long'
-                                    });%>
-                                    <p><%= room.chats[0].chat %></p>
+                                    });
+                                    if(room.chats[0].fileUrl) { %>
+                                        <p>사진 업로드</p>
+                                    <% } 
+                                    if(room.chats[0].chat) { %>
+                                        <p><%= room.chats[0].chat %></p>
+                                    <% } %>
                                     <p id="date"><%= room.chats[0].createdAt %></p>
                                 <% } %>
                             </div>

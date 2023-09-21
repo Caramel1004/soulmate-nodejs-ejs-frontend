@@ -19,8 +19,8 @@ const router = Router();
 // GET /
 router.get('/', viewController.getMainPage);// 1. 메인페이지 == 오픈 채널 컨텐츠가 있는 페이지
 
-// GET /
-// router.get('/:channelId', viewController.getOpenChannelDetailPage);// 1-1. 오픈 채널 세부 정보 페이지
+// GET /open/:channelId
+router.get('/open/:channelId', viewController.getOpenChannelDetailPage); // 1-1. 오픈 채널 세부 정보 페이지
 
 //GET /myprofile
 router.get('/myprofile', accessAuthorizedToken, viewController.getMyProfilePage); // 2. 내 프로필 관리 페이지

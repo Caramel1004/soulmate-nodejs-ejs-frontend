@@ -2,13 +2,12 @@ const activeMenuBtnColor = () => {
     const url = window.location.href;
     const replaceUrl = url.replace('?', '/');
     const path = replaceUrl.split('/')[3];
+    console.log(path);
 
     if (!path) {
         document.getElementById('/').style.background = 'rgb(219, 219, 232)';
     }
 
-    console.log('replaceUrl: ', replaceUrl);
-    console.log('path: ', path);
     if(path === 'mychannel') {
         const channelPath = replaceUrl.split('/')[4];
         document.getElementById(`${path}-${channelPath}`).style.background = 'rgb(219, 219, 232)';
@@ -17,7 +16,10 @@ const activeMenuBtnColor = () => {
 
     if(path === 'channel') {
         const channelPath =  replaceUrl.split('/')[5];
-        console.log(channelPath);
+        if(!channelPath) {
+            document.getElementById(path).style.background = 'rgb(219, 219, 232)';
+        }
+        
         document.getElementById(`mychannel-${channelPath}`).style.background = 'rgb(219, 219, 232)';
         return;
     }

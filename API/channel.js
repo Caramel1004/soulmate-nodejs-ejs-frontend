@@ -23,7 +23,7 @@ const channelAPI = {
     getOpenChannelDetail: async (channelId, next) => {
         try {
             const response = await fetch('http://localhost:8080/v1/channel/openchannel-list/' + channelId, {
-                method: 'POST',
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
                 }

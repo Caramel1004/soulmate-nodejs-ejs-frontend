@@ -28,7 +28,6 @@ const viewController = {
             const { token, refreshToken, sid } = req.signedCookies;
             const resData = await channelService.getOpenChannelList(next);
             hasError(resData.error);
-            // hasNewAuthToken(resData.authStatus);
 
             const channelList = resData.channels;
 
@@ -66,9 +65,33 @@ const viewController = {
     // 1-1. 오픈 채널 세부 정보 페이지
     getOpenChannelDetailPage: async (req, res, next) => {
         try {
-            const { channelId } = req.body;
-            const data = await channelService.getOpenChannelDetail(channelId, next);
+            const { token, refreshToken, sid } = req.signedCookies;
+            const { channelId } = req.params;
+            const channelData = await channelService.getOpenChannelDetail(channelId, next);
+            hasError(channelData.error);
 
+            const channelDetailData = channelData.channelDetail;
+
+            if (req.signedCookies.token) {
+                const userData = await userService.getMyProfile(token, refreshToken, next);
+                hasNewAuthToken(res, userData.authStatus);
+
+                for (const wishChannel of userData.matchedUser.wishChannels) {
+                    if (channelDetailData._id.toString() === wishChannel.toString()) {
+                        channelDetailData.isUserWishChannel = true;
+                        break;
+                    }
+                }
+            }
+
+            res.status(channelData.status.code).render('channel/channel-intro-detail', {
+                path: `/open/:channelId`,
+                title: channelDetailData.channelName,
+                clientName: req.signedCookies.clientName,
+                channels: await redisClient.v4.get(sid),
+                photo: req.signedCookies.photo,
+                channel: channelDetailData
+            });
         } catch (err) {
             next(err)
         }

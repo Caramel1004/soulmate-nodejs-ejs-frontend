@@ -33,52 +33,7 @@
                     </a>
                 <% } %>
             <% } %>
-            
-            <% if(chatRooms){ %>
-                <div id="chat" class="title">
-                    <i class="fa-regular fa-comment fa-lg"></i>
-                    <span>채팅 방</span>
-                </div>
-                <div id="chat-list" class="menu__div-wrapper">
-                    <div class="item">
-                        <button id="modal-open-add-chat"> 
-                            <i class="fa-solid fa-plus fa-lg"></i>
-                            <span>채팅방 추가</span> 
-                        </button>
-                    </div>
-                    <% if(chatRooms.length > 0) { %>
-                        <% for(let room of chatRooms) { %>
-                            <div class="item">
-                                <a href="/channel/chat/<%= room.channelId %>/<%= room._id %>">
-                                    <i class="fa-regular fa-message"></i>
-                                    <span><%= room.roomName %></span>
-                                        
-                      
-                                </a>
-                            </div>
-                        <% } %>
-                    <% } %>
-                </div>
-            <% } %>
         </section>
-        <%- include('./copyright.ejs') %>
-        <!-- 대화방 추가창(모달창) => 채널에 접속 중일때-->
-        <% if(chatRooms) { %>
-            <div class="container-chat hidden">
-                <div class="modal-chat hidden">
-                    <form action="/client/chat/<%= channel._id %>" method="post">
-                        <h2>채팅방</h2>
-                        <div class="box__input">
-                            <label for="roomName">채팅방 명</label>
-                            <span><input type="text" name="roomName" id="roomName" placeholder="채팅방명을 입력하세요."></span>
-                        </div>
-                        <div class="box__button__submit">
-                            <button type="submit">완료</button>
-                            <a id="modal-close-add-chat">취소</a>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        <% } %> 
+        <%- include('./copyright.ejs') %> 
     </div>
 </div>  

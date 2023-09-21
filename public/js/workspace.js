@@ -11,7 +11,7 @@ const postCreatePostToWorkSpace = async () => {
         return;
     }
     try {
-        const content = document.getElementById('content').value;
+        const content = document.getElementById('content').textContent;
         if (content == "") {
             return;
         }
@@ -245,12 +245,17 @@ const replaceText = text => {
 const onKeyDownCreateUnitPost = async event => {
     console.log(event.keyCode);
     console.log(event.isComposing);
-
-    const content = document.getElementById('content').value;
+    console.log(document.getElementById('content').textContent);
+    const content = document.getElementById('content').textContent;
     const replacedContent = replaceText(content);
 
+    if(event.keyCode === 13 && event.shiftKey) {
+        console.log('shift + enter!!');
+        return document.getElementById('content').textContent + '\n';
+    }
+
     if (event.keyCode === 13 && replacedContent === "") {
-        return document.getElementById('content').value.replace('\r\n', '');
+        return document.getElementById('content').textContent.replace('\r\n', '');
     }
 
     if (event.keyCode === 13 && !event.shiftKey && replacedContent !== "") {
@@ -262,16 +267,27 @@ const onKeyDownCreateUnitPost = async event => {
         }
     }
 
+    console.log('replacedContent: ', replacedContent);
+    console.log('엔터키 안누름!!');
+}
+
+const onClickContentInputBox = () => {
+    deletePlaceholder();
+}
+
+const deletePlaceholder = () => {
+    return document.getElementById('placeholder').textContent = '';
+}
+
+const changeTextAreaTagHeight = () => {
     const textarea = document.getElementById('content');
     textarea.style.height = '2px';
     textarea.style.height = (12 + textarea.scrollHeight) + 'px';
+    console.log(textarea.style.height = (12 + textarea.scrollHeight) + 'px');
 
     const history = document.getElementById('history');
     // history.style.height = '2px';
-    history.style.height = (history.style.height - 2) + 'px';
-
-    console.log('replacedContent: ', replacedContent);
-    console.log('엔터키 안누름!!');
+    // history.style.height = (history.style.height - 2) + 'px';
 }
 
 const onKeyPressEnter = async event => {
@@ -820,6 +836,10 @@ const activeSortTypeBtnColor = () => {
 
 document.getElementById('send').addEventListener('click', postCreatePostToWorkSpace);
 document.getElementById('content').addEventListener('keydown', onKeyDownCreateUnitPost);
+document.getElementById('content').addEventListener('focus', onClickContentInputBox);
+document.getElementById('content').addEventListener('unfocus', () => {
+    
+});
 document.getElementById('comment-edit-mode').addEventListener('click', onClickWorkSpaceEditCommentScriptBtn);
 window.addEventListener('DOMContentLoaded', activeSortTypeBtnColor);
 

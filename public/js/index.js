@@ -1,7 +1,10 @@
 /** ----------------- 이벤트 함수 ----------------- */
 const onClickHeartToggleBtn = async channelId => {
-    console.log(channelId)
     await postAddOpenChannelToWishChannel(channelId);
+}
+
+const onClickChannelBox = async channelId => {
+    window.location.href = `http://localhost:3000/open/${channelId}`;
 }
 
 /** ----------------- 태그관련 함수 ----------------- */
