@@ -11,7 +11,7 @@ const postCreatePostToWorkSpace = async () => {
         return;
     }
     try {
-        const content = document.getElementById('content').textContent;
+        const content = document.getElementById('content').innerText;
         if (content == "") {
             return;
         }
@@ -245,23 +245,21 @@ const replaceText = text => {
 const onKeyDownCreateUnitPost = async event => {
     console.log(event.keyCode);
     console.log(event.isComposing);
-    console.log(document.getElementById('content').textContent);
-    const content = document.getElementById('content').textContent;
+
+    const content = document.getElementById('content').innerText;
     const replacedContent = replaceText(content);
 
-    if(event.keyCode === 13 && event.shiftKey) {
-        console.log('shift + enter!!');
-        return document.getElementById('content').textContent + '\n';
-    }
-
     if (event.keyCode === 13 && replacedContent === "") {
-        return document.getElementById('content').textContent.replace('\r\n', '');
+        return document.getElementById('content').innerText.replace('\r\n', '');
     }
 
     if (event.keyCode === 13 && !event.shiftKey && replacedContent !== "") {
         try {
             console.log('엔터키 누름!!');
             await onKeyPressEnter(event);
+            document.getElementById('content').innerText = ''; // 입력폼 텍스트 없애기
+            createPlaceholder(); // placeholder생성
+            document.getElementById('content').blur(); // 블러처리
         } catch (err) {
             console.log(err);
         }
@@ -272,11 +270,21 @@ const onKeyDownCreateUnitPost = async event => {
 }
 
 const onClickContentInputBox = () => {
+    console.log('포커싱!!');
     deletePlaceholder();
 }
 
 const deletePlaceholder = () => {
-    return document.getElementById('placeholder').textContent = '';
+    return document.getElementById('content').removeChild(document.getElementById('placeholder'));
+}
+
+const createPlaceholder = () => {
+    const contentTag = document.getElementById('content');
+    const workSpaceName = document.getElementById('workSpaceName').innerText;
+
+    if (contentTag.innerText === '') {
+        contentTag.insertAdjacentHTML('afterbegin', '<span id="placeholder">' + workSpaceName + '에 내용 올리기</span>');
+    }
 }
 
 const changeTextAreaTagHeight = () => {
@@ -837,8 +845,9 @@ const activeSortTypeBtnColor = () => {
 document.getElementById('send').addEventListener('click', postCreatePostToWorkSpace);
 document.getElementById('content').addEventListener('keydown', onKeyDownCreateUnitPost);
 document.getElementById('content').addEventListener('focus', onClickContentInputBox);
-document.getElementById('content').addEventListener('unfocus', () => {
-    
+document.getElementById('content').addEventListener('blur', () => {
+    console.log('blur!!');
+    createPlaceholder();
 });
 document.getElementById('comment-edit-mode').addEventListener('click', onClickWorkSpaceEditCommentScriptBtn);
 window.addEventListener('DOMContentLoaded', activeSortTypeBtnColor);
