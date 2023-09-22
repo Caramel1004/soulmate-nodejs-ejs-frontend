@@ -22,7 +22,7 @@ body::-webkit-scrollbar-track {
 }
 
 .channel-container {
-    margin-left: 250px;
+    margin-left: 220px;
     padding: 70px;
     padding-left: 0;
     padding-right: 0;
@@ -106,26 +106,21 @@ body::-webkit-scrollbar-track {
     color: rgb(212, 78, 21);
 }
 
-#thema002 {
-    margin-left: 30px;
-    margin-top: 30px;
-    padding: 5px;
-    font-size: 22px;
-    font-weight: bold;
-    /* border: 1px solid black; */
-}
-
 /* 타이틀과 채널박스 아이템들 */
 .wrapper-title-channel-container {
-    display: block;
+    padding: 0;
+    padding-left: 0;
+    display: grid;
     justify-content: center;
+    grid-template-columns: repeat(1, 1000px);
+    /* border: 1px solid black; */
 }
 
 #title {
     margin-top: 40px;
-    padding-left: 60px;
+    /* padding-left: 60px; */
     text-align: left;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: bold;
     /* border: 1px solid black; */
 }
@@ -208,7 +203,12 @@ body::-webkit-scrollbar-track {
 /* card */
 .card {
     padding-top: 0px;
-    /* border: 1px solid black; */
+}
+
+.card-first-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .card h2 {
@@ -226,7 +226,7 @@ body::-webkit-scrollbar-track {
     text-decoration: none;
     border: none;
     font: inherit;
-    font-size: 15px;
+    font-size: 13px;
     color: black;
     display: block;
     background: rgb(243, 243, 246);
@@ -255,6 +255,15 @@ body::-webkit-scrollbar-track {
 .hash:hover,
 .hash:active {
     background: rgb(180, 180, 189);
+}
+
+.remove__btn {
+    padding: 7px 10px 7px 10px;
+    border: none;
+    border-radius: 20px;
+    background: #1d1c1d;
+    color: #ffffff;
+    cursor: pointer;
 }
 
 .footer {

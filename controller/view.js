@@ -33,6 +33,7 @@ const viewController = {
 
             if (req.signedCookies.token) {
                 const data = await userService.getMyProfile(token, refreshToken, next);
+                console.log(data);
                 hasNewAuthToken(res, data.authStatus);
                 for (const wishChannel of data.matchedUser.wishChannels) {
                     channelList.map(channel => {
@@ -102,8 +103,8 @@ const viewController = {
             const { token, refreshToken, sid } = req.signedCookies;
 
             const resData = await userService.getMyProfile(token, refreshToken, next);
-            hasNewAuthToken(res, resData.authStatus);
             hasError(resData.error);
+            hasNewAuthToken(res, resData.authStatus);
 
             const myProfile = resData.matchedUser;
 
@@ -119,6 +120,7 @@ const viewController = {
                 workSpaces: null,
             });
         } catch (err) {
+            console.log(err);
             next(err);
         }
     },
@@ -129,10 +131,10 @@ const viewController = {
             const { token, refreshToken, sid } = req.signedCookies;
 
             const resData = await channelService.getChannelListByUserId(token, refreshToken, req.query.searchWord, next);
+            hasError(resData.error);
             hasNewAuthToken(res, resData.authStatus);
             const staticData = await getCategoryData(next);
 
-            hasError(resData.error);
             console.log(req.sessionStore.userChannels);
             //나의 채널 목록 페이지 렌더링
             res.status(resData.status.code).render('channel/mychannel', {
@@ -176,8 +178,8 @@ const viewController = {
         try {
             const { sid } = req.signedCookies;
             const resData = await channelService.getMyWishChannelList(req.signedCookies.token, req.signedCookies.refreshToken, req.query.searchWord, next);// 관심 채널 리스트
-            hasNewAuthToken(res, resData.authStatus);
             hasError(resData.error);
+            hasNewAuthToken(res, resData.authStatus);
 
             const staticData = await getCategoryData(next);// 서버 정적 데이터: 카테고리 목록
 
@@ -208,8 +210,8 @@ const viewController = {
 
             // 1. 해당 채널아이디 보내주고 해당 채널 입장 요청
             const channelDetailData = await channelService.getChannelDetailByChannelId(jsonWebToken, req.signedCookies.refreshToken, channelId, next);
-            hasNewAuthToken(res, channelDetailData.authStatus);
             hasError(channelDetailData.error);
+            hasNewAuthToken(res, channelDetailData.authStatus);
             const matchedChannel = channelDetailData.channel;
             if (req.signedCookies.token) {
                 const data = await userService.getMyProfile(req.signedCookies.token, req.signedCookies.refreshToken, next);
@@ -265,8 +267,8 @@ const viewController = {
 
             // 1. 채팅 방
             const chatRoomData = await chatService.getLoadChatRoom(token, refreshToken, channelId, chatRoomId, next);
-            hasNewAuthToken(res, chatRoomData.authStatus);
             hasError(chatRoomData.error);
+            hasNewAuthToken(res, chatRoomData.authStatus);
 
             // 2. 채팅방 목록
             const chatRoomListData = await channelService.getChatRoomList(token, req.signedCookies.refreshToken, channelId, next);
@@ -306,8 +308,8 @@ const viewController = {
 
             // 1. 워크스페이스 세부정보
             const workSpaceData = await workspaceService.getLoadWorkspace(token, refreshToken, channelId, workspaceId, query, next);
-            hasNewAuthToken(res, workSpaceData.authStatus);
             hasError(workSpaceData.error);
+            hasNewAuthToken(res, workSpaceData.authStatus);
 
             // 2. 채팅룸 리스트
             const chatRoomListData = await channelService.getChatRoomList(token, req.signedCookies.refreshToken, channelId, next);

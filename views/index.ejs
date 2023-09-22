@@ -37,8 +37,8 @@
                     <div class="channel-box-items">
                         <%if(channelList.length > 0) { %>
                             <% for(let channel of channelList) { %>
-                                <div class="contents__div-wrapper" onclick="onClickChannelBox('<%= channel._id %>')">
-                                    <img src="<%= channel.thumbnail %>">
+                                <div class="contents__div-wrapper">
+                                    <img src="<%= channel.thumbnail %>" onclick="onClickChannelBox('<%= channel._id %>')">
                                     <div class="card">
                                         <h2>채널명 | <%= channel.channelName %></h2>
                                     </div>

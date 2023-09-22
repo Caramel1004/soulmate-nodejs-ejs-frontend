@@ -6,7 +6,7 @@ body {
 
 .board-workspace {
     margin-top: 70px;
-    margin-left: 230px;
+    margin-left: 220px;
     --box-width: 100%;
     --box-height: 100vh;
     border: 0.5px groove rgba(0, 0, 0, 0.26);
@@ -224,7 +224,7 @@ body {
     /* border: 0.5px groove rgba(0, 0, 0, 0.26); */
     border-bottom: none;
     width: auto;
-    height: 70%;
+    height: 73%;
     background: #ffffff;
     display: block;
     /* overflow: hidden; */
@@ -253,7 +253,7 @@ body {
 .board-workspace.box-post-content {
     padding: 10px;
     width: 100%;
-    height: 30%;
+    height: 27%;
     /* display: block; */
     /* position: fixed; */
     border: 1px groove rgba(0, 0, 0, 0.26);
@@ -262,7 +262,7 @@ body {
 
 .inner {
     margin: 17px;
-    margin-bottom: 10px;
+    /* margin-bottom: 5px; */
     /* padding: 1px; */
     display: grid;
     align-items: center;
@@ -419,7 +419,7 @@ textarea:focus {
     /* max-width: 500px; */
     display: inline-block;
     text-align: left;
-    font-size: 17px;
+    font-size: 15px;
     color: #1d1c1d;
     background: #ffffff;
     border-radius: 0.5rem;
@@ -427,13 +427,11 @@ textarea:focus {
     white-space: pre-wrap;
 }
 
-.post-comment textarea {
+/* .post-comment textarea {
     margin: 10px;
     margin-top: 10px;
     padding: 5px;
     padding-left: 10px;
-    /* padding-right: 10px; */
-    /* max-width: 100%; */
     height: 50vh;
     resize: none;
     text-align: left;
@@ -442,7 +440,6 @@ textarea:focus {
     background: #ffffff;
     border: 1px groove rgba(0, 0, 0, 0.1);
     border-radius: 0.5rem;
-    /* overflow: hidden; */
     white-space: pre-wrap;
 }
 
@@ -450,7 +447,7 @@ textarea:focus {
     outline: auto;
     outline-color: rgba(0, 0, 0, 0.26);
     outline-offset: 0.5px;
-}
+} */
 
 /* 쓰레드 css */
 .thread {

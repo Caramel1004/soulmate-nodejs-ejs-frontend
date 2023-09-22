@@ -26,7 +26,7 @@ body::-webkit-scrollbar-track {
 }
 
 .channel-workspace-list-container {
-    margin-left: 230px;
+    margin-left: 200px;
     padding: 70px;
     padding-left: 0;
     padding-right: 0;
@@ -190,7 +190,7 @@ body::-webkit-scrollbar-track {
     text-decoration: none;
     border: none;
     font: inherit;
-    font-size: 15px;
+    font-size: 13px;
     color: black;
     display: block;
     background: rgb(243, 243, 246);

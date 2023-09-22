@@ -5,235 +5,7 @@ function Init() {
     console.log(selectedMembers);
 }
 
-// 게시물 내용 post요청
-const postCreatePostToWorkSpace = async () => {
-    if (!confirm('게시물을 업로드 하시겠습니까?')) {
-        return;
-    }
-    try {
-        const content = document.getElementById('content').innerText;
-        if (content == "") {
-            return;
-        }
-
-        const url = window.location.href;
-
-        const channelId = url.split('/')[5];
-        const workSpaceId = url.split('/')[6].split('?')[0];
-        const replaceContent = content.replace('\r\n', '<br>');
-        console.log('channelId : ', channelId);
-        console.log('workSpaceId : ', workSpaceId);
-        console.log('replaceContent : ', replaceContent);
-
-        const formData = new FormData();
-        formData.append('content', replaceContent);
-
-        await fetch(`http://localhost:3000/client/workspace/create-post/${channelId}/${workSpaceId}`, {
-            method: 'POST',
-            body: formData
-        });
-        console.log('게시물 처리 완료!!!');
-    } catch (err) {
-        console.log(err);
-    }
-}
-
-const postCreateReplyToWorkSpace = async postId => {
-    if (!confirm('댓글을 업로드 하시겠습니까?')) {
-        return;
-    }
-    try {
-        const content = document.getElementById('replyContent').value;
-        if (content == "") {
-            return;
-        }
-        document.getElementById('replyContent').value = "";
-        const url = window.location.href;
-
-        const channelId = url.split('/')[5];
-        const workSpaceId = url.split('/')[6].split('?')[0];
-        const replaceContent = content.replace('\r\n', '<br>');
-        console.log('channelId : ', channelId);
-        console.log('workSpaceId : ', workSpaceId);
-        console.log('postId : ', postId);
-        console.log('replaceContent : ', replaceContent);
-
-        const formData = new FormData();
-        formData.append('postId', postId);
-        formData.append('content', replaceContent);
-
-        await fetch(`http://localhost:3000/client/workspace/post/create-reply/${channelId}/${workSpaceId}`, {
-            method: 'POST',
-            body: formData
-        });
-
-        console.log('댓글 처리 완료!!!');
-    } catch (err) {
-        console.log(err);
-    }
-}
-
-const patchAddMemeberToWorkSpace = async () => {
-    try {
-        const url = window.location.href;
-
-        const channelId = url.split('/')[5];
-        const workSpaceId = url.split('/')[6].split('?')[0];
-        console.log('channelId : ', channelId);
-        console.log('workSpaceId : ', workSpaceId);
-        console.log(this.selectedMembers);
-        await fetch(`http://localhost:3000/client/workspace/invite/${channelId}/${workSpaceId}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                selectedId: this.selectedMembers
-            })
-        });
-
-        return window.location.replace(`http://localhost:3000/channel/workspace/${channelId}/${workSpaceId}?sort=lastest&&sortNum=-1`);
-    } catch (err) {
-        console, log(err);
-    }
-}
-
-const patchRemoveMemeberToWorkSpace = async () => {
-    try {
-        const url = window.location.href;
-
-        const channelId = url.split('/')[5];
-        const workSpaceId = url.split('/')[6].split('?')[0];
-        console.log('channelId : ', channelId);
-        console.log('workSpaceId : ', workSpaceId);
-
-        await fetch(`http://localhost:3000/client/workspace/exit/${channelId}/${workSpaceId}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                channelId: channelId,
-                workSpaceId: workSpaceId
-            })
-        });
-
-        return window.location.replace(`http://localhost:3000/channel/workspace/${channelId}/${workSpaceId}?sort=lastest&&sortNum=-1`);
-    } catch (err) {
-        console, log(err);
-    }
-}
-
-const patchEditCommentScriptToWorkSpace = async () => {
-    try {
-        const url = window.location.href;
-
-        const channelId = url.split('/')[5];
-        const workSpaceId = url.split('/')[6].split('?')[0];
-        const comment = document.querySelector('.textarea__comment-box').value;
-        console.log('channelId : ', channelId);
-        console.log('workSpaceId : ', workSpaceId);
-
-        await fetch(`http://localhost:3000/client/workspace/edit-comment/${channelId}/${workSpaceId}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                channelId: channelId,
-                workSpaceId: workSpaceId,
-                comment: comment
-            })
-        });
-
-        return window.location.replace(`http://localhost:3000/channel/workspace/${channelId}/${workSpaceId}?sort=lastest&&sortNum=-1`);
-    } catch (err) {
-        console.log(err);
-    }
-}
-
-const deleteReplyByCreatorInPost = async (postId, replyId) => {
-    if (!confirm('댓글 삭제 하시겠습니까?')) {
-        return;
-    }
-    try {
-        const url = window.location.href;
-
-        const channelId = url.split('/')[5];
-        const workSpaceId = url.split('/')[6].split('?')[0];
-
-        console.log('channelId : ', channelId);
-        console.log('workSpaceId : ', workSpaceId);
-        console.log('postId : ', postId);
-        console.log('replyId : ', replyId);
-
-        const response = await fetch(`http://localhost:3000/client/workspace/post/delete-reply/${channelId}/${workSpaceId}/${postId}/${replyId}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        const data = await response.json();
-        console.log('댓글 삭제 완료!!!');
-        console.log(data);
-        console.log(document.querySelector('thread'));
-        if (data) {
-            document.querySelector('.thread').removeChild(document.getElementById(`reply-${replyId}`));
-        }
-    } catch (err) {
-        console.log(err);
-    }
-}
-
-const patchEditReplyByCreatorInPost = async (postId, replyId) => {
-    const content = document.querySelector('.modal-reply-edit-mode').querySelector('textarea').value;
-    console.log(content)
-    if (!confirm('댓글 수정 하시겠습니까?')) {
-        return;
-    }
-    try {
-        const url = window.location.href;
-
-        const channelId = url.split('/')[5];
-        const workSpaceId = url.split('/')[6].split('?')[0];
-        const replaceContent = content.replace('\r\n', '<br>');
-
-        console.log('channelId : ', channelId);
-        console.log('workSpaceId : ', workSpaceId);
-        console.log('postId : ', postId);
-        console.log('replyId : ', replyId);
-        console.log('replaceContent : ', replaceContent);
-
-        const formData = new FormData();
-        formData.append('postId', postId);
-        formData.append('replyId', replyId);
-        formData.append('content', replaceContent);
-
-        const response = await fetch(`http://localhost:3000/client/workspace/post/edit-reply/${channelId}/${workSpaceId}`, {
-            method: 'PATCH',
-            body: formData
-        });
-
-        const data = await response.json();
-        console.log('댓글 수정 완료!!!');
-        console.log(data);
-        onClickCloseBtn('modal-background');
-        document.getElementById(`reply-${replyId}`).querySelector('.reply-comment').textContent = data.updatedReply.content;
-    } catch (err) {
-        console.log(err);
-    }
-}
-
-const replaceText = text => {
-    let replacedText = text;
-    replacedText = text.replace(/\s|/gi, '');
-    // replacedText = text.replace(/\r\n| /gi, '<br>');
-
-    return replacedText;
-}
-
-//--------------이벤트 함수------------------//
+/** ----------------- 이벤트 함수 ----------------- */
 
 // 채팅 박스에 textarea 키보드 엔터 시 이벤트
 // 이슈: 한글입력 후 엔터시 중복 입력되는 현상 발생. -> 이벤트가 두번 발생함
@@ -272,30 +44,6 @@ const onKeyDownCreateUnitPost = async event => {
 const onClickContentInputBox = () => {
     console.log('포커싱!!');
     deletePlaceholder();
-}
-
-const deletePlaceholder = () => {
-    return document.getElementById('content').removeChild(document.getElementById('placeholder'));
-}
-
-const createPlaceholder = () => {
-    const contentTag = document.getElementById('content');
-    const workSpaceName = document.getElementById('workSpaceName').innerText;
-
-    if (contentTag.innerText === '') {
-        contentTag.insertAdjacentHTML('afterbegin', '<span id="placeholder">' + workSpaceName + '에 내용 올리기</span>');
-    }
-}
-
-const changeTextAreaTagHeight = () => {
-    const textarea = document.getElementById('content');
-    textarea.style.height = '2px';
-    textarea.style.height = (12 + textarea.scrollHeight) + 'px';
-    console.log(textarea.style.height = (12 + textarea.scrollHeight) + 'px');
-
-    const history = document.getElementById('history');
-    // history.style.height = '2px';
-    // history.style.height = (history.style.height - 2) + 'px';
 }
 
 const onKeyPressEnter = async event => {
@@ -338,6 +86,70 @@ const onClickReplyEditOrRemoveBtn = (action, postId, replyId) => {
         case 'delete': deleteReplyByCreatorInPost(postId, replyId);
             break;
     }
+}
+
+const onClickPostEditModTagCloseBtn = (postId, content) => {
+    const parentNode = document.getElementById(`post-${postId}`).parentNode;// post
+    const postContentTag = document.getElementById(`post-${postId}`);
+    const replyTag = parentNode.querySelector('p');
+
+    postContentTag.parentNode.parentNode.style.background = '#ffffff';
+    parentNode.removeChild(postContentTag);
+    parentNode.removeChild(replyTag);
+
+    const div = document.createElement('div');
+    div.id = `post-${postId}`;
+    div.className = 'post-comment';
+    div.textContent = content;
+    parentNode.appendChild(div);
+    parentNode.appendChild(replyTag);
+}
+
+const onClickWorkSpacePostEditContent = async postId => {
+    console.log(postId)
+    patchEditPostByCreatorInWorkSpace(postId);
+}
+
+const onClickCloseBtn = className => {
+    console.log('close');
+    const parentNode = document.querySelector(`.${className}`);
+
+    document.querySelector('.board-workspace').style.width = '100%';
+    document.body.removeChild(parentNode);
+    this.selectedMembers = [];
+}
+
+/** ----------------- 태그관련 함수 ----------------- */
+const replaceText = text => {
+    let replacedText = text;
+    replacedText = text.replace(/\s|/gi, '');
+    // replacedText = text.replace(/\r\n| /gi, '<br>');
+
+    return replacedText;
+}
+
+const deletePlaceholder = () => {
+    return document.getElementById('content').removeChild(document.getElementById('placeholder'));
+}
+
+const createPlaceholder = () => {
+    const contentTag = document.getElementById('content');
+    const workSpaceName = document.getElementById('workSpaceName').innerText;
+
+    if (contentTag.innerText === '') {
+        contentTag.insertAdjacentHTML('afterbegin', '<span id="placeholder">' + workSpaceName + '에 내용 올리기</span>');
+    }
+}
+
+const changeTextAreaTagHeight = () => {
+    const textarea = document.getElementById('content');
+    textarea.style.height = '2px';
+    textarea.style.height = (12 + textarea.scrollHeight) + 'px';
+    console.log(textarea.style.height = (12 + textarea.scrollHeight) + 'px');
+
+    const history = document.getElementById('history');
+    // history.style.height = '2px';
+    // history.style.height = (history.style.height - 2) + 'px';
 }
 
 const createReplyEditModalTag = (postId, replyId) => {
@@ -447,93 +259,6 @@ const removeAllChild = parent => {
         parent.removeChild(parent.firstChild);
     }
 }
-
-const onClickPostEditModTagCloseBtn = (postId, content) => {
-    const parentNode = document.getElementById(`post-${postId}`).parentNode;// post
-    const postContentTag = document.getElementById(`post-${postId}`);
-    const replyTag = parentNode.querySelector('p');
-
-    postContentTag.parentNode.parentNode.style.background = '#ffffff';
-    parentNode.removeChild(postContentTag);
-    parentNode.removeChild(replyTag);
-
-    const div = document.createElement('div');
-    div.id = `post-${postId}`;
-    div.className = 'post-comment';
-    div.textContent = content;
-    parentNode.appendChild(div);
-    parentNode.appendChild(replyTag);
-}
-
-const onClickWorkSpacePostEditContent = async postId => {
-    console.log(postId)
-    patchEditPostByCreatorInWorkSpace(postId);
-}
-
-const patchEditPostByCreatorInWorkSpace = async postId => {
-    if (!confirm('게시물 내용을 수정 하시겠습니까?')) {
-        return;
-    }
-    try {
-        const url = window.location.href;
-
-        const channelId = url.split('/')[5];
-        const workSpaceId = url.split('/')[6].split('?')[0];
-        const content = document.getElementById('post-edit-content').value;
-        const replaceContent = content.replace('\r\n', '<br>');
-
-        console.log('channelId : ', channelId);
-        console.log('workSpaceId : ', workSpaceId);
-        console.log('postId : ', postId);
-        console.log('content : ', content);
-
-        const formData = new FormData();
-        formData.append('postId', postId);
-        formData.append('content', replaceContent);
-
-        const data = await fetch(`http://localhost:3000/client/workspace/edit-post/${channelId}/${workSpaceId}`, {
-            method: 'PATCH',
-            body: formData
-        });
-
-        if (data.error) {
-            alert(data.error);
-            return;
-        }
-        console.log('게시물 처리 완료!!!');
-
-        return window.location.replace(`http://localhost:3000/channel/workspace/${channelId}/${workSpaceId}?sort=lastest&&sortNum=-1`);
-    } catch (err) {
-        console.log(err);
-    }
-}
-
-const deletePostByCreatorInWorkSpace = async postId => {
-    if (!confirm('게시물을 삭제 하시겠습니까?')) {
-        return;
-    }
-    try {
-        const url = window.location.href;
-
-        const channelId = url.split('/')[5];
-        const workSpaceId = url.split('/')[6].split('?')[0];
-
-        console.log('channelId : ', channelId);
-        console.log('workSpaceId : ', workSpaceId);
-        console.log('postId : ', postId);
-
-        await fetch(`http://localhost:3000/client/workspace/delete-post/${channelId}/${workSpaceId}/${postId}`, {
-            method: 'DELETE'
-        });
-        console.log('게시물 처리 완료!!!');
-
-        return window.location.replace(`http://localhost:3000/channel/workspace/${channelId}/${workSpaceId}?sort=lastest&&sortNum=-1`);
-    } catch (err) {
-        console.log(err);
-    }
-}
-
-//----------태그 생성 함수들-------------//
 
 // 설명 스크립트 편집 쓰레드 생성
 const createEditCommentTag = () => {
@@ -791,6 +516,294 @@ const createUnitPostTag = post => {
     return postContainer;
 }
 
+/** ----------------- API 요청 함수 -----------------*/
+// 게시물 내용 post요청
+const postCreatePostToWorkSpace = async () => {
+    if (!confirm('게시물을 업로드 하시겠습니까?')) {
+        return;
+    }
+    try {
+        const content = document.getElementById('content').innerText;
+        if (content == "") {
+            return;
+        }
+
+        const url = window.location.href;
+
+        const channelId = url.split('/')[5];
+        const workSpaceId = url.split('/')[6].split('?')[0];
+        const replaceContent = content.replace('\r\n', '<br>');
+        console.log('channelId : ', channelId);
+        console.log('workSpaceId : ', workSpaceId);
+        console.log('replaceContent : ', replaceContent);
+
+        const formData = new FormData();
+        formData.append('content', replaceContent);
+
+        await fetch(`http://localhost:3000/client/workspace/create-post/${channelId}/${workSpaceId}`, {
+            method: 'POST',
+            body: formData
+        });
+        console.log('게시물 처리 완료!!!');
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+const postCreateReplyToWorkSpace = async postId => {
+    if (!confirm('댓글을 업로드 하시겠습니까?')) {
+        return;
+    }
+    try {
+        const content = document.getElementById('replyContent').value;
+        if (content == "") {
+            return;
+        }
+        document.getElementById('replyContent').value = "";
+        const url = window.location.href;
+
+        const channelId = url.split('/')[5];
+        const workSpaceId = url.split('/')[6].split('?')[0];
+        const replaceContent = content.replace('\r\n', '<br>');
+        console.log('channelId : ', channelId);
+        console.log('workSpaceId : ', workSpaceId);
+        console.log('postId : ', postId);
+        console.log('replaceContent : ', replaceContent);
+
+        const formData = new FormData();
+        formData.append('postId', postId);
+        formData.append('content', replaceContent);
+
+        await fetch(`http://localhost:3000/client/workspace/post/create-reply/${channelId}/${workSpaceId}`, {
+            method: 'POST',
+            body: formData
+        });
+
+        console.log('댓글 처리 완료!!!');
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+const patchAddMemeberToWorkSpace = async () => {
+    try {
+        const url = window.location.href;
+
+        const channelId = url.split('/')[5];
+        const workSpaceId = url.split('/')[6].split('?')[0];
+        console.log('channelId : ', channelId);
+        console.log('workSpaceId : ', workSpaceId);
+        console.log(this.selectedMembers);
+        await fetch(`http://localhost:3000/client/workspace/invite/${channelId}/${workSpaceId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                selectedId: this.selectedMembers
+            })
+        });
+
+        return window.location.replace(`http://localhost:3000/channel/workspace/${channelId}/${workSpaceId}?sort=lastest&&sortNum=-1`);
+    } catch (err) {
+        console, log(err);
+    }
+}
+
+const patchRemoveMemeberToWorkSpace = async () => {
+    try {
+        const url = window.location.href;
+
+        const channelId = url.split('/')[5];
+        const workSpaceId = url.split('/')[6].split('?')[0];
+        console.log('channelId : ', channelId);
+        console.log('workSpaceId : ', workSpaceId);
+
+        await fetch(`http://localhost:3000/client/workspace/exit/${channelId}/${workSpaceId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                channelId: channelId,
+                workSpaceId: workSpaceId
+            })
+        });
+
+        return window.location.replace(`http://localhost:3000/channel/workspace/${channelId}/${workSpaceId}?sort=lastest&&sortNum=-1`);
+    } catch (err) {
+        console, log(err);
+    }
+}
+
+const patchEditCommentScriptToWorkSpace = async () => {
+    try {
+        const url = window.location.href;
+
+        const channelId = url.split('/')[5];
+        const workSpaceId = url.split('/')[6].split('?')[0];
+        const comment = document.querySelector('.textarea__comment-box').value;
+        console.log('channelId : ', channelId);
+        console.log('workSpaceId : ', workSpaceId);
+
+        await fetch(`http://localhost:3000/client/workspace/edit-comment/${channelId}/${workSpaceId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                channelId: channelId,
+                workSpaceId: workSpaceId,
+                comment: comment
+            })
+        });
+
+        return window.location.replace(`http://localhost:3000/channel/workspace/${channelId}/${workSpaceId}?sort=lastest&&sortNum=-1`);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+const deleteReplyByCreatorInPost = async (postId, replyId) => {
+    if (!confirm('댓글 삭제 하시겠습니까?')) {
+        return;
+    }
+    try {
+        const url = window.location.href;
+
+        const channelId = url.split('/')[5];
+        const workSpaceId = url.split('/')[6].split('?')[0];
+
+        console.log('channelId : ', channelId);
+        console.log('workSpaceId : ', workSpaceId);
+        console.log('postId : ', postId);
+        console.log('replyId : ', replyId);
+
+        const response = await fetch(`http://localhost:3000/client/workspace/post/delete-reply/${channelId}/${workSpaceId}/${postId}/${replyId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const data = await response.json();
+        console.log('댓글 삭제 완료!!!');
+        console.log(data);
+        console.log(document.querySelector('thread'));
+        if (data) {
+            document.querySelector('.thread').removeChild(document.getElementById(`reply-${replyId}`));
+        }
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+const patchEditReplyByCreatorInPost = async (postId, replyId) => {
+    const content = document.querySelector('.modal-reply-edit-mode').querySelector('textarea').value;
+    console.log(content)
+    if (!confirm('댓글 수정 하시겠습니까?')) {
+        return;
+    }
+    try {
+        const url = window.location.href;
+
+        const channelId = url.split('/')[5];
+        const workSpaceId = url.split('/')[6].split('?')[0];
+        const replaceContent = content.replace('\r\n', '<br>');
+
+        console.log('channelId : ', channelId);
+        console.log('workSpaceId : ', workSpaceId);
+        console.log('postId : ', postId);
+        console.log('replyId : ', replyId);
+        console.log('replaceContent : ', replaceContent);
+
+        const formData = new FormData();
+        formData.append('postId', postId);
+        formData.append('replyId', replyId);
+        formData.append('content', replaceContent);
+
+        const response = await fetch(`http://localhost:3000/client/workspace/post/edit-reply/${channelId}/${workSpaceId}`, {
+            method: 'PATCH',
+            body: formData
+        });
+
+        const data = await response.json();
+        console.log('댓글 수정 완료!!!');
+        console.log(data);
+        onClickCloseBtn('modal-background');
+        document.getElementById(`reply-${replyId}`).querySelector('.reply-comment').textContent = data.updatedReply.content;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+
+
+const patchEditPostByCreatorInWorkSpace = async postId => {
+    if (!confirm('게시물 내용을 수정 하시겠습니까?')) {
+        return;
+    }
+    try {
+        const url = window.location.href;
+
+        const channelId = url.split('/')[5];
+        const workSpaceId = url.split('/')[6].split('?')[0];
+        const content = document.getElementById('post-edit-content').value;
+        const replaceContent = content.replace('\r\n', '<br>');
+
+        console.log('channelId : ', channelId);
+        console.log('workSpaceId : ', workSpaceId);
+        console.log('postId : ', postId);
+        console.log('content : ', content);
+
+        const formData = new FormData();
+        formData.append('postId', postId);
+        formData.append('content', replaceContent);
+
+        const data = await fetch(`http://localhost:3000/client/workspace/edit-post/${channelId}/${workSpaceId}`, {
+            method: 'PATCH',
+            body: formData
+        });
+
+        if (data.error) {
+            alert(data.error);
+            return;
+        }
+        console.log('게시물 처리 완료!!!');
+
+        return window.location.replace(`http://localhost:3000/channel/workspace/${channelId}/${workSpaceId}?sort=lastest&&sortNum=-1`);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+const deletePostByCreatorInWorkSpace = async postId => {
+    if (!confirm('게시물을 삭제 하시겠습니까?')) {
+        return;
+    }
+    try {
+        const url = window.location.href;
+
+        const channelId = url.split('/')[5];
+        const workSpaceId = url.split('/')[6].split('?')[0];
+
+        console.log('channelId : ', channelId);
+        console.log('workSpaceId : ', workSpaceId);
+        console.log('postId : ', postId);
+
+        await fetch(`http://localhost:3000/client/workspace/delete-post/${channelId}/${workSpaceId}/${postId}`, {
+            method: 'DELETE'
+        });
+        console.log('게시물 처리 완료!!!');
+
+        return window.location.replace(`http://localhost:3000/channel/workspace/${channelId}/${workSpaceId}?sort=lastest&&sortNum=-1`);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+/** ----------------- 유틸 함수 -----------------*/
+
 const formatter = createdAt => {
     let year = new Date(createdAt).getFullYear();
     let month = new Date(createdAt).getMonth() + 1;
@@ -821,15 +834,6 @@ const formatter = createdAt => {
     return fomatDate;
 }
 
-const onClickCloseBtn = className => {
-    console.log('close');
-    const parentNode = document.querySelector(`.${className}`);
-
-    document.querySelector('.board-workspace').style.width = '100%';
-    document.body.removeChild(parentNode);
-    this.selectedMembers = [];
-}
-
 const activeSortTypeBtnColor = () => {
     const url = window.location.href;
     const queryString = url.split('?')[1];
@@ -841,16 +845,6 @@ const activeSortTypeBtnColor = () => {
     document.getElementById(sortType).style.background = 'black';
     document.getElementById(sortType).classList.add('active');
 }
-
-document.getElementById('send').addEventListener('click', postCreatePostToWorkSpace);
-document.getElementById('content').addEventListener('keydown', onKeyDownCreateUnitPost);
-document.getElementById('content').addEventListener('focus', onClickContentInputBox);
-document.getElementById('content').addEventListener('blur', () => {
-    console.log('blur!!');
-    createPlaceholder();
-});
-document.getElementById('comment-edit-mode').addEventListener('click', onClickWorkSpaceEditCommentScriptBtn);
-window.addEventListener('DOMContentLoaded', activeSortTypeBtnColor);
 
 // ---------------- 멤버 초대 모달창 로직 구간 ------------------ //
 const createInviteMemberModalTag = data => {
@@ -1020,3 +1014,14 @@ const unCheckIcon = _id => {
     circleIcon.className = 'fa-regular fa-circle fa-xl';
     circleIcon.style.color = 'rgba(0, 0, 0, 0.26)';
 }
+
+/** ----------------- 이벤트 리스너 ----------------- */
+document.getElementById('send').addEventListener('click', postCreatePostToWorkSpace);
+document.getElementById('content').addEventListener('keydown', onKeyDownCreateUnitPost);
+document.getElementById('content').addEventListener('focus', onClickContentInputBox);
+document.getElementById('content').addEventListener('blur', () => {
+    console.log('blur!!');
+    createPlaceholder();
+});
+document.getElementById('comment-edit-mode').addEventListener('click', onClickWorkSpaceEditCommentScriptBtn);
+window.addEventListener('DOMContentLoaded', activeSortTypeBtnColor);

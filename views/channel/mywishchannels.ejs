@@ -37,9 +37,12 @@
                         <%if(channelList.length > 0) { %>
                             <% for(let channel of channelList) { %>
                                 <div class="contents__div-wrapper">
-                                    <img src="<%= channel.thumbnail %>">
+                                    <img src="<%= channel.thumbnail %>" id="thumbnail">
                                     <div class="card">
-                                        <h2>채널명 | <%= channel.channelName %></h2>
+                                        <div class="card-first-box">
+                                            <h2>채널명 | <%= channel.channelName %></h2>
+                                            <button id="<%= channel._id %>" class="remove__btn" type="button" onclick="onClickHeartToggleBtn('<%= channel._id %>')">삭제</button>
+                                        </div>
                                     </div>
                                     <div class="card">
                                         <div class="box-member">
@@ -58,7 +61,7 @@
                                 </div>
                             <% } %>
                         <% } else { %>
-                            <h1 style="text-align: center;">나만의 채널을 추가 해보세요!!</h1>
+                            <h4 style="text-align: center;">관심 채널을 추가해보세요.</h4>
                         <% } %>
                     </div>
                 </div>

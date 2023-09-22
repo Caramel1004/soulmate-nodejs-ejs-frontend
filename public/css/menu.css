@@ -13,7 +13,7 @@ i {
 #menu {
     margin-top: 67px;
     padding: 10px;
-    width: 210px;
+    width: 200px;
     height: 100vh;
     display: block;
     position: fixed;
@@ -75,7 +75,7 @@ i {
 
 .menu__a-wrapper span {
     padding-left: 10px;
-    font-size: 14px;
+    font-size: 13px;
     border-radius: 10px;
 }
 

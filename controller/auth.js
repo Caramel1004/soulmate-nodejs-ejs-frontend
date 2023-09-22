@@ -122,8 +122,17 @@ const authController = {
             // console.log(result);
 
             res.redirect('/');
-        } catch (err) {
-            next(err);
+        } catch (error) {
+            res.render('auth/auth', {
+                title: '그이상의 소통 | Soulmate',
+                path: '/login',
+                valid: null,
+                error: error,
+                inputData: {
+                    email: req.body.email,
+                    password: req.body.password
+                }
+            });
         }
     },
     // 카카오 로그인 페이지

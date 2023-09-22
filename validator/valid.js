@@ -1,5 +1,5 @@
 import { errorType } from '../util/status.js';
-import { AuthorizationTokenError, VerificationTokenError, NotFoundDataError, ValidationError } from '../error/error.js'
+import { AuthorizationTokenError, VerificationTokenError, NotFoundDataError, ValidationError, errorHandler } from '../error/error.js'
 import { validationResult, body } from 'express-validator';
 
 // 결과 처리
@@ -54,8 +54,11 @@ export function accessAuthorizedToken(req, res, next) {
 // 에러 검사
 export function hasError(error) {
     if (error) {
+        if (!error.statusCode) {
+            error = errorHandler(error);
+        }
         console.log(error);
-        throw(error);
+        throw (error);
     }
     return '에러가 없습니다.';
 }
@@ -63,7 +66,7 @@ export function hasError(error) {
 /** 인증 토큰 관련 함수 */
 export const hasNewAuthToken = (res, status) => {
     console.log(status)
-    if(status.hasNewAccessToken) {
+    if (status.hasNewAccessToken) {
         console.log('새로운 토큰 발급')
         res.cookie('token', status.newAccessToken, {
             httpOnly: true,

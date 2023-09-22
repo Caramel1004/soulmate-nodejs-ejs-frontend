@@ -1,44 +1,47 @@
-// const show = () => {
-//     const wrapper = document.querySelector('.contents__div-wrapper');
+/** ----------------- 이벤트 함수 ----------------- */
+const onClickHeartToggleBtn = async channelId => {
+    await postAddOpenChannelToWishChannel(channelId);
+}
 
-//     wrapper.style.background = '#ffffff';
-//     wrapper.style.opacity = 0.3;
-//     wrapper.style.border = '1px groove black';
+const onClickChannelBox = async channelId => {
+    window.location.href = `http://localhost:3000/open/${channelId}`;
+}
 
-//     const div = document.createElement('div');
-//     div.id = 'fadeIn'
-//     div.style.position = 'fixed';
-//     div.style.display = 'flex';
-//     div.style.justifyContent = 'center';
-//     div.style.alignItems = 'center';
-//     div.style.zIndex = '99';
-//     div.style.top = '0';
-//     div.style.left = '0';
-//     div.style.width = '100%';
-//     div.style.height = '100%';
+/** ----------------- 태그관련 함수 ----------------- */
+const removeWishChannelTag = channelId => {
+    const removeTag = document.querySelector('.contents__div-wrapper');
+    const parentNode = document.querySelector('.channel-box-items');
 
-//     const btn = document.createElement('button');
-//     btn.textContent = '삭제';
-//     btn.id = 'removeBtn';
-//     btn.style.cursor = 'pointer';
-//     btn.style.zIndex = '100';
-//     div.appendChild(btn);
+    parentNode.removeChild(removeTag);
 
-//     wrapper.appendChild(div);
-// }
+    if (parentNode.children.length <= 0) {
+        parentNode.innerHTML = '<h4>관심 채널을 추가해보세요.</h4>';
+    }
+}
 
-// const hide = () => {
-//     const wrapper = document.querySelector('.contents__div-wrapper');
-//     const fadeIn = document.getElementById('fadeIn');
 
-//     wrapper.removeChild(fadeIn);
+/** ----------------- API 요청 함수 -----------------*/
+const postAddOpenChannelToWishChannel = async channelId => {
+    try {
+        const response = await fetch('http://localhost:3000/client/add-or-remove-wishchannel', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                channelId: channelId
+            })
+        });
+        const data = await response.json();
 
-//     wrapper.style.background = '#ffffff';
-//     wrapper.style.opacity = 1;
-//     wrapper.style.border = '1px groove rgba(0, 0, 0, 0.26)';
+        // 하트 아이콘 업데이트
+        removeWishChannelTag(channelId);
+    } catch (err) {
+        console.log(err);
+    }
+}
 
-    
-// }
-
-// document.querySelector('.contents__div-wrapper').addEventListener('mouseover', show);
-// document.querySelector('.contents__div-wrapper').addEventListener('mouseout', hide);
+/** ----------------- 이벤트 리스너 -----------------*/
+document.getElementById('thumbnail').addEventListener('mouseover', () => {
+    document.getElementById('thumbnail').style.cursor = 'pointer';
+})

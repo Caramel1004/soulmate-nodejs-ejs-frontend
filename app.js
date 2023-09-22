@@ -48,32 +48,6 @@ const sessionOption = {
     })
 };
 
-// 파일 확장자 검사
-// const fileFilter = (req, file, callback) => {
-//     // const fileObj = JSON.parse(req.body.file);
-//     // console.log(fileObj);
-//     console.log('file: ', file);
-//     console.log('file.mimetype : ', file.mimetype);
-//     const fileType = ['image/jpeg', 'image/png', 'image/jpg'];
-//     const mimeType = fileType.find(fileType => fileType === file.mimetype);
-//     console.log('mimeType : ', mimeType);
-//     if (mimeType) {
-//         callback(null, true);
-//     } else {
-//         callback(null, false);
-//     }
-// }
-
-// const fileStorage = multer.diskStorage({
-//     destination: (req, file, callback) => {
-//         console.log(file)
-//         callback(null, 'file');
-//     },
-//     filename: (req, file, callback) => {
-//         callback(null, v4());
-//     }
-// });
-
 // 템플릿 엔진 세팅
 app.set('view engine', 'ejs');
 app.set('views', 'views');
@@ -81,7 +55,6 @@ app.set('views', 'views');
 // 바디 파서
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('file'));
 app.use(multer({ storage: memoryStorage }).single('file'));
 
 // 세션
@@ -107,26 +80,17 @@ app.use((error, req, res, next) => {
         error = errorHandler(error);
     }
 
-    if (error.statusCode == 404) {
-        res.render('auth/auth', {
-            title: '그이상의 소통 | Soulmate',
-            path: '/login',
-            valid: null,
-            error: error,
-            inputData: {
-                email: req.body.email,
-                password: req.body.password
-            }
-        });
+    if (error.statusCode === 401) {
+        console.log(error.statusCode);
+        res.status(error.statusCode).redirect('/logout');
     }
 
-    // if(error.statusCode == 401) {
-    //     console.log('401')
-    //     res.redirect('/logout');
-    // }
+    if (error.statusCode == 404) {
+        process.exit();
+    }
 
     if (error.statusCode == 422) {
-        res.status(error.statusCode).json({
+        res.status(error.statusCode || 500).render('error404', {
             error: error
         });
     }
