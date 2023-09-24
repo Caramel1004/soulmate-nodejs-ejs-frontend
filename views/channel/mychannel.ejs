@@ -33,22 +33,22 @@
                 </div>
                 <div class="wrapper-title-channel-container">
                     <div id="title">
-                        🥰 <span class="client-name"><%= clientName %></span>님의 채널 | 그이상의 소통을 만들어 보세요
+                        <div>🥰 <span class="client-name"><%= clientName %></span>님의 채널 | 그이상의 소통을 만들어 보세요</div>
                     </div>
                     <div class="channel-box-items">
                         <%if(channelList.length > 0) { %>
                             <% for(let channel of channelList) { %>
                                 <div class="contents__div-wrapper">
                                     <img src="<%= channel.thumbnail %>">
-                                    <div class="card">
-                                        <h2>채널명 | <%= channel.channelName %></h2>
+                                    <div class="channel-name-card">
+                                        <span><%= channel.channelName %></span>
                                     </div>
                                     <div class="card">
-                                        <h5>인원수 <%= channel.members.length %>명</h5>
+                                        <i class="fa-solid fa-user"></i><span><%= channel.members.length %></span>
                                     </div>
                                     <div class="card">
                                         <% for(let category of channel.category) { %>
-                                            <h5 href="/client/mychannels/<%= channel._id %>"> 카테고리 | <a class="hash" href="#">#<%= channel.category %></a></h5>
+                                            <a class="hash" href="#">#<%= channel.category %></a>
                                         <% } %>
                                     </div>
                                     <div class="card">

@@ -73,8 +73,8 @@ body::-webkit-scrollbar-track {
 
 #tab-box {
     padding: 5px;
-    font-weight: bold;
     text-align: center;
+    /* font-weight: bold; */
     /* border: 1px solid black; */
 }
 
@@ -104,24 +104,27 @@ body::-webkit-scrollbar-track {
 
 .client-name {
     color: rgb(212, 78, 21);
+    font-weight: bold;
 }
 
 /* 타이틀과 채널박스 아이템들 */
 .wrapper-title-channel-container {
     padding: 0;
-    padding-left: 0;
-    display: grid;
-    justify-content: center;
-    grid-template-columns: repeat(1, 1000px);
-    /* border: 1px solid black; */
+    display: block;
 }
 
 #title {
     margin-top: 40px;
+    padding-bottom: 15px;
     /* padding-left: 60px; */
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fill, 81%);
+    grid-gap: 25px;
     text-align: left;
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 17px;
+    /* font-weight: bold; */
     /* border: 1px solid black; */
 }
 
@@ -132,13 +135,13 @@ body::-webkit-scrollbar-track {
     grid-template-columns: repeat(auto-fill, 230px);
     grid-gap: 25px;
     grid-auto-flow: row;
-    /* border: 1px groove rgba(0, 0, 0, 0.26); */
+    /* border: 1px solid black; */
 }
 
 
 .contents__div-wrapper {
     /* margin-right: 20px; */
-    margin-top: 20px;
+    margin-top: 5px;
     padding: 5px;
     width: 230px;
     text-align: left;
@@ -196,29 +199,45 @@ body::-webkit-scrollbar-track {
     width: 100%;
     height: 150px;
     border-radius: 5px;
-    border-bottom: 1px groove rgb(157, 153, 153);
+    border-bottom: 1px groove rgba(0, 0, 0, 0.1);
 }
 
 
 /* card */
 .card {
-    padding-top: 0px;
+    padding: 10px 0 0 0;
+    /* border: 1px solid black; */
 }
 
-.card-first-box {
+.channel-name-card {
+    padding: 10px 0 0 5px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-}
-
-.card h2 {
-    font-size: 17px;
+    color: #1d1c1d;
+    font-size: 16px;
     font-weight: bolder;
+}
+.channel-name-card span{
+    width: 180px;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow-x: hidden;
 }
 
+.card span {
+    margin-left: 5px;
+    color: rgba(0, 0, 0, 0.26);
+    font-size: 13px;
+    /* font-weight: bolder; */
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+}
+.card i {
+    margin-left: 7px;
+    color: rgba(0, 0, 0, 0.26);
+}
 
 .a__btn-enter {
     padding: 10px;
@@ -240,13 +259,12 @@ body::-webkit-scrollbar-track {
 }
 
 .hash {
-    padding: 5px;
+    padding: 7px 10px 7px 10px;
     text-align: center;
     text-decoration: none;
     border: none;
-    font: inherit;
     font-size: 10px;
-    color: black;
+    color: #1d1c1d;
     background: rgb(243, 243, 246);
     border-radius: 20px;
     cursor: pointer;

@@ -31,30 +31,23 @@
                 </div>
                 <div class="wrapper-title-channel-container">
                     <div id="title">
-                        🥰 <span class="client-name"><%= clientName %></span> 님이 찜한 채널
+                        <div>🥰 <span class="client-name"><%= clientName %></span> 님이 찜한 채널</div>
                     </div>
                     <div class="channel-box-items">
                         <%if(channelList.length > 0) { %>
                             <% for(let channel of channelList) { %>
                                 <div class="contents__div-wrapper">
                                     <img src="<%= channel.thumbnail %>" id="thumbnail">
-                                    <div class="card">
-                                        <div class="card-first-box">
-                                            <h2>채널명 | <%= channel.channelName %></h2>
-                                            <button id="<%= channel._id %>" class="remove__btn" type="button" onclick="onClickHeartToggleBtn('<%= channel._id %>')">삭제</button>
-                                        </div>
+                                    <div class="channel-name-card">
+                                        <span><%= channel.channelName %></span>
+                                        <button id="<%= channel._id %>" class="remove__btn" type="button" onclick="onClickHeartToggleBtn('<%= channel._id %>')">삭제</button>
                                     </div>
                                     <div class="card">
-                                        <div class="box-member">
-                                            <!-- <% for(let member of channel.members) { %>
-                                                <img src="<%= member.photo %>">
-                                            <% } %> -->
-                                            <h5><%= channel.members.length %>명의 크루</h5>
-                                        </div>
+                                        <i class="fa-solid fa-user"></i><span><%= channel.members.length %>명</span>
                                     </div>
                                     <div class="card">
                                         <% for(let category of channel.category) { %>
-                                            <h5 href="/client/mychannels/<%= channel._id %>"> 카테고리 | <a class="hash" href="#">#<%= channel.category %></a></h5>
+                                            <a class="hash" href="#">#<%= channel.category %></a>
                                         <% } %>
                                     </div>
                                     <input type="hidden" name="channelId" value="<%= channel._id %>">
