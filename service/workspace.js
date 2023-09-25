@@ -1,5 +1,5 @@
 import workspaceAPI from '../API/workspace.js'
-
+import { hasError, hasNewAuthToken } from '../validator/valid.js';
 /**
  * 1. 워크스페이스 입장 -> 워크스페이스 페이지
  * 2. 게시물 생성
@@ -16,7 +16,7 @@ const workspaceService = {
     getLoadWorkspace: async (token, refreshToken, channelId, workspaceId, query, next) => {
         try {
             const data = await workspaceAPI.getLoadWorkspace(token, refreshToken, channelId, workspaceId, query, next);
-
+            hasError(data.error);
             const postObjList = data.workSpace.posts;
             const postFormattedCreatedAt = new Date(data.workSpace.createdAt).toLocaleDateString('ko', {
                 year: 'numeric',

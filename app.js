@@ -86,15 +86,15 @@ app.use((error, req, res, next) => {
     }
 
     if (error.statusCode == 404) {
-        process.exit();
+        res.redirect('/');
     }
 
     if (error.statusCode == 422) {
-        res.status(error.statusCode || 500).render('error404', {
+        res.status(error.statusCode || 500).render('error/error404', {
             error: error
         });
     }
-    res.status(error.statusCode || 500).render('error404', {
+    res.status(error.statusCode || 500).render('error/error404', {
         error: error
     });
 });

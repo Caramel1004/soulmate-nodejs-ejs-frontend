@@ -61,6 +61,7 @@ const onClickAddMemberBtn = async event => {
 // 이미지 파일 선택했을 때
 const onChangeSelectFile = async e => {
     const fileTag = e.target;
+    console.log(fileTag.result)
     // console.log(fileTag.files[0]);
     // console.log(fileTag.files[0].name);
     // console.log(fileTag.files[0].size);
@@ -320,8 +321,7 @@ const createPreviewTag = e => {
     console.log(fileInfo.name);
     console.log(fileInfo.size);
     console.log(fileInfo.createdAt);
-    const file = e.target.result;
-    console.log(file)
+    const file = e.target.result;// 인코딩된 파일
 
     const parentNode = document.querySelector('.task-date__box');
     removeAllChild(parentNode);
@@ -436,8 +436,7 @@ const postUploadFileToChatRoom = async () => {
     console.log('tag 생성!!!');
     try {
         const file = document.getElementById('file').files[0];
-        // const img = document.getElementById('preview').querySelector('img').src;
-        // console.log('img: ', img)
+
         if (!file) {
             return;
         }
@@ -451,7 +450,6 @@ const postUploadFileToChatRoom = async () => {
 
         const formData = new FormData();
         formData.set('file', file);
-        // formData.set('image', img)
         formData.set('fileUrl', file.name);
 
         const response = await fetch('http://localhost:3000/client/chat/upload-file/' + channelId + '/' + chatRoomId, {

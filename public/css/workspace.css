@@ -273,7 +273,6 @@ body {
 
 #content {
     padding: 10px;
-    padding-left: 10px;
     font-size: 17px;
     line-height: 27px;
     /* border: 1px groove rgba(0, 0, 0, 0.1); */
@@ -286,13 +285,47 @@ body {
     color: rgba(0, 0, 0, 0.26);
 }
 
-.group {
+#preview-files {
+    padding: 10px 0 10px 10px;
+    display: flex;
+    align-items: center;
+    border-top: 0.5px groove rgba(0, 0, 0, 0.26);
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.attached-file {
+    margin-right: 10px;
+    display: flex;
+    align-items: start;
+}
+
+#remove-upload-file__btn {
+    padding: 0;
+    margin-top: -7px;
+    margin-left: -12px;
+    background: #ffffff;
+    /* border: 1px groove rgba(0, 0, 0, 0.26); */
+    border-radius: 20px;
+}
+
+#remove-upload-file__btn i {
+    color: #000000;
+}
+
+.attached-file img {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+}
+
+/* .group {
     padding: 10px;
     background: rgb(243, 243, 246);
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
-    /* border: 1px groove rgba(0, 0, 0, 0.26); */
-}
+    border: 1px groove rgba(0, 0, 0, 0.26);
+} */
 
 .box-post-content textarea {
     /* 위 | 오른쪽 | 아래 | 왼쪽 */

@@ -1,6 +1,7 @@
 window.onload = Init();
 
 function Init() {
+    this.selectedFiles = [];
     this.selectedMembers = [];// 선택한 유저들 doc아이디 배열로 저장
     console.log(selectedMembers);
 }
@@ -118,6 +119,38 @@ const onClickCloseBtn = className => {
     document.body.removeChild(parentNode);
     this.selectedMembers = [];
 }
+
+/**
+ * 이미지 파일 선택했을 때
+ * @param {e: event}
+ * e.target.files: 파일 오브젝트
+ * e.target.files[0]: 파일 정보
+ * e.target.result: base64로 인코딩된 파일
+ */
+const onChangeSelectFile = async e => {
+    try {
+        const fileTag = e.target;
+        const fileInfo = e.target.files[0];
+        console.log(e.target.files[0]);
+        // console.log(fileTag.files[0]);
+        // console.log(fileTag.files[0].name);
+        // console.log(fileTag.files[0].size);
+        // console.log(fileTag.files[0].lastModifiedDate);
+
+        if (fileTag.files && fileTag.files[0]) {
+            const fileReader = new FileReader();
+            fileReader.onload = createPreviewTag;
+            fileReader.readAsDataURL(fileTag.files[0]);
+        }
+    } catch (error) {
+        alert(error);
+        console.log(error)
+    }
+}
+
+// const onClickFileRemoveBtn = e => {
+//     console.log(e.target);
+// }
 
 /** ----------------- 태그관련 함수 ----------------- */
 const replaceText = text => {
@@ -514,6 +547,60 @@ const createUnitPostTag = post => {
     postContainer.appendChild(postsBox);
 
     return postContainer;
+}
+
+/**
+ * 이미지 미리보기 박스 태그 생성
+ * @param {e: event}
+ * e.target.files: 파일 오브젝트
+ * e.target.files[0]: 파일 정보
+ * e.target.result: base64로 인코딩된 파일
+ */
+const onClickFileRemoveBtn = fileId => {
+    console.log(fileId)
+    const target = document.querySelector(`button[data-fileid="${fileId}"]`);
+    console.log(target)
+    const targetParentNode = target.parentNode;
+    const topParentNode = targetParentNode.parentNode;
+
+    topParentNode.removeChild(targetParentNode);
+    const dataSetedFileId = targetParentNode.dataset.fileid;
+ 
+    this.selectedFiles = [...this.selectedFiles.filter(file => file.fileId !== dataSetedFileId)];
+    console.log(this.selectedFiles);
+}
+const createPreviewTag = e => {
+    try {       
+        const base64EncodedFile = e.target.result;
+        const fileInfo = document.getElementById('file').files[0];//이미 e.target.files[0]은 인코딩되어 없어짐 따라서 dom요소에 접근해 인코딩전 파일 정보가져오기
+
+        if (!base64EncodedFile) {
+            throw new Error('파일을 읽지 못했습니다!!');
+        }
+        const parentNode = document.getElementById('preview-files');
+
+        // 파일 식별 아이디 생성
+        const fileId = new Date().getTime().toString(36);
+        fileInfo.fileId = fileId;
+
+        parentNode.innerHTML +=
+        `<div class="attached-file" data-fileid="${fileId}">
+            <img src="${base64EncodedFile}">
+            <button type="button" id="remove-upload-file__btn" data-fileid="${fileId}">
+                <i class="fa-solid fa-circle-xmark fa-xl"></i>
+            </button>
+        </div>`;
+
+        document.getElementById('remove-upload-file__btn').addEventListener('click', () => {
+            onClickFileRemoveBtn(fileId);
+        })
+
+        // 전역변수 selectedFiles 배열에 저장
+        this.selectedFiles = [...this.selectedFiles, fileInfo];
+    } catch (error) {
+        alert(error)
+        console.log(error)
+    }
 }
 
 /** ----------------- API 요청 함수 -----------------*/
@@ -1023,5 +1110,6 @@ document.getElementById('content').addEventListener('blur', () => {
     console.log('blur!!');
     createPlaceholder();
 });
+document.getElementById('file').addEventListener('change', onChangeSelectFile);
 document.getElementById('comment-edit-mode').addEventListener('click', onClickWorkSpaceEditCommentScriptBtn);
 window.addEventListener('DOMContentLoaded', activeSortTypeBtnColor);

@@ -38,10 +38,10 @@ const toggleBtn = id => {
     }
 }
 
-window.addEventListener('DOMContentLoaded', activeMenuBtnColor);
-document.getElementById('chat').addEventListener('click', () => {
-    toggleBtn('chat-list');
-});
-document.getElementById('workspace').addEventListener('click', () => {
-    toggleBtn('workspace-list');
-});
+// window.addEventListener('DOMContentLoaded', activeMenuBtnColor);
+// document.getElementById('chat').addEventListener('click', () => {
+//     toggleBtn('chat-list');
+// });
+// document.getElementById('workspace').addEventListener('click', () => {
+//     toggleBtn('workspace-list');
+// });
