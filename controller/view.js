@@ -310,6 +310,7 @@ const viewController = {
             const workSpaceData = await workspaceService.getLoadWorkspace(token, refreshToken, channelId, workspaceId, query, next);
             hasError(workSpaceData.error);
             hasNewAuthToken(res, workSpaceData.authStatus);
+            console.log(workSpaceData.workSpace.posts);
 
             // 2. 채팅룸 리스트
             const chatRoomListData = await channelService.getChatRoomList(token, req.signedCookies.refreshToken, channelId, next);

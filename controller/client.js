@@ -230,12 +230,15 @@ const clientControlller = {
     // 9. 워크스페이스에 게시물 생성
     postCreatePostToWorkSpace: async (req, res, next) => {
         try {
-            const token = req.signedCookies.token;
+            const { token, refreshToken } = req.signedCookies;
+            const { channelId, workSpaceId } = req.params;
 
+            console.log(req.files);
             const formData = new FormData();
-            formData.append('content', req.body.content);
+            formData.set('content', req.body.content);
+            formData.set('files', JSON.stringify(req.files));
 
-            const data = await workspaceService.postCreatePostToWorkSpace(token, req.signedCookies.refreshToken, req.params.channelId, req.params.workSpaceId, formData, next);
+            const data = await workspaceService.postCreatePostToWorkSpace(token, refreshToken, channelId, workSpaceId, formData, next);
             hasError(data.error);
 
             res.status(data.status.code).json({

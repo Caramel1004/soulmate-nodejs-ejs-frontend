@@ -57,7 +57,7 @@
                     <% for(let post of workSpace.posts) { %>
                         <div class="post-container">
                             <div class="post-date">
-                                <%= post.fomatDate %>
+                                <span><%= post.fomatDate %></span>
                             </div>
                             <div class="posts">
                                 <div class="post-img-box">
@@ -73,8 +73,18 @@
                                                 <%= post.creator.name %>
                                         <% } %>
                                     </div>
-                                    <div id="post-<%= post._id %>" class="post-comment"><%= post.content %></div>
-                                    <p onclick="createThreadTag('<%= post._id %>')"><%= post.replies.length %>개의 댓글</p>
+                                    <% if(post.content !== "" && post.content !== null) { %>
+                                        <div id="post-<%= post._id %>" class="post-comment"><%= post.content %></div>
+                                    <% } %>
+                                    <% if(post.fileUrls.length > 0) { %>
+                                        <p id="attached-files-number">첨부파일 <%= post.fileUrls.length %>개</p>
+                                        <div class="post-attached-files">
+                                        <% for(let fileUrl of post.fileUrls) { %>
+                                            <img src="http://localhost:8080/<%= fileUrl %>">
+                                        <% } %>
+                                        </div>
+                                    <% } %>
+                                    <p id="reply-number" data-postid="<%= post._id %>" onclick="createThreadTag('<%= post._id %>')"><%= post.replies.length %>개의 댓글</p>
                                 </div>
                             </div>
                         </div>
@@ -106,10 +116,6 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="thread">
-           
-        </div> -->
-
         <script type="module" src="/js/socket.js"></script>
         <%- include('../includes/script.ejs') %>       
     </body>   

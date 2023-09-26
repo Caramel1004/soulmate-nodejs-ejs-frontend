@@ -289,7 +289,7 @@ body {
     padding: 10px 0 10px 10px;
     display: flex;
     align-items: center;
-    border-top: 0.5px groove rgba(0, 0, 0, 0.26);
+    border-bottom: 1px groove rgba(0, 0, 0, 0.1);
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
 }
@@ -378,9 +378,13 @@ textarea:focus {
 .post-date {
     padding: 10px;
     text-align: center;
-    font-size: 18px;
+}
+.post-date span{
+    padding: 10px;
+    font-size: 15px;
     color: #1d1c1d;
-    /* border: groove black 0.5px; */
+    border: 1px groove rgba(0, 0, 0, 0.26);
+    border-radius: 20px;
 }
 
 .posts:hover,
@@ -418,6 +422,7 @@ textarea:focus {
 
 .post {
     margin-left: 10px;
+    display: block;
     /* border: groove black 0.5px; */
 }
 
@@ -456,27 +461,42 @@ textarea:focus {
     white-space: pre-wrap;
 }
 
-/* .post-comment textarea {
-    margin: 10px;
-    margin-top: 10px;
-    padding: 5px;
-    padding-left: 10px;
-    height: 50vh;
-    resize: none;
-    text-align: left;
-    font-size: 15px;
-    color: #1d1c1d;
-    background: #ffffff;
-    border: 1px groove rgba(0, 0, 0, 0.1);
-    border-radius: 0.5rem;
-    white-space: pre-wrap;
+#attached-files-number {
+    margin-left: -10px;
+    padding: 5px 10px 5px 10px;
+    width: 65px;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.26);
 }
 
-.post-comment textarea:focus {
-    outline: auto;
-    outline-color: rgba(0, 0, 0, 0.26);
-    outline-offset: 0.5px;
-} */
+#reply-number {
+    margin-left: -10px;
+    padding: 5px 10px 5px 12px;
+    width: 70px;
+    font-size: 15px;
+    color: #1d1c1d;
+}
+
+#attached-files-number:hover,
+#attached-files-number:active,
+#reply-number:hover,
+#reply-number:active {
+    background: rgb(233, 233, 237);
+    border-radius: 15px;
+}
+
+.post-attached-files {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.post-attached-files img {
+    margin-right: 10px;
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+}
 
 /* 쓰레드 css */
 .thread {

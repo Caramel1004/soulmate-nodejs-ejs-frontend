@@ -159,11 +159,13 @@ const createUnitPostTag = data => {
     console.log('clientNameTag: ', clientNameTag);
 
     // 내용
-    const postComment = document.createElement('div');
-    postComment.classList.add('post-comment');
-    postComment.textContent = post.content;
-    postBox.appendChild(postComment);
-    console.log('postComment: ', postComment);
+    if(data.post.content !== '' && data.post.content !== null){
+        const postComment = document.createElement('div');
+        postComment.classList.add('post-comment');
+        postComment.textContent = post.content;
+        postBox.appendChild(postComment);
+        console.log('postComment: ', postComment);
+    }
 
     postsBox.appendChild(postImgBox);
     postsBox.appendChild(postBox);
@@ -174,7 +176,22 @@ const createUnitPostTag = data => {
     const historyTag = document.querySelector('.box-post-history');
     historyTag.appendChild(postContainer);
 
+    // 추가 태그
+    if(data.post.fileUrls.length > 0){
+        postBox.innerHTML += `<p id="attached-files-number">첨부파일 ${data.post.fileUrls.length}개</p>`;
+        for(const fileUrl of data.post.fileUrls){
+            postBox.innerHTML += 
+            `<div class="post-attached-files">
+                <img src="http://localhost:8080/${fileUrl}">
+            </div>`
+        }
+    }
+
+    postBox.innerHTML += `
+        <p id="reply-number" data-postid="${data.post._id}" onclick="createThreadTag('${data.post._id}')">${post.replies.length}개의 댓글</p>`
+
     document.getElementById('content').value = "";
+    removeAllChild(document.getElementById('preview-files'));
 
     //스크롤 맨아래로 조정
     historyTag.scrollTop = historyTag.scrollHeight;
@@ -289,4 +306,12 @@ const dataLoading = (data, className, callback) => {
         // 실시간으로 게시물 업데이트
         callback(data);
     }, 1000);
+}
+
+// 자식요소 모두 제거 하는 함수
+const removeAllChild = parent => {
+    console.log(parent);
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
 }

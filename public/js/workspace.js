@@ -591,12 +591,14 @@ const createPreviewTag = e => {
             </button>
         </div>`;
 
-        document.getElementById('remove-upload-file__btn').addEventListener('click', () => {
+        document.querySelector(`button[data-fileid="${fileId}"]`).addEventListener('click', e => {
+            console.log('click like');
             onClickFileRemoveBtn(fileId);
         })
 
         // 전역변수 selectedFiles 배열에 저장
         this.selectedFiles = [...this.selectedFiles, fileInfo];
+        return fileId;
     } catch (error) {
         alert(error)
         console.log(error)
@@ -606,15 +608,22 @@ const createPreviewTag = e => {
 /** ----------------- API 요청 함수 -----------------*/
 // 게시물 내용 post요청
 const postCreatePostToWorkSpace = async () => {
+    let content = document.getElementById('content').innerText;
+    const placeholder = document.getElementById('placeholder').innerText;
+    
+    if (content == "" && placeholder && this.selectedFiles.length <= 0) {
+        return;
+    }
+
+    if(placeholder && this.selectedFiles.length > 0) {
+        content = '';
+    }
+    
     if (!confirm('게시물을 업로드 하시겠습니까?')) {
         return;
     }
-    try {
-        const content = document.getElementById('content').innerText;
-        if (content == "") {
-            return;
-        }
 
+    try {
         const url = window.location.href;
 
         const channelId = url.split('/')[5];
@@ -623,17 +632,28 @@ const postCreatePostToWorkSpace = async () => {
         console.log('channelId : ', channelId);
         console.log('workSpaceId : ', workSpaceId);
         console.log('replaceContent : ', replaceContent);
+        console.log('selectedFiles: ', this.selectedFiles);
 
+        // 폼데이터
         const formData = new FormData();
-        formData.append('content', replaceContent);
+        formData.set('content', replaceContent);
+        for(const file of this.selectedFiles){
+            formData.append('files', file);
+        }
 
-        await fetch(`http://localhost:3000/client/workspace/create-post/${channelId}/${workSpaceId}`, {
+        const response = await fetch(`http://localhost:3000/client/workspace/create-post/${channelId}/${workSpaceId}`, {
             method: 'POST',
             body: formData
         });
+        const data = await response.json();
+
+        if(!data) {
+            throw new Error('게시물 업로드 실패');
+        }
         console.log('게시물 처리 완료!!!');
     } catch (err) {
         console.log(err);
+        alert(err);
     }
 }
 

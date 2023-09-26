@@ -1,9 +1,13 @@
 import { Router } from 'express';
+import multer from 'multer';
 
 import clientController from '../controller/client.js';
 import { accessAuthorizedToken } from '../validator/valid.js'
 
 const router = Router();
+
+// 파일 data를 백엔드 서버로 보내기 위한 임시메모리에 저장 => 버퍼형태로 저장(formData)
+const memoryStorage = multer.memoryStorage();
 
 /**
  * 1. 채널 생성
@@ -43,16 +47,16 @@ router.post('/chat/:channelId', accessAuthorizedToken, clientController.postCrea
 router.post('/chat/invite/:channelId/:chatRoomId', accessAuthorizedToken, clientController.postInviteUsersToChatRoom);// 5. 채팅방에 유저 초대
 
 //POST /client/chat/:channelId/:chatRoomId
-router.post('/chat/:channelId/:chatRoomId', accessAuthorizedToken, clientController.postSendChat);// 6. 실시간 채팅 및 채팅창 실시간 업데이트
+router.post('/chat/:channelId/:chatRoomId', accessAuthorizedToken, multer({ storage: memoryStorage }).single('file'), clientController.postSendChat);// 6. 실시간 채팅 및 채팅창 실시간 업데이트
 
 // POST /client/chat/upload-file/:channelId/:chatRoomId
-router.post('/chat/upload-file/:channelId/:chatRoomId', accessAuthorizedToken, clientController.postUploadFileToChatRoom);// 7. 실시간 채팅 및 채팅창 실시간 업데이트
+router.post('/chat/upload-file/:channelId/:chatRoomId', accessAuthorizedToken, multer({ storage: memoryStorage }).single('file'), clientController.postUploadFileToChatRoom);// 7. 파일 업로드
 
 // POST /client/workspace/:channelId
 router.post('/workspace/:channelId', accessAuthorizedToken, clientController.postCreateWorkSpace);// 8. 워크스페이스 생성
 
 // POST /client/workspace/create-post/:channelId/:workSpaceId
-router.post('/workspace/create-post/:channelId/:workSpaceId', accessAuthorizedToken, clientController.postCreatePostToWorkSpace);// 9. 워크스페이스에 게시물 생성
+router.post('/workspace/create-post/:channelId/:workSpaceId', accessAuthorizedToken, multer({ storage: memoryStorage }).array('files', 12), clientController.postCreatePostToWorkSpace);// 9. 워크스페이스에 게시물 생성
 
 // DELETE /client/workspace/delete-post/:channelId/:workSpaceId
 router.delete('/workspace/delete-post/:channelId/:workSpaceId/:postId', accessAuthorizedToken, clientController.deletePostByCreatorInWorkSpace);//10. 워크스페이스에서 해당 유저의 게시물 삭제

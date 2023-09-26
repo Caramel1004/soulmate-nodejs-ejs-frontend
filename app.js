@@ -29,8 +29,6 @@ const socket = sockeClient.init(process.env.BACKEND_API_URL);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// 파일 data를 백엔드 서버로 보내기 위한 임시메모리에 저장 => 버퍼형태로 저장(formData)
-const memoryStorage = multer.memoryStorage();
 
 // 세션 옵션
 const sessionOption = {
@@ -55,7 +53,6 @@ app.set('views', 'views');
 // 바디 파서
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(multer({ storage: memoryStorage }).single('file'));
 
 // 세션
 app.use(session(sessionOption));

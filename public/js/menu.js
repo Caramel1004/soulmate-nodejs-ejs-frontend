@@ -38,7 +38,7 @@ const toggleBtn = id => {
     }
 }
 
-// window.addEventListener('DOMContentLoaded', activeMenuBtnColor);
+window.addEventListener('DOMContentLoaded', activeMenuBtnColor);
 // document.getElementById('chat').addEventListener('click', () => {
 //     toggleBtn('chat-list');
 // });
