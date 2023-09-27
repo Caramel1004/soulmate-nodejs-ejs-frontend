@@ -269,6 +269,7 @@ const viewController = {
             const chatRoomData = await chatService.getLoadChatRoom(token, refreshToken, channelId, chatRoomId, next);
             hasError(chatRoomData.error);
             hasNewAuthToken(res, chatRoomData.authStatus);
+            console.log(chatRoomData.chatRoom.chats);
 
             // 2. 채팅방 목록
             const chatRoomListData = await channelService.getChatRoomList(token, req.signedCookies.refreshToken, channelId, next);

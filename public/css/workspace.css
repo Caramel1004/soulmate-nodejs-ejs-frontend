@@ -286,7 +286,8 @@ body {
 }
 
 #preview-files {
-    padding: 10px 0 10px 10px;
+    /* 위 | 오른쪽 | 아래 | 왼쪽 */
+    padding: 18px 0 18px 17px;
     display: flex;
     align-items: center;
     border-bottom: 1px groove rgba(0, 0, 0, 0.1);
@@ -305,8 +306,9 @@ body {
     margin-top: -7px;
     margin-left: -12px;
     background: #ffffff;
-    /* border: 1px groove rgba(0, 0, 0, 0.26); */
+    border: none;
     border-radius: 20px;
+    cursor: pointer;
 }
 
 #remove-upload-file__btn i {
@@ -327,14 +329,12 @@ body {
     border: 1px groove rgba(0, 0, 0, 0.26);
 } */
 
-.box-post-content textarea {
-    /* 위 | 오른쪽 | 아래 | 왼쪽 */
+/* .box-post-content textarea {
     padding: 10px 0 0 15px;
     width: 95%;
     height: auto;
     border: 1px groove rgba(0, 0, 0, 0.26);
     border-radius: 10px;
-    /* letter-spacing: 0.5px; */
     box-sizing: border-box;
     resize: none;
     font-size: 15px;
@@ -343,29 +343,45 @@ body {
 
 textarea:focus {
     outline: none;
-}
+} */
 
 .btn-group {
     padding: 5px;
-    /* padding-right: 40px; */
-    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
     border-top: 1px groove rgba(0, 0, 0, 0.1);
 }
 
-.box-post-content i {
-    color: #007A5A;
+.btn-group input[type="file"] {
+    display: none;
 }
 
-.box-post-content button {
-    padding: 7px 10px 7px 10px;
+.btn-group button {
+    padding: 9px 8px 9px 8px;
     border: 0.5px groove rgba(0, 0, 0, 0.26);
     border-radius: 10px;
     background: #ffffff;
     cursor: pointer;
 }
 
-.box-post-content button:hover,
-.box-post-content button:active {
+.btn-group label[for='file'] {
+    padding: 9px 8px 9px 12px;
+    /* border: 0.5px groove rgba(0, 0, 0, 0.26); */
+    border-radius: 20px;
+    background: #ffffff;
+    cursor: pointer;
+}
+
+.btn-group i {
+    color: #007A5A;
+}
+
+.btn-group label[for='file']:hover,
+.btn-group label[for='file']:active,
+.btn-group button:hover,
+.btn-group button:active {
     opacity: 0.7;
 }
 
@@ -376,10 +392,12 @@ textarea:focus {
 }
 
 .post-date {
-    padding: 10px;
+    padding: 20px;
     text-align: center;
+    /* border: 0.5px groove rgba(0, 0, 0, 0.26); */
 }
-.post-date span{
+
+.post-date span {
     padding: 10px;
     font-size: 15px;
     color: #1d1c1d;
@@ -447,7 +465,7 @@ textarea:focus {
 .post-comment {
     margin-top: 10px;
     padding: 5px;
-    padding-right: 10px;
+    /* padding-right: 10px; */
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.26);
     /* max-width: 95%; */
     /* max-width: 500px; */
@@ -493,8 +511,8 @@ textarea:focus {
 
 .post-attached-files img {
     margin-right: 10px;
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     border-radius: 10px;
 }
 

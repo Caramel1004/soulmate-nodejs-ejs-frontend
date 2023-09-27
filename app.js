@@ -63,7 +63,6 @@ app.use(cookieParser(process.env.COOKIE_SECRET_KEY));
 // 정적 파일 처리
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
-app.use('/file', express.static(path.join(__dirname, 'file')));
 
 // 동적 라우트 처리
 app.use(viewRoutes);

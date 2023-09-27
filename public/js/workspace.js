@@ -18,24 +18,28 @@ function Init() {
 const onKeyDownCreateUnitPost = async event => {
     console.log(event.keyCode);
     console.log(event.isComposing);
+    // const kbdEvent = new KeyboardEvent("syntheticKey", false);
+    // console.log(kbdEvent.isComposing); // return false
 
     const content = document.getElementById('content').innerText;
     const replacedContent = replaceText(content);
+    console.log(replacedContent);
 
-    if (event.keyCode === 13 && replacedContent === "") {
-        return document.getElementById('content').innerText.replace('\r\n', '');
-    }
-
-    if (event.keyCode === 13 && !event.shiftKey && replacedContent !== "") {
+    if ((event.keyCode === 13 && !event.shiftKey && replacedContent !== "") || (event.keyCode === 13 && !event.shiftKey && this.selectedFiles.length > 0)) {
         try {
             console.log('엔터키 누름!!');
             await onKeyPressEnter(event);
             document.getElementById('content').innerText = ''; // 입력폼 텍스트 없애기
             createPlaceholder(); // placeholder생성
             document.getElementById('content').blur(); // 블러처리
+            this.selectedFiles = [];// 파일들 비우기
         } catch (err) {
             console.log(err);
         }
+    }
+
+    if (event.keyCode === 13 && replacedContent === "") {
+        return document.getElementById('content').innerText.replace('\r\n', '');
     }
 
     console.log('replacedContent: ', replacedContent);
@@ -170,7 +174,7 @@ const createPlaceholder = () => {
     const workSpaceName = document.getElementById('workSpaceName').innerText;
 
     if (contentTag.innerText === '') {
-        contentTag.insertAdjacentHTML('afterbegin', '<span id="placeholder">' + workSpaceName + '에 내용 올리기</span>');
+        contentTag.insertAdjacentHTML('afterbegin', '<div id="placeholder">' + workSpaceName + '에 내용 올리기</div>');
     }
 }
 
@@ -565,12 +569,12 @@ const onClickFileRemoveBtn = fileId => {
 
     topParentNode.removeChild(targetParentNode);
     const dataSetedFileId = targetParentNode.dataset.fileid;
- 
+
     this.selectedFiles = [...this.selectedFiles.filter(file => file.fileId !== dataSetedFileId)];
     console.log(this.selectedFiles);
 }
 const createPreviewTag = e => {
-    try {       
+    try {
         const base64EncodedFile = e.target.result;
         const fileInfo = document.getElementById('file').files[0];//이미 e.target.files[0]은 인코딩되어 없어짐 따라서 dom요소에 접근해 인코딩전 파일 정보가져오기
 
@@ -584,7 +588,7 @@ const createPreviewTag = e => {
         fileInfo.fileId = fileId;
 
         parentNode.innerHTML +=
-        `<div class="attached-file" data-fileid="${fileId}">
+            `<div class="attached-file" data-fileid="${fileId}">
             <img src="${base64EncodedFile}">
             <button type="button" id="remove-upload-file__btn" data-fileid="${fileId}">
                 <i class="fa-solid fa-circle-xmark fa-xl"></i>
@@ -609,16 +613,19 @@ const createPreviewTag = e => {
 // 게시물 내용 post요청
 const postCreatePostToWorkSpace = async () => {
     let content = document.getElementById('content').innerText;
-    const placeholder = document.getElementById('placeholder').innerText;
-    
-    if (content == "" && placeholder && this.selectedFiles.length <= 0) {
+    const contentTagChildren = document.getElementById('content').children;// placeholder
+    console.log('contentTagChildren: ', contentTagChildren.length);
+    console.log('content: ', content);
+
+    // placeholder있고 파일 없으면 리턴
+    if (contentTagChildren.length > 0 && this.selectedFiles.length <= 0) {
         return;
     }
 
-    if(placeholder && this.selectedFiles.length > 0) {
+    if (contentTagChildren.length > 0 && this.selectedFiles.length > 0) {
         content = '';
     }
-    
+
     if (!confirm('게시물을 업로드 하시겠습니까?')) {
         return;
     }
@@ -637,7 +644,7 @@ const postCreatePostToWorkSpace = async () => {
         // 폼데이터
         const formData = new FormData();
         formData.set('content', replaceContent);
-        for(const file of this.selectedFiles){
+        for (const file of this.selectedFiles) {
             formData.append('files', file);
         }
 
@@ -647,7 +654,7 @@ const postCreatePostToWorkSpace = async () => {
         });
         const data = await response.json();
 
-        if(!data) {
+        if (!data) {
             throw new Error('게시물 업로드 실패');
         }
         console.log('게시물 처리 완료!!!');

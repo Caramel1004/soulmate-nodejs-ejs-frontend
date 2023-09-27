@@ -50,7 +50,7 @@ router.post('/chat/invite/:channelId/:chatRoomId', accessAuthorizedToken, client
 router.post('/chat/:channelId/:chatRoomId', accessAuthorizedToken, multer({ storage: memoryStorage }).single('file'), clientController.postSendChat);// 6. 실시간 채팅 및 채팅창 실시간 업데이트
 
 // POST /client/chat/upload-file/:channelId/:chatRoomId
-router.post('/chat/upload-file/:channelId/:chatRoomId', accessAuthorizedToken, multer({ storage: memoryStorage }).single('file'), clientController.postUploadFileToChatRoom);// 7. 파일 업로드
+router.post('/chat/upload-file/:channelId/:chatRoomId', accessAuthorizedToken, multer({ storage: memoryStorage }).array('files', 12), clientController.postUploadFileToChatRoom);// 7. 파일 업로드
 
 // POST /client/workspace/:channelId
 router.post('/workspace/:channelId', accessAuthorizedToken, clientController.postCreateWorkSpace);// 8. 워크스페이스 생성

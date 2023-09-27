@@ -104,14 +104,18 @@
                     </div> -->
                     <div id="preview-files"></div>
                     <div id="content" name="content" contenteditable="true">
-                        <span id="placeholder">#<%= workSpace.workSpaceName %>에 내용 올리기</span>
+                        <div id="placeholder">#<%= workSpace.workSpaceName %>에 내용 올리기</div>
                     </div>
                     <div class="btn-group">
-                        <label for="file">
-                            <input type="file" id="file" name="file" multiple>
-                            <i class="fa-solid fa-image fa-lg"></i>
-                        </label>
-                        <button type="button" id="send"><i class="fa-solid fa-paper-plane fa-xl"></i></button>
+                        <div class="position-right-icon">
+                            <label for="file">
+                                <input type="file" id="file" name="file" multiple>
+                                <i class="fa-solid fa-file fa-lg"></i>
+                            </label>
+                        </div>
+                        <div>
+                            <button type="button" id="send"><i class="fa-solid fa-paper-plane fa-xl"></i></button>
+                        </div>
                     </div>
                 </div>
             </div>

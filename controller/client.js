@@ -194,11 +194,9 @@ const clientControlller = {
             const { token, refreshToken } = req.signedCookies;
             const { channelId, chatRoomId } = req.params;
 
-            console.log(req.file);
-            console.log(req.body.fileUrl);
             const formData = new FormData();
-            formData.set('file', JSON.stringify(req.file));
-            formData.set('fileUrl', req.body.fileUrl);
+            formData.set('content', req.body.content);
+            formData.set('files', JSON.stringify(req.files));
 
             const data = await chatService.postUploadFileToChatRoom(token, refreshToken, channelId, chatRoomId, formData, next);
             hasError(data.error);

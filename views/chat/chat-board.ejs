@@ -35,8 +35,10 @@
                                     <% } else { %>
                                         <div class="other-client-name"><%= chatDetail.creator.name %></div>
                                     <% } %>
-                                    <% if(chatDetail.fileUrl) { %>
-                                        <img id="images" src="http://localhost:8080/<%= chatDetail.fileUrl %>">
+                                    <% if(chatDetail.fileUrls.length > 0) { %>
+                                        <% for(let fileUrl of chatDetail.fileUrls) { %>
+                                            <img id="images" src="http://localhost:8080/<%= fileUrl %>">
+                                        <% } %>
                                     <% } else { %>
                                         <div class="board-chat__unit-chat"><%= chatDetail.chat %></div>
                                     <% } %>

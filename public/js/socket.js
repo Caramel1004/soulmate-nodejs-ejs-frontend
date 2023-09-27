@@ -94,13 +94,12 @@ const createUnitChatTag = async (data, action) => {
         unitChat.textContent = data.currentChat;
         chatBox.appendChild(unitChat);
     }else if(action === 'sendFile') {
-        // const fileBox = document.createElement('div');
-        // fileBox.classList.add('board-chat__unit-chat');
         const image = document.createElement('img');
-        image.src = `${DOMAIN}/${data.fileUrl}`;
-        image.id = 'images';
-        // fileBox.appendChild(image);
-        chatBox.appendChild(image);
+        for(const fileUrl of data.fileUrls){
+            image.src = `${DOMAIN}/${fileUrl}`;
+            image.id = 'images';
+            chatBox.appendChild(image);
+        }
     }
 
     // 타임 스탬프
@@ -125,6 +124,7 @@ const createUnitChatTag = async (data, action) => {
 
 const createUnitPostTag = data => {
     const post = data.post;
+
     // 게시물 컨테이너
     const postContainer = document.createElement('div');
     postContainer.classList.add('post-container');
@@ -178,12 +178,12 @@ const createUnitPostTag = data => {
 
     // 추가 태그
     if(data.post.fileUrls.length > 0){
-        postBox.innerHTML += `<p id="attached-files-number">첨부파일 ${data.post.fileUrls.length}개</p>`;
+        postBox.innerHTML += 
+        `<p id="attached-files-number">첨부파일 ${data.post.fileUrls.length}개</p>
+        <div class="post-attached-files"></div>`;
+        console.log(postBox.children);
         for(const fileUrl of data.post.fileUrls){
-            postBox.innerHTML += 
-            `<div class="post-attached-files">
-                <img src="http://localhost:8080/${fileUrl}">
-            </div>`
+            postBox.querySelector('.post-attached-files').innerHTML += `<img src="${DOMAIN}/${fileUrl}">`
         }
     }
 

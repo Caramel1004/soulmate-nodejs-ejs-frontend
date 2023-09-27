@@ -444,13 +444,11 @@ const postUploadFileToChatRoom = async () => {
 
         const channelId = url.split('/')[5];
         const chatRoomId = url.split('/')[6];
-        console.log('channelId : ', channelId);
-        console.log('chatRoomId : ', chatRoomId);
-        console.log('file : ', file);
 
         const formData = new FormData();
-        formData.set('file', file);
-        formData.set('fileUrl', file.name);
+        formData.append('files', file);
+        // for(const file of this.selectedFiles){
+        // }
 
         const response = await fetch('http://localhost:3000/client/chat/upload-file/' + channelId + '/' + chatRoomId, {
             method: 'POST',
