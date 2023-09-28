@@ -595,7 +595,7 @@ const createPreviewTag = e => {
             </button>
         </div>`;
 
-        document.querySelector(`button[data-fileid="${fileId}"]`).addEventListener('click', e => {
+        parentNode.querySelector(`button[data-fileid="${fileId}"]`).addEventListener('click', e => {
             console.log('click like');
             onClickFileRemoveBtn(fileId);
         })

@@ -1,8 +1,8 @@
 /** ----------------- 이벤트 함수 ----------------- */
 
 // 프로필 박스에 한개의 엘리먼트 클릭 이벤트
-const onClickMyProfileEditBtn = (id, text) => {
-    createMyProfileEditModalTag(id, text);
+const onClickMyProfileEditBtn = (id, text, type) => {
+    createMyProfileEditModalTag(id, text, type);
 }
 
 const onClickpatchEditMyProfileByReqUserBtn = id => {
@@ -13,10 +13,25 @@ const onClickCloseBtn = className => {
     removeChildrenTag(className);
 }
 
+const onChangeSelectFile = async e => {
+    try {
+        const fileTag = e.target;
+
+        if (fileTag.files && fileTag.files[0]) {
+            const fileReader = new FileReader();
+            fileReader.onload = changePreviewPhoto;
+            fileReader.readAsDataURL(fileTag.files[0]);
+        }
+    } catch (error) {
+        alert(error);
+        console.log(error)
+    }
+}
+
 /** ----------------- 태그관련 함수 ----------------- */
 
 // 이름, 이미지, 등등
-const createMyProfileEditModalTag = (id, text) => {
+const createMyProfileEditModalTag = (id, text, type) => {
     const body = document.body;
 
     // 모달창 백그라운드
@@ -61,16 +76,53 @@ const createMyProfileEditModalTag = (id, text) => {
 
     modal.appendChild(btnBox);
 
-    // 입력 태그
     const input = document.createElement('input');
-    input.name = id;
-    input.type = 'text'
-    input.value = document.getElementById(`${id}`).querySelector('p').textContent;
 
-    modal.appendChild(input);
+    switch (id) {
+        case 'name':
+            // 입력 태그
+            input.name = id;
+            input.type = type;
+            input.value = document.getElementById(`${id}`).querySelector('p').textContent;
+            modal.appendChild(input);
+            break;
+        case 'photo':
+            modal.innerHTML +=
+                `<img src="${document.querySelector('.photo-box').querySelector('img').src}">
+                <label for="file">
+                    <input type="file" id="file" name="photo" multiple>
+                    <i class="fa-regular fa-pen-to-square"></i>
+                </label>`;
+            modal.querySelector('label[for="file"]').addEventListener('change', onChangeSelectFile);
+            break;
+        case 'phone':
+            // 입력 태그
+            input.name = id;
+            input.type = type;
+            input.value = document.getElementById(`${id}`).querySelector('p').textContent;
+            modal.appendChild(input);
+            break;
+    }
+
     modal.appendChild(editBtn);
     modal.appendChild(cancelBtn);
     modalBackGround.appendChild(modal);
+}
+
+const changePreviewPhoto = e => {
+    try {
+        const base64EncodedFile = e.target.result;
+
+        if (!base64EncodedFile) {
+            throw new Error('파일을 읽지 못했습니다!!');
+        }
+        const imgTag = document.querySelector('.modal-edit-mode').querySelector('img');
+        imgTag.src = base64EncodedFile;
+
+    } catch (error) {
+        alert(error)
+        console.log(error)
+    }
 }
 
 // 부모 태그에서 자식 태그 삭제 -> 모달창 제거
@@ -97,32 +149,25 @@ const updatedTag = (id, data) => {
     }
 }
 
-/** ----------------- 이벤트리스너 ----------------- */
-document.getElementById('name').addEventListener('click', () => {
-    onClickMyProfileEditBtn('name', '이름');
-});
-document.getElementById('phone').addEventListener('click', () => {
-    onClickMyProfileEditBtn('phone', '핸드폰 번호');
-});
-
 /** ----------------- API 요청 함수 -----------------*/
 const patchEditMyProfileByReqUser = async id => {
-    console.log(id);
-    const dataToBeEdit = document.querySelector(`input[name="${id}"]`).value;
-    console.log(dataToBeEdit)
+    let dataToBeEdit;
     try {
         let hasNameToBeEdit = false;
         let hasPhotoToBeEdit = false;
         let hasPhoneToBeEdit = false;
         switch (id) {
             case 'name': hasNameToBeEdit = true;
+                dataToBeEdit = document.querySelector(`input[name="${id}"]`).value;
                 break;
             case 'photo': hasPhotoToBeEdit = true;
+                dataToBeEdit = document.getElementById('file').files[0];
                 break;
             case 'phone': hasPhoneToBeEdit = true;
+                dataToBeEdit = document.querySelector(`input[name="${id}"]`).value;
                 break;
         }
-
+        console.log(dataToBeEdit);
         const formData = new FormData();
         formData.append('data', dataToBeEdit);
         formData.append('hasNameToBeEdit', hasNameToBeEdit);
@@ -142,3 +187,15 @@ const patchEditMyProfileByReqUser = async id => {
         console.log(err)
     }
 }
+
+/** ----------------- 이벤트리스너 ----------------- */
+document.getElementById('name').addEventListener('click', () => {
+    onClickMyProfileEditBtn('name', '이름', 'text');
+});
+document.getElementById('phone').addEventListener('click', () => {
+    onClickMyProfileEditBtn('phone', '핸드폰 번호', 'text');
+});
+document.getElementById('photo').addEventListener('click', () => {
+    console.log('photo')
+    onClickMyProfileEditBtn('photo', '프로필 이미지', 'file');
+});

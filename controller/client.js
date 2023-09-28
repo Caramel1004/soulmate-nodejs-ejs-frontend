@@ -443,15 +443,26 @@ const clientControlller = {
     patchEditMyProfileByReqUser: async (req, res, next) => {
         try {
             const { token, refreshToken } = req.signedCookies;
-
+            console.log(req.body.data);
+            console.log(req.files);
             const formData = new FormData();
-            formData.append('data', req.body.data);
+            if (req.files.length > 0) {
+                formData.append('data', JSON.stringify(req.files));
+            } else {
+                formData.append('data', req.body.data);
+            }
             formData.append('hasNameToBeEdit', req.body.hasNameToBeEdit);
             formData.append('hasPhotoToBeEdit', req.body.hasPhotoToBeEdit);
             formData.append('hasPhoneToBeEdit', req.body.hasPhoneToBeEdit);
-
+            
             const data = await userService.patchEditMyProfileByReqUser(token, refreshToken, formData, next);
             hasError(data.error);
+
+            res.cookie('clientName', data.updatedData.photoUrl, {
+                httpOnly: true,
+                secure: false,
+                signed: true
+            });
 
             res.status(data.status.code).json({
                 status: data.status,

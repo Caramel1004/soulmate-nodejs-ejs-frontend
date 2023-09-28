@@ -29,12 +29,22 @@ body::-webkit-scrollbar-track {
     /* border: 1px groove black; */
 }
 
-
 .photo-box {
     margin-top: 50px;
     text-align: center;
     color: #1d1c1d;
     /* border: 1px groove black; */
+}
+
+.photo-box button {
+    padding: 10px;
+    background: #ffffff;
+    border: none;
+    cursor: pointer;
+}
+
+.photo-box i {
+    color: rgba(0, 0, 0, 0.4);
 }
 
 .photo-box span {
@@ -43,7 +53,8 @@ body::-webkit-scrollbar-track {
     font-weight: bolder;
 }
 
-.photo-box img {
+.photo-box img,
+.modal-edit-mode img {
     width: 200px;
     height: 200px;
     border-radius: 400px;
@@ -203,7 +214,7 @@ li i {
     align-items: center;
     justify-content: center;
     border-radius: 10px;
-    /* text-align: center; */
+    text-align: center;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.26);
     background: #ffffff;
 }
@@ -221,6 +232,19 @@ li i {
 .modal-edit-mode input[name="name"]:focus,
 .modal-edit-mode input[name="phone"]:focus {
     outline: none;
+}
+
+.modal-edit-mode input[type="file"] {
+    /* display: none; */
+}
+
+.modal-edit-mode label[for='file'] {
+    margin-top: 50px;
+    padding: 9px 8px 9px 12px;
+    border: 0.5px groove rgba(0, 0, 0, 0.26);
+    border-radius: 20px;
+    background: #ffffff;
+    cursor: pointer;
 }
 
 .edit-icon {

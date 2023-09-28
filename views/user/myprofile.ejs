@@ -14,7 +14,10 @@
         <%- include('../includes/loading.ejs') %>
         <div id="myprofile-container">
             <section class="photo-box">
-                <img src=<%= myProfile.photo %> id="photo">
+                <img src=<%= myProfile.photo %>>
+                <button type="button" id="photo" name="photo">
+                    <i class="fa-regular fa-pen-to-square fa-lg"></i>
+                </button>
                 <p><span id="client"><%= myProfile.name %></span>님, 환영 합니다.</p>
             </section>
             <section class="myprofile">

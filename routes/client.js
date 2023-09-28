@@ -95,6 +95,6 @@ router.patch('/workspace/edit-comment/:channelId/:workSpaceId', accessAuthorized
 router.patch('/workspace/invite/:channelId/:workSpaceId', accessAuthorizedToken, clientController.postInviteUsersToWorkSpace);// 19. 워크 스페이스에 유저 초대 -> 전체공개 or 초대한 유저만 이용
 
 // PATCH /client/edit-myprofile
-router.patch('/edit-myprofile', accessAuthorizedToken, clientController.patchEditMyProfileByReqUser);// 나의 프로필 수정
+router.patch('/edit-myprofile', accessAuthorizedToken, multer({ storage: memoryStorage }).array('data', 1), clientController.patchEditMyProfileByReqUser);// 나의 프로필 수정
 
 export default router;
