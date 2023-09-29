@@ -20,9 +20,14 @@ const userAPI = {
             next(err);
         }
     },
-    patchEditMyProfileByReqUser: async (token, refreshToken, formData, next) => {
+    patchEditMyProfileByReqUser: async (token, refreshToken, formData, hasPhotoToBeEdit, next) => {
         try {
-            const response = await fetch('http://localhost:8080/v1/user/edit-myprofile', {
+            let request = 'edit-myprofile';
+            if(hasPhotoToBeEdit == 'true') {
+                request = 'edit-myprofile-photo'
+            }
+            console.log(request);
+            const response = await fetch(`http://localhost:8080/v1/user/${request}`, {
                 method: 'PATCH',
                 headers: {
                     Authorization: 'Bearer ' + token,

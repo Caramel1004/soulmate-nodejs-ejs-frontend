@@ -13,9 +13,9 @@ const userService = {
             next(err);
         }
     },
-    patchEditMyProfileByReqUser: async (token, refreshToken, formData, next) => {
+    patchEditMyProfileByReqUser: async (token, refreshToken, formData, hasPhotoToBeEdit, next) => {
         try {
-            const resData = await userAPI.patchEditMyProfileByReqUser(token, refreshToken, formData, next);
+            const resData = await userAPI.patchEditMyProfileByReqUser(token, refreshToken, formData, hasPhotoToBeEdit, next);
 
             return resData;
         } catch (err) {

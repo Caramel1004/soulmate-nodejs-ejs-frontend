@@ -454,8 +454,8 @@ const clientControlller = {
             formData.append('hasNameToBeEdit', req.body.hasNameToBeEdit);
             formData.append('hasPhotoToBeEdit', req.body.hasPhotoToBeEdit);
             formData.append('hasPhoneToBeEdit', req.body.hasPhoneToBeEdit);
-            
-            const data = await userService.patchEditMyProfileByReqUser(token, refreshToken, formData, next);
+
+            const data = await userService.patchEditMyProfileByReqUser(token, refreshToken, formData, req.body.hasPhotoToBeEdit, next);
             hasError(data.error);
 
             res.cookie('clientName', data.updatedData.photoUrl, {
