@@ -107,7 +107,7 @@ const viewController = {
             hasNewAuthToken(res, resData.authStatus);
 
             const myProfile = resData.matchedUser;
-
+            console.log(myProfile);
             res.render('user/myprofile', {
                 path: '/myprofile',
                 title: 'Soulmate | ' + myProfile.name + '님의 프로필',

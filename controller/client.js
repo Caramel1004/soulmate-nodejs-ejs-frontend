@@ -447,7 +447,7 @@ const clientControlller = {
             console.log(req.files);
             const formData = new FormData();
             if (req.files.length > 0) {
-                formData.append('data', JSON.stringify(req.files));
+                formData.append('photo', JSON.stringify(req.files));
             } else {
                 formData.append('data', req.body.data);
             }
@@ -457,12 +457,14 @@ const clientControlller = {
 
             const data = await userService.patchEditMyProfileByReqUser(token, refreshToken, formData, req.body.hasPhotoToBeEdit, next);
             hasError(data.error);
-
-            res.cookie('clientName', data.updatedData.photoUrl, {
-                httpOnly: true,
-                secure: false,
-                signed: true
-            });
+            console.log(data);
+            if(data.updatedData.photo){
+                res.cookie('photo', data.updatedData.photo, {
+                    httpOnly: true,
+                    secure: false,
+                    signed: true
+                });
+            }
 
             res.status(data.status.code).json({
                 status: data.status,
