@@ -32,7 +32,7 @@ const memoryStorage = multer.memoryStorage();
  */
 
 //POST /client/channel/create
-router.post('/channel/create', accessAuthorizedToken, clientController.postCreateChannel);// 1. 채널 생성
+router.post('/channel/create', accessAuthorizedToken, multer({ storage: memoryStorage }).single('thumbnail'),clientController.postCreateChannel);// 1. 채널 생성
 
 //POST /client/channel/exit/:channelId
 router.get('/channel/exit/:channelId', accessAuthorizedToken, clientController.postExitChannel);// 2. 채널 퇴장

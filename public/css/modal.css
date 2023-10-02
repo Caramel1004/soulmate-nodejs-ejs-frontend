@@ -13,7 +13,7 @@
 
 .modal-add-mode {
     padding: 20px;
-    display: flex;
+    display: block;
     justify-content: center;
     align-items: center;
     border-radius: 1rem;
@@ -198,3 +198,28 @@
 .modal-workspace.hidden {
     display: none;
 }
+
+/* 채널추가 페이지 모달창 */
+.create-channel-thumbnail-input-box {
+    padding: 20px;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: 200px 200px;
+    grid-gap: 0;
+    list-style: none;
+    border: 1px groove rgba(0, 0, 0, 0.1);
+    font-size: 15px;
+}
+
+.create-channel-thumbnail-input-box input[type="file"] {
+    display: none;
+}
+
+.modal-add-mode img {
+    width: 500px;
+    height: 200px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+

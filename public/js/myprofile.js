@@ -5,7 +5,7 @@ const onClickMyProfileEditBtn = (id, text, type) => {
     createMyProfileEditModalTag(id, text, type);
 }
 
-const onClickpatchEditMyProfileByReqUserBtn = id => {
+const onClickPatchEditMyProfileByReqUserBtn = id => {
     patchEditMyProfileByReqUser(id);
 }
 
@@ -61,7 +61,7 @@ const createMyProfileEditModalTag = (id, text, type) => {
     // 수정 버튼
     const editBtn = document.createElement('button');
     editBtn.classList.add('edit-icon');
-    editBtn.setAttribute('onclick', `onClickpatchEditMyProfileByReqUserBtn('${id}')`)
+    editBtn.setAttribute('onclick', `onClickPatchEditMyProfileByReqUserBtn('${id}')`)
     editBtn.append(editIcon);
 
     // 취소 버튼
@@ -140,12 +140,14 @@ const updatedTag = (id, data) => {
         i.className = 'fa-regular fa-pen-to-square';
 
         document.getElementById(id).querySelector('p').appendChild(i);
-    } else {
+    } else if(id === 'phone'){
         document.getElementById(id).querySelector('p').textContent = data.updatedData;
         const i = document.createElement('i');
         i.className = 'fa-regular fa-pen-to-square';
 
         document.getElementById(id).querySelector('p').appendChild(i);
+    } else if(id === 'photo') {
+        document.querySelector('.photo-box').querySelector('img').src = document.querySelector('.user-info').querySelector('img').src = `${data.updatedData.photo}`;
     }
 }
 

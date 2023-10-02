@@ -39,17 +39,23 @@ const clientControlller = {
             const jsonWebToken = req.signedCookies.token;
             const refreshToken = req.signedCookies.refreshToken;
             const channelName = req.body.channelName;// 채널 명
-            const thumbnail = req.body.thumbnail;// 채널 썸네일
+            const thumbnail = req.file;// 채널 썸네일
             const category = req.body.category;// 카테고리
             const comment = req.body.comment;// 채널 멘트
             const open = req.body.open;
+            console.log('thumbnail: ', thumbnail);
+            const formData = new FormData();
+            formData.append('channelName', channelName);
+            formData.append('thumbnail', JSON.stringify(thumbnail));
+            formData.append('category', category);
+            formData.append('comment', comment);
+            formData.append('open', open);
 
             const response = await fetch('http://localhost:8080/v1/channel/create', {
                 method: 'POST',
                 headers: {
                     Authorization: 'Bearer ' + jsonWebToken,
-                    RefreshToken: refreshToken,
-                    'Content-Type': 'application/json'
+                    RefreshToken: refreshToken
                 },
                 body: JSON.stringify({
                     channelName: channelName,
