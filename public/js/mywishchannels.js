@@ -9,7 +9,7 @@ const onClickChannelBox = async channelId => {
 
 /** ----------------- 태그관련 함수 ----------------- */
 const removeWishChannelTag = channelId => {
-    const removeTag = document.querySelector('.contents__div-wrapper');
+    const removeTag = document.getElementById(channelId).parentNode.parentNode;
     const parentNode = document.querySelector('.channel-box-items');
 
     parentNode.removeChild(removeTag);
@@ -33,8 +33,8 @@ const postAddOpenChannelToWishChannel = async channelId => {
             })
         });
         const data = await response.json();
-
-        // 하트 아이콘 업데이트
+        
+        // 해당 태그 삭제
         removeWishChannelTag(channelId);
     } catch (err) {
         console.log(err);
