@@ -1,4 +1,6 @@
 import fetch from 'node-fetch';
+import { FormData } from 'formdata-node';
+
 import { hasError } from '../validator/valid.js';
 import authAPI from '../API/auth.js';
 import redisClient from '../util/redis.js';
@@ -20,28 +22,22 @@ const authController = {
     //회원 가입
     postSignUp: async (req, res, next) => {
         try {
-            const email = req.body.email;
-            const password = req.body.password;
-            const name = req.body.name;
-            const gender = req.body.gender;
-            const photo = req.body.photo;
-            const phone = req.body.phone;
-            const comment = req.body.comment;
+            const photo = req.files;
+
+            console.log('photo: ', photo);
+
+            const formData = new FormData();
+            formData.append('email', req.body.email);
+            formData.append('password', req.body.password);
+            formData.append('name', req.body.name);
+            formData.append('gender', req.body.gender);
+            formData.append('comment', req.body.comment);
+            formData.append('phone', req.body.phone);
+            formData.append('photo', JSON.stringify(photo));
 
             const response = await fetch('http://localhost:8080/v1/user/signup', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    email: email,
-                    password: password,
-                    name: name,
-                    gender: gender,
-                    photo: photo,
-                    phone: phone,
-                    comment: comment
-                })
+                body: formData
             });
 
             const data = await response.json();
