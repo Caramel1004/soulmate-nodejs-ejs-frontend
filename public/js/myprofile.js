@@ -134,14 +134,15 @@ const removeChildrenTag = className => {
 // 업데이트 태그
 const updatedTag = (id, data) => {
     if (id === 'name') {
-        document.getElementById(id).querySelector('p').textContent = data.updatedData;
-        document.getElementById('client').textContent = data.updatedData;
+        document.getElementById(id).querySelector('p').textContent = data.updatedData.data;
+        document.getElementById('client').textContent = data.updatedData.data;
         const i = document.createElement('i');
         i.className = 'fa-regular fa-pen-to-square';
 
         document.getElementById(id).querySelector('p').appendChild(i);
+        document.querySelector('.user-info').querySelectorAll('a')[0].textContent = `${data.updatedData.data}`;
     } else if(id === 'phone'){
-        document.getElementById(id).querySelector('p').textContent = data.updatedData;
+        document.getElementById(id).querySelector('p').textContent = data.updatedData.data;
         const i = document.createElement('i');
         i.className = 'fa-regular fa-pen-to-square';
 
