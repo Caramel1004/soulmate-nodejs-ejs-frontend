@@ -129,25 +129,51 @@ h1 {
     outline: none;
 }
 
+.input-box input[type="file"] {
+    display: none;
+}
+
+.input-box label[for="user-profile-photo"] {
+    padding: 0;
+    padding-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: auto;
+    border: 1px groove rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    /* color: rgba(0, 0, 0, 0.7); */
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow-x: hidden;
+    cursor: pointer;
+}
+.input-box label[for="user-profile-photo"] #filename{
+    border: 1px groove rgba(0, 0, 0, 0.1);
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.5);
+}
+
 #gender {
     padding: 0.5rem;
+}
+#gender i{
+    padding-right: 10px;
+    color: rgba(0, 0, 0, 0.1);
 }
 
 #gender label {
     margin-right: 50px;
 }
 
-/* .input-box input[type="password"] {
-    letter-spacing: 5px;
+#gender input[type="radio"] {
+    display: none;
 }
-.input-box input[type="password"] ::placeholder{
-    padding: 10px;
-} */
+
 .input-box ::placeholder {
     font-size: 13px;
     opacity: 0.7;
 }
-
 
 .input-box span {
     padding: 20px;

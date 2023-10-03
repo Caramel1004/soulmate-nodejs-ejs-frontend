@@ -200,7 +200,8 @@
 }
 
 /* 채널추가 페이지 모달창 */
-.create-channel-thumbnail-input-box {
+.create-channel-thumbnail-input-box,
+.create-channel-photo-input-box {
     padding: 20px;
     display: grid;
     align-items: center;
@@ -212,7 +213,8 @@
     font-size: 15px;
 }
 
-.create-channel-thumbnail-input-box input[type="file"] {
+.create-channel-thumbnail-input-box input[type="file"],
+.create-channel-photo-input-box input[type="file"] {
     display: none;
 }
 
@@ -222,4 +224,3 @@
     border-radius: 20px;
     cursor: pointer;
 }
-
