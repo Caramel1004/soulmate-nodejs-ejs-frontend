@@ -28,6 +28,7 @@
                         <label for="thumbnail">썸네일</label>
                         <label for="channelThumbnail">
                             <input type="file" id="thumbnail-file" name="thumbnail">
+                            <div id="filename">채널 썸네일을 업로드하세요.</div>
                             <span id="channelThumbnail"><i class="fa-regular fa-image fa-xl"></i></span>
                         </label>
                     </div>
@@ -89,14 +90,21 @@
 
             const onClickCompleteBtn = className => {
                 const modal = document.querySelector('.modal-add-mode');
-                const thumbnail = modal.querySelector('label[for="file"]').querySelector('input[type="file"]').files[0];
-                console.log(thumbnail);
+                const thumbnail = modal.querySelector('label[for="file"]').querySelector('input[type="file"]').files;
+                const base64EncodedFile = document.getElementById('create-channel-thumbnail-box').querySelector('img').src;
+                console.log(base64EncodedFile)
                 document.getElementById('thumbnail-file').textContent = thumbnail.name;
-                document.getElementById('thumbnail-file').setAttribute('value', thumbnail);
+                document.getElementById('thumbnail-file').files = thumbnail;
+                document.getElementById('thumbnail-file').setAttribute('data-src',base64EncodedFile);
+                document.getElementById('filename').textContent = thumbnail[0].name;
+                document.getElementById('filename').style.color = '#1d1c1d';
                 removeChildrenTag(className);
             }
 
             const createModalTagtoSelectThumbnail = () => {
+                const base64EncodedFile = document.getElementById('thumbnail-file').dataset.src || 'https://d2u3dcdbebyaiu.cloudfront.net/uploads/atch_img/309/59932b0eb046f9fa3e063b8875032edd_crop.jpeg';
+                const fileName = document.getElementById('filename').textContent;
+                const thumbnailFiles = document.getElementById('thumbnail-file').files;
                 // 모달창 백그라운드
                 const modalBackGround = document.createElement('div');
                 modalBackGround.classList.add('modal-background');
@@ -106,12 +114,12 @@
                 modal.classList.add('modal-add-mode');
                 modal.innerHTML +=
                     `<div id="create-channel-thumbnail-box">
-                        <img src="https://d2u3dcdbebyaiu.cloudfront.net/uploads/atch_img/309/59932b0eb046f9fa3e063b8875032edd_crop.jpeg">
+                        <img src="${base64EncodedFile}">
                     </div>
                     <div class="create-channel-thumbnail-input-box">
                         <label for="filename">파일명</label>
                         <label for="file">
-                            사진을 선택하세요.
+                            ${fileName}
                             <input type="file" id="file" name="photo" multiple>
                             <i class="fa-regular fa-image fa-lg"></i>
                         </label>
@@ -121,6 +129,7 @@
                         <a id="cancel">취소</a>
                     </div>`;
                 console.log(modal);
+                // document.getElementById('file').files = thumbnailFiles;
                 modalBackGround.appendChild(modal);
                 document.body.appendChild(modalBackGround);
                 return modal;

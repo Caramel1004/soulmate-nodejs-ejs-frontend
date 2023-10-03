@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
     <link rel="stylesheet" href="/css/auth.css">
+    <link rel="stylesheet" href="/css/modal.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
     <script src="https://apis.google.com/js/api:client.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -96,7 +97,7 @@
             <div class="input-box">
                 <!-- <a href="/"><img src="/images/KakaoTalk_Photo_2023-06-12-23-08-29.jpeg"></a> -->
             </div>
-            <form action="/signup" method="post">
+            <form action="/signup" method="post" enctype="multipart/form-data">
                 <div class="input-box">
                     <input type="text" name="email" placeholder="이메일">
                 </div>
@@ -107,13 +108,23 @@
                     <input type="text" name="name" placeholder="이름">
                 </div>
                 <div id="gender">
-                    <input type="radio" name="gender" value="M">
-                    <label for="gender">남자</label>
-                    <input type="radio" name="gender" value="F">
-                    <label for="gender">여자</label>
+                    <label for="male">
+                        <input type="radio" id="male" name="gender" value="M">
+                        <i class="fa-regular fa-circle fa-lg"></i>
+                        남자
+                    </label>
+                    <label for="female">
+                        <input type="radio" id="female" name="gender" value="F">
+                        <i class="fa-regular fa-circle fa-lg"></i>
+                        여자
+                    </label>
                 </div>
                 <div class="input-box">
-                    <input type="text" name="photo" placeholder="프로필 사진">
+                    <label for="user-profile-photo">
+                        <div id="filename">프로필 사진</div>
+                        <input type="file" id="photo-file" name="photo">
+                        <span id="user-profile-photo"><i class="fa-regular fa-image fa-xl"></i></span>
+                    </label>
                 </div>
                 <div class="input-box">
                     <input type="text" name="phone" placeholder="핸드폰 번호">
