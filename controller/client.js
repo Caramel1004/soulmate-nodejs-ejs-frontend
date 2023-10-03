@@ -57,13 +57,7 @@ const clientControlller = {
                     Authorization: 'Bearer ' + jsonWebToken,
                     RefreshToken: refreshToken
                 },
-                body: JSON.stringify({
-                    channelName: channelName,
-                    thumbnail: thumbnail,
-                    category: category,
-                    comment: comment,
-                    open: open
-                })
+                body: formData
             });
 
             const data = await response.json();
@@ -449,8 +443,6 @@ const clientControlller = {
     patchEditMyProfileByReqUser: async (req, res, next) => {
         try {
             const { token, refreshToken } = req.signedCookies;
-            console.log(req.body.data);
-            console.log(req.files);
             const formData = new FormData();
             if (req.files.length > 0) {
                 formData.append('photo', JSON.stringify(req.files));
@@ -464,8 +456,15 @@ const clientControlller = {
             const data = await userService.patchEditMyProfileByReqUser(token, refreshToken, formData, req.body.hasPhotoToBeEdit, next);
             hasError(data.error);
             console.log(data);
-            if(data.updatedData.photo){
+            if (data.updatedData.photo) {
                 res.cookie('photo', data.updatedData.photo, {
+                    httpOnly: true,
+                    secure: false,
+                    signed: true
+                });
+            } else if (data.updatedData.hasNameToBeEdit == 'true') {
+                console.log(req.body.hasNameToBeEdit);
+                res.cookie('clientName', data.updatedData.data, {
                     httpOnly: true,
                     secure: false,
                     signed: true
