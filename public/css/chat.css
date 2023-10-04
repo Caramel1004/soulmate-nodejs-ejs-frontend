@@ -58,7 +58,7 @@ body {
     /* border: groove black 0.5px; */
     /* margin-top: 60px; */
     width: var(--box-width);
-    height: 71vh;
+    height: 55vh;
     /* background: rgb(235, 222, 203); */
     /* background: rgba(0, 0, 0, 0.2); */
     /* background: rgb(243, 243, 246); */
@@ -105,8 +105,8 @@ body {
 }
 
 #images {
-    width: 400px;
-    height: 400px;
+    width: 200px;
+    height: 200px;
     border: 1px groove rgba(0, 0, 0, 0.2);
     border-radius: 0.5rem;
 }
@@ -182,30 +182,91 @@ body {
     /* background: rgb(235, 222, 203); */
 }
 
-
-
-
 /* 채팅 입력 박스 */
 .board-chat__box-chat {
-    /* border: groove black 0.5px; */
-    padding-top: 10px;
-    width: var(--box-width);
-    height: auto;
+    width: 100%;
+    /* height: 30vh; */
     /* display: block; */
-    /* background: black; */
+    /* border: 1px groove rgba(0, 0, 0, 0.26); */
+}
+
+.inner {
+    margin: 15px;
+    display: grid;
+    align-items: center;
+    grid-template-rows: repeat(auto-fill, auto);
+    grid-gap: 0;
+    list-style: none;
+    border: 1px groove rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+#preview-files {
+    /* 위 | 오른쪽 | 아래 | 왼쪽 */
+    padding: 18px 0 18px 17px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px groove rgba(0, 0, 0, 0.1);
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+#preview-files img {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+}
+
+.attached-file {
+    margin-right: 10px;
+    display: flex;
+    align-items: start;
+}
+
+#remove-upload-file__btn {
+    padding: 0;
+    margin-top: -7px;
+    margin-left: -12px;
+    background: #ffffff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+#remove-upload-file__btn i {
+    color: #000000;
+}
+
+.attached-file img {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+}
+
+.content-box {
+    padding: 10px;
+    text-align: left;
+    border: rgba(0, 0, 0, 0.26);
 }
 
 /* 채팅 입력 폼 */
 .board-chat__textarea {
-    /* margin-top: 2vh; */
-    padding-top: 20px;
-    padding-left: 20px;
-    width: calc(var(--box-width) - 40px);
-    height: auto;
-    border: groove rgba(0, 0, 0, 0.1) 0.1rem;
-    border-radius: 10px;
+    /* 위 | 오른쪽 | 아래 | 왼쪽 */
+    padding: 20px 0px 0px 17px;
+    width: auto;
+    /* height: auto; */
+    /* border: 1px groove #1d1c1d; */
+    font-size: 15px;
+    font-weight: 200;
     letter-spacing: 0.5px;
     resize: none;
+}
+/* 채팅 입력 폼 */
+.board-chat__textarea::placeholder{
+    font-size: 15px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.2);
 }
 
 /* 채팅 입력폼 스크롤 디자인 */
@@ -231,6 +292,15 @@ body {
 /* 채팅 입력 폼 눌렀을 때 */
 .board-chat__box-chat textarea:focus {
     outline: none;
+}
+
+.btn-group {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+    border-top: 1px groove rgba(0, 0, 0, 0.1);
 }
 
 /* 전송버튼 */
@@ -304,40 +374,27 @@ label[for='file']:active {
 
 /* 토글 버튼 박스, 토글 버튼 */
 .box__btn-toggle {
-    --box-width: 100%;
-    width: var(--box-width);
-    height: 5vh;
+    padding: 15px;
     display: flex;
+    align-items: center;
+    justify-content: flex-start;
 }
 
-/* 토글버튼 활성화 css */
-.btn-toggle.active {
-    width: calc(var(--box-width) / 2);
-    height: 5vh;
-    /* box-shadow: 0 0 7px rgba(0, 0, 0, 0.26); */
-    background: #ffffff;
+.box__btn-toggle button {
+    margin-right: 7px;
+    padding: 10px;
+    font-size: 14px;
+    background: rgb(243, 243, 246);
+    color: #1d1c1d;
     border: none;
-}
-
-/* 비활성화 */
-.btn-toggle {
-    width: calc(var(--box-width) / 2);
-    height: 5vh;
-    background: #3433333b;
-    border: none;
+    border-radius: 20px;
 }
 
 /* 토글버튼 마우스 오버시 */
 .btn-toggle:hover {
-    width: calc(var(--box-width) / 2);
-    height: 5vh;
-    color: black;
-    background: #a09c9c3b;
-    border: none;
+    background: rgb(233, 233, 237);
+    cursor: pointer;
 }
-
-/* 보드 히든 */
-
 
 /* 참여자 보드 활성화 */
 .board-user {

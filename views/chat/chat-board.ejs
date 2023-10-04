@@ -55,20 +55,47 @@
                 <% } %>
             </div>
             <div class="board-chat__box-chat">
-                <textarea class="board-chat__textarea" name="content" id="content" placeholder="메세지 보내기"></textarea>
-                <button class="board-chat__btn" type="button" id="send"><i class="fa-solid fa-paper-plane fa-xl"></i></button>
-                <label for="file">
-                    <input type="file" id="file" name="file" multiple>
-                    <i class="fa-solid fa-image fa-lg"></i>
-                </label>
-                <!-- <button class="board-chat__btn" type="button" id="sendFile"><i class="fa-solid fa-image fa-xl"></i></button> -->
+                <div class="inner">
+                    <div id="preview-files"></div>
+                    <textarea class="content-box board-chat__textarea" name="content" id="content" placeholder="메세지 보내기"></textarea>
+                    <!-- <div class="content-box">
+                    </div> -->
+                    <div class="btn-group">
+                        <button class="board-chat__btn" type="button" id="send"><i class="fa-solid fa-paper-plane fa-xl"></i></button>
+                        <!-- <button type="button" id=""></button> -->
+                        <label for="file">
+                            <input type="file" id="file" name="file" multiple>
+                            <i class="fa-solid fa-image fa-lg"></i>
+                        </label>
+                    </div>
+                </div>
             </div>
+            <!-- <div class="box-post-content">
+                <div class="inner">
+                    <div id="preview-files"></div>
+                    <div id="content" name="content" contenteditable="true">
+                        <div id="placeholder">aa</div>
+                    </div>
+                    <div class="btn-group">
+                        <div class="position-right-icon">
+                            <label for="file">
+                                <input type="file" id="file" name="file" multiple>
+                                <i class="fa-solid fa-file fa-lg"></i>
+                            </label>
+                        </div>
+                        <div>
+                            <button type="button" id="send"><i class="fa-solid fa-paper-plane fa-xl"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
         </div>
 
         <!-- 오른쪽 사이드 서브 보드 -->
         <div class="board-sub">
             <div class="box__btn-toggle">
                 <button type="button" class="btn-toggle active" id="btn-toggle-user" onclick="toggleButton('참여자')">참여자</button>
+                <button type="button" class="btn-toggle active" id="btn-toggle-user" onclick="toggleButton('참여자')">파일함</button>
                 <button type="button" class="btn-toggle" id="btn-toggle-task" onclick="toggleButton('업무')">이미지 쓰레드</button>
             </div>
             <div class="board-user">

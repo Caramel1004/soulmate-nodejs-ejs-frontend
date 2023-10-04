@@ -407,7 +407,7 @@ textarea:focus {
 
 .posts:hover,
 .posts:active {
-    background: rgba(226, 221, 221, 0.26);
+    background: rgba(255, 255, 255, 0.5);
 }
 
 .posts {
@@ -419,7 +419,7 @@ textarea:focus {
     text-align: left;
     /* background: rgb(157, 155, 155); */
     background: #ffffff;
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 
 .post-img-box {
@@ -464,17 +464,15 @@ textarea:focus {
 /* 단위 채팅 내용 */
 .post-comment {
     margin-top: 10px;
-    padding: 5px;
-    /* padding-right: 10px; */
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.26);
-    /* max-width: 95%; */
-    /* max-width: 500px; */
+    padding: 20px;
+    background: rgb(243, 243, 246);
+    /* box-shadow: 0 1px 4px rgba(0, 0, 0, 0.26); */
     display: inline-block;
     text-align: left;
     font-size: 15px;
     color: #1d1c1d;
-    background: #ffffff;
-    border-radius: 0.5rem;
+    /* background: #ffffff; */
+    border-radius: 15px;
     box-sizing: border-box;
     white-space: pre-wrap;
 }
@@ -489,7 +487,7 @@ textarea:focus {
 
 #reply-number {
     margin-left: -10px;
-    padding: 5px 10px 5px 12px;
+    padding: 10px 7px 10px 15px;
     width: 70px;
     font-size: 15px;
     color: #1d1c1d;
@@ -500,7 +498,8 @@ textarea:focus {
 #reply-number:hover,
 #reply-number:active {
     background: rgb(233, 233, 237);
-    border-radius: 15px;
+    border-radius: 20px;
+    cursor: pointer;
 }
 
 .post-attached-files {
