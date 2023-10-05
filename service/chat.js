@@ -51,10 +51,10 @@ const chatService = {
             next(err);
         }
     },
-    // 2. 실시간 채팅
-    postSendChat: async (token, refreshToken, channelId, chatRoomId, formData, next) => {
+    // 2. 실시간 채팅과 파일 업로드 및 채팅창 실시간 업데이트
+    postSendChatAndUploadFilesToChatRoom: async (token, refreshToken, channelId, chatRoomId, formData, next) => {
         try {
-            const data = await chatAPI.postSendChat(token, refreshToken, channelId, chatRoomId, formData, next);
+            const data = await chatAPI.postSendChatAndUploadFilesToChatRoom(token, refreshToken, channelId, chatRoomId, formData, next);
 
             return data;
         } catch (err) {
