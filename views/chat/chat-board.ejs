@@ -35,12 +35,16 @@
                                     <% } else { %>
                                         <div class="other-client-name"><%= chatDetail.creator.name %></div>
                                     <% } %>
-                                    <% if(chatDetail.fileUrls.length > 0) { %>
-                                        <% for(let fileUrl of chatDetail.fileUrls) { %>
-                                            <img id="images" src="http://localhost:8080/<%= fileUrl %>">
-                                        <% } %>
-                                    <% } else { %>
+                                    <% if(chatDetail.chat !== "" && chatDetail.chat !== null && chatDetail.chat!== undefined) { %>
                                         <div class="board-chat__unit-chat"><%= chatDetail.chat %></div>
+                                    <% } %>
+                                    <% if(chatDetail.fileUrls.length > 0) { %>
+                                    <p id="attached-files-number">첨부 파일 <%= chatDetail.fileUrls.length %>개</p>
+                                        <div class="image-box">
+                                            <% for(let fileUrl of chatDetail.fileUrls) { %>
+                                                <img id="images" src="http://localhost:8080/<%= fileUrl %>">
+                                            <% } %>
+                                        </div>
                                     <% } %>
                                 </div>
                                 <div class="chat-date">
@@ -58,8 +62,6 @@
                 <div class="inner">
                     <div id="preview-files"></div>
                     <textarea class="content-box board-chat__textarea" name="content" id="content" placeholder="메세지 보내기"></textarea>
-                    <!-- <div class="content-box">
-                    </div> -->
                     <div class="btn-group">
                         <button class="board-chat__btn" type="button" id="send"><i class="fa-solid fa-paper-plane fa-xl"></i></button>
                         <!-- <button type="button" id=""></button> -->
