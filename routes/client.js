@@ -32,7 +32,7 @@ const memoryStorage = multer.memoryStorage();
  */
 
 //POST /client/channel/create
-router.post('/channel/create', accessAuthorizedToken, multer({ storage: memoryStorage }).single('thumbnail'),clientController.postCreateChannel);// 1. 채널 생성
+router.post('/channel/create', accessAuthorizedToken, multer({ storage: memoryStorage }).single('thumbnail'), clientController.postCreateChannel);// 1. 채널 생성
 
 //POST /client/channel/exit/:channelId
 router.get('/channel/exit/:channelId', accessAuthorizedToken, clientController.postExitChannel);// 2. 채널 퇴장
@@ -47,7 +47,7 @@ router.post('/chat/:channelId', accessAuthorizedToken, clientController.postCrea
 router.post('/chat/invite/:channelId/:chatRoomId', accessAuthorizedToken, clientController.postInviteUsersToChatRoom);// 5. 채팅방에 유저 초대
 
 //POST /client/chat/:channelId/:chatRoomId
-router.post('/chat/:channelId/:chatRoomId', accessAuthorizedToken, multer({ storage: memoryStorage }).single('file'), clientController.postSendChat);// 6. 실시간 채팅 및 채팅창 실시간 업데이트
+router.post('/chat/:channelId/:chatRoomId', accessAuthorizedToken, multer({ storage: memoryStorage }).array('files', 12), clientController.postSendChatAndUploadFilesToChatRoom);// 6. 실시간 채팅과 파일 업로드 및 채팅창 실시간 업데이트
 
 // POST /client/chat/upload-file/:channelId/:chatRoomId
 router.post('/chat/upload-file/:channelId/:chatRoomId', accessAuthorizedToken, multer({ storage: memoryStorage }).array('files', 12), clientController.postUploadFileToChatRoom);// 7. 파일 업로드
@@ -62,16 +62,16 @@ router.post('/workspace/create-post/:channelId/:workSpaceId', accessAuthorizedTo
 router.delete('/workspace/delete-post/:channelId/:workSpaceId/:postId', accessAuthorizedToken, clientController.deletePostByCreatorInWorkSpace);//10. 워크스페이스에서 해당 유저의 게시물 삭제
 
 //  PATCH/client/workspace/edit-post/:channelId/:workSpaceId
-router.patch('/workspace/edit-post/:channelId/:workSpaceId', accessAuthorizedToken, clientController.patchEditPostByCreatorInWorkSpace);//11. 워크스페이스에서 해당 유저의 게시물 내용 수정
+router.patch('/workspace/edit-post/:channelId/:workSpaceId', accessAuthorizedToken, multer({ storage: memoryStorage }).array('files', 12), clientController.patchEditPostByCreatorInWorkSpace);//11. 워크스페이스에서 해당 유저의 게시물 내용 수정
 
 // POST /client/workspace/:channelId/:workSpaceId/post/replies
 router.post('/workspace/:channelId/:workSpaceId/post/replies', accessAuthorizedToken, clientController.postGetReplyToPost);// 12. 해당 게시물 댓글 조회
 
 // POST /client/workspace/post/create-reply/:channelId/:workSpaceId
-router.post('/workspace/post/create-reply/:channelId/:workSpaceId', accessAuthorizedToken, clientController.postCreateReplyToPost);// 13. 해당 게시물에 댓글 달기
+router.post('/workspace/post/create-reply/:channelId/:workSpaceId', accessAuthorizedToken, multer({ storage: memoryStorage }).single('file'), clientController.postCreateReplyToPost);// 13. 해당 게시물에 댓글 달기
 
 // PATCH /client/workspace/post/edit-reply/:channelId/:workSpaceId
-router.patch('/workspace/post/edit-reply/:channelId/:workSpaceId', accessAuthorizedToken, clientController.patchEditReplyByCreatorInPost);// 13. 해당 게시물에 댓글 수정
+router.patch('/workspace/post/edit-reply/:channelId/:workSpaceId', accessAuthorizedToken, multer({ storage: memoryStorage }).single('file'), clientController.patchEditReplyByCreatorInPost);// 13. 해당 게시물에 댓글 수정
 
 // DELETE /client/workspace/post/delete-reply/:channelId/:workSpaceId/:postId/:replyId
 router.delete('/workspace/post/delete-reply/:channelId/:workSpaceId/:postId/:replyId', accessAuthorizedToken, clientController.deleteReplyByCreatorInPost);// 13. 해당 게시물에서 해당 댓글삭제 
