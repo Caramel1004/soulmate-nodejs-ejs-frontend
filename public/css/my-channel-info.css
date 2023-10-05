@@ -119,7 +119,8 @@ body::-webkit-scrollbar-track {
     text-align: left;
     /* border: 1px groove rgba(0, 0, 0, 0.26); */
 }
-.text span{
+
+.text span {
     display: flex;
     align-items: center;
     font-family: 'Roboto';
@@ -145,61 +146,55 @@ body::-webkit-scrollbar-track {
     cursor: pointer;
 }
 
-.heart i{
+.heart i {
     color: red;
 }
 
-/* 2.공지 슬라이드 */
-.box-post {
+/* 피드 */
+.feed-container {
     margin-top: 40px;
-    padding: 0;
-    display: grid;
+    padding-left: 50px;
+    padding-right: 50px;
+    display: block;
     align-items: center;
-    justify-content: space-between;
-    grid-template-columns: 49% 49%;
-    grid-auto-flow: row;
-    /* grid-gap: 10px; */
-    /* border: 1px groove rgba(0, 0, 0, 0.26); */
-    border-radius: 10px;
 }
 
-.post {
-    /* margin-left: 10px; */
-    padding: 10px;
-    padding-top: -10px;
-    text-align: left;
+.feed-box {
+    display: flex;
     border: 1px groove rgba(0, 0, 0, 0.26);
     border-radius: 10px;
-    /* display: grid;
-    grid-template-rows: 50px 100px 50px;
-    grid-gap: 0; */
-    white-space: normal;
-    /* text-overflow: ellipsis; */
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 5;
-    line-height: 1.2;
-    /* word-wrap: break-word; */
-    overflow: hidden;
-    overflow-y: hidden;
 }
 
-.post:hover,
-.post:active {
+.feed-box:hover,
+.feed-box:active {
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.26);
 }
 
-.post p {
-    color: rgba(0, 0, 0, 0.26);
+.feed-creator-box {
+    padding: 10px;
+}
+.feed-creator-box img{
+    width: 50px;
+    height: 50px;
+    border-radius: 20px;
 }
 
-.post span {
-    padding-left: 30px;
-    color: rgb(212, 78, 21);
+.feed-content-box {
+    padding: 0;
+    display: block;
+    align-items: start;
+    text-align: left;
+    border: 1px groove rgba(0, 0, 0, 0.26);
 }
-
-#second {
-    margin-left: 10px;
+.feed-content-box p{
+    color: #1d1c1d;
+    font-size: 13px;
+    /* font-weight: 100; */
+}
+.feed-content-box img{
+    width: 300px;
+    height: 300px;
+    border-radius: 10px;
 }
 
 /* 3. 소개 박스 */

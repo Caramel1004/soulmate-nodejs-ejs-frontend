@@ -60,31 +60,27 @@
                         <p><%= channel.comment %></p>
                     </div>
                 <% } %>
-                    <div class="box-post">
-                    <% if(openWorkSpaces.length > 0) { %>
-                        <% for(const post of openWorkSpaces[0].posts) { 
-                            post.createdAt = new Date(post.createdAt).toLocaleDateString('ko', {
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric',
-                                weekday: 'long'
-                            })
-                            %>
-                            <div class="post">
-                                <p><%= post.createdAt %></p>
-                                <p>작성자<span><%= post.creator.name %></span></p>
-                                <p>워크스페이스<span><%= openWorkSpaces[0].workSpaceName %></span></p>
-                                <p><%= post.content %></p>
-                            </div>
-                        <% } %>
-                    <% } else { %>
-                        <div class="post">
-                            <h2 style="text-align: center;"> 워크스페이스에 공지사항을 남겨보세요. </h2>
+                <div class="feed-container">
+                    <div class="feed-box">
+                        <div class="feed-creator-box">
+                            <img src="<%= photo %>">
                         </div>
-                        <div class="post">
-                            <h2 style="text-align: center;"> 워크스페이스에 공지사항을 남겨보세요. </h2>
+                        <div class="feed-content-box">
+                            <p id="feed-creator-name"><%= clientName %> / 1일전</p>
+                            #8월기능구현해야할거
+                            1. 워크스페이스 파일 및 사진 업로드 데이터 구현
+                            2. 카테고리별 데이터 조회
+                            3. 메뉴판에 채팅 알림 추가, 메뉴바에 채팅방 실시간 업데이팅 
+                            4. 내프로필 CRUD
+                            5. 워크스페이스 댓글 수정, 게시물 수정(o)
+                            6. 카카오로 로그인 구글로 로그인 네이버로 로그인, 소셜로그인이 아닌 가입은 전화번호 인증 또는 이메일인증(카카오 로그인만 구현한 상태)
+                            7. 알림기능 추가: 워크스페이스에 게시물 업로드, 내 게시물에 댓글 업로드, 채팅 업로드
+                            8. 채널 소개페이지(o)
+                            9. https로 전환
+                            10. 내프로필 편집 기능 -> 이미지 만 수정 가능!!
+                            <img src="/images/Ryze_0.jpg">
                         </div>
-                    <% } %>
+                    </div>
                 </div>
             </div>
         </div>		
