@@ -169,16 +169,17 @@ const clientControlller = {
             next(err);
         }
     },
-    // 6. 실시간 채팅
-    postSendChat: async (req, res, next) => {
+    // 6. 실시간 채팅과 파일 업로드 및 채팅창 실시간 업데이트
+    postSendChatAndUploadFilesToChatRoom: async (req, res, next) => {
         try {
             const { token, refreshToken } = req.signedCookies;
             const { channelId, chatRoomId } = req.params;
 
             const formData = new FormData();
             formData.append('chat', req.body.chat);
+            formData.append('files', JSON.stringify(req.files));
 
-            const data = await chatService.postSendChat(token, refreshToken, channelId, chatRoomId, formData, next);
+            const data = await chatService.postSendChatAndUploadFilesToChatRoom(token, refreshToken, channelId, chatRoomId, formData, next);
             hasError(data.error);
 
             res.status(data.status.code).json({
@@ -298,6 +299,7 @@ const clientControlller = {
     // 13. 해당 게시물에 댓글 달기
     postCreateReplyToPost: async (req, res, next) => {
         try {
+            console.log(req.body);
             const token = req.signedCookies.token;
             const formData = new FormData();
             formData.append('postId', req.body.postId);

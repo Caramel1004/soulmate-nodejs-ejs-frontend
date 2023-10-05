@@ -4,6 +4,8 @@ function init() {
 
     //채팅박스 스크롤 맨 아래로 위치
     historyTag.scrollTop = historyTag.scrollHeight;
+
+    this.selectedFiles = [];
 }
 
 /** ----------------- 이벤트 함수 ----------------- */
@@ -23,17 +25,19 @@ const onKeyDownInChatBox = async event => {
     const content = document.getElementById('content').value;
     const replacedContent = replaceText(content);
 
-    if (event.keyCode === 13 && replacedContent === "") {
-        return document.getElementById('content').value.replace('\r\n', '');
-    }
-
-    if (event.keyCode === 13 && !event.shiftKey && replacedContent !== "") {
+    if ((event.keyCode === 13 && !event.shiftKey && replacedContent !== "") || (event.keyCode === 13 && !event.shiftKey && this.selectedFiles.length > 0)) {
         try {
             console.log('엔터키 누름!!');
+            document.getElementById('content').innerText = ''; // 입력폼 텍스트 없애기
             await onKeyPressEnter(event);
+            this.selectedFiles = [];// 파일들 비우기
         } catch (err) {
             console.log(err);
         }
+    }
+
+    if (event.keyCode === 13 && replacedContent === "") {
+        return document.getElementById('content').innerText.replace('\r\n', '');
     }
 
     console.log('replacedContent: ', replacedContent);
@@ -46,7 +50,7 @@ const onKeyPressEnter = async event => {
     console.log(event.isComposing);
     try {
         console.log('엔터키 누름!!');
-        await postSendChat();
+        await postSendChatAndUploadFilesToChatRoom();
     } catch (err) {
         console.log(err);
     }
@@ -71,8 +75,6 @@ const onChangeSelectFile = async e => {
         size: fileTag.files[0].size,
         createdAt: fileTag.files[0].lastModifiedDate
     }
-
-    this.info = fileInfo;
 
     if (fileTag.files && fileTag.files[0]) {
         const fileReader = new FileReader();
@@ -241,6 +243,12 @@ const toggleCheckBoxIcon = nodeList => {
 const onClickChatRoomEixtBtn = async () => {
     await patchExitChatRoom();
 }
+
+const onClickSendChatAndFilesBtn = async () => {
+    await postSendChatAndUploadFilesToChatRoom();
+    document.getElementById('content').value = "";
+    this.selectedFiles = [];// 파일들 비우기
+}
 /** ----------------- 태그관련 함수 ----------------- */
 const createUserListInChannelTag = data => {
     // 채널에 속한 유저리스트 보드 열기
@@ -314,46 +322,40 @@ const createUserListInChannelTag = data => {
     }
 }
 
-// 이미지 미리보기 박스 태그 생성 
 const createPreviewTag = e => {
-    const fileInfo = this.info;
-    console.log(fileInfo);
-    console.log(fileInfo.name);
-    console.log(fileInfo.size);
-    console.log(fileInfo.createdAt);
-    const file = e.target.result;// 인코딩된 파일
+    try {
+        const base64EncodedFile = e.target.result;
+        const fileInfo = document.getElementById('file').files[0];//이미 e.target.files[0]은 인코딩되어 없어짐 따라서 dom요소에 접근해 인코딩전 파일 정보가져오기
 
-    const parentNode = document.querySelector('.task-date__box');
-    removeAllChild(parentNode);
+        if (!base64EncodedFile) {
+            throw new Error('파일을 읽지 못했습니다!!');
+        }
+        const parentNode = document.getElementById('preview-files');
 
-    const previewBox = document.createElement('div');//사진 박스
-    previewBox.id = 'preview';
-    previewBox.classList.add('content');
+        // 파일 식별 아이디 생성
+        const fileId = new Date().getTime().toString(36);
+        fileInfo.fileId = fileId;
 
-    // 미리보기 사진 태그
-    const previewImg = document.createElement('img');
-    previewImg.src = file;
+        parentNode.innerHTML +=
+            `<div class="attached-file" data-fileid="${fileId}">
+            <img src="${base64EncodedFile}">
+            <button type="button" id="remove-upload-file__btn" data-fileid="${fileId}">
+                <i class="fa-solid fa-circle-xmark fa-xl"></i>
+            </button>
+        </div>`;
 
-    console.log('previewImg: ', previewImg);
+        parentNode.querySelector(`button[data-fileid="${fileId}"]`).addEventListener('click', e => {
+            console.log('click like');
+            onClickFileRemoveBtn(fileId);
+        })
 
-
-    // 파일 이름
-    const fileName = document.createElement('p');
-    fileName.textContent = '파일 명: ' + fileInfo.name;
-    // 파일 용량
-    const fileSize = document.createElement('p');
-    fileSize.textContent = '파일 용량: ' + fileInfo.size;
-    // 생성 날짜
-    const createdAt = document.createElement('p');
-    createdAt.textContent = '생성 날짜: ' + fileInfo.createdAt;
-
-    previewBox.appendChild(previewImg);
-    previewBox.appendChild(fileName);
-    previewBox.appendChild(fileSize);
-    previewBox.appendChild(createdAt);
-
-    console.log('previewBox: ', previewBox);
-    parentNode.appendChild(previewBox);
+        // 전역변수 selectedFiles 배열에 저장
+        this.selectedFiles = [...this.selectedFiles, fileInfo];
+        return fileId;
+    } catch (error) {
+        alert(error)
+        console.log(error)
+    }
 }
 
 const replaceText = text => {
@@ -431,46 +433,13 @@ const createHamburgerMenu = () => {
 
 /** ----------------- API 요청 함수 -----------------*/
 
-// 채팅 방 파일 업로드 post요청
-const postUploadFileToChatRoom = async () => {
-    console.log('tag 생성!!!');
-    try {
-        const file = document.getElementById('file').files[0];
-
-        if (!file) {
-            return;
-        }
-        const url = window.location.href;
-
-        const channelId = url.split('/')[5];
-        const chatRoomId = url.split('/')[6];
-
-        const formData = new FormData();
-        formData.append('files', file);
-        // for(const file of this.selectedFiles){
-        // }
-
-        const response = await fetch('http://localhost:3000/client/chat/upload-file/' + channelId + '/' + chatRoomId, {
-            method: 'POST',
-            body: formData
-        });
-
-        const data = await response.json();
-        if (data.error) {
-            throw new Error('이미지 처리 실패!!');
-        }
-
-        console.log('채팅 처리 완료!!!');
-    } catch (err) {
-        console.log(err);
-    }
-}
 // 채팅 내용 post요청
-const postSendChat = async () => {
+const postSendChatAndUploadFilesToChatRoom = async () => {
     console.log('tag 생성!!!');
     try {
         const content = document.getElementById('content').value;
-        if (content == "") {
+        
+        if (content == "" && this.selectedFiles.length <= 0) {
             return;
         }
 
@@ -482,14 +451,20 @@ const postSendChat = async () => {
         console.log('channelId : ', channelId);
         console.log('chatRoomId : ', chatRoomId);
         console.log('replaceContent : ', replaceContent);
+        console.log(this.selectedFiles);
 
         const formData = new FormData();
         formData.append('chat', replaceContent);
+        formData.set('content', replaceContent);
+        for (const file of this.selectedFiles) {
+            formData.append('files', file);
+        }
 
         await fetch('http://localhost:3000/client/chat/' + channelId + '/' + chatRoomId, {
             method: 'POST',
             body: formData
         });
+
         console.log('채팅 처리 완료!!!');
     } catch (err) {
         console.log(err);
@@ -552,9 +527,9 @@ const postLoadUsersInChannel = async () => {
 
 /** ----------------- 이벤트리스너 ----------------- */
 
-document.getElementById('send').addEventListener('click', postSendChat);
+document.getElementById('send').addEventListener('click', onClickSendChatAndFilesBtn);
 document.getElementById('content').addEventListener('keydown', onKeyDownInChatBox);
 document.getElementById('file').addEventListener('change', onChangeSelectFile);
-document.getElementById('sendFile').addEventListener('click', postUploadFileToChatRoom);
+// document.getElementById('sendFile').addEventListener('click', postUploadFileToChatRoom);
 // document.getElementById('hamburger').addEventListener('click', onClickHamburgerIcon);
 document.querySelector('.room-name-box').addEventListener('click', onClickHamburgerIcon);

@@ -21,8 +21,8 @@ const chatAPI = {
             next(err);
         }
     },
-    // 2. 실시간 채팅 저장 요청
-    postSendChat: async (token, refreshToken, channelId, chatRoomId, formData, next) => {
+    // 6. 실시간 채팅과 파일 업로드 및 채팅창 실시간 업데이트 요청
+    postSendChatAndUploadFilesToChatRoom: async (token, refreshToken, channelId, chatRoomId, formData, next) => {
         try {
             const response = await fetch('http://localhost:8080/v1/chat/' + channelId + '/' + chatRoomId, {
                 method: 'POST',
