@@ -104,11 +104,25 @@ body {
     /* border: groove black 0.5px; */
 }
 
+.image-box {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: 100px 100px;
+    grid-gap: 5px;
+    grid-auto-flow: row;
+}
+
 #images {
-    width: 200px;
-    height: 200px;
+    width: 100px;
+    height: 100px;
     border: 1px groove rgba(0, 0, 0, 0.2);
     border-radius: 0.5rem;
+}
+
+#attached-files-number {
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.26);
 }
 
 .client-name {
@@ -262,8 +276,9 @@ body {
     letter-spacing: 0.5px;
     resize: none;
 }
+
 /* 채팅 입력 폼 */
-.board-chat__textarea::placeholder{
+.board-chat__textarea::placeholder {
     font-size: 15px;
     font-weight: 500;
     color: rgba(0, 0, 0, 0.2);
