@@ -22,6 +22,7 @@ const onKeyDownCreateUnitPost = async event => {
     // console.log(kbdEvent.isComposing); // return false
 
     const content = document.getElementById('content').innerText;
+    console.log(content)
     const replacedContent = replaceText(content);
     console.log(replacedContent);
 
@@ -612,17 +613,19 @@ const createPreviewTag = e => {
 /** ----------------- API 요청 함수 -----------------*/
 // 게시물 내용 post요청
 const postCreatePostToWorkSpace = async () => {
+    console.log('api!!!')
     let content = document.getElementById('content').innerText;
-    const contentTagChildren = document.getElementById('content').children;// placeholder
-    console.log('contentTagChildren: ', contentTagChildren.length);
+    const placeholder = document.getElementById('placeholder');// placeholder
+    console.log('placeholder: ', placeholder);
     console.log('content: ', content);
 
     // placeholder있고 파일 없으면 리턴
-    if (contentTagChildren.length > 0 && this.selectedFiles.length <= 0) {
+    if (placeholder && this.selectedFiles.length <= 0) {
+        console.log('내용 비어있음');
         return;
     }
 
-    if (contentTagChildren.length > 0 && this.selectedFiles.length > 0) {
+    if (placeholder && this.selectedFiles.length > 0) {
         content = '';
     }
 
