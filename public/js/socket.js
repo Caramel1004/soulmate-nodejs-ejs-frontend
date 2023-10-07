@@ -11,7 +11,7 @@ console.log('스크립트 소켓 가동 중!!!');
 socket.on('sendChat', data => {
     console.log('미들웨어 sendChat!!!');
     console.log('백엔드에서 넘어온 데이터: ', data);
-    console.log('채팅 내용: ', data.currentChat);
+    console.log('채팅 내용물: ', data.currentChat);
 
     createUnitChatTag(data, 'sendChat');
 });
@@ -20,7 +20,7 @@ socket.on('sendChat', data => {
 socket.on('sendFile', data => {
     console.log('미들웨어 sendChat!!!');
     console.log('백엔드에서 넘어온 데이터: ', data);
-    console.log('파일 URL: ', data.fileUrl);
+    console.log('파일 URL: ', data.fileUrls);
 
     createUnitChatTag(data, 'sendFile');
 });
@@ -83,22 +83,33 @@ const createUnitChatTag = async (data, action) => {
     // 닉네임
     const clientNameTag = document.createElement('div');
     clientNameTag.classList.add('client-name');
-    clientNameTag.textContent = data.name;
+    clientNameTag.textContent = `${data.name}(나)`;
     chatBox.appendChild(clientNameTag);
     console.log('clientNameTag: ', clientNameTag);
 
     // 챗
-    if(action === 'sendChat') {
+    if (data.currentChat.chat !== '' && data.currentChat.chat !== null && data.currentChat.chat !== undefined) {
         const unitChat = document.createElement('div');
         unitChat.classList.add('board-chat__unit-chat');
-        unitChat.textContent = data.currentChat;
+        unitChat.textContent = data.currentChat.chat;
         chatBox.appendChild(unitChat);
-    }else if(action === 'sendFile') {
-        const image = document.createElement('img');
-        for(const fileUrl of data.fileUrls){
+    }
+
+    if (data.currentChat.fileUrls.length > 0) {
+        const p = document.createElement('p');
+        p.id = 'attached-files-number';
+        p.innerText = `첨부 파일 ${data.currentChat.fileUrls.length}개`;
+        chatBox.appendChild(p);
+        const imageBox = document.createElement('div');
+        imageBox.className = 'image-box';
+        for (const fileUrl of data.currentChat.fileUrls) {
+            const image = document.createElement('img');
             image.src = `${DOMAIN}/${fileUrl}`;
             image.id = 'images';
-            chatBox.appendChild(image);
+            image.style.width = '100px';
+            image.style.height = '100px';
+            imageBox.appendChild(image);
+            chatBox.appendChild(imageBox);
         }
     }
 
@@ -117,6 +128,7 @@ const createUnitChatTag = async (data, action) => {
     historyTag.appendChild(chatUnitBox);
 
     document.getElementById('content').value = "";
+    removeAllChild(document.getElementById('preview-files'));
 
     //스크롤 맨아래로 조정
     historyTag.scrollTop = historyTag.scrollHeight;
@@ -159,7 +171,7 @@ const createUnitPostTag = data => {
     console.log('clientNameTag: ', clientNameTag);
 
     // 내용
-    if(data.post.content !== '' && data.post.content !== null){
+    if (data.post.content !== '' && data.post.content !== null) {
         const postComment = document.createElement('div');
         postComment.classList.add('post-comment');
         postComment.textContent = post.content;
@@ -177,12 +189,12 @@ const createUnitPostTag = data => {
     historyTag.appendChild(postContainer);
 
     // 추가 태그
-    if(data.post.fileUrls.length > 0){
-        postBox.innerHTML += 
-        `<p id="attached-files-number">첨부파일 ${data.post.fileUrls.length}개</p>
+    if (data.post.fileUrls.length > 0) {
+        postBox.innerHTML +=
+            `<p id="attached-files-number">첨부파일 ${data.post.fileUrls.length}개</p>
         <div class="post-attached-files"></div>`;
         console.log(postBox.children);
-        for(const fileUrl of data.post.fileUrls){
+        for (const fileUrl of data.post.fileUrls) {
             postBox.querySelector('.post-attached-files').innerHTML += `<img src="${DOMAIN}/${fileUrl}">`
         }
     }
