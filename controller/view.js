@@ -225,12 +225,11 @@ const viewController = {
                 }
             }
 
-            console.log(channelDetailData)
+            console.log(channelDetailData.channel.feeds)
             // 2. 채팅방 목록 요청
             const chatRoomListData = await channelService.getChatRoomList(jsonWebToken, req.signedCookies.refreshToken, channelId, next);
             hasError(chatRoomListData.error);
             const matchedChatRoomList = chatRoomListData.chatRooms;
-            console.log(matchedChatRoomList)
 
             // 3. 워크스페이스 목록 요청
             const workSpaceListData = await channelService.getWorkSpaceList(jsonWebToken, req.signedCookies.refreshToken, channelId, next);
@@ -238,9 +237,6 @@ const viewController = {
             const matchedWorkSpaceList = workSpaceListData.workSpaces;
             const matchedOpenWorkSpaceList = workSpaceListData.openWorkSpaces;
 
-            // 4. 스크랩 목록 요청
-
-            const state = 'on';
             // 2. 해당 채널 렌더링
             res.status(chatRoomListData.status.code).render(fileName, {
                 path: `/mychannel/:channelId?searchWord=${searchWord}`,
@@ -252,7 +248,6 @@ const viewController = {
                 chatRooms: matchedChatRoomList,
                 workSpaces: matchedWorkSpaceList,
                 openWorkSpaces: matchedOpenWorkSpaceList,
-                state: state
             });
         } catch (err) {
             next(err);
