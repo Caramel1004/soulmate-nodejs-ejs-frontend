@@ -69,50 +69,53 @@
                 <div class="unit-box">
                     <div id="unit-title"> 코멘트 </div>
                     <% if(channel.comment !== '' && channel.comment) { %>
-                        <div class="comment">
+                        <div class="intro-comment">
                             <%= channel.comment %>
                         </div>
                     <% } %>
                 </div>
                 <div class="feed-container">
-                    <div id="unit-title"> 피드 </div>
-                    <div class="feed-box">
-                        <div class="feed-creator-box">
-                            <img src="<%= photo %>">
-                        </div>
-                        <div class="feed-content-box">
-                            <div class="feed-creator-name-box">
-                                <span><%= clientName %></span><span id="feed-date">1일전</span>
-                            </div>
-                            <div class="feed-comment-box">readFile 등에서 받아온 data를 data.toString()으로 변환하는 이유는 data가 buffer이기 때문이다.
-파일을 읽거나 쓰는 방식은 크게 Buffer와 stream을 이용하는 방식이 있다.
-
-* 버퍼링(영상 로딩) : 영상을 재생할 수 있을 때 까지 데이터를 모으는 동작
-* 스트리밍(영상 실시간 송출) : 영상 데이터를 조금씩 전송하는 동작.
-
-노드의 버퍼와 스트림도 비슷한 개념이다. 
-노드는 파일을 읽을 때 메모리에 파일 크기 만큼 공간을 마련해두며 파일 데이터를 메모리에 저장한 뒤 사용자가 조작할 수 있도록 한다. 
-이때 메모리에 저장된 데이터가 버퍼(Buffer)이다.
-                            </div>
-                            <img src="/images/Ryze_0.jpg">
-                            <div class="feed-icons-box">
-                                <div class="icon-box">
-                                    <i class="fa-regular fa-thumbs-up fa-xl"></i>
-                                    <span>1.1천</span>
-                                </div>
-                                <div class="icon-box">
-                                    <i class="fa-regular fa-comment-dots fa-xl"></i>
-                                    <span>387</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="feed-creator-box">
-                            <button id="feed-edit"><i class="fa-regular fa-pen-to-square"></i>수정</button>
-                        </div>
+                    <div id="unit-title">
+                        피드<button id="feed-upload-modal__btn"> + 피드올리기</button>
                     </div>
-                    <div id="feed-add-btn-box">
-                        <button> + 더보기</button>
-                    </div>
+                    <% if(channel.feeds.length > 0) { %>
+                        <% for(const feed of channel.feeds) { %>
+                            <div class="feed-box">
+                                <div class="feed-creator-box">
+                                    <img src="<%= feed.creator.photo %>">
+                                </div>
+                                <div class="feed-content-box">
+                                    <div class="feed-creator-name-box">
+                                        <span><%= feed.creator.name %></span><span id="feed-date">1일전</span>
+                                    </div>
+                                    <div class="feed-comment-box"><%= feed.content%></div>
+                                    <% if(feed.imageUrls.length > 0) { %>
+                                        <% for(const imageUrl of feed.imageUrls) { %>
+                                            <img src="http://localhost:8080/<%= imageUrl %>">
+                                        <% } %>
+                                    <% } %>
+                                    <div class="feed-icons-box">
+                                        <div class="icon-box">
+                                            <i class="fa-regular fa-thumbs-up fa-xl"></i>
+                                            <span><%= feed.likes.length %></span>
+                                        </div>
+                                        <div class="icon-box">
+                                            <i class="fa-regular fa-comment-dots fa-xl"></i>
+                                            <span><%= feed.feedReplys.length %></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="feed-creator-box">
+                                    <button id="feed-edit"><i class="fa-regular fa-pen-to-square"></i>수정</button>
+                                </div>
+                            </div>
+                        <% } %>
+                        <div id="feed-add-btn-box">
+                            <button> + 더보기</button>
+                        </div>
+                    <% } else { %>
+                        <h1 class="feed-empty-comment">새로운 피드를 올려보세요.</h1>
+                    <% } %>
                 </div>
             </div>
         </div>		
