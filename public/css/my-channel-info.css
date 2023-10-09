@@ -71,9 +71,13 @@ body::-webkit-scrollbar-track {
 }
 
 #unit-title {
-    text-align: left;
-    padding: 15px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     font-size: 20px;
+    text-align: left;
+    /* border: 1px groove black; */
 }
 
 .box-profile {
@@ -179,6 +183,7 @@ body::-webkit-scrollbar-track {
 }
 
 .feed-box {
+    margin-bottom: 20px;
     min-width: 480px;
     display: grid;
     grid-template-columns: 80px 10fr 80px;
@@ -266,8 +271,17 @@ body::-webkit-scrollbar-track {
     float: center;
 }
 
-#feed-edit i{
+#feed-edit i {
     color: #ffffff;
+}
+
+#feed-upload-modal__btn {
+    padding: 10px;
+    border: none;
+    background: #000000;
+    color: #ffffff;
+    border-radius: 20px;
+    cursor: pointer;
 }
 
 #feed-add-btn-box {
@@ -285,8 +299,18 @@ body::-webkit-scrollbar-track {
     cursor: pointer;
 }
 
+.feed-empty-comment {
+    margin: auto;
+    padding: 10px 15px 10px 15px;
+    font-size: 20px;
+    color: rgba(0, 0, 0, 0.3);
+    background: rgb(243, 243, 246);
+    border-radius: 25px;
+    text-align: center;
+}
+
 /* 3. 소개 박스 */
-.comment {
+.intro-comment {
     padding: 20px;
     width: auto;
     text-align: left;
