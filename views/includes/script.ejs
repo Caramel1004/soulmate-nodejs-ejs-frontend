@@ -1,9 +1,9 @@
-<!-- <script src="/js/invite-modal.js"></script> -->
 <!-- <script src="/js/loading.js"></script> -->
 <script src="/js/menu.js"></script>
 <!-- 서치 타입 공통 버튼-->
 <% if(path === '/mychannels' || path === '/mychannel/:channelId?searchWord=info' || path === '/mychannel/:channelId?searchWord=member') { %><script src="/js/mychannels.js"></script><% } %>
 <% if(path === '/mychannel/:channelId?searchWord=workspaces' || path === '/mychannel/:channelId?searchWord=chatRooms') { %><script src="/js/mychannels.js"></script><% } %>
+<% if(path === '/mychannel/:channelId?searchWord=info') { %><script src="/js/channel-home.js"></script><% } %>
 <% if(path === '/') { %><script src="/js/index.js"></script><% } %>
 <% if(path === '/myprofile') { %><script src="/js/myprofile.js"></script><% } %>
 <% if(path === '/wishchannels') { %><script src="/js/mywishchannels.js"></script><% } %>
