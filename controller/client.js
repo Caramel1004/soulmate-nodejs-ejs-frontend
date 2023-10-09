@@ -480,6 +480,29 @@ const clientControlller = {
         } catch (err) {
             next(err);
         }
+    },
+    postCreateFeedToChannel: async (req, res, next) => {
+        try {
+            const { token, refreshToken } = req.signedCookies;
+            const { files } = req;
+            const { title, content } = req.body;
+            const { channelId } = req.params;
+
+            const formData = new FormData();
+            formData.append('title', title);
+            formData.append('content', content);
+            formData.append('files', JSON.stringify(files));
+
+            const data = await channelService.postCreateFeedToChannel(token, refreshToken, channelId, formData, next);
+            hasError(data.error);
+
+            res.status(data.status.code).json({
+                status: data.status,
+                feed: data.feed
+            });
+        } catch (err) {
+            next(err)
+        }
     }
 }
 

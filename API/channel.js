@@ -213,7 +213,25 @@ const channelAPI = {
         } catch (err) {
             next(err)
         }
-    }
+    },
+    // 15. 채널에 내피드 생성
+    postCreateFeedToChannel: async (token, refreshToken, channelId, formData, next) => {
+        try {
+            const response = await fetch(`http://localhost:8080/v1/channel/create-feed/${channelId}`, {
+                method: 'POST',
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                    Refresh: refreshToken
+                },
+                body: formData
+            });
+            const resData = await response.json();
+
+            return resData
+        } catch (err) {
+            next(err);
+        }
+    },
 }
 
 export default channelAPI;

@@ -118,6 +118,15 @@ const channelService = {
         } catch (err) {
             next(err)
         }
+    },
+    postCreateFeedToChannel: async (token, refreshToken, channelId, formData, next) => {
+        try {
+            const data = await channelAPI.postCreateFeedToChannel(token, refreshToken, channelId, formData, next);
+
+            return data;
+        } catch (err) {
+            next(err);
+        }
     }
 }
 
