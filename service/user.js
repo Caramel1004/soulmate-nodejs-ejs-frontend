@@ -21,7 +21,7 @@ const userService = {
         } catch (err) {
             next(err);
         }
-    },
+    }
 }
 
 export default userService;
