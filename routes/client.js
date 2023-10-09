@@ -97,4 +97,14 @@ router.patch('/workspace/invite/:channelId/:workSpaceId', accessAuthorizedToken,
 // PATCH /client/edit-myprofile
 router.patch('/edit-myprofile', accessAuthorizedToken, multer({ storage: memoryStorage }).array('data', 1), clientController.patchEditMyProfileByReqUser);// 나의 프로필 수정
 
+// POST /client/channel/create-feed/:channelId
+router.post('/channel/create-feed/:channelId', accessAuthorizedToken, multer({ storage: memoryStorage }).array('files', 5), clientController.postCreateFeedToChannel);// 20. 홈채널에 내피드 생성
+
+// PATCH /client/channel/edit-feed/:channelId
+router.patch('/channel/edit-feed/:channelId', accessAuthorizedToken, multer({ storage: memoryStorage }).array('data', 1), clientController.patchEditMyProfileByReqUser);// 21. 홈채널에 내피드 수정
+
+// DELETE /client/channel/delete-feed/:channelId
+router.patch('/channel/delete-feed/:channelId', accessAuthorizedToken, multer({ storage: memoryStorage }).array('data', 1), clientController.patchEditMyProfileByReqUser);// 22. 홈채널에 내피드 삭제
+
+
 export default router;
