@@ -17,6 +17,12 @@ const onClickCreateFeedByReqUserBtn = async () => {
     await postCreateFeedByReqUserBtn(this.channelId, this.selectedFeedImages);
 }
 
+const onClickFeedLikeBtn = async e => {
+    const feedId = e.target.parentNode.dataset.feedid;
+    console.log('feedId: ', feedId);
+    await patchPlusOrMinusNumberOfLikeInFeed(this.channelId, feedId, e);
+}
+
 /**
  * 이미지 파일 선택했을 때
  * @param {e: event}
@@ -172,12 +178,38 @@ const createFeedTag = data => {
 
 const dataLoading = () => {
     const loadingBox =
-    `<div id="load-box">
+        `<div id="load-box">
         <i class="fa-solid fa-upload fa-bounce fa-2xl"></i>
         <h3>피드 올리는 중입니다...</h3>
     </div>`
     document.querySelector('.feed-container').children[0].insertAdjacentHTML('afterend', loadingBox);
     console.log('데이터 로딩')
+}
+const dataLoadingFail = () => {
+    document.querySelector('.feed-container').removeChild(document.getElementById('load-box'));
+    const failBox =
+        `<div id="load-box">
+        <h3>서버에 문제가 발생하였습니다...</h3>
+    </div>`
+    document.querySelector('.feed-container').children[0].insertAdjacentHTML('afterend', failBox);
+    setTimeout(() => {
+        document.querySelector('.feed-container').removeChild(document.getElementById('load-box'));
+    }, 2000);
+    console.log('데이터 로딩')
+}
+
+const updateNumberOfLikeAndThumbIconInFeed = (e, numberOfLikeInFeed) => {
+    // e.target: <i class="fa-regular fa-thumbs-up fa-xl"></i>
+    // e.target.parentNode: 
+    // <div id="feed-like__btn" class="icon-box" data-feedid="<%= feed._id%>">
+    //     <i class="fa-regular fa-thumbs-up fa-xl"></i>
+    //     <span><%= feed.likes.length %></span>
+    // </div>
+    e.target.parentNode.querySelector('span').textContent = numberOfLikeInFeed;
+    e.target.parentNode.querySelector('i').className = 'fa-regular fa-thumbs-up fa-bounce fa-xl';
+    setTimeout(() => {
+        e.target.parentNode.querySelector('i').className = 'fa-regular fa-thumbs-up fa-xl';
+    }, 1000)
 }
 
 /** ----------------- API 요청 함수 -----------------*/
@@ -209,15 +241,47 @@ const postCreateFeedByReqUserBtn = async (channelId, selectedFeedImages) => {
         console.log('Feed: ', data);
 
         removeChildrenTag('modal-background');
-        createFeedTag(data.feed);
+        if (!data.error) {
+            createFeedTag(data.feed);
+        } else {
+            dataLoadingFail();
+        }
         this.selectedFeedImages = [];
         console.log('피드 생성 완료');
     } catch (error) {
         console.log(error);
     }
 }
+
+const patchPlusOrMinusNumberOfLikeInFeed = async (channelId, feedId, e) => {
+    try {
+        const response = await fetch(`http://localhost:3000/client/channel/plus-or-minus-feed-like`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                channelId: channelId,
+                feedId: feedId
+            })
+        })
+
+        const data = await response.json();
+        console.log(data);
+        if (!data.error) {
+            updateNumberOfLikeAndThumbIconInFeed(e, data.numberOfLikeInFeed);
+        }
+    } catch (err) {
+        console.log(err);
+    }
+}
 /** ----------------- 이벤트리스너 ----------------- */
 document.getElementById('feed-upload-modal__btn').addEventListener('click', () => {
     console.log('피드 모달창 오픈!');
     onClickFeedUploadBtn();
+});
+
+document.getElementById('feed-like__btn').addEventListener('click', e => {
+    console.log('좋아요!');
+    onClickFeedLikeBtn(e);
 });
