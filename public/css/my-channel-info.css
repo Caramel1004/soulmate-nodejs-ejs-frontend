@@ -237,9 +237,11 @@ body::-webkit-scrollbar-track {
 }
 
 .feed-content-box img {
-    margin-top: 5px;
+    margin-top: 20px;
+    margin-right: 5px;
     width: 300px;
     height: 300px;
+    border: 1px groove rgba(0, 0, 0, 0.26);
     border-radius: 10px;
 }
 
