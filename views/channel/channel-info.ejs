@@ -11,7 +11,6 @@
     <body>
         <%- include('../includes/header.ejs') %>
         <%- include('../includes/menu.ejs') %>
-        <%- include('../includes/loading.ejs') %>
         <!-- 프로필 영역 -->
         <div id="channel-profile-container">
             <%- include('../includes/channel-tab-box.ejs') %>
@@ -95,7 +94,7 @@
                                         <% } %>
                                     <% } %>
                                     <div class="feed-icons-box">
-                                        <div class="icon-box">
+                                        <div id="feed-like__btn" class="icon-box" data-feedid="<%= feed._id%>">
                                             <i class="fa-regular fa-thumbs-up fa-xl"></i>
                                             <span><%= feed.likes.length %></span>
                                         </div>
@@ -106,7 +105,7 @@
                                     </div>
                                 </div>
                                 <div class="feed-creator-box">
-                                    <button id="feed-edit"><i class="fa-regular fa-pen-to-square"></i>수정</button>
+                                    <button id="feed-edit" data-feedid="<%= feed._id%>"><i class="fa-regular fa-pen-to-square"></i>수정</button>
                                 </div>
                             </div>
                         <% } %>
