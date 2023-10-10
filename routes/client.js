@@ -106,5 +106,8 @@ router.patch('/channel/edit-feed/:channelId', accessAuthorizedToken, multer({ st
 // DELETE /client/channel/delete-feed/:channelId
 router.patch('/channel/delete-feed/:channelId', accessAuthorizedToken, multer({ storage: memoryStorage }).array('data', 1), clientController.patchEditMyProfileByReqUser);// 22. 홈채널에 내피드 삭제
 
+// PATCH /client/channel/plus-or-minus-feed-like
+router.patch('/channel/plus-or-minus-feed-like', accessAuthorizedToken, clientController.patchPlusOrMinusNumberOfLikeInFeed);// 22. 홈채널에 내피드 삭제
+
 
 export default router;

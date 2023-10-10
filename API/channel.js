@@ -232,6 +232,28 @@ const channelAPI = {
             next(err);
         }
     },
+    patchPlusOrMinusNumberOfLikeInFeed: async (token, refreshToken, channelId, feedId, next) => {
+        try {
+            const response = await fetch(`http://localhost:8080/v1/channel/plus-or-minus-feed-like`, {
+                method: 'PATCH',
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                    Refresh: refreshToken,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    channelId: channelId,
+                    feedId: feedId
+                })
+            });
+
+            const resData = await response.json();
+
+            return resData;
+        } catch (err) {
+            next(err);
+        }
+    }
 }
 
 export default channelAPI;

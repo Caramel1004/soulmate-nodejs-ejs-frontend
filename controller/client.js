@@ -503,6 +503,24 @@ const clientControlller = {
         } catch (err) {
             next(err)
         }
+    },
+    // 피드 좋아요
+    patchPlusOrMinusNumberOfLikeInFeed: async (req, res, next) => {
+        try {
+            const { token, refreshToken } = req.signedCookies;
+            const { channelId, feedId } = req.body;
+            console.log(channelId);
+            console.log(feedId);
+            const data = await channelService.patchPlusOrMinusNumberOfLikeInFeed(token, refreshToken, channelId, feedId, next);
+            hasError(data.error);
+
+            res.status(data.status.code).json({
+                status: data.status,
+                numberOfLikeInFeed: data.numberOfLikeInFeed
+            })
+        } catch (err) {
+            next(err);
+        }
     }
 }
 

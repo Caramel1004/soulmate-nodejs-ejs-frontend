@@ -127,7 +127,16 @@ const channelService = {
         } catch (err) {
             next(err);
         }
-    }
+    },
+    patchPlusOrMinusNumberOfLikeInFeed: async (token, refreshToken, channelId, feedId, next) => {
+        try {
+            const data = await channelAPI.patchPlusOrMinusNumberOfLikeInFeed(token, refreshToken, channelId, feedId, next);
+
+            return data;
+        } catch (err) {
+            next(err);
+        }
+    },
 }
 
 export default channelService;
