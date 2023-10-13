@@ -77,7 +77,7 @@
                                         <div id="post-<%= post._id %>" class="post-comment"><%= post.content %></div>
                                     <% } %>
                                     <% if(post.fileUrls.length > 0) { %>
-                                        <p id="attached-files-number">첨부파일 <%= post.fileUrls.length %>개</p>
+                                        <div><p id="attached-files-number">첨부파일 <%= post.fileUrls.length %>개</p></div>
                                         <div class="post-attached-files">
                                         <% for(let fileUrl of post.fileUrls) { %>
                                             <img src="http://localhost:8080/<%= fileUrl %>">
