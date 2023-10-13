@@ -1,14 +1,21 @@
-window.onload = init();
-function init() {
-    const historyTag = document.querySelector('.board-chat__box-history');
-
+window.onload = Init();
+function Init() {
     //채팅박스 스크롤 맨 아래로 위치
+    const historyTag = document.querySelector('.board-chat__box-history');
     historyTag.scrollTop = historyTag.scrollHeight;
 
+    document.getElementById('participants').style.color = '#ffffff';
+    document.getElementById('participants').style.background = '#000000';
+
+    // 전역 변수
     this.selectedFiles = [];
 }
 
 /** ----------------- 이벤트 함수 ----------------- */
+const onLoadChatRoom = e => {
+    document.getElementById('participants').style.color = '#ffffff';
+    document.getElementById('participants').style.background = '#000000';
+}
 
 // 1. 채팅 박스에서 keydown 이벤트 
 // 채팅 박스에 textarea 키보드 엔터 시 이벤트
@@ -173,39 +180,16 @@ const onClickExitUsers = event => {
 
     btnDeactivation('add-member');
     document.getElementById('span__text').style.opacity = 0.3;
-    document.querySelector('.box__btn-toggle').classList.remove('hidden');
+    document.querySelector('.sub-board__btn-box').classList.remove('hidden');
     document.querySelector('.board-user').classList.remove('hidden');
     document.querySelector('.board-channel-user-list').classList.add('hidden');
     pushedBox.classList.add('hidden');
 }
 
 // 서브 보드 토글버튼
-const toggleButton = type => {
-    const board = document.querySelector('.board-user')
-    console.log('토글!!!');
-    console.log('board: ', board);
-    if (type === '참여자') {
-        // 토글버튼
-        document.getElementById('btn-toggle-user').classList.add('active');
-        document.getElementById('btn-toggle-task').classList.remove('active');
-
-        //유저 보드, 유저 박스
-        document.querySelector('.board-user').classList.remove('hidden');
-
-        //업무 보드
-        document.querySelector('.board-task').classList.add('hidden');
-
-    } else if (type === '업무') {
-        // 토글버튼
-        document.getElementById('btn-toggle-user').classList.remove('active');
-        document.getElementById('btn-toggle-task').classList.add('active');
-
-        //유저 보드, 유저 박스
-        document.querySelector('.board-user').classList.add('hidden');
-
-        //업무 보드
-        document.querySelector('.board-task').classList.remove('hidden');
-    }
+const onClickSubBtn = (e, activeClassName) => {
+    setColorForActiveSubBoardBtn(e);
+    openSelectedSubBoard(activeClassName);
 }
 
 const onClickHamburgerIcon = () => {
@@ -252,7 +236,7 @@ const onClickSendChatAndFilesBtn = async () => {
 /** ----------------- 태그관련 함수 ----------------- */
 const createUserListInChannelTag = data => {
     // 채널에 속한 유저리스트 보드 열기
-    document.querySelector('.box__btn-toggle').classList.add('hidden');
+    document.querySelector('.sub-board__btn-box').classList.add('hidden');
     document.querySelector('.board-user').classList.add('hidden');
     document.querySelector('.board-channel-user-list').classList.remove('hidden');
 
@@ -393,7 +377,6 @@ const btnActivation = id => {
     tag.style.cursor = 'pointer';
 }
 
-
 //roomname 박스 밑에 생성 시킬거임
 const createHamburgerMenu = () => {
     const url = window.location.href;
@@ -431,6 +414,37 @@ const createHamburgerMenu = () => {
     document.querySelector('.hamburger-menu-container').appendChild(hamburgerMenu2);
 }
 
+// 활성화된 서브보드버튼에대한 색 세팅
+const setColorForActiveSubBoardBtn = e => {
+    const targetId = e.target.id;
+    const buttons = document.querySelector('.sub-board__btn-box').querySelectorAll('button');
+    e.target.style.background = '#000000';
+    e.target.style.color = '#ffffff';
+
+    for(const btn of buttons) {
+        if(btn.id !== targetId) {
+            btn.style.color = '#1d1c1d';
+            btn.style.background = 'rgb(243, 243, 246)';
+        }
+    }
+}
+
+// 선택된 서브보드 오픈 나머지는 display hidden으로 전환
+const openSelectedSubBoard = activeClassName => {
+    const subBoard = document.querySelector('.board-sub');
+    const subBoardChild = subBoard.children;
+    const activeSubBoardChild = subBoard.querySelector(`.${activeClassName}`);
+    
+    activeSubBoardChild.classList.remove('hidden');
+
+    // 서브보드 자손 태그에서 활성화되지 않은 보드는 히든
+    for(let idx = 1; idx < subBoardChild.length; idx++) {
+        if(subBoardChild[idx] !== activeSubBoardChild) {
+            subBoardChild[idx].classList.add('hidden');
+        }
+    }
+}
+
 /** ----------------- API 요청 함수 -----------------*/
 
 // 채팅 내용 post요청
@@ -438,7 +452,7 @@ const postSendChatAndUploadFilesToChatRoom = async () => {
     console.log('tag 생성!!!');
     try {
         const content = document.getElementById('content').value;
-        
+
         if (content == "" && this.selectedFiles.length <= 0) {
             return;
         }
@@ -527,9 +541,20 @@ const postLoadUsersInChannel = async () => {
 
 /** ----------------- 이벤트리스너 ----------------- */
 
+// 클릭 이벤트
 document.getElementById('send').addEventListener('click', onClickSendChatAndFilesBtn);
-document.getElementById('content').addEventListener('keydown', onKeyDownInChatBox);
-document.getElementById('file').addEventListener('change', onChangeSelectFile);
-// document.getElementById('sendFile').addEventListener('click', postUploadFileToChatRoom);
-// document.getElementById('hamburger').addEventListener('click', onClickHamburgerIcon);
 document.querySelector('.room-name-box').addEventListener('click', onClickHamburgerIcon);
+
+document.getElementById('participants').addEventListener('click', e => {
+    onClickSubBtn(e, 'board-user');
+});// 서브보드 버튼들
+
+document.getElementById('file-box').addEventListener('click', e => {
+    onClickSubBtn(e, 'board-file-box');
+});// 서브보드 버튼들
+
+// 키보드 이벤트
+document.getElementById('content').addEventListener('keydown', onKeyDownInChatBox);
+
+// 변화 이벤트
+document.getElementById('file').addEventListener('change', onChangeSelectFile);
