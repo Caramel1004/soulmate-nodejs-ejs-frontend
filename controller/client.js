@@ -267,8 +267,9 @@ const clientControlller = {
         try {
             const token = req.signedCookies.token;
             const formData = new FormData();
-            formData.append('postId', req.body.postId);
-            formData.append('content', req.body.content);
+            formData.set('postId', req.body.postId);
+            formData.set('content', req.body.content);
+            formData.set('files', JSON.stringify(req.files));
 
             const data = await workspaceService.patchEditPostByCreatorInWorkSpace(token, req.signedCookies.refreshToken, req.params.channelId, req.params.workSpaceId, formData, next);
             hasError(data.error);
@@ -509,8 +510,7 @@ const clientControlller = {
         try {
             const { token, refreshToken } = req.signedCookies;
             const { channelId, feedId } = req.body;
-            console.log(channelId);
-            console.log(feedId);
+            
             const data = await channelService.patchPlusOrMinusNumberOfLikeInFeed(token, refreshToken, channelId, feedId, next);
             hasError(data.error);
 
