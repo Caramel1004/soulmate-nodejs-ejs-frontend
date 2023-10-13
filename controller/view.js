@@ -33,7 +33,7 @@ const viewController = {
 
             if (req.signedCookies.token) {
                 const data = await userService.getMyProfile(token, refreshToken, next);
-                console.log(data);
+               
                 hasNewAuthToken(res, data.authStatus);
                 for (const wishChannel of data.matchedUser.wishChannels) {
                     channelList.map(channel => {
@@ -135,7 +135,6 @@ const viewController = {
             hasNewAuthToken(res, resData.authStatus);
             const staticData = await getCategoryData(next);
 
-            console.log(req.sessionStore.userChannels);
             //나의 채널 목록 페이지 렌더링
             res.status(resData.status.code).render('channel/mychannel', {
                 path: '/mychannels',
@@ -236,8 +235,9 @@ const viewController = {
             hasError(workSpaceListData.error);
             const matchedWorkSpaceList = workSpaceListData.workSpaces;
             const matchedOpenWorkSpaceList = workSpaceListData.openWorkSpaces;
+            console.log(matchedWorkSpaceList);
 
-            // 2. 해당 채널 렌더링
+            // 4. 해당 채널 렌더링
             res.status(chatRoomListData.status.code).render(fileName, {
                 path: `/mychannel/:channelId?searchWord=${searchWord}`,
                 title: matchedChannel.channelName,
@@ -264,7 +264,6 @@ const viewController = {
             const chatRoomData = await chatService.getLoadChatRoom(token, refreshToken, channelId, chatRoomId, next);
             hasError(chatRoomData.error);
             hasNewAuthToken(res, chatRoomData.authStatus);
-            console.log(chatRoomData.chatRoom.chats);
 
             // 2. 채팅방 목록
             const chatRoomListData = await channelService.getChatRoomList(token, req.signedCookies.refreshToken, channelId, next);
@@ -306,7 +305,6 @@ const viewController = {
             const workSpaceData = await workspaceService.getLoadWorkspace(token, refreshToken, channelId, workspaceId, query, next);
             hasError(workSpaceData.error);
             hasNewAuthToken(res, workSpaceData.authStatus);
-            console.log(workSpaceData.workSpace.posts);
 
             // 2. 채팅룸 리스트
             const chatRoomListData = await channelService.getChatRoomList(token, req.signedCookies.refreshToken, channelId, next);
