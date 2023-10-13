@@ -93,7 +93,7 @@
                                             <img src="http://localhost:8080/<%= imageUrl %>">
                                         <% } %>
                                     <% } %>
-                                    <div class="feed-icons-box">
+                                    <div class="feed-icons-box" data-feedid="<%= feed._id%>">
                                         <div id="feed-like__btn" class="icon-box" data-feedid="<%= feed._id%>">
                                             <i class="fa-regular fa-thumbs-up fa-xl"></i>
                                             <span><%= feed.likes.length %></span>
