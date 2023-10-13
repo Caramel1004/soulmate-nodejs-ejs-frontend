@@ -95,10 +95,9 @@
 
         <!-- 오른쪽 사이드 서브 보드 -->
         <div class="board-sub">
-            <div class="box__btn-toggle">
-                <button type="button" class="btn-toggle active" id="btn-toggle-user" onclick="toggleButton('참여자')">참여자</button>
-                <button type="button" class="btn-toggle active" id="btn-toggle-user" onclick="toggleButton('참여자')">파일함</button>
-                <button type="button" class="btn-toggle" id="btn-toggle-task" onclick="toggleButton('업무')">이미지 쓰레드</button>
+            <div class="sub-board__btn-box">
+                <button type="button" id="participants" class="sub-board__btn">참여자</button>
+                <button type="button" id="file-box" class="sub-board__btn">파일함</button>
             </div>
             <div class="board-user">
                 <div class="box__btn__add-member">
@@ -116,12 +115,12 @@
                     </div>
                 <% } %>
             </div>
-            <div class="board-task hidden">
+            <div class="board-file-box hidden">
                 <div class="task-date__box">
-                    <!-- 이미지 쓰레드 -->
+                    <!-- 파일 목록 -->
                 </div>
-                <button class="board-chat__btn" type="button" id="sendFile"><i class="fa-solid fa-image fa-xl"></i><span>전송</span></button>
             </div>
+            <!-- 팀원목록 보드 -->
             <div class="board-channel-user-list hidden">
                 <div class="box__top">
                     <div class="box__exit">
