@@ -387,15 +387,18 @@ label[for='file']:active {
     -webkit-animation: fadein 2s;
 }
 
-/* 토글 버튼 박스, 토글 버튼 */
-.box__btn-toggle {
+/* 서브보드 버튼 박스 */
+.sub-board__btn-box {
     padding: 15px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
 }
+.sub-board__btn-box.hidden {
+    display: none;
+}
 
-.box__btn-toggle button {
+.sub-board__btn-box button {
     margin-right: 7px;
     padding: 10px;
     font-size: 14px;
@@ -406,7 +409,7 @@ label[for='file']:active {
 }
 
 /* 토글버튼 마우스 오버시 */
-.btn-toggle:hover {
+.sub-board__btn-box button:hover {
     background: rgb(233, 233, 237);
     cursor: pointer;
 }
@@ -471,12 +474,12 @@ label[for='file']:active {
     float: right;
 } */
 
-/* 업무보드 및 히스토리 보드*/
-.board-task {
+/* 파일함 보드*/
+.board-file-box {
     display: block;
 }
 
-.board-task.hidden {
+.board-file-box.hidden {
     display: none;
 }
 
