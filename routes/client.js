@@ -61,7 +61,7 @@ router.post('/workspace/create-post/:channelId/:workSpaceId', accessAuthorizedTo
 // DELETE /client/workspace/delete-post/:channelId/:workSpaceId
 router.delete('/workspace/delete-post/:channelId/:workSpaceId/:postId', accessAuthorizedToken, clientController.deletePostByCreatorInWorkSpace);//10. 워크스페이스에서 해당 유저의 게시물 삭제
 
-//  PATCH/client/workspace/edit-post/:channelId/:workSpaceId
+// PATCH /client/workspace/edit-post/:channelId/:workSpaceId
 router.patch('/workspace/edit-post/:channelId/:workSpaceId', accessAuthorizedToken, multer({ storage: memoryStorage }).array('files', 12), clientController.patchEditPostByCreatorInWorkSpace);//11. 워크스페이스에서 해당 유저의 게시물 내용 수정
 
 // POST /client/workspace/:channelId/:workSpaceId/post/replies
