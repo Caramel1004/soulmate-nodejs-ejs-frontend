@@ -5,10 +5,9 @@ window.onload = () => {
 }
 /** ----------------- 이벤트 함수 ----------------- */
 const onClickFeedUploadBtn = () => {
-    createModalTagtoUploadFeed(channelId, '피드');
+    createModalTagtoUploadFeed('피드');
 
     document.getElementById('cancel').addEventListener('click', () => {
-        console.log('event');
         onClickCloseBtn('modal-background');
     });
 }
@@ -23,6 +22,14 @@ const onClickFeedLikeBtn = async e => {
     await patchPlusOrMinusNumberOfLikeInFeed(this.channelId, feedId, e);
 }
 
+const onClickFeedEditModeOpenBtn = e => {
+    const feedId = e.target.dataset.feedid;
+    console.log('feedId: ', feedId);
+    createModalTagtoEditFeed(e, '피드', feedId);
+    document.getElementById('cancel').addEventListener('click', () => {
+        onClickCloseBtn('modal-background');
+    });
+}
 /**
  * 이미지 파일 선택했을 때
  * @param {e: event}
@@ -61,7 +68,7 @@ const onClickImageRemoveBtn = e => {
     console.log(e.target);
 }
 /** ----------------- 태그관련 함수 ----------------- */
-const createModalTagtoUploadFeed = (channelId, title) => {
+const createModalTagtoUploadFeed = title => {
     const modal =
         `<div class="modal-background">
         <div class="modal-add-mode">
@@ -93,6 +100,54 @@ const createModalTagtoUploadFeed = (channelId, title) => {
     document.querySelector('script').insertAdjacentHTML('beforebegin', modal);
     document.querySelector('label[for="feed-images"]').addEventListener('change', onChangeSelectFile);
     document.getElementById('feed-add-request__btn').addEventListener('click', onClickCreateFeedByReqUserBtn);
+}
+
+const createModalTagtoEditFeed = (e, title, feedId) => {
+    const feedBox = e.target.parentNode.parentNode;
+    const content = feedBox.querySelector('.feed-comment-box').textContent;
+    const images = feedBox.querySelector('.feed-content-box').querySelectorAll('img');
+    const modal =
+        `<div class="modal-background">
+        <div class="modal-add-mode">
+            <h2>${title}</h2>
+            <div class="box__input">
+                <label for="title">제목</label>
+                <span><input type="text" name="title" id="title"></span>
+            </div>
+            <div class="box__input">
+                <span><textarea class="contents-form__textarea" id="content" name="content" placeholder="피드에 업로드할 스크립트를 자유롭게 입력하세요.">${content}</textarea>
+            </div>
+            <div id="preview-images">
+                <div id="feed-images-empty-box"></div>
+                <div id="feed-images-empty-box">
+                    <label for="feed-images">
+                        <i class="fa-solid fa-upload fa-xl"></i>사진 업로드하기
+                        <input type="file" name="images" id="feed-images" multiple>
+                    </label>
+                </div>
+                <div id="feed-images-empty-box"></div>
+            </div>
+            <div class="box__button__submit">
+                <a id="preview-btn">미리 보기</a>
+                <button id="feed-add-request__btn" type="button" data-feedid="${feedId}">완료</button>
+                <a id="cancel">취소</a>
+            </div>
+        </div>
+    </div>`;
+
+    document.querySelector('script').insertAdjacentHTML('beforebegin', modal);
+    document.querySelector('label[for="feed-images"]').addEventListener('change', onChangeSelectFile);
+    document.getElementById('feed-add-request__btn').addEventListener('click', onClickCreateFeedByReqUserBtn);
+
+    for (const img of images) {
+        document.getElementById('preview-images').innerHTML += 
+        `<div class="attached-image-box">
+            <img src="${img.src}">
+            <button type="button" id="remove-upload-file__btn"">
+                <i class="fa-solid fa-circle-xmark fa-xl"></i>
+            </button>
+        </div>`;
+    }
 }
 
 // 부모 태그에서 자식 태그 삭제 -> 모달창 제거
@@ -205,10 +260,12 @@ const updateNumberOfLikeAndThumbIconInFeed = (e, numberOfLikeInFeed) => {
     //     <i class="fa-regular fa-thumbs-up fa-xl"></i>
     //     <span><%= feed.likes.length %></span>
     // </div>
+    const color = parseInt(e.target.parentNode.querySelector('span').textContent) > parseInt(numberOfLikeInFeed) ? 'regular' : 'solid'
     e.target.parentNode.querySelector('span').textContent = numberOfLikeInFeed;
-    e.target.parentNode.querySelector('i').className = 'fa-regular fa-thumbs-up fa-bounce fa-xl';
+
+    e.target.parentNode.querySelector('i').className = `fa-${color} fa-thumbs-up fa-bounce fa-xl`;
     setTimeout(() => {
-        e.target.parentNode.querySelector('i').className = 'fa-regular fa-thumbs-up fa-xl';
+        e.target.parentNode.querySelector('i').className = `fa-${color} fa-thumbs-up fa-xl`;
     }, 1000)
 }
 
@@ -284,4 +341,14 @@ document.getElementById('feed-upload-modal__btn').addEventListener('click', () =
 document.getElementById('feed-like__btn').addEventListener('click', e => {
     console.log('좋아요!');
     onClickFeedLikeBtn(e);
+});
+// document.getElementById('feed-like__btn').querySelector('i').addEventListener('click', e => {
+//     console.log('좋아요!');
+//     onClickFeedLikeBtn(e);
+// });
+
+document.getElementById('feed-edit').addEventListener('click', e => {
+    console.log(e.target.parentNode);
+    // console.log(document.getElementsByClassName('.feed-box'));
+    onClickFeedEditModeOpenBtn(e);
 });
