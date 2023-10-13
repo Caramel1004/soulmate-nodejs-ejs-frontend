@@ -3,6 +3,8 @@ window.onload = Init();
 function Init() {
     this.selectedFiles = [];
     this.selectedMembers = [];// 선택한 유저들 doc아이디 배열로 저장
+    this.tmpContent = '';
+    this.postEditMode = false;
     console.log(selectedMembers);
 }
 
@@ -94,21 +96,22 @@ const onClickReplyEditOrRemoveBtn = (action, postId, replyId) => {
     }
 }
 
-const onClickPostEditModTagCloseBtn = (postId, content) => {
+const onClickPostEditModTagCloseBtn = postId => {
     const parentNode = document.getElementById(`post-${postId}`).parentNode;// post
     const postContentTag = document.getElementById(`post-${postId}`);
-    const replyTag = parentNode.querySelector('p');
 
     postContentTag.parentNode.parentNode.style.background = '#ffffff';
     parentNode.removeChild(postContentTag);
-    parentNode.removeChild(replyTag);
 
     const div = document.createElement('div');
     div.id = `post-${postId}`;
-    div.className = 'post-comment';
-    div.textContent = content;
-    parentNode.appendChild(div);
-    parentNode.appendChild(replyTag);
+    div.className = 'post-comment';ㄴ
+    div.textContent = this.tmpContent;
+
+    parentNode.querySelector('.client-name').insertAdjacentElement('afterend', div);
+
+    this.tmpContent = '';
+    this.postEditMode = false;
 }
 
 const onClickWorkSpacePostEditContent = async postId => {
@@ -242,53 +245,112 @@ const createReplyEditModalTag = (postId, replyId) => {
 
 // 게시물 수정 모드 태그로 변경
 const changePostEditModeTag = postId => {
+    this.postEditMode = true;
+
     const postContentTag = document.getElementById(`post-${postId}`);
-    // console.log(document.querySelector('.post-container').children);
-    const textarea = document.createElement('textarea');
-    textarea.value = postContentTag.textContent;
+
+    const textarea = document.createElement('div');
+    textarea.textContent = postContentTag.textContent;
     textarea.id = 'post-edit-content';
-    const content = textarea.value;
-    const replacedContent = replaceText(content);
+    textarea.contentEditable = 'true';
+    this.tmpContent = textarea.textContent;
+    console.log(this.tmpContent)
+    // const replacedContent = replaceText(content);
 
     // 스타일 변경
     postContentTag.parentNode.style.width = '93%';
-    postContentTag.parentNode.style.height = 'auto';
-    postContentTag.parentNode.parentNode.style.background = 'rgb(235, 222, 203)';
-    postContentTag.style.width = '200%';
-    postContentTag.style.height = 'auto';
-    textarea.style.width = '98%';
-    textarea.style.height = '60vh';
+    // postContentTag.parentNode.parentNode.style.background = 'rgb(235, 222, 203)';
+    postContentTag.parentNode.parentNode.style.background = 'rgba(243, 243, 246, 0.5)';
+    postContentTag.style.width = '100%';
+    textarea.style.padding = '10px';
+    textarea.style.width = '99%';
+    textarea.style.height = 'auto';
+    textarea.style.border = '1px groove rgba(0,0,0,0.26)';
+    textarea.style.borderBottom = 'none';
+    textarea.style.borderTopRightRadius = '10px';
+    textarea.style.borderTopLeftRadius = '10px';
+    textarea.style.outline = 'none';
+    textarea.style.resize = 'none';
+    textarea.style.background = 'rgb(243, 243, 246)'
+    textarea.style.fontSize = '15px'
+    textarea.style.lineHeight = '23px'
     postContentTag.textContent = "";
 
-    const btnBox = document.createElement('div');
-    btnBox.style.paddingLeft = '8px';
+    const filePreviewBox = document.createElement('div');
+    filePreviewBox.id = 'edit-mode-preview-files';
+    filePreviewBox.style.width = '99.3%';
+    filePreviewBox.style.border = '1px groove rgba(0,0,0,0.26)';
+    filePreviewBox.style.borderBottom = 'none';
+    filePreviewBox.style.borderRadius = '0';
 
+    const btnBox = document.createElement('div');
+    btnBox.style.padding = '10px 20px 10px 5px';
+    btnBox.style.width = '99%';
+    btnBox.style.border = '1px groove rgba(0,0,0,0.26)';
+    btnBox.style.display = 'flex';
+    btnBox.style.alignItems = 'center';
+    btnBox.style.justifyContent = 'space-between';
+    btnBox.style.borderBottomRightRadius = '10px';
+    btnBox.style.borderBottomLeftRadius = '10px';
+
+    const positionRightBox = document.createElement('div');
+    const positionLeftBox = document.createElement('div');
     // 수정 버튼 생성
     const editIcon = document.createElement('i');
     editIcon.className = 'fa-regular fa-pen-to-square fa-xl';
+    editIcon.style.color = '#ffffff';
 
     const editBtn = document.createElement('button');
-    editBtn.classList.add('button__edit-mode-comment-script');
-    editBtn.style.float = 'left';
+    editBtn.classList.add('post-edit-complete-btn');
+    editBtn.style.background = '#000000';
+    editBtn.style.color = '#ffffff';
     editBtn.setAttribute('onclick', `onClickWorkSpacePostEditContent('${postId}')`)
     editBtn.append(editIcon);
-
-    const closeIcon = document.createElement('i');
-    closeIcon.className = 'fa-solid fa-x';
-
+    editBtn.append('완료');
+    
     const closeBtn = document.createElement('button');
-    closeBtn.classList.add('button__edit-mode-comment-script');
-    closeBtn.style.marginLeft = '-3px';
-    closeBtn.style.float = 'left';
-    closeBtn.setAttribute('onclick', `onClickPostEditModTagCloseBtn('${postId}', '${replacedContent}')`)
-    closeBtn.append(closeIcon);
+    closeBtn.classList.add('post-edit-complete-btn');
+    closeBtn.id = 'post-edit-cancel__btn';
+    closeBtn.append('취소');
 
-    btnBox.appendChild(editBtn);
-    btnBox.appendChild(closeBtn);
+    const fileLabel = document.createElement('label');
+    fileLabel.htmlFor = 'post-edit-file';
+    fileLabel.style.background = 'rgb(243, 243, 246)'
+    fileLabel.innerHTML += `<i class="fa-solid fa-file fa-lg"></i>`;
+    const fileBtn = document.createElement('input');
+    fileBtn.type = 'file';
+    fileBtn.id = 'post-edit-file';
+    fileBtn.style.display = 'none';
+    fileLabel.appendChild(fileBtn);
+
+    positionLeftBox.appendChild(fileLabel);
+
+    positionRightBox.appendChild(editBtn);
+    positionRightBox.appendChild(closeBtn);
+
+    btnBox.appendChild(positionLeftBox);
+    btnBox.appendChild(positionRightBox);
 
     postContentTag.appendChild(textarea);
+    postContentTag.appendChild(filePreviewBox);
     postContentTag.appendChild(btnBox);
-    // postContentTag.appendChild(closeBtn);
+
+    console.log(postContentTag.parentNode.querySelector('.post-attached-files'));
+    // 이미지 파일태그
+    if(postContentTag.parentNode.querySelector('.post-attached-files') !== null) {
+        const imagesTag = postContentTag.parentNode.querySelector('.post-attached-files').querySelectorAll('img');
+        console.log(imagesTag);
+        for(const imageTag of imagesTag) {
+            filePreviewBox.innerHTML += `<div class="edit-mode-attached-file"><img src="${imageTag.src}"></div>`
+        }
+    }
+
+    // 등록될 이벤트 리스너
+    document.getElementById('post-edit-cancel__btn').addEventListener('click',() => {
+        onClickPostEditModTagCloseBtn(postId);
+    });
+
+    document.getElementById('post-edit-file').addEventListener('change', onChangeSelectFile);
 }
 // 자식요소 모두 제거 하는 함수
 const removeAllChild = parent => {
@@ -576,24 +638,33 @@ const onClickFileRemoveBtn = fileId => {
 }
 const createPreviewTag = e => {
     try {
+        let previewTagId = 'preview-files';
+        let fileTagId = 'file';
+        let attachedFileBoxClass = 'attached-file';
+
+        if(this.postEditMode) {
+            previewTagId = 'edit-mode-preview-files';
+            attachedFileBoxClass = 'edit-mode-attached-file';
+            fileTagId = 'post-edit-file';
+        }
+
         const base64EncodedFile = e.target.result;
-        const fileInfo = document.getElementById('file').files[0];//이미 e.target.files[0]은 인코딩되어 없어짐 따라서 dom요소에 접근해 인코딩전 파일 정보가져오기
+        const fileInfo = document.getElementById(fileTagId).files[0];//이미 e.target.files[0]은 인코딩되어 없어짐 따라서 dom요소에 접근해 인코딩전 파일 정보가져오기
 
         if (!base64EncodedFile) {
             throw new Error('파일을 읽지 못했습니다!!');
         }
-        const parentNode = document.getElementById('preview-files');
+
+        const parentNode = document.getElementById(previewTagId);
 
         // 파일 식별 아이디 생성
         const fileId = new Date().getTime().toString(36);
         fileInfo.fileId = fileId;
 
         parentNode.innerHTML +=
-            `<div class="attached-file" data-fileid="${fileId}">
+        `<div class="attached-file" data-fileid="${fileId}">
             <img src="${base64EncodedFile}">
-            <button type="button" id="remove-upload-file__btn" data-fileid="${fileId}">
-                <i class="fa-solid fa-circle-xmark fa-xl"></i>
-            </button>
+            <button type="button" id="remove-upload-file__btn" data-fileid="${fileId}"><i class="fa-solid fa-circle-xmark fa-xl"></i></button>
         </div>`;
 
         parentNode.querySelector(`button[data-fileid="${fileId}"]`).addEventListener('click', e => {
@@ -721,7 +792,7 @@ const patchAddMemeberToWorkSpace = async () => {
             })
         });
 
-        return window.location.replace(`http://localhost:3000/channel/workspace/${channelId}/${workSpaceId}?sort=lastest&&sortNum=-1`);
+        return window.location.replace(`http://localhost:3000/channel/workspace/${channelId}/${workSpaceId}?sortType=lastest&&sortNum=-1`);
     } catch (err) {
         console, log(err);
     }
@@ -747,7 +818,7 @@ const patchRemoveMemeberToWorkSpace = async () => {
             })
         });
 
-        return window.location.replace(`http://localhost:3000/channel/workspace/${channelId}/${workSpaceId}?sort=lastest&&sortNum=-1`);
+        return window.location.replace(`http://localhost:3000/channel/workspace/${channelId}/${workSpaceId}?sortType=lastest&&sortNum=-1`);
     } catch (err) {
         console, log(err);
     }
@@ -854,8 +925,6 @@ const patchEditReplyByCreatorInPost = async (postId, replyId) => {
     }
 }
 
-
-
 const patchEditPostByCreatorInWorkSpace = async postId => {
     if (!confirm('게시물 내용을 수정 하시겠습니까?')) {
         return;
@@ -865,7 +934,7 @@ const patchEditPostByCreatorInWorkSpace = async postId => {
 
         const channelId = url.split('/')[5];
         const workSpaceId = url.split('/')[6].split('?')[0];
-        const content = document.getElementById('post-edit-content').value;
+        const content = document.getElementById('post-edit-content').textContent;
         const replaceContent = content.replace('\r\n', '<br>');
 
         console.log('channelId : ', channelId);
@@ -876,6 +945,9 @@ const patchEditPostByCreatorInWorkSpace = async postId => {
         const formData = new FormData();
         formData.append('postId', postId);
         formData.append('content', replaceContent);
+        for (const file of this.selectedFiles) {
+            formData.append('files', file);
+        }
 
         const data = await fetch(`http://localhost:3000/client/workspace/edit-post/${channelId}/${workSpaceId}`, {
             method: 'PATCH',
