@@ -271,6 +271,7 @@ body::-webkit-scrollbar-track {
     color: #ffffff;
     border-radius: 10px;
     float: center;
+    cursor: pointer;
 }
 
 #feed-edit i {

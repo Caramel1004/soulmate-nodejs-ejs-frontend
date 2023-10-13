@@ -265,7 +265,7 @@
     width: 150px;
     display: flex;
     align-items: start;
-    /* border: 1px groove #1d1c1d; */
+    border: 1px groove rgba(0, 0, 0, 0.1);
 }
 
 #preview-images img {
