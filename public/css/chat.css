@@ -477,19 +477,71 @@ label[for='file']:active {
 /* 파일함 보드*/
 .board-file-box {
     display: block;
+    overflow: auto;
+    /* overflow-y: auto; */
 }
 
 .board-file-box.hidden {
     display: none;
 }
 
-.task-date__box {
-    margin-top: 20px;
-    /* padding: 15px; */
-    width: var(--box-width);
+.board-file-box-inner {
+    padding: 5px;
+    height: 80vh;
     display: block;
+    align-items: center;
     justify-content: center;
-    /* border: groove; */
+    overflow: scroll;
+    overflow-y: scroll;
+    /* overflow-x: hidden; */
+}
+
+.file-created-date__box {
+    padding: 10px;
+    text-align: left;
+}
+.file-created-date__box span{
+    padding: 10px;
+    font-size: 15px;
+    color: #1d1c1d;
+    border: 1px groove rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+}
+.file-list-grid {
+    padding: 10px;
+    display: grid;
+    align-items: start;
+    grid-template-columns: repeat(auto-fill, 200px);
+    grid-auto-flow: row;
+    grid-gap: 5px;
+    overflow: scroll;
+    overflow-y: scroll;
+}
+.file-list-grid img{
+    width: 200px;
+    height: 200px;
+    border: 1px groove rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.board-file-box-inner::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background: #ffffff;
+}
+
+.board-file-box-inner::-webkit-scrollbar-thumb {
+    width: 6px;
+    height: 6px;
+    background: rgb(155, 151, 151);
+    border-radius: 50px;
+}
+
+.board-file-box-inner::-webkit-scrollbar-track {
+    width: 6px;
+    height: 6px;
+    border-radius: 50px;
+    background: #ffffff;
 }
 
 /* 채팅보드 상단 박스 */
