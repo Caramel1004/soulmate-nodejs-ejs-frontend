@@ -109,5 +109,7 @@ router.patch('/channel/delete-feed/:channelId', accessAuthorizedToken, multer({ 
 // PATCH /client/channel/plus-or-minus-feed-like
 router.patch('/channel/plus-or-minus-feed-like', accessAuthorizedToken, clientController.patchPlusOrMinusNumberOfLikeInFeed);// 22. 홈채널에 내피드 삭제
 
+// GET /client/chat/file-list/:channelId/:chatRoomId
+router.get('/chat/file-list/:channelId/:chatRoomId', accessAuthorizedToken, clientController.getLoadFilesInChatRoom);// 22. 홈채널에 내피드 삭제
 
 export default router;
