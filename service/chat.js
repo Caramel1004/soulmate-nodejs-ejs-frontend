@@ -80,6 +80,15 @@ const chatService = {
         } catch (err) {
             next(err)
         }
+    },
+    getLoadFilesInChatRoom: async (token, refreshToken, channelId, chatRoomId, next) => {
+        try {
+            const data = await chatAPI.getLoadFilesInChatRoom(token, refreshToken, channelId, chatRoomId, next);
+
+            return data;
+        } catch (err) {
+            next(err);
+        }
     }
 }
 

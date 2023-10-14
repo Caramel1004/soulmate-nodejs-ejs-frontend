@@ -98,6 +98,23 @@ const chatAPI = {
         } catch (err) {
             next(err);
         }
+    },
+    getLoadFilesInChatRoom: async (token, refreshToken, channelId, chatRoomId, next) => {
+        try {
+            const response = await fetch(`http://localhost:8080/v1/chat/file-list/${channelId}/${chatRoomId}`, {
+                method: 'GET',
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                    Refresh: refreshToken,
+                    'Content-Type': 'application/json'
+                }
+            });
+            const resData = await response.json();
+            
+            return resData;
+        } catch (err) {
+            next(err);
+        }
     }
 }
 

@@ -521,6 +521,22 @@ const clientControlller = {
         } catch (err) {
             next(err);
         }
+    },
+    getLoadFilesInChatRoom: async (req, res, next) => {
+        try {
+            const { token, refreshToken } = req.signedCookies;
+            const { channelId, chatRoomId } = req.params;
+            
+            const data = await chatService.getLoadFilesInChatRoom(token, refreshToken, channelId, chatRoomId, next);
+            hasError(data.error);
+            console.log(data);
+            res.status(data.status.code).json({
+                status: data.status,
+                chatsWithFileUrlsInChatRoom: data.chatsWithFileUrlsInChatRoom
+            })
+        } catch (err) {
+            next(err);
+        }
     }
 }
 
