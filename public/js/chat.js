@@ -189,7 +189,7 @@ const onClickExitUsers = event => {
 // 서브 보드 토글버튼
 const onClickSubBtn = (e, activeClassName) => {
     setColorForActiveSubBoardBtn(e);
-    openSelectedSubBoard(activeClassName);
+    openSelectedSubBoard(e, activeClassName);
 }
 
 const onClickHamburgerIcon = () => {
@@ -421,8 +421,8 @@ const setColorForActiveSubBoardBtn = e => {
     e.target.style.background = '#000000';
     e.target.style.color = '#ffffff';
 
-    for(const btn of buttons) {
-        if(btn.id !== targetId) {
+    for (const btn of buttons) {
+        if (btn.id !== targetId) {
             btn.style.color = '#1d1c1d';
             btn.style.background = 'rgb(243, 243, 246)';
         }
@@ -430,17 +430,37 @@ const setColorForActiveSubBoardBtn = e => {
 }
 
 // 선택된 서브보드 오픈 나머지는 display hidden으로 전환
-const openSelectedSubBoard = activeClassName => {
-    const subBoard = document.querySelector('.board-sub');
-    const subBoardChild = subBoard.children;
-    const activeSubBoardChild = subBoard.querySelector(`.${activeClassName}`);
-    
-    activeSubBoardChild.classList.remove('hidden');
+const openSelectedSubBoard = async (e, activeClassName) => {
+    try {
+        const targetId = e.target.id.split(" ")[0];
+        const subBoard = document.querySelector('.board-sub');
+        const subBoardChild = subBoard.children;
+        const activeSubBoardChild = subBoard.querySelector(`.${activeClassName}`);
 
-    // 서브보드 자손 태그에서 활성화되지 않은 보드는 히든
-    for(let idx = 1; idx < subBoardChild.length; idx++) {
-        if(subBoardChild[idx] !== activeSubBoardChild) {
-            subBoardChild[idx].classList.add('hidden');
+        activeSubBoardChild.classList.remove('hidden');
+
+        // 서브보드 자손 태그에서 활성화되지 않은 보드는 히든
+        for (let idx = 1; idx < subBoardChild.length; idx++) {
+            if (subBoardChild[idx] !== activeSubBoardChild) {
+                subBoardChild[idx].classList.add('hidden');
+            }
+        }
+
+        if (targetId === 'file-box') {
+            await await getLoadFilesInChatRoom(activeSubBoardChild);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const createFileTagAndsetFileDataList = (data, activeSubBoardChild) => {
+    const DOMAIN = 'http://localhost:8080';
+    // const createDateTag = activeSubBoardChild.querySelector('.file-created-date__box')
+    const grid = activeSubBoardChild.querySelector('.file-list-grid');
+    for(const chat of data.chatsWithFileUrlsInChatRoom) {
+        for(const fileUrl of chat.fileUrls){
+            grid.innerHTML += `<img src="${DOMAIN}/${fileUrl}">`;
         }
     }
 }
@@ -535,6 +555,27 @@ const postLoadUsersInChannel = async () => {
     });
     const data = await response.json();
     console.log('data: ', data);
+
+    return data;
+}
+
+const getLoadFilesInChatRoom = async activeSubBoardChild => {
+    const url = window.location.href;
+    const channelId = url.split('/')[5];
+    const chatRoomId = url.split('/')[6];
+
+    const response = await fetch(`http://localhost:3000/client/chat/file-list/${channelId}/${chatRoomId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    const data = await response.json();
+
+    console.log('data: ', data);
+    if(!data.error) {
+        createFileTagAndsetFileDataList(data, activeSubBoardChild);
+    }
 
     return data;
 }
