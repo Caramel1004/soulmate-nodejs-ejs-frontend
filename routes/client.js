@@ -2,7 +2,13 @@ import { Router } from 'express';
 import multer from 'multer';
 
 import clientController from '../controller/client.js';
-import { accessAuthorizedToken } from '../validator/valid.js'
+import {
+    accessAuthorizedToken,
+    validationChainToCheckRequestedValidBodyFromChannelAddPage,
+    validationChainToCheckRequestedValidBodyFromFeedUploadModal,
+    validationChainToCheckRequestedValidBodyFromWorkspaceAddModal,
+    validationChainToCheckRequestedValidBodyFromChatRoomAddModal
+} from '../validator/valid.js'
 
 const router = Router();
 
@@ -32,7 +38,11 @@ const memoryStorage = multer.memoryStorage();
  */
 
 //POST /client/channel/create
-router.post('/channel/create', accessAuthorizedToken, multer({ storage: memoryStorage }).single('thumbnail'), clientController.postCreateChannel);// 1. 채널 생성
+router.post('/channel/create',
+    accessAuthorizedToken,
+    multer({ storage: memoryStorage }).single('thumbnail'),
+    validationChainToCheckRequestedValidBodyFromChannelAddPage,
+    clientController.postCreateChannel);// 1. 채널 생성
 
 //POST /client/channel/exit/:channelId
 router.get('/channel/exit/:channelId', accessAuthorizedToken, clientController.postExitChannel);// 2. 채널 퇴장
@@ -41,7 +51,10 @@ router.get('/channel/exit/:channelId', accessAuthorizedToken, clientController.p
 router.post('/channel/invite/:channelId', accessAuthorizedToken, clientController.postInviteUserToChannel);// 3. 해당 채널에 유저 초대
 
 //POST /client/chat/:channelId
-router.post('/chat/:channelId', accessAuthorizedToken, clientController.postCreateChatRoom);// 4. 채팅방 생성
+router.post('/chat/:channelId',
+    accessAuthorizedToken,
+    validationChainToCheckRequestedValidBodyFromChatRoomAddModal,
+    clientController.postCreateChatRoom);// 4. 채팅방 생성
 
 //POST /client/chat/invite/:channelId/:chatRoomId
 router.post('/chat/invite/:channelId/:chatRoomId', accessAuthorizedToken, clientController.postInviteUsersToChatRoom);// 5. 채팅방에 유저 초대
@@ -53,7 +66,10 @@ router.post('/chat/:channelId/:chatRoomId', accessAuthorizedToken, multer({ stor
 router.post('/chat/upload-file/:channelId/:chatRoomId', accessAuthorizedToken, multer({ storage: memoryStorage }).array('files', 12), clientController.postUploadFileToChatRoom);// 7. 파일 업로드
 
 // POST /client/workspace/:channelId
-router.post('/workspace/:channelId', accessAuthorizedToken, clientController.postCreateWorkSpace);// 8. 워크스페이스 생성
+router.post('/workspace/:channelId',
+    accessAuthorizedToken,
+    validationChainToCheckRequestedValidBodyFromWorkspaceAddModal,
+    clientController.postCreateWorkSpace);// 8. 워크스페이스 생성
 
 // POST /client/workspace/create-post/:channelId/:workSpaceId
 router.post('/workspace/create-post/:channelId/:workSpaceId', accessAuthorizedToken, multer({ storage: memoryStorage }).array('files', 12), clientController.postCreatePostToWorkSpace);// 9. 워크스페이스에 게시물 생성
@@ -98,7 +114,11 @@ router.patch('/workspace/invite/:channelId/:workSpaceId', accessAuthorizedToken,
 router.patch('/edit-myprofile', accessAuthorizedToken, multer({ storage: memoryStorage }).array('data', 1), clientController.patchEditMyProfileByReqUser);// 나의 프로필 수정
 
 // POST /client/channel/create-feed/:channelId
-router.post('/channel/create-feed/:channelId', accessAuthorizedToken, multer({ storage: memoryStorage }).array('files', 5), clientController.postCreateFeedToChannel);// 20. 홈채널에 내피드 생성
+router.post('/channel/create-feed/:channelId',
+    accessAuthorizedToken,
+    multer({ storage: memoryStorage }).array('files', 5),
+    validationChainToCheckRequestedValidBodyFromFeedUploadModal,
+    clientController.postCreateFeedToChannel);// 20. 홈채널에 내피드 생성
 
 // PATCH /client/channel/edit-feed/:channelId
 router.patch('/channel/edit-feed/:channelId', accessAuthorizedToken, multer({ storage: memoryStorage }).array('data', 1), clientController.patchEditMyProfileByReqUser);// 21. 홈채널에 내피드 수정
