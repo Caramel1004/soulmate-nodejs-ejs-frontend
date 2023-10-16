@@ -2,7 +2,10 @@ import { Router } from 'express';
 import multer from 'multer';
 
 import authController from '../controller/auth.js';
-import { checkValidEmailAndPassWord } from '../validator/valid.js'
+import {
+    validationChainToCheckValidEmailAndPassWord,
+    validationChainToCheckValidRequestedValidBodyFromMemberJoinPage
+} from '../validator/valid.js'
 
 const router = Router();
 
@@ -13,7 +16,7 @@ const memoryStorage = multer.memoryStorage();
 router.get('/login', authController.getLoginPage);// 로그인 페이지 렌더링
 
 // POST /login
-router.post('/login', checkValidEmailAndPassWord, authController.postLogin);// 로그인
+router.post('/login', validationChainToCheckValidEmailAndPassWord, authController.postLogin);// 로그인
 
 // GET /kakao/oauth/authorize
 router.get('/kakao/oauth/authorize', authController.getKakaoLoginPageURL);
