@@ -124,7 +124,10 @@ const clientControlller = {
             const data = await channelService.postCreateChatRoom(jsonWebToken, req.signedCookies.refreshToken, channelId, roomName, next);
             hasError(data.error);
 
-            res.redirect('/channel/chat/' + data.chatRoom.channelId + '/' + data.chatRoom._id);
+            res.status(data.status.code).json({
+                status: data.status,
+                chatRoom: data.chatRoom
+            })
         } catch (err) {
             next(err);
         }
@@ -221,7 +224,10 @@ const clientControlller = {
             const data = await channelService.postCreateWorkSpace(token, req.signedCookies.refreshToken, req.params.channelId, open, workSpaceName, comment, next);
             hasError(data.error);
 
-            res.redirect(`/channel/workspace/${data.workSpace.channelId}/${data.workSpace._id}?sort=lastest&&sortNum=-1`);
+            res.status(data.status.code).json({
+                status: data.status,
+                workSpace: data.workSpace
+            })
         } catch (err) {
             next(err);
         }
@@ -372,12 +378,14 @@ const clientControlller = {
     patchExitChatRoom: async (req, res, next) => {
         try {
             const token = req.signedCookies.token;
+            const { channelId, chatRoomId } = req.body;
 
-            const data = await chatService.patchExitChatRoom(token, req.signedCookies.refreshToken, req.body.channelId, req.body.chatRoomId, next);
+            const data = await chatService.patchExitChatRoom(token, req.signedCookies.refreshToken, channelId, chatRoomId, next);
             hasError(data.error);
-
+            console.log(data)
             res.status(data.status.code).json({
-                removedChatRoom: data.removedChatRoom
+                status: data.status,
+                channelId: channelId
             });
         } catch (err) {
             next(err);
@@ -510,7 +518,7 @@ const clientControlller = {
         try {
             const { token, refreshToken } = req.signedCookies;
             const { channelId, feedId } = req.body;
-            
+
             const data = await channelService.patchPlusOrMinusNumberOfLikeInFeed(token, refreshToken, channelId, feedId, next);
             hasError(data.error);
 
@@ -526,7 +534,7 @@ const clientControlller = {
         try {
             const { token, refreshToken } = req.signedCookies;
             const { channelId, chatRoomId } = req.params;
-            
+
             const data = await chatService.getLoadFilesInChatRoom(token, refreshToken, channelId, chatRoomId, next);
             hasError(data.error);
             console.log(data);
