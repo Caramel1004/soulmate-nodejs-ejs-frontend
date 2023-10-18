@@ -43,7 +43,7 @@ const clientControlller = {
             const category = req.body.category;// 카테고리
             const comment = req.body.comment;// 채널 멘트
             const open = req.body.open;
-            console.log('thumbnail: ', thumbnail);
+            
             const formData = new FormData();
             formData.append('channelName', channelName);
             formData.append('thumbnail', JSON.stringify(thumbnail));
@@ -63,7 +63,10 @@ const clientControlller = {
             const data = await response.json();
             hasError(data.error);
 
-            res.redirect('/mychannels?searchWord=all');
+            res.status(data.status.code).json({
+                status: data.status,
+                channelId: data.channelId
+            })
         } catch (err) {
             next(err);
         }
