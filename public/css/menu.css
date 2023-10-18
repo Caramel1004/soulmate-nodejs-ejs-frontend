@@ -21,6 +21,7 @@ i {
     background: rgb(243, 243, 246);
     opacity: 0.9;
     overflow-y: scroll;
+    z-index: 1;
 }
 
 #menu__inner {
