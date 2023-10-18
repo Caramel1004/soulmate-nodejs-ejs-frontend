@@ -33,7 +33,7 @@ const viewController = {
 
             if (req.signedCookies.token) {
                 const data = await userService.getMyProfile(token, refreshToken, next);
-               
+
                 hasNewAuthToken(res, data.authStatus);
                 for (const wishChannel of data.matchedUser.wishChannels) {
                     channelList.map(channel => {
@@ -158,15 +158,12 @@ const viewController = {
             const { sid } = req.signedCookies;
             const staticData = await getCategoryData(next);
             res.render('menu/create-channel', {
-                path: '채널 추가 페이지',
+                path: '/channel',
                 title: 'Soulmate',
                 clientName: req.signedCookies.clientName,
                 photo: req.signedCookies.photo,
                 channels: await redisClient.v4.get(sid),
                 staticCategoryList: staticData.category,
-                chatRooms: null,
-                workSpaces: null,
-                state: 'off'
             });
         } catch (err) {
             next(err);
