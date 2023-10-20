@@ -43,7 +43,9 @@ const authController = {
             const data = await response.json();
             hasError(data.error);
 
-            res.redirect('/login');
+            res.status(data.status.code).json({
+                status: data.status
+            });
         } catch (err) {
             next(err);
         }
@@ -86,6 +88,7 @@ const authController = {
              *  닉네임
              *  포
              */
+            console.log(data.token);
             res.cookie('token', data.token, {
                 httpOnly: true,
                 secure: false,
@@ -119,16 +122,19 @@ const authController = {
 
             res.redirect('/');
         } catch (error) {
-            res.render('auth/auth', {
-                title: '그이상의 소통 | Soulmate',
-                path: '/login',
-                valid: null,
-                error: error,
-                inputData: {
-                    email: req.body.email,
-                    password: req.body.password
-                }
-            });
+            if(error.statusCode == 404) {
+                res.render('auth/auth', {
+                    title: '그이상의 소통 | Soulmate',
+                    path: '/login',
+                    valid: null,
+                    error: error,
+                    inputData: {
+                        email: req.body.email,
+                        password: req.body.password
+                    }
+                });
+            }
+            next(error);
         }
     },
     // 카카오 로그인 페이지

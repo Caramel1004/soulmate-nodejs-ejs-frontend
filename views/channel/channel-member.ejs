@@ -11,7 +11,6 @@
     <body>
         <%- include('../includes/header.ejs') %>
         <%- include('../includes/menu.ejs') %>
-        <%- include('../includes/loading.ejs') %>
         <!-- 상위 부모 컨테이너 -->
         <div id="div__channel-profile-container">
             <%- include('../includes/channel-tab-box.ejs') %>
@@ -20,7 +19,7 @@
                     👍🏻 팀원 목록
                 </div>
                 <div class="user-inner">
-                    <div id="invite" class="user__div-wrapper">
+                    <div id="invite-member-modal__btn" class="user__div-wrapper">
                         <!-- <button class="card" id="invite"><img src="/images/plus-icon.png"></button> -->
                         <img id="add-icon" src="/images/icons8-add-50.png">
                         <div id="invite">
@@ -44,49 +43,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- 유저 초대 클릭시 모달창 오픈 -->
-        <div class="invite-container hidden" id="container">
-            <div class="invite-modal hidden" id="modal">
-                <div class="box__input__invite">
-                    <h1>초대할 친구를 찾아보세요.</h1>
-                </div>
-                <div id="nickname" class="box__input__invite">
-                    <input type="text" name="name" id="clientName" placeholder="친구 닉네임을 입력하세요.">
-                    <p id="error"></p>
-                </div>
-                <div class="box__input__invite">
-                    <span><button id="search">검색 하기</button></span>
-                </div>
-                <div class="box__input__invite">
-                    <span class="close-modal-button__box"><button id="cancel" class="close-modal-channel">취소</button></span>
-                </div>
-            </div>
-        </div>
-
-        <!-- 검색 후 보일 결과 창 -->
-        <div class="invite-container hidden" id="searchBox">
-            <div class="invite-modal hidden" id="resultModal">
-                <div id="msg"></div>
-                <form id="form" method="post">
-                    <div class="box__input__invite" id="matchedClientName">
-                        <!-- 클라이언트 닉네임 들어갈 곳 -->
-                    </div>
-                    <div class="box__input__invite" id="photo">
-                        <!-- 이미지 들어갈 곳 -->
-                    </div>
-                    <input type="hidden" name="invitedUserId" id="invitedUserId">
-                    <div class="box__input__invite">
-                        <span><button type="submit">초대 하기</button></span>
-                    </div>
-                </form>
-                <div class="box__input__invite">
-                    <span class="close-modal-button__box"><button id="cancelInvite"
-                            class="close-modal-channel">취소</button></span>
-                </div>
-            </div>
-        </div>
-                
         <script type="module">
             import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
 
@@ -123,7 +79,7 @@
                     });
 
                     const data = await response.json();
-                    console.log('api응답 data: ', JSON.stringify(data));
+                    console.log('api응답 data: ', data);
 
                     if (response.status !== 200) {
                         errorTag.style.color = 'red';

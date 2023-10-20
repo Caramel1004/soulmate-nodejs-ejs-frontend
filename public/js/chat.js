@@ -434,15 +434,15 @@ const openSelectedSubBoard = async (e, activeClassName) => {
     try {
         const targetId = e.target.id.split(" ")[0];
         const subBoard = document.querySelector('.board-sub');
-        const subBoardChild = subBoard.children;
+        const subBoardChildren = subBoard.children;
         const activeSubBoardChild = subBoard.querySelector(`.${activeClassName}`);
 
         activeSubBoardChild.classList.remove('hidden');
 
         // 서브보드 자손 태그에서 활성화되지 않은 보드는 히든
-        for (let idx = 1; idx < subBoardChild.length; idx++) {
-            if (subBoardChild[idx] !== activeSubBoardChild) {
-                subBoardChild[idx].classList.add('hidden');
+        for (let idx = 1; idx < subBoardChildren.length; idx++) {
+            if (subBoardChildren[idx] !== activeSubBoardChild) {
+                subBoardChildren[idx].classList.add('hidden');
             }
         }
 
@@ -532,7 +532,7 @@ const patchExitChatRoom = async () => {
 
         const data = await response.json();
 
-        window.location.href = 'http://localhost:3000/mychannels?searchWord=all';
+        window.location.href = `http://localhost:3000/mychannel/${data.channelId}?searchWord=chatRooms`;
     } catch (err) {
         console.log(err);
     }

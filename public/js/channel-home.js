@@ -13,7 +13,6 @@ const onClickFeedUploadBtn = () => {
 }
 
 const onClickCreateFeedByReqUserBtn = async () => {
-    console.log('aaa')
     await postCreateFeedByReqUserBtn(this.channelId, this.selectedFeedImages);
 }
 
@@ -71,7 +70,7 @@ const onClickImageRemoveBtn = e => {
 /** ----------------- 태그관련 함수 ----------------- */
 const createModalTagtoUploadFeed = title => {
     const modal =
-    `<div class="modal-background">
+        `<div class="modal-background">
         <div class="modal-add-mode">
             <h2>${title}</h2>
             <div class="box__input">

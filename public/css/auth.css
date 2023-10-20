@@ -149,7 +149,6 @@ h1 {
     cursor: pointer;
 }
 .input-box label[for="user-profile-photo"] #filename{
-    border: 1px groove rgba(0, 0, 0, 0.1);
     font-size: 13px;
     color: rgba(0, 0, 0, 0.5);
 }
@@ -247,24 +246,18 @@ h1 {
     cursor: pointer;
 } */
 
-#valid {
-    font-size: 13px;
-    color: red;
+#valid-box {
+    padding-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
     text-align: left;
 }
 
-/* span.label {
-    font-family: serif;
-    font-weight: normal;
+#valid {
+    font-size: 13px;
+    color: red;
 }
-
-span.icon {
-    background: url('/identity/sign-in/g-normal.png') transparent 5px 50% no-repeat;
-    display: inline-block;
-    vertical-align: middle;
-    width: 42px;
-    height: 42px;
-} */
 
 span.buttonText {
     display: inline-block;

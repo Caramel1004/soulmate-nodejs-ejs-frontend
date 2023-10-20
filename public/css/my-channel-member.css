@@ -136,7 +136,7 @@ body::-webkit-scrollbar-track {
     /* border: 1px groove rgb(157, 153, 153); */
 }
 
-#invite {
+#invite-member-modal__btn {
     text-align: center;
 }
 

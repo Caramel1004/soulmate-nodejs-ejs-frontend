@@ -497,8 +497,8 @@ label[for='file']:active {
 }
 
 .file-created-date__box {
-    padding: 10px;
-    text-align: left;
+    padding: 10px 0 15px 0;
+    text-align: center;
 }
 .file-created-date__box span{
     padding: 10px;
@@ -508,14 +508,16 @@ label[for='file']:active {
     border-radius: 20px;
 }
 .file-list-grid {
-    padding: 10px;
+    padding: 5px;
     display: grid;
     align-items: start;
+    justify-content: center;
     grid-template-columns: repeat(auto-fill, 200px);
     grid-auto-flow: row;
     grid-gap: 5px;
-    overflow: scroll;
-    overflow-y: scroll;
+    /* overflow: scroll; */
+    overflow-y: auto;
+    /* border: 1px groove rgba(0, 0, 0, 0.1); */
 }
 .file-list-grid img{
     width: 200px;

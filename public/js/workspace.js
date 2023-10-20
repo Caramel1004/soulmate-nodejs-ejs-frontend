@@ -818,7 +818,7 @@ const patchRemoveMemeberToWorkSpace = async () => {
             })
         });
 
-        return window.location.replace(`http://localhost:3000/channel/workspace/${channelId}/${workSpaceId}?sortType=lastest&&sortNum=-1`);
+        return window.location.replace(`/mychannel/${channelId}?searchWord=workspaces`);
     } catch (err) {
         console, log(err);
     }

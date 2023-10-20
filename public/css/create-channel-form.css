@@ -54,6 +54,13 @@ body::-webkit-scrollbar-track {
     /* border: 1px solid black; */
 }
 
+#valid {
+    padding: 0 0 0 14px;
+    font-size: 13px;
+    color: red;
+    text-align: left;
+}
+
 #open {
     padding: 11px;
     display: flex;

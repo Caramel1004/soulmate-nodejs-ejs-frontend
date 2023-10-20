@@ -10,11 +10,15 @@
     <% if(path === '/') { %><link rel="stylesheet" href="/css/main.css"><% } %>
     <% if(path === '/myprofile') { %><link rel="stylesheet" href="/css/my-profile.css"><% } %>
     <% if(path === '/mychannels' || path === '/wishchannels') { %><link rel="stylesheet" href="/css/my-channel-list.css"><% } %>
-    <% if(path === '채널 추가 페이지') { %>
+    <% if(path === '/channel') { %>
         <link rel="stylesheet" href="/css/create-channel-form.css">
         <link rel="stylesheet" href="/css/modal.css">
     <% } %>
-    <% if(path === '/mychannel/:channelId?searchWord=member') { %><link rel="stylesheet" href="/css/my-channel-member.css"><link rel="stylesheet" href="/css/tab-box.css"><% } %>
+    <% if(path === '/mychannel/:channelId?searchWord=member') { %>
+        <link rel="stylesheet" href="/css/my-channel-member.css">
+        <link rel="stylesheet" href="/css/tab-box.css">
+        <link rel="stylesheet" href="/css/modal.css">
+    <% } %>
     <% if(path === '/mychannel/:channelId?searchWord=workspaces') { %>
         <link rel="stylesheet" href="/css/my-channel-workspaces.css">
         <link rel="stylesheet" href="/css/tab-box.css">

@@ -7,7 +7,6 @@ export class NotFoundError extends Error {
         this.status = errorType.D04.d404.status;
         this.message = message;
         this.name = 'NotFoundError'
-        this.cause = this.stack;
     }
 }
 
@@ -36,7 +35,6 @@ export class AuthorizationTokenError extends Error {
         this.status = errorType.E04.e401.status;
         this.message = message;
         this.name = 'AuthorizationTokenError';
-        this.cause = this.stack;
     }
 }
 
@@ -50,16 +48,14 @@ export class VerificationTokenError extends AuthorizationTokenError {
         }
         super(message);
         this.name = 'VerificationTokenError';
-        this.cause = error.stack;
     }
 }
 
-export const errorHandler = error => {
+export const customizeError = error => {
     const errorReport = {
         statusCode: errorType.E05.e500.code,
         status: errorType.E05.e500.status,
-        name: error.name,
-        stack: error.stack
+        name: error.name
     }
     try {
         if(error instanceof Error) {
@@ -78,17 +74,12 @@ export const errorHandler = error => {
         }
 
         if (error instanceof TypeError) {
-            errorReport.message = '함수의 인수, 자료형, 변수사용이 적절히 사용되었는지 확인하세요.';
+            errorReport.message = '함수의 인수, 자료형, 변수 사용이 적절히 사용되었는지 확인하세요.';
             return errorReport;
         }
 
         if (error instanceof RangeError) {
             errorReport.message = '어떤 값이 집합에 없거나 허용되는 범위가 아닐 때 오류를 나타냅니다.';
-            return errorReport;
-        }
-
-        if (error.name === 'StrictPopulateError') {
-            errorReport.message = '해당 경로가 스키마에 없으므로 채울 수 없습니다. 재정의하려면 strictPupulate 옵션을 false로 설정합니다';
             return errorReport;
         }
     } catch (error) {

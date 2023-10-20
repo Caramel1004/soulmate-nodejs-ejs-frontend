@@ -12,8 +12,7 @@ import RedisStore from 'connect-redis';
 
 import sockeClient from './socket-client.js';
 import redisClient from './util/redis.js';
-import { errorType } from './util/status.js';
-import { errorHandler } from './error/error.js'
+import errorHandler from './error/error-handler.js';
 
 import authRoutes from './routes/auth.js'
 import viewRoutes from './routes/view.js'
@@ -70,30 +69,7 @@ app.use(authRoutes);
 app.use('/client', clientRoutes);
 
 // 오류 처리
-app.use((error, req, res, next) => {
-    console.log('미들웨어 함수 진입.... throw 된 에러: ', error);
-    if (!error.statusCode) {
-        error = errorHandler(error);
-    }
-
-    if (error.statusCode === 401) {
-        console.log(error.statusCode);
-        res.status(error.statusCode).redirect('/logout');
-    }
-
-    if (error.statusCode == 404) {
-        res.redirect('/');
-    }
-
-    if (error.statusCode == 422) {
-        res.status(error.statusCode || 500).render('error/error404', {
-            error: error
-        });
-    }
-    res.status(error.statusCode || 500).render('error/error404', {
-        error: error
-    });
-});
+app.use(errorHandler);
 
 // 서버 실행
 app.listen(3000, () => {

@@ -31,6 +31,9 @@ router.get('/kakao/oauth/token', authController.postRequestTokenToKakao, authCon
 router.get('/logout', authController.getLogout);// 로그 아웃
 
 // POST /signup
-router.post('/signup', multer({ storage: memoryStorage }).array('photo', 1), authController.postSignUp);// 회원가입
+router.post('/signup',
+    multer({ storage: memoryStorage }).array('photo', 1),
+    validationChainToCheckValidRequestedValidBodyFromMemberJoinPage,
+    authController.postSignUp);// 회원가입
 
 export default router;

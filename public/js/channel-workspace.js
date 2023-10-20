@@ -7,6 +7,9 @@ const onClickWorkSpaceAddBtn = () => {
     // 모달창 오픈후 필요한 이벤트 리스너
     document.getElementById('yes').addEventListener('click', onClickOpenYNRadio);
     document.getElementById('no').addEventListener('click', onClickOpenYNRadio);
+    document.getElementById('submit').addEventListener('click', () => {
+        onCilckCompleteBtn(channelId);
+    })
     document.getElementById('cancel').addEventListener('click', () => {
         console.log('event');
         onClickCloseBtn('modal-background');
@@ -21,7 +24,7 @@ const onClickOpenYNRadio = () => {
         circle.style.color = 'rgba(0, 0, 0, 0.1)';
     }
 
-    const checkedRadio = document.querySelector('input[name="open"]:checked');
+    const checkedRadio = document.querySelector('input[type="radio"]:checked, input[name="open"]:checked');
 
     const checkedIcon = checkedRadio.parentNode.children[0];
     checkedIcon.className = 'fa-solid fa-circle-check fa-lg';
@@ -29,6 +32,9 @@ const onClickOpenYNRadio = () => {
     checkedIcon.style.opacity = '0.8';
 }
 
+const onCilckCompleteBtn = channelId => {
+    postCreateWorkSpace(channelId);
+}
 
 const onClickCloseBtn = className => {
     removeChildrenTag(className);
@@ -43,23 +49,17 @@ const createModalTagtoAddWorkSpace = (channelId, title) => {
     const modalBackGround = document.createElement('div');
     modalBackGround.classList.add('modal-background');
 
-    document.querySelector('script').insertAdjacentElement('beforebegin',modalBackGround);
+    document.querySelector('script').insertAdjacentElement('beforebegin', modalBackGround);
 
     // 모달창
     const modal = document.createElement('div');
     modal.classList.add('modal-add-mode');
     modalBackGround.appendChild(modal);
 
-    // 폼 태그
-    const form = document.createElement('form');
-    form.action = `/client/workspace/${channelId}`;
-    form.method = 'post'; 
-    modal.appendChild(form);
-
     // 모달창 제목
     const h2 = document.createElement('h2');
     h2.textContent = title;
-    form.appendChild(h2);
+    modal.appendChild(h2);
 
     const inputBoxList = [];
     const labelList = [];
@@ -72,7 +72,7 @@ const createModalTagtoAddWorkSpace = (channelId, title) => {
         inputList[i] = document.createElement('input');
 
         inputBoxList[i].classList.add('box__input');
-        form.appendChild(inputBoxList[i]);
+        modal.appendChild(inputBoxList[i]);
     }
     // 라벨 태그
     for (let i = 0; i < labelText.length; i++) {
@@ -128,13 +128,67 @@ const createModalTagtoAddWorkSpace = (channelId, title) => {
     // afterend - 선택된 노드의 뒤
     // afterbegin - 선택된 노드의 첫 번째 자식 노드 앞
     // beforeend - 선택된 노드의 마지막 자식 노드 뒤
-    form.insertAdjacentHTML('beforeend', '<div class="box__button__submit"><button type = "submit">완료</button><a id="cancel">취소</a></div>');
+    modal.insertAdjacentHTML('beforeend', '<div class="box__button__submit"><button type="button" id="submit">완료</button><a id="cancel">취소</a></div>');
 }
 
 // 부모 태그에서 자식 태그 삭제 -> 모달창 제거
 const removeChildrenTag = className => {
     const parentNode = document.querySelector(`.${className}`);
     document.body.removeChild(parentNode);
+}
+
+const insertVaildationErrorMsg = errorObj => {
+    const modal = document.querySelector('.modal-add-mode');
+    const modalChildren = modal.querySelectorAll('.box__input');
+
+    if(document.getElementById('valid')) {
+        document.getElementById('valid').parentNode.removeChild(document.getElementById('valid'));
+        document.getElementById('empty-box').parentNode.removeChild(document.getElementById('empty-box'));
+    }
+    for (const inputBox of modalChildren) {
+        const matchedTag = inputBox.querySelector(`input[name="${errorObj.path}"]`);
+        if (matchedTag) {
+            inputBox.insertAdjacentHTML('beforeend', `<div id="empty-box"></div><span class="valid" id="valid">*${errorObj.msg}</span>`);
+            break;
+        }
+    }
+}
+
+/** ----------------- API 요청 함수 -----------------*/
+const postCreateWorkSpace = async channelId => {
+    let open = null;
+    const openRadioTags = document.querySelector('.modal-add-mode').querySelectorAll('input[type="radio"], input[name="open"]');
+    for(const radio of openRadioTags) {
+        if(radio.checked) {
+            open = radio.value;
+        }
+    }
+    const workSpaceName = document.querySelector('.modal-background').querySelector('input[name="workSpaceName"]');
+    const comment = document.querySelector('.modal-background').querySelector('textarea[name="comment"]');
+    try {
+        const response = await fetch(`http://localhost:3000/client/workspace/${channelId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                open: open,
+                workSpaceName: workSpaceName.value,
+                comment: comment.value,
+            })
+        })
+
+        const data = await response.json();
+        console.log(data);
+        if (data.error) {
+            insertVaildationErrorMsg(data.error);
+            return;
+        } else {
+            return window.location.href = `/channel/workspace/${data.workSpace.channelId}/${data.workSpace._id}?sortType=lastest&&sortNum=-1`;
+        }
+    } catch (err) {
+        console.log(err);
+    }
 }
 
 /** ----------------- 이벤트리스너 ----------------- */

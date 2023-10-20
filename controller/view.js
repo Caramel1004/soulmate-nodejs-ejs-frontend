@@ -55,11 +55,9 @@ const viewController = {
                 photo: req.signedCookies.photo,
                 channels: req.session.userChannels,
                 channelList: channelList,
-                chatRooms: null,
-                workSpaces: null,
-                state: 'off'
             });
         } catch (err) {
+            err.isViewRenderError = true
             next(err);
         }
     },
@@ -94,6 +92,7 @@ const viewController = {
                 channel: channelDetailData
             });
         } catch (err) {
+            err.isViewRenderError = true
             next(err)
         }
     },
@@ -120,14 +119,13 @@ const viewController = {
                 workSpaces: null,
             });
         } catch (err) {
-            console.log(err);
+            err.isViewRenderError = true
             next(err);
         }
     },
     // 3. 나의 채널목록 페이지
     getMyChannelListPage: async (req, res, next) => {
         try {
-            console.log(req.query.searchWord);
             const { token, refreshToken, sid } = req.signedCookies;
 
             const resData = await channelService.getChannelListByUserId(token, refreshToken, req.query.searchWord, next);
@@ -143,12 +141,10 @@ const viewController = {
                 photo: req.signedCookies.photo,
                 channels: await redisClient.v4.get(sid),
                 staticCategoryList: staticData.category,
-                channelList: resData.channels,
-                chatRooms: null,
-                workSpaces: null,
-                state: 'off'
+                channelList: resData.channels
             });
         } catch (err) {
+            err.isViewRenderError = true
             next(err);
         }
     },
@@ -166,6 +162,7 @@ const viewController = {
                 staticCategoryList: staticData.category,
             });
         } catch (err) {
+            err.isViewRenderError = true
             next(err);
         }
     },
@@ -187,11 +184,9 @@ const viewController = {
                 clientName: req.signedCookies.clientName,
                 photo: req.signedCookies.photo,
                 channels: await redisClient.v4.get(sid),
-                chatRooms: null,
-                workSpaces: null,
-                state: 'off'
             })
         } catch (err) {
+            err.isViewRenderError = true
             next(err);
         }
     },
@@ -247,6 +242,7 @@ const viewController = {
                 openWorkSpaces: matchedOpenWorkSpaceList,
             });
         } catch (err) {
+            err.isViewRenderError = true
             next(err);
         }
     },
@@ -284,9 +280,9 @@ const viewController = {
                 members: chatRoomData.chatRoom.users,
                 channel: { _id: channelId },
                 chatRoomId: chatRoomData.chatRoom._id,
-                state: 'on'
             });
         } catch (err) {
+            err.isViewRenderError = true
             next(err);
         }
     },
@@ -322,10 +318,10 @@ const viewController = {
                 channels: await redisClient.v4.get(sid),
                 workSpaces: matchedWorkSpaceList,
                 workSpace: workSpaceData.workSpace,
-                channel: { _id: channelId },
-                state: 'on'
+                channel: { _id: channelId }
             });
         } catch (err) {
+            err.isViewRenderError = true
             next(err);
         }
     }
