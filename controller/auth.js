@@ -85,10 +85,10 @@ const authController = {
             /** 쿠키: 저장데이터
              *  인증토큰
              *  리프레쉬 토큰
-             *  닉네임
-             *  포
+             *  세션 쿠키: 저장데이터
+             *  유저 닉네임
+             *  유저 포토
              */
-            console.log(data.token);
             res.cookie('token', data.token, {
                 httpOnly: true,
                 secure: false,
@@ -101,28 +101,13 @@ const authController = {
                 signed: true
             });
 
-            res.cookie('clientName', data.name, {
-                httpOnly: true,
-                secure: false,
-                signed: true
-            });
-
-            res.cookie('photo', data.photo, {
-                httpOnly: true,
-                secure: false,
-                signed: true
-            });
-
-            // 유저 보유 채널 세션에 저장
+            req.session.clientName = data.name;
+            req.session.photo = data.photo;
             req.session.userChannels = data.channels;
-            // // console.log(req.sessionStore.client.get(sid));
-            // console.log(req.sessionID);
-            // const result = await redisClient.v4.set(req.sessionID, data.channels);
-            // console.log(result);
 
             res.redirect('/');
         } catch (error) {
-            if(error.statusCode == 404) {
+            if (error.statusCode == 404) {
                 res.render('auth/auth', {
                     title: '그이상의 소통 | Soulmate',
                     path: '/login',
@@ -172,8 +157,9 @@ const authController = {
             /** 쿠키: 저장데이터
              *  인증토큰
              *  리프레쉬 토큰
-             *  닉네임
-             *  포
+             *  세션 쿠키: 저장데이터
+             *  유저 닉네임
+             *  유저 포토
              */
             res.cookie('token', data.token, {
                 httpOnly: true,
@@ -187,19 +173,10 @@ const authController = {
                 signed: true
             });
 
-            res.cookie('clientName', data.name, {
-                httpOnly: true,
-                secure: false,
-                signed: true
-            });
-
-            res.cookie('photo', data.photo, {
-                httpOnly: true,
-                secure: false,
-                signed: true
-            });
-
+            req.session.clientName = data.name;
+            req.session.photo = data.photo;
             req.session.userChannels = data.channels;
+
             res.redirect('/');
         } catch (err) {
             next(err);
@@ -215,7 +192,7 @@ const authController = {
                 res.clearCookie('photo');
             }
 
-            const logoutResult = await redisClient.v4.del(req.signedCookies.sid);
+            const logoutResult = await redisClient.v4.del('session: ' + req.signedCookies.sid);
             console.log('logoutResult: ', logoutResult);
             res.redirect('/login');
         } catch (err) {
