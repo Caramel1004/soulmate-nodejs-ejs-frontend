@@ -44,15 +44,12 @@ const viewController = {
                     });
                 }
             }
-            console.log(sid);
-            // const userChannels = await redisClient.v4.get('1');
-            // console.log(userChannels);
 
             res.render('index', {
                 path: '/',
                 title: 'Soulmate 메인 페이지',
-                clientName: req.signedCookies.clientName,
-                photo: req.signedCookies.photo,
+                clientName: req.session.clientName,
+                photo: req.session.photo,
                 channels: req.session.userChannels,
                 channelList: channelList,
             });
@@ -86,9 +83,9 @@ const viewController = {
             res.status(channelData.status.code).render('channel/channel-intro-detail', {
                 path: `/open/:channelId`,
                 title: channelDetailData.channelName,
-                clientName: req.signedCookies.clientName,
-                channels: await redisClient.v4.get(sid),
-                photo: req.signedCookies.photo,
+                clientName: req.session.clientName,
+                channels: req.session.userChannels,
+                photo: req.session.photo,
                 channel: channelDetailData
             });
         } catch (err) {
@@ -110,13 +107,10 @@ const viewController = {
             res.render('user/myprofile', {
                 path: '/myprofile',
                 title: 'Soulmate | ' + myProfile.name + '님의 프로필',
-                clientName: req.signedCookies.clientName,
-                photo: req.signedCookies.photo,
-                channels: await redisClient.v4.get(sid),
-                myProfile: myProfile,
-                state: 'off',
-                chatRooms: null,
-                workSpaces: null,
+                clientName: req.session.clientName,
+                photo: req.session.photo,
+                channels: req.session.userChannels,
+                myProfile: myProfile
             });
         } catch (err) {
             err.isViewRenderError = true
@@ -137,9 +131,9 @@ const viewController = {
             res.status(resData.status.code).render('channel/mychannel', {
                 path: '/mychannels',
                 title: 'Soulmate',
-                clientName: req.signedCookies.clientName,
-                photo: req.signedCookies.photo,
-                channels: await redisClient.v4.get(sid),
+                clientName: req.session.clientName,
+                photo: req.session.photo,
+                channels: req.session.userChannels,
                 staticCategoryList: staticData.category,
                 channelList: resData.channels
             });
@@ -156,9 +150,9 @@ const viewController = {
             res.render('menu/create-channel', {
                 path: '/channel',
                 title: 'Soulmate',
-                clientName: req.signedCookies.clientName,
-                photo: req.signedCookies.photo,
-                channels: await redisClient.v4.get(sid),
+                clientName: req.session.clientName,
+                photo: req.session.photo,
+                channels: req.session.userChannels,
                 staticCategoryList: staticData.category,
             });
         } catch (err) {
@@ -178,12 +172,12 @@ const viewController = {
 
             res.status(resData.status.code).render('channel/mywishchannels', {
                 path: '/wishchannels',
-                title: 'soulmate | ' + req.signedCookies.clientName + '님의 관심 채널',
+                title: 'soulmate | ' + req.session.clientName + '님의 관심 채널',
                 staticCategoryList: staticData.category,
                 channelList: resData.wishChannels,
-                clientName: req.signedCookies.clientName,
-                photo: req.signedCookies.photo,
-                channels: await redisClient.v4.get(sid),
+                clientName: req.session.clientName,
+                photo: req.session.photo,
+                channels: req.session.userChannels,
             })
         } catch (err) {
             err.isViewRenderError = true
@@ -233,9 +227,9 @@ const viewController = {
             res.status(chatRoomListData.status.code).render(fileName, {
                 path: `/mychannel/:channelId?searchWord=${searchWord}`,
                 title: matchedChannel.channelName,
-                clientName: req.signedCookies.clientName,
-                channels: await redisClient.v4.get(sid),
-                photo: req.signedCookies.photo,
+                clientName: req.session.clientName,
+                channels: req.session.userChannels,
+                photo: req.session.photo,
                 channel: matchedChannel,
                 chatRooms: matchedChatRoomList,
                 workSpaces: matchedWorkSpaceList,
@@ -271,9 +265,9 @@ const viewController = {
                 path: '채팅방',
                 title: chatRoomData.chatRoom.roomName,
                 currentDate: `${new Date().getFullYear()}년  ${new Date().getMonth() + 1}월  ${new Date().getDate()}일`,
-                clientName: req.signedCookies.clientName,
-                photo: req.signedCookies.photo,
-                channels: await redisClient.v4.get(sid),
+                clientName: req.session.clientName,
+                photo: req.session.photo,
+                channels: req.session.userChannels,
                 chatRooms: chatRoomListData.chatRooms,
                 workSpaces: matchedWorkSpaceList,
                 chats: chatRoomData.chatRoom.chats,
@@ -313,9 +307,9 @@ const viewController = {
                 path: '/channel/workspace/:channelId/:workspaceId',
                 title: workSpaceData.workSpace.workSpaceName,
                 chatRooms: matchedChatRoomList,
-                clientName: req.signedCookies.clientName,
-                photo: req.signedCookies.photo,
-                channels: await redisClient.v4.get(sid),
+                clientName: req.session.clientName,
+                photo: req.session.photo,
+                channels: req.session.userChannels,
                 workSpaces: matchedWorkSpaceList,
                 workSpace: workSpaceData.workSpace,
                 channel: { _id: channelId }
