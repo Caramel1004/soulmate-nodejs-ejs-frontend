@@ -41,7 +41,8 @@ const sessionOption = {
     },
     name: 'sid',
     store: new RedisStore({
-        client: redisClient
+        client: redisClient.v4,
+        prefix: 'session: '
     })
 };
 
@@ -74,7 +75,6 @@ app.use(errorHandler);
 // 서버 실행
 app.listen(3000, () => {
     console.log(`클라이언트 서버 가동!!`);
+    // 레디스 연결
+    redisClient.connect();
 });
-
-// 레디스 연결
-redisClient.connect();
