@@ -3,13 +3,17 @@ import { successType, errorType } from '../util/status.js';
 
 const channelAPI = {
     // 1. 생성된 오픈 채널 목록
-    getOpenChannelList: async next => {
+    getOpenChannelList: async (searchWord, category, next) => {
         try {
-            const response = await fetch('http://localhost:8080/v1/channel/openchannel-list', {
-                method: 'GET',
+            const response = await fetch(`http://localhost:8080/v1/channel/openchannel-list?searchWord=${searchWord}&category=${category}`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+                body: JSON.stringify({
+                    searchWord: searchWord,
+                    category: category
+                })
             });
 
             const resData = await response.json();
@@ -55,14 +59,21 @@ const channelAPI = {
         }
     },
     // 5. 관심 채널 목록 페이지
-    getMyWishChannelList: async (token, refreshToken, searchWord, next) => {
+    getMyWishChannelList: async (token, refreshToken, category, searchWord, next) => {
         try {
-            const response = await fetch('http://localhost:8080/v1/channel/wishchannels?searchWord=' + searchWord, {
-                method: 'GET',
+            console.log(category)
+            console.log(searchWord)
+            const response = await fetch('http://localhost:8080/v1/channel/wishchannels?category=' + category + '&' + 'searchWord' + searchWord, {
+                method: 'POST',
                 headers: {
                     Authorization: 'Bearer ' + token,
-                    Refresh: refreshToken
-                }
+                    Refresh: refreshToken,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    category: category,
+                    searchWord: searchWord
+                })
             });
             const resData = await response.json();
 
@@ -90,16 +101,19 @@ const channelAPI = {
         }
     },
     // 7. 채팅방 목록 요청
-    getChatRoomList: async (token, refreshToken, channelId, next) => {
+    getChatRoomList: async (token, refreshToken, channelId, searchWord, next) => {
         try {
             // 채팅방 목록 요청
-            const response = await fetch('http://localhost:8080/v1/channel/' + channelId + '/chat', {
-                method: 'GET',
+            const response = await fetch(`http://localhost:8080/v1/channel/${channelId}/chat?searchWord=${searchWord}`, {
+                method: 'POST',
                 headers: {
                     Authorization: 'Bearer ' + token,
                     Refresh: refreshToken,
                     'Content-Type': 'application/json'
-                }
+                },
+                body: JSON.stringify({
+                    searchWord: searchWord
+                })
             });
             const resData = await response.json();
 
@@ -153,15 +167,18 @@ const channelAPI = {
         }
     },
     // 10. 워크스페이스 목록 요청
-    getWorkSpaceList: async (token, refreshToken, channelId, next) => {
+    getWorkSpaceList: async (token, refreshToken, channelId, searchWord, next) => {
         try {
-            const response = await fetch(`http://localhost:8080/v1/channel/${channelId}/workspace`, {
-                method: 'GET',
+            const response = await fetch('http://localhost:8080/v1/channel/' + channelId + '/workspace?searchWord=' + searchWord, {
+                method: 'POST',
                 headers: {
                     Authorization: 'Bearer ' + token,
                     Refresh: refreshToken,
                     'Content-Type': 'application/json'
-                }
+                },
+                body: JSON.stringify({
+                    searchWord: searchWord
+                })
             });
             const resData = await response.json();
 
