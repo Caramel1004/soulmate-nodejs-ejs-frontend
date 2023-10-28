@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('./includes/head.ejs') %>
-
     <body>
         <%- include('./includes/header.ejs') %>
         <%- include('./includes/menu.ejs') %>
@@ -10,25 +9,19 @@
             <div class="channel-list">
                 <div id="box-search">
                     <select id="category" name="category">
-                        <option disabled selected hidden>카테고리를 선택하세요.</option>
-                        <option value="개발">개발</option>
-                        <option value="디자인">디자인</option>
-                        <option value="영업">영업</option>
-                        <option value="커뮤니티">커뮤니티</option>
-                        <option value="교육">교육</option>
-                        <option value="기타">기타</option>
+                        <option>전체</option>
+                        <% for(let category of staticCategoryList) { %>
+                            <option value="<%= category.name %>"><%= category.name %></option>
+                        <% } %>
                     </select>
-                    <input type="search" id="search" placeholder="검색">
+                    <input type="search" id="search" placeholder="원하는 채널을 검색하세요.">
                     <button id="btn__search"><i class="fa-solid fa-magnifying-glass fa-lg"></i></button>
                 </div>
                 <div id="tab-box">
-                    <a class="type" href="#">전체</a>
-                    <a class="type" href="#">개발</a>
-                    <a class="type" href="#">디자인</a>
-                    <a class="type" href="#">영업</a>
-                    <a class="type" href="#">커뮤니티</a>
-                    <a class="type" href="#">교육</a>
-                    <a class="type" href="#">기타</a>
+                    <a class="type" href="/">전체</a>
+                    <% for(let category of staticCategoryList) { %>
+                        <a class="type" href="/?category=<%= category.name %>"><%= category.name %></a>
+                    <% } %>
                 </div>
                 <div class="wrapper-title-channel-container">
                     <div id="title">
@@ -70,6 +63,7 @@
                         <% }else { %>
                             <div id="channel-container">
                                 <div class="channel-list">
+                                    <img src="/images/icons8-spinner.gif" alt="loading">
                                     <h1>현재 개설된 채널이 없습니다.</h1>
                                 </div>
                             </div>
