@@ -135,10 +135,10 @@ const createModalTagtoEditFeed = (e, title, feedId) => {
         </div>
     </div>`;
 
+    console.log('수정 모달창 오픈!')
     document.querySelector('script').insertAdjacentHTML('beforebegin', modal);
     document.querySelector('label[for="feed-images"]').addEventListener('change', onChangeSelectFile);
     document.getElementById('feed-add-request__btn').addEventListener('click', onClickCreateFeedByReqUserBtn);
-
     for (const img of images) {
         document.getElementById('preview-images').innerHTML += 
         `<div class="attached-image-box">
@@ -343,8 +343,9 @@ document.getElementById('feed-like__btn').addEventListener('click', e => {
     onClickFeedLikeBtn(e);
 });
 
-document.getElementById('feed-edit').addEventListener('click', e => {
-    console.log(e.target.parentNode);
-    // console.log(document.getElementsByClassName('.feed-box'));
-    onClickFeedEditModeOpenBtn(e);
+// 동일한 클래스에 여러개의 태그가 있을 때, 해당 여러태그에 이벤트리스너 등록
+document.querySelectorAll('.feed-edit').forEach(target => {
+    target.addEventListener('click', e => {
+        onClickFeedEditModeOpenBtn(e);
+    });
 });
