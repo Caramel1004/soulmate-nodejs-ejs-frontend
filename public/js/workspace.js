@@ -120,9 +120,7 @@ const onClickWorkSpacePostEditContent = async postId => {
 }
 
 const onClickCloseBtn = className => {
-    console.log('close');
     const parentNode = document.querySelector(`.${className}`);
-    console.log(parentNode);
     document.querySelector('.board-workspace').style.width = '100%';
     document.body.removeChild(parentNode);
     this.selectedMembers = [];
@@ -162,36 +160,39 @@ const onClickFileRemoveBtn = e => {
 
 const onClickAttachedFileBox = e => {
     createPreviewModaForLargeViewOfAttachment(e);
+
+    // 이벤트 리스너 등록
+    // 오른쪽: 39 왼쪽: 37 ESC: 27 화살표와 ESC키 작동
+    document.body.addEventListener('keydown', onKeyDownArrowBtnInPreviewModal);
+
+    // 모달창 클로즈 이벤트
+    // 콜백함수: 모달창 닫는 이벤트함수 실행, 모달창 오픈할때 등록되었던 이벤트리스너 삭제
     document.getElementById('cancel').addEventListener('click', () => {
         onClickCloseBtn('modal-background');
-        document.getElementById('cancel').removeEventListener('click', onKeyDownArrowBtnInPreviewModal);
+
+        // 제거할 이벤트 리스너
+        document.body.removeEventListener('keydown', onKeyDownArrowBtnInPreviewModal);
+        document.getElementById('next').removeEventListener('click', onClickArrowBtnInPreviewModal);
+        document.getElementById('previous').removeEventListener('click', onClickArrowBtnInPreviewModal);
     });
-    document.getElementById('next').addEventListener('click', e => {
-        onClickArrowBtnInPreviewModal(e.target.id);
-    });
-    document.getElementById('previous').addEventListener('click', e => {
-        onClickArrowBtnInPreviewModal(e.target.id);
-    });
-    document.body.addEventListener('keydown', e => {
-        console.log('이미지 확대 모드!');
-        onKeyDownArrowBtnInPreviewModal(e);
-    });
+
+    document.getElementById('next').addEventListener('click', onClickArrowBtnInPreviewModal);
+    document.getElementById('previous').addEventListener('click', onClickArrowBtnInPreviewModal);
+
 }
 
-const onClickArrowBtnInPreviewModal = action => {
-    changeImageInPreviewModal(action);
+const onClickArrowBtnInPreviewModal = e => {
+    changeImageInPreviewModal(e.target.id);
 }
 
 const onKeyDownArrowBtnInPreviewModal = e => {
-    let action;
     switch (e.keyCode) {
-        case 37: action = 'previous';
+        case 37: changeImageInPreviewModal('previous');
             break;
-        case 39: action = 'next';
+        case 39: changeImageInPreviewModal('next');
             break;
-    }
-    if (e.keyCode == 37 || e.keyCode == 39) {
-        changeImageInPreviewModal(action);
+        case 27: onClickCloseBtn('modal-background');
+            break;
     }
 }
 /** ----------------- 태그관련 함수 ----------------- */
