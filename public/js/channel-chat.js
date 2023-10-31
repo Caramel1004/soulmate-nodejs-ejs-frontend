@@ -1,12 +1,11 @@
+this.channelId = window.location.href.split('/')[4].split('?')[0];
+
 /** ----------------- 이벤트 함수 ----------------- */
 const onClickChatRoomAddBtn = () => {
-    const url = window.location.href;
-    const channelId = url.split('/')[4].split('?')[0];
-
     createModalTagtoAddChatRoom(channelId, '채팅룸');
 
     document.getElementById('submit').addEventListener('click', () => {
-        onCilckCompleteBtn(channelId);
+        onClickCompleteBtn(channelId);
     })
     document.getElementById('cancel').addEventListener('click', () => {
         console.log('event');
@@ -18,14 +17,25 @@ const onClickCloseBtn = className => {
     removeChildrenTag(className);
 }
 
-const onCilckCompleteBtn = channelId => {
+const onClickCompleteBtn = channelId => {
     postCreateChatRoom(channelId);
+}
+
+const onKeyDownSearchBox = async e => {
+    if (e.keyCode === 13 && e.target.value !== '') {
+        try {
+            console.log('엔터키 누름!!');
+            await getSearchChatRoomsByKeyWord(e);
+        } catch (err) {
+            console.log(err);
+        }
+    }
 }
 
 /** ----------------- 태그관련 함수 ----------------- */
 const createModalTagtoAddChatRoom = (channelId, title) => {
     const modal =
-    `<div class="modal-background">
+        `<div class="modal-background">
         <div class="modal-add-mode">
             <h2>${title}</h2>
             <div class="box__input">
@@ -50,8 +60,8 @@ const removeChildrenTag = className => {
 const insertVaildationErrorMsg = errorObj => {
     const modal = document.querySelector('.modal-add-mode');
     const modalChildren = modal.querySelectorAll('.box__input');
-    
-    if(document.getElementById('valid')) {
+
+    if (document.getElementById('valid')) {
         document.getElementById('valid').parentNode.removeChild(document.getElementById('valid'));
         document.getElementById('empty-box').parentNode.removeChild(document.getElementById('empty-box'));
     }
@@ -83,12 +93,28 @@ const postCreateChatRoom = async channelId => {
         if (data.error) {
             insertVaildationErrorMsg(data.error);
             return;
-        }else {
+        } else {
             return window.location.href = '/channel/chat/' + data.chatRoom.channelId + '/' + data.chatRoom._id;
         }
     } catch (err) {
         console.log(err);
     }
 }
+
+const getSearchChatRoomsByKeyWord = async e => {
+    const searchWord = e.target.value;
+    let URL = `http://localhost:3000/mychannel/${channelId}?searchType=chatRooms&searchWord=${searchWord}`;
+    if(searchWord == '') {
+        URL = `http://localhost:3000/mychannel/${channelId}?searchType=chatRooms`;
+    }
+    try {
+        window.location.href = URL;
+    } catch (err) {
+        console.log(err);
+    }
+}
 /** ----------------- 이벤트리스너 ----------------- */
 document.getElementById('chatRoom-add__btn').addEventListener('click', onClickChatRoomAddBtn);
+document.getElementById('search').addEventListener('keydown', e => {
+    onKeyDownSearchBox(e);
+})
