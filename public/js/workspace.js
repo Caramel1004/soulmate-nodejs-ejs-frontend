@@ -105,7 +105,7 @@ const onClickPostEditModTagCloseBtn = postId => {
 
     const div = document.createElement('div');
     div.id = `post-${postId}`;
-    div.className = 'post-comment';ㄴ
+    div.className = 'post-comment';
     div.textContent = this.tmpContent;
 
     parentNode.querySelector('.client-name').insertAdjacentElement('afterend', div);
@@ -122,7 +122,7 @@ const onClickWorkSpacePostEditContent = async postId => {
 const onClickCloseBtn = className => {
     console.log('close');
     const parentNode = document.querySelector(`.${className}`);
-
+    console.log(parentNode);
     document.querySelector('.board-workspace').style.width = '100%';
     document.body.removeChild(parentNode);
     this.selectedMembers = [];
@@ -156,11 +156,110 @@ const onChangeSelectFile = async e => {
     }
 }
 
-// const onClickFileRemoveBtn = e => {
-//     console.log(e.target);
-// }
+const onClickFileRemoveBtn = e => {
+    removeFileTag(e);
+}
 
+const onClickAttachedFileBox = e => {
+    createPreviewModaForLargeViewOfAttachment(e);
+    document.getElementById('cancel').addEventListener('click', () => {
+        onClickCloseBtn('modal-background');
+        document.getElementById('cancel').removeEventListener('click', onKeyDownArrowBtnInPreviewModal);
+    });
+    document.getElementById('next').addEventListener('click', e => {
+        onClickArrowBtnInPreviewModal(e.target.id);
+    });
+    document.getElementById('previous').addEventListener('click', e => {
+        onClickArrowBtnInPreviewModal(e.target.id);
+    });
+    document.body.addEventListener('keydown', e => {
+        console.log('이미지 확대 모드!');
+        onKeyDownArrowBtnInPreviewModal(e);
+    });
+}
+
+const onClickArrowBtnInPreviewModal = action => {
+    changeImageInPreviewModal(action);
+}
+
+const onKeyDownArrowBtnInPreviewModal = e => {
+    let action;
+    switch (e.keyCode) {
+        case 37: action = 'previous';
+            break;
+        case 39: action = 'next';
+            break;
+    }
+    if (e.keyCode == 37 || e.keyCode == 39) {
+        changeImageInPreviewModal(action);
+    }
+}
 /** ----------------- 태그관련 함수 ----------------- */
+const changeImageInPreviewModal = action => {
+    const modal = document.querySelector('.attached-file-big-view-mode');
+    const gridBox = modal.querySelector('.big-size-box').children[1];
+    const currentIndex = parseInt(gridBox.dataset.index);
+    let selectedIndex = currentIndex;
+    const fileTagNodeList = gridBox.querySelectorAll('img');
+
+    switch (action) {
+        case 'next': selectedIndex += 1;
+            break;
+        case 'previous': selectedIndex -= 1
+            break;
+        default:
+            break;
+    }
+
+    if (selectedIndex >= fileTagNodeList.length) {
+        selectedIndex = 0;
+    } else if (selectedIndex <= -1) {
+        selectedIndex = fileTagNodeList.length - 1;
+    }
+
+    gridBox.querySelector(`img[data-index="${currentIndex}"]`).className = 'hidden';
+    document.getElementById('file-current-index').textContent = selectedIndex + 1;
+    fileTagNodeList[selectedIndex].className = 'active';
+    gridBox.dataset.index = selectedIndex;
+}
+
+const createPreviewModaForLargeViewOfAttachment = e => {
+    const previewBox = e.target.parentNode;
+    const fileTagNodeList = previewBox.querySelectorAll('img');// NodeList
+    const fileTagArr = Array.prototype.slice.call(fileTagNodeList);// NodeList를 배열로 변환
+    const selectedIndex = fileTagArr.indexOf(e.target);
+    const modal =
+        `<div class="modal-background" id="modal">
+            <div class="attached-file-big-view-mode">
+                <div class="box__button__submit">
+                    <a id="cancel">x</a>
+                </div>
+                <div class="big-size-box">
+                    <div class="view-grid-inner-box">
+                        <i class="fa-solid fa-chevron-left fa-xl" id="previous"></i>
+                    </div>
+                    <div class="view-grid-inner-box" data-index="${selectedIndex}"></div>
+                    <div class="view-grid-inner-box">
+                        <i class="fa-solid fa-chevron-right fa-xl" id="next"></i>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+    document.querySelector('script').insertAdjacentHTML('beforebegin', modal);
+    let tmpIndex = 0;
+    fileTagArr.forEach(target => {
+        let insertTag = `<img src=${target.src} class="hidden" data-index="${tmpIndex}">`;
+        const targetIndex = fileTagArr.indexOf(target);
+        if (selectedIndex == targetIndex) {
+            insertTag = `<img src=${target.src} class="active" data-index="${tmpIndex}">`
+        }
+        document.querySelector('.attached-file-big-view-mode').querySelector('.big-size-box').children[1].innerHTML += insertTag;
+        tmpIndex++;
+    })
+    document.querySelector('.attached-file-big-view-mode').innerHTML += `<p><span id="file-current-index">${selectedIndex + 1}</span> / ${fileTagArr.length}</p>`
+}
+
 const replaceText = text => {
     let replacedText = text;
     replacedText = text.replace(/\s|/gi, '');
@@ -307,7 +406,7 @@ const changePostEditModeTag = postId => {
     editBtn.setAttribute('onclick', `onClickWorkSpacePostEditContent('${postId}')`)
     editBtn.append(editIcon);
     editBtn.append('완료');
-    
+
     const closeBtn = document.createElement('button');
     closeBtn.classList.add('post-edit-complete-btn');
     closeBtn.id = 'post-edit-cancel__btn';
@@ -337,16 +436,16 @@ const changePostEditModeTag = postId => {
 
     console.log(postContentTag.parentNode.querySelector('.post-attached-files'));
     // 이미지 파일태그
-    if(postContentTag.parentNode.querySelector('.post-attached-files') !== null) {
+    if (postContentTag.parentNode.querySelector('.post-attached-files') !== null) {
         const imagesTag = postContentTag.parentNode.querySelector('.post-attached-files').querySelectorAll('img');
         console.log(imagesTag);
-        for(const imageTag of imagesTag) {
+        for (const imageTag of imagesTag) {
             filePreviewBox.innerHTML += `<div class="edit-mode-attached-file"><img src="${imageTag.src}"></div>`
         }
     }
 
     // 등록될 이벤트 리스너
-    document.getElementById('post-edit-cancel__btn').addEventListener('click',() => {
+    document.getElementById('post-edit-cancel__btn').addEventListener('click', () => {
         onClickPostEditModTagCloseBtn(postId);
     });
 
@@ -616,6 +715,18 @@ const createUnitPostTag = post => {
     return postContainer;
 }
 
+const removeFileTag = e => {
+    const removeBtn = e.target.parentNode;
+    const attachedImageBox = removeBtn.parentNode;
+    const previewBox = attachedImageBox.parentNode;
+
+    previewBox.removeChild(attachedImageBox);
+    const dataSetedFileId = attachedImageBox.dataset.fileid;
+
+    this.selectedFiles = [...this.selectedFiles.filter(file => file.fileId !== dataSetedFileId)];
+    console.log(this.selectedFiles);
+}
+
 /**
  * 이미지 미리보기 박스 태그 생성
  * @param {e: event}
@@ -623,26 +734,13 @@ const createUnitPostTag = post => {
  * e.target.files[0]: 파일 정보
  * e.target.result: base64로 인코딩된 파일
  */
-const onClickFileRemoveBtn = fileId => {
-    console.log(fileId)
-    const target = document.querySelector(`button[data-fileid="${fileId}"]`);
-    console.log(target)
-    const targetParentNode = target.parentNode;
-    const topParentNode = targetParentNode.parentNode;
-
-    topParentNode.removeChild(targetParentNode);
-    const dataSetedFileId = targetParentNode.dataset.fileid;
-
-    this.selectedFiles = [...this.selectedFiles.filter(file => file.fileId !== dataSetedFileId)];
-    console.log(this.selectedFiles);
-}
 const createPreviewTag = e => {
     try {
         let previewTagId = 'preview-files';
         let fileTagId = 'file';
         let attachedFileBoxClass = 'attached-file';
 
-        if(this.postEditMode) {
+        if (this.postEditMode) {
             previewTagId = 'edit-mode-preview-files';
             attachedFileBoxClass = 'edit-mode-attached-file';
             fileTagId = 'post-edit-file';
@@ -662,14 +760,15 @@ const createPreviewTag = e => {
         fileInfo.fileId = fileId;
 
         parentNode.innerHTML +=
-        `<div class="attached-file" data-fileid="${fileId}">
+            `<div class="${attachedFileBoxClass}" data-fileid="${fileId}">
             <img src="${base64EncodedFile}">
             <button type="button" id="remove-upload-file__btn" data-fileid="${fileId}"><i class="fa-solid fa-circle-xmark fa-xl"></i></button>
         </div>`;
 
-        parentNode.querySelector(`button[data-fileid="${fileId}"]`).addEventListener('click', e => {
-            console.log('click like');
-            onClickFileRemoveBtn(fileId);
+        parentNode.querySelectorAll('.attached-file').forEach(target => {
+            target.querySelector('button[id="remove-upload-file__btn"]').addEventListener('click', e => {
+                onClickFileRemoveBtn(e);
+            })
         })
 
         // 전역변수 selectedFiles 배열에 저장
@@ -1214,4 +1313,11 @@ document.getElementById('content').addEventListener('blur', () => {
 });
 document.getElementById('file').addEventListener('change', onChangeSelectFile);
 document.getElementById('comment-edit-mode').addEventListener('click', onClickWorkSpaceEditCommentScriptBtn);
+document.querySelectorAll('.post-attached-files').forEach(parent => {
+    parent.querySelectorAll('img').forEach(target => {
+        target.addEventListener('click', e => {
+            onClickAttachedFileBox(e);
+        });
+    })
+})
 window.addEventListener('DOMContentLoaded', activeSortTypeBtnColor);
