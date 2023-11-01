@@ -1,6 +1,6 @@
 const activeSearchTypeBtnColor = () => {
-    const url = window.location.href;
-    const searchType = url.split('=')[1];
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchType = urlParams.get('searchType');
     
     console.log('searchType: ', searchType);
     document.getElementById(searchType).querySelector('i').style.color = '#ffffff'
