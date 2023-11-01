@@ -26,16 +26,13 @@ const onLoadChatRoom = e => {
 // keypress는 한글 인식을 하지 않기 떄문에 단순히 enter처리만 할거면 keypress로 하자.
 // 만약 줄 바꿈 키를 만들고 싶다면....
 const onKeyDownInChatBox = async event => {
-    console.log(event.keyCode);
-    console.log(event.isComposing);
-
     const content = document.getElementById('content').value;
     const replacedContent = replaceText(content);
 
     if ((event.keyCode === 13 && !event.shiftKey && replacedContent !== "") || (event.keyCode === 13 && !event.shiftKey && this.selectedFiles.length > 0)) {
         try {
             console.log('엔터키 누름!!');
-            document.getElementById('content').innerText = ''; // 입력폼 텍스트 없애기
+            event.preventDefault();
             await onKeyPressEnter(event);
             this.selectedFiles = [];// 파일들 비우기
         } catch (err) {
@@ -46,17 +43,22 @@ const onKeyDownInChatBox = async event => {
     if (event.keyCode === 13 && replacedContent === "") {
         return document.getElementById('content').innerText.replace('\r\n', '');
     }
+}
 
-    console.log('replacedContent: ', replacedContent);
-    console.log('엔터키 안누름!!');
+const onKeyUpInChatBox = e => {
+    // 줄 바꿈시 박스 위쪽으로 늘어나게 하기
+    // 지움키 반응: 줄바꿈 지워질때 박스 사이즈 줄이기
+    if (e.keyCode === 13 && e.shiftKey || e.keyCode === 8) {
+        changeChatInputBoxHeight(e);
+    }
 }
 
 // 2. 채팅 박스안에서 엔터키 키프레스 이벤트
 const onKeyPressEnter = async event => {
-    console.log(event.keyCode);
-    console.log(event.isComposing);
+    // console.log(event.keyCode);
+    // console.log(event.isComposing);
     try {
-        console.log('엔터키 누름!!');
+        // console.log('엔터키 누름!!');
         await postSendChatAndUploadFilesToChatRoom();
     } catch (err) {
         console.log(err);
@@ -233,7 +235,84 @@ const onClickSendChatAndFilesBtn = async () => {
     document.getElementById('content').value = "";
     this.selectedFiles = [];// 파일들 비우기
 }
+
+const onClickFileRemoveBtn = e => {
+    removeFileTag(e);
+}
+
+const onClickCloseBtn = className => {
+    const parentNode = document.querySelector(`.${className}`);
+    document.body.removeChild(parentNode);
+
+
+    document.body.removeEventListener('keydown', onKeyDownArrowBtnInPreviewModal);
+}
+
+const onClickAttachedFileBox = e => {
+    createPreviewModaForLargeViewOfAttachment(e);
+
+    // 이벤트 리스너 등록
+    // 오른쪽: 39 왼쪽: 37 ESC: 27 화살표와 ESC키 작동
+    document.body.addEventListener('keydown', onKeyDownArrowBtnInPreviewModal);
+
+    document.getElementById('next').addEventListener('click', onClickArrowBtnInPreviewModal);
+    document.getElementById('previous').addEventListener('click', onClickArrowBtnInPreviewModal);
+
+    // 모달창 클로즈 이벤트
+    // 콜백함수: 모달창 닫는 이벤트함수 실행, 모달창 오픈할때 등록되었던 이벤트리스너 삭제
+    document.getElementById('cancel').addEventListener('click', () => {
+        onClickCloseBtn('modal-background');
+
+        // 제거할 이벤트 리스너
+        document.getElementById('next').removeEventListener('click', onClickArrowBtnInPreviewModal);
+        document.getElementById('previous').removeEventListener('click', onClickArrowBtnInPreviewModal);
+    });
+}
+
+const onClickArrowBtnInPreviewModal = e => {
+    changeImageInPreviewModal(e.target.id);
+}
+
+const onKeyDownArrowBtnInPreviewModal = e => {
+    switch (e.keyCode) {
+        case 37: changeImageInPreviewModal('previous');
+            break;
+        case 39: changeImageInPreviewModal('next');
+            break;
+        case 27: onClickCloseBtn('modal-background');
+            break;
+    }
+}
+
 /** ----------------- 태그관련 함수 ----------------- */
+const changeImageInPreviewModal = action => {
+    const modal = document.querySelector('.attached-file-big-view-mode');
+    const gridBox = modal.querySelector('.big-size-box').children[1];
+    const currentIndex = parseInt(gridBox.dataset.index);
+    let selectedIndex = currentIndex;
+    const fileTagNodeList = gridBox.querySelectorAll('img');
+
+    switch (action) {
+        case 'next': selectedIndex += 1;
+            break;
+        case 'previous': selectedIndex -= 1
+            break;
+        default:
+            break;
+    }
+
+    if (selectedIndex >= fileTagNodeList.length) {
+        selectedIndex = 0;
+    } else if (selectedIndex <= -1) {
+        selectedIndex = fileTagNodeList.length - 1;
+    }
+
+    gridBox.querySelector(`img[data-index="${currentIndex}"]`).className = 'hidden';
+    document.getElementById('file-current-index').textContent = selectedIndex + 1;
+    fileTagNodeList[selectedIndex].className = 'active';
+    gridBox.dataset.index = selectedIndex;
+}
+
 const createUserListInChannelTag = data => {
     // 채널에 속한 유저리스트 보드 열기
     document.querySelector('.sub-board__btn-box').classList.add('hidden');
@@ -328,9 +407,10 @@ const createPreviewTag = e => {
             </button>
         </div>`;
 
-        parentNode.querySelector(`button[data-fileid="${fileId}"]`).addEventListener('click', e => {
-            console.log('click like');
-            onClickFileRemoveBtn(fileId);
+        parentNode.querySelectorAll('.attached-file').forEach(target => {
+            target.querySelector('button[id="remove-upload-file__btn"]').addEventListener('click', e => {
+                onClickFileRemoveBtn(e);
+            })
         })
 
         // 전역변수 selectedFiles 배열에 저장
@@ -340,6 +420,18 @@ const createPreviewTag = e => {
         alert(error)
         console.log(error)
     }
+}
+
+const removeFileTag = e => {
+    const removeBtn = e.target.parentNode;
+    const attachedImageBox = removeBtn.parentNode;
+    const previewBox = attachedImageBox.parentNode;
+
+    previewBox.removeChild(attachedImageBox);
+    const dataSetedFileId = attachedImageBox.dataset.fileid;
+
+    this.selectedFiles = [...this.selectedFiles.filter(file => file.fileId !== dataSetedFileId)];
+    console.log(this.selectedFiles);
 }
 
 const replaceText = text => {
@@ -394,7 +486,7 @@ const createHamburgerMenu = () => {
     span.textContent = '채팅방 목록';
     chatRoomListAtag.append(listIcon);
     chatRoomListAtag.append(span);
-    chatRoomListAtag.setAttribute('href', `/mychannel/${channelId}?searchWord=chatRooms`);
+    chatRoomListAtag.setAttribute('href', `/mychannel/${channelId}?searchType=chatRooms`);
 
     const chatRoomExitBtn = document.createElement('button');
     const exitIcon = document.createElement('i');
@@ -456,12 +548,84 @@ const openSelectedSubBoard = async (e, activeClassName) => {
 
 const createFileTagAndsetFileDataList = (data, activeSubBoardChild) => {
     const DOMAIN = 'http://localhost:8080';
-    // const createDateTag = activeSubBoardChild.querySelector('.file-created-date__box')
-    const grid = activeSubBoardChild.querySelector('.file-list-grid');
-    for(const chat of data.chatsWithFileUrlsInChatRoom) {
-        for(const fileUrl of chat.fileUrls){
-            grid.innerHTML += `<img src="${DOMAIN}/${fileUrl}">`;
+    // console.log(activeSubBoardChild);
+    const fileBoxInner = activeSubBoardChild.querySelector('.board-file-box-inner');
+
+    // console.log(data)
+    for (const chats of data.chatsWithFileUrlsInChatRoom) {
+        // console.log(chats[0].createdAt);
+        const fileKit = document.createElement('div');
+        fileKit.className = 'file-kit';
+        fileKit.innerHTML += `
+            <div class="file-created-date__box"><span>${chats[0].createdAt}</span></div>
+            <div class="file-list-grid"></div>`;
+        fileBoxInner.appendChild(fileKit);
+        for (const chat of chats) {
+            for (const fileUrl of chat.fileUrls) {
+                fileKit.querySelector('.file-list-grid').innerHTML += `<img src="${DOMAIN}/${fileUrl}">`;
+            }
         }
+    }
+}
+
+const createPreviewModaForLargeViewOfAttachment = e => {
+    const previewBox = e.target.parentNode;
+    const fileTagNodeList = previewBox.querySelectorAll('img');// NodeList
+    const fileTagArr = Array.prototype.slice.call(fileTagNodeList);// NodeList를 배열로 변환
+    const selectedIndex = fileTagArr.indexOf(e.target);
+    const modal =
+        `<div class="modal-background" id="modal">
+            <div class="attached-file-big-view-mode">
+                <div class="box__button__submit">
+                    <a id="cancel">x</a>
+                </div>
+                <div class="big-size-box">
+                    <div class="view-grid-inner-box">
+                        <i class="fa-solid fa-chevron-left fa-xl" id="previous"></i>
+                    </div>
+                    <div class="view-grid-inner-box" data-index="${selectedIndex}"></div>
+                    <div class="view-grid-inner-box">
+                        <i class="fa-solid fa-chevron-right fa-xl" id="next"></i>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+    document.querySelector('script').insertAdjacentHTML('beforebegin', modal);
+    let tmpIndex = 0;
+    fileTagArr.forEach(target => {
+        let insertTag = `<img src=${target.src} class="hidden" data-index="${tmpIndex}">`;
+        const targetIndex = fileTagArr.indexOf(target);
+        if (selectedIndex == targetIndex) {
+            insertTag = `<img src=${target.src} class="active" data-index="${tmpIndex}">`
+        }
+        document.querySelector('.attached-file-big-view-mode').querySelector('.big-size-box').children[1].innerHTML += insertTag;
+        tmpIndex++;
+    })
+    document.querySelector('.attached-file-big-view-mode').innerHTML += `<p><span id="file-current-index">${selectedIndex + 1}</span> / ${fileTagArr.length}</p>`
+}
+
+const changeChatInputBoxHeight = e => {
+    const scrollHeight = e.target.scrollHeight;
+    const content = e.target.value;
+    const splitContent = content.split('');
+    const count = splitContent.filter(content => content == '\n').length;
+
+    if (count <= 0) {
+        e.target.style.height = '';
+    }
+    console.log('splitContent: ', splitContent);
+    // console.log('textareaHeight: ', textareaHeight)
+    console.log('scrollHeight: ', scrollHeight)
+    console.log('offsetHeight: ', e.target.clientHeight)
+    e.target.style.height = `${scrollHeight}px`;
+    if (e.keyCode === 8 && count > 0 && scrollHeight == e.target.style.height.split('px')[0]) {
+        e.target.style.height = `${scrollHeight - (15 * count)}px`;
+        console.log('e.target.style.height: ', e.target.style.height)
+    }
+
+    if (e.keyCode === 13 && e.shiftKey) {
+        e.target.style.height = `${48 + (15 * (count - 1))}px`;
     }
 }
 
@@ -472,7 +636,7 @@ const postSendChatAndUploadFilesToChatRoom = async () => {
     console.log('tag 생성!!!');
     try {
         const content = document.getElementById('content').value;
-
+        document.getElementById('content').value = '';
         if (content == "" && this.selectedFiles.length <= 0) {
             return;
         }
@@ -573,7 +737,7 @@ const getLoadFilesInChatRoom = async activeSubBoardChild => {
     const data = await response.json();
 
     console.log('data: ', data);
-    if(!data.error) {
+    if (!data.error) {
         createFileTagAndsetFileDataList(data, activeSubBoardChild);
     }
 
@@ -585,6 +749,15 @@ const getLoadFilesInChatRoom = async activeSubBoardChild => {
 // 클릭 이벤트
 document.getElementById('send').addEventListener('click', onClickSendChatAndFilesBtn);
 document.querySelector('.room-name-box').addEventListener('click', onClickHamburgerIcon);
+document.querySelectorAll('.chat').forEach(parent => {
+    const imageBox = parent.querySelector('.image-box');
+    if (imageBox) {
+        imageBox.querySelectorAll('img').forEach(target => {
+            target.addEventListener('click', onClickAttachedFileBox)
+        })
+    }
+})
+
 
 document.getElementById('participants').addEventListener('click', e => {
     onClickSubBtn(e, 'board-user');
@@ -596,6 +769,7 @@ document.getElementById('file-box').addEventListener('click', e => {
 
 // 키보드 이벤트
 document.getElementById('content').addEventListener('keydown', onKeyDownInChatBox);
+document.getElementById('content').addEventListener('keyup', onKeyUpInChatBox);
 
 // 변화 이벤트
 document.getElementById('file').addEventListener('change', onChangeSelectFile);
