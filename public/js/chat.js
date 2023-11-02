@@ -26,7 +26,7 @@ const onLoadChatRoom = e => {
 // keypress는 한글 인식을 하지 않기 떄문에 단순히 enter처리만 할거면 keypress로 하자.
 // 만약 줄 바꿈 키를 만들고 싶다면....
 const onKeyDownInChatBox = async event => {
-    const content = document.getElementById('content').value;
+    const content = document.getElementById('content').innerText;
     const replacedContent = replaceText(content);
 
     if ((event.keyCode === 13 && !event.shiftKey && replacedContent !== "") || (event.keyCode === 13 && !event.shiftKey && this.selectedFiles.length > 0)) {
@@ -45,12 +45,9 @@ const onKeyDownInChatBox = async event => {
     }
 }
 
-const onKeyUpInChatBox = e => {
-    // 줄 바꿈시 박스 위쪽으로 늘어나게 하기
-    // 지움키 반응: 줄바꿈 지워질때 박스 사이즈 줄이기
-    if (e.keyCode === 13 && e.shiftKey || e.keyCode === 8) {
-        changeChatInputBoxHeight(e);
-    }
+const onClickContentInputBox = () => {
+    console.log('포커싱!!');
+    deletePlaceholder();
 }
 
 // 2. 채팅 박스안에서 엔터키 키프레스 이벤트
@@ -605,27 +602,15 @@ const createPreviewModaForLargeViewOfAttachment = e => {
     document.querySelector('.attached-file-big-view-mode').innerHTML += `<p><span id="file-current-index">${selectedIndex + 1}</span> / ${fileTagArr.length}</p>`
 }
 
-const changeChatInputBoxHeight = e => {
-    const scrollHeight = e.target.scrollHeight;
-    const content = e.target.value;
-    const splitContent = content.split('');
-    const count = splitContent.filter(content => content == '\n').length;
+const deletePlaceholder = () => {
+    return document.getElementById('content').removeChild(document.getElementById('placeholder'));
+}
 
-    if (count <= 0) {
-        e.target.style.height = '';
-    }
-    console.log('splitContent: ', splitContent);
-    // console.log('textareaHeight: ', textareaHeight)
-    console.log('scrollHeight: ', scrollHeight)
-    console.log('offsetHeight: ', e.target.clientHeight)
-    e.target.style.height = `${scrollHeight}px`;
-    if (e.keyCode === 8 && count > 0 && scrollHeight == e.target.style.height.split('px')[0]) {
-        e.target.style.height = `${scrollHeight - (15 * count)}px`;
-        console.log('e.target.style.height: ', e.target.style.height)
-    }
+const createPlaceholder = () => {
+    const contentTag = document.getElementById('content');
 
-    if (e.keyCode === 13 && e.shiftKey) {
-        e.target.style.height = `${48 + (15 * (count - 1))}px`;
+    if (contentTag.innerText === '') {
+        contentTag.insertAdjacentHTML('afterbegin', '<div id="placeholder">메세지 보내기</div>');
     }
 }
 
@@ -635,8 +620,8 @@ const changeChatInputBoxHeight = e => {
 const postSendChatAndUploadFilesToChatRoom = async () => {
     console.log('tag 생성!!!');
     try {
-        const content = document.getElementById('content').value;
-        document.getElementById('content').value = '';
+        const content = document.getElementById('content').innerText;
+        document.getElementById('content').innerText = '';
         if (content == "" && this.selectedFiles.length <= 0) {
             return;
         }
@@ -757,7 +742,11 @@ document.querySelectorAll('.chat').forEach(parent => {
         })
     }
 })
-
+document.getElementById('content').addEventListener('focus', onClickContentInputBox);
+document.getElementById('content').addEventListener('blur', () => {
+    console.log('blur!!');
+    createPlaceholder();
+});
 
 document.getElementById('participants').addEventListener('click', e => {
     onClickSubBtn(e, 'board-user');
@@ -769,7 +758,7 @@ document.getElementById('file-box').addEventListener('click', e => {
 
 // 키보드 이벤트
 document.getElementById('content').addEventListener('keydown', onKeyDownInChatBox);
-document.getElementById('content').addEventListener('keyup', onKeyUpInChatBox);
+// document.getElementById('content').addEventListener('keyup', onKeyUpInChatBox);
 
 // 변화 이벤트
 document.getElementById('file').addEventListener('change', onChangeSelectFile);
