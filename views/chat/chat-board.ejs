@@ -18,50 +18,57 @@
                     <i id="hamburger" class="fa-solid fa-bars fa-lg"></i><span><%= title %></span>
                 </div>
             </div>
-            <div class="board-chat__box-history">
+            <div class="board-chat__box-history" id="history">
                 <div class="hamburger-menu-container">
                     <!-- 햄버거메뉴 생성될 자리 -->
                 </div>
                 <% if(chats.length > 0) { %>
-                    <% for(let chatDetail of chats) { %>
-                        <div class="board-chat__unit-chat-box">
-                            <% if(chatDetail.isNotice == 'N') { %>
-                                <div class="board-chat__unit-chat-img">
-                                    <img src="<%= chatDetail.creator.photo %>">
-                                </div>
-                                <div class="chat">
-                                    <% if(chatDetail.isCreator) { %>
-                                        <div class="client-name"><%= chatDetail.creator.name %>(나)</div>
-                                    <% } else { %>
-                                        <div class="other-client-name"><%= chatDetail.creator.name %></div>
-                                    <% } %>
-                                    <% if(chatDetail.chat !== "" && chatDetail.chat !== null && chatDetail.chat!== undefined) { %>
-                                        <div class="board-chat__unit-chat"><%= chatDetail.chat %></div>
-                                    <% } %>
-                                    <% if(chatDetail.fileUrls.length > 0) { %>
-                                    <p id="attached-files-number">첨부 파일 <%= chatDetail.fileUrls.length %>개</p>
-                                        <div class="image-box">
-                                            <% for(let fileUrl of chatDetail.fileUrls) { %>
-                                                <img id="images" src="http://localhost:8080/<%= fileUrl %>">
-                                            <% } %>
-                                        </div>
-                                    <% } %>
-                                </div>
-                                <div class="chat-date">
-                                    <%= chatDetail.fomatDate %>
-                                </div>
-                            <% } %>
-                            <% if(chatDetail.isNotice == 'Y') { %>
-                                <p class="broad-comment"><%= chatDetail.chat %></p>
-                            <% } %>
+                    <% for(let chatList of chats) { %>
+                        <div class="chat-date">
+                            <span><%= chatList[0].fomatDate %></span>
                         </div>
-                    <% } %> 
+                        <% for(let chatDetail of chatList) { %>
+                            <div class="board-chat__unit-chat-box">
+                                <% if(chatDetail.isNotice == 'N') { %>
+                                    <div class="board-chat__unit-chat-img">
+                                        <img src="<%= chatDetail.creator.photo %>">
+                                    </div>
+                                    <div class="chat">
+                                        <% if(chatDetail.isCreator) { %>
+                                            <div class="client-name"><%= chatDetail.creator.name %>(나)</div>
+                                        <% } else { %>
+                                            <div class="other-client-name"><%= chatDetail.creator.name %></div>
+                                        <% } %>
+                                        <% if(chatDetail.chat !== "" && chatDetail.chat !== null && chatDetail.chat!== undefined) { %>
+                                            <div class="board-chat__unit-chat"><%= chatDetail.chat %></div>
+                                        <% } %>
+                                        <% if(chatDetail.fileUrls.length > 0) { %>
+                                        <p id="attached-files-number">첨부 파일 <%= chatDetail.fileUrls.length %>개</p>
+                                            <div class="image-box">
+                                                <% for(let fileUrl of chatDetail.fileUrls) { %>
+                                                    <img id="images" src="http://localhost:8080/<%= fileUrl %>">
+                                                <% } %>
+                                            </div>
+                                        <% } %>
+                                    </div>
+                                    <div class="chat-time">
+                                        <%= chatDetail.fomatTime %>
+                                    </div>
+                                <% } %>
+                                <% if(chatDetail.isNotice == 'Y') { %>
+                                    <p class="broad-comment"><%= chatDetail.chat %></p>
+                                <% } %>
+                            </div>
+                        <% } %> 
+                    <% } %>     
                 <% } %>
             </div>
             <div class="board-chat__box-chat">
                 <div class="inner">
                     <div id="preview-files"></div>
-                    <textarea class="content-box board-chat__textarea" name="content" id="content" placeholder="메세지 보내기"></textarea>
+                    <div class="content-box board-chat__textarea" name="content" id="content" placeholder="메세지 보내기" contenteditable="true">
+                        <div id="placeholder">메세지 보내기</div>
+                    </div>
                     <div class="btn-group">
                         <button class="board-chat__btn" type="button" id="send"><i class="fa-solid fa-paper-plane fa-xl"></i></button>
                         <!-- <button type="button" id=""></button> -->
@@ -72,25 +79,6 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="box-post-content">
-                <div class="inner">
-                    <div id="preview-files"></div>
-                    <div id="content" name="content" contenteditable="true">
-                        <div id="placeholder">aa</div>
-                    </div>
-                    <div class="btn-group">
-                        <div class="position-right-icon">
-                            <label for="file">
-                                <input type="file" id="file" name="file" multiple>
-                                <i class="fa-solid fa-file fa-lg"></i>
-                            </label>
-                        </div>
-                        <div>
-                            <button type="button" id="send"><i class="fa-solid fa-paper-plane fa-xl"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
         </div>
 
         <!-- 오른쪽 사이드 서브 보드 -->
@@ -117,10 +105,10 @@
             </div>
             <div class="board-file-box hidden">
                 <div class="board-file-box-inner">
-                    <div class="file-created-date__box">
-                        <span>2023년 10월 14일</span>
-                    </div>
-                    <div class="file-list-grid"></div>
+                    <!-- <div class="file-kit">
+                        <div class="file-created-date__box"></div>
+                        <div class="file-list-grid"></div>
+                    </div> -->
                 </div>
             </div>
             <!-- 팀원목록 보드 -->
