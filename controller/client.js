@@ -43,7 +43,7 @@ const clientControlller = {
             const category = req.body.category;// 카테고리
             const comment = req.body.comment;// 채널 멘트
             const open = req.body.open;
-            
+
             const formData = new FormData();
             formData.append('channelName', channelName);
             formData.append('thumbnail', JSON.stringify(thumbnail));
@@ -516,6 +516,45 @@ const clientControlller = {
             next(err)
         }
     },
+    patchEditFeedToChannel: async (req, res, next) => {
+        try {
+            const { token, refreshToken } = req.signedCookies;
+            const { files } = req;
+            const { title, content, existFileUrls } = req.body;
+            const { channelId, feedId } = req.params;
+            console.log('existFileUrls: ', existFileUrls);
+            const formData = new FormData();
+            formData.append('title', title);
+            formData.append('content', content);
+            formData.append('existFileUrls', JSON.stringify(existFileUrls));
+            formData.append('files', JSON.stringify(files));
+
+            const data = await channelService.patchEditFeedToChannel(token, refreshToken, channelId, feedId, formData, next);
+            hasError(data.error);
+
+            res.status(data.status.code).json({
+                status: data.status,
+                feed: data.feed
+            });
+        } catch (err) {
+            next(err)
+        }
+    },
+    deleteRemoveFeedByReqUser: async (req, res, next) => {
+        try {
+            const { token, refreshToken } = req.signedCookies;
+            const { channelId, feedId } = req.params;
+
+            const data = await channelService.deleteRemoveFeedByReqUser(token, refreshToken, channelId, feedId, next);
+            hasError(data.error);
+
+            res.status(data.status.code).json({
+                status: data.status
+            });
+        } catch (err) {
+            next(err)
+        }
+    },
     // 피드 좋아요
     patchPlusOrMinusNumberOfLikeInFeed: async (req, res, next) => {
         try {
@@ -540,7 +579,7 @@ const clientControlller = {
 
             const data = await chatService.getLoadFilesInChatRoom(token, refreshToken, channelId, chatRoomId, next);
             hasError(data.error);
-            console.log(data);
+            console.log(data.chatsWithFileUrlsInChatRoom);
             res.status(data.status.code).json({
                 status: data.status,
                 chatsWithFileUrlsInChatRoom: data.chatsWithFileUrlsInChatRoom
@@ -548,7 +587,7 @@ const clientControlller = {
         } catch (err) {
             next(err);
         }
-    }
+    },
 }
 
 export default clientControlller;

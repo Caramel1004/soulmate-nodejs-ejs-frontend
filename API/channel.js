@@ -249,6 +249,40 @@ const channelAPI = {
             next(err);
         }
     },
+    patchEditFeedToChannel: async (token, refreshToken, channelId, feedId, formData, next) => {
+        try {
+            const response = await fetch(`http://localhost:8080/v1/channel/edit-feed/${channelId}/${feedId}`, {
+                method: 'PATCH',
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                    Refresh: refreshToken
+                },
+                body: formData
+            });
+            const resData = await response.json();
+
+            return resData
+        } catch (err) {
+            next(err);
+        }
+    },
+    deleteRemoveFeedByReqUser: async (token, refreshToken, channelId, feedId, next) => {
+        try {
+            const response = await fetch(`http://localhost:8080/v1/channel/delete-feed/${channelId}/${feedId}`, {
+                method: 'DELETE',
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                    Refresh: refreshToken,
+                    'Content-Type': 'application/json'
+                }
+            });
+            const resData = await response.json();
+
+            return resData
+        } catch (err) {
+            next(err)
+        }
+    },
     patchPlusOrMinusNumberOfLikeInFeed: async (token, refreshToken, channelId, feedId, next) => {
         try {
             const response = await fetch(`http://localhost:8080/v1/channel/plus-or-minus-feed-like`, {
