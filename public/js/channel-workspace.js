@@ -1,7 +1,7 @@
+this.channelId = window.location.href.split('/')[4].split('?')[0];
+
 /** ----------------- 이벤트 함수 ----------------- */
 const onClickWorkSpaceAddBtn = () => {
-    const url = window.location.href;
-    const channelId = url.split('/')[4].split('?')[0];
     createModalTagtoAddWorkSpace(channelId, '워크스페이스');
 
     // 모달창 오픈후 필요한 이벤트 리스너
@@ -38,6 +38,17 @@ const onCilckCompleteBtn = channelId => {
 
 const onClickCloseBtn = className => {
     removeChildrenTag(className);
+}
+
+const onKeyDownSearchBox = async e => {
+    if (e.keyCode === 13 && e.target.value !== '') {
+        try {
+            console.log('엔터키 누름!!');
+            await getSearchWorkSpacesByKeyWord(e);
+        } catch (err) {
+            console.log(err);
+        }
+    }
 }
 
 /** ----------------- 태그관련 함수 ----------------- */
@@ -191,5 +202,21 @@ const postCreateWorkSpace = async channelId => {
     }
 }
 
+const getSearchWorkSpacesByKeyWord = async e => {
+    const searchWord = e.target.value;
+    let URL = `http://localhost:3000/mychannel/${channelId}?searchType=workspaces&searchWord=${searchWord}`;
+    if(searchWord == '') {
+        URL = `http://localhost:3000/mychannel/${channelId}?searchType=workspaces`;
+    }
+    try {
+        window.location.href = URL;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 /** ----------------- 이벤트리스너 ----------------- */
 document.getElementById('workspace-add__btn').addEventListener('click', onClickWorkSpaceAddBtn);
+document.getElementById('search').addEventListener('keydown', e => {
+    onKeyDownSearchBox(e);
+})
