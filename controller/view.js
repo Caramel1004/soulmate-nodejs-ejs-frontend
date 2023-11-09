@@ -26,7 +26,8 @@ const viewController = {
     getMainPage: async (req, res, next) => {
         try {
             const { token, refreshToken, sid } = req.signedCookies;
-            const resData = await channelService.getOpenChannelList(next);
+            const { searchWord, category } = req.query;
+            const resData = await channelService.getOpenChannelList(searchWord, category, next);
             hasError(resData.error);
 
             const channelList = resData.channels;
@@ -45,6 +46,8 @@ const viewController = {
                 }
             }
 
+            const staticData = await getCategoryData(next);// 서버 정적 데이터: 카테고리 목록
+
             res.render('index', {
                 path: '/',
                 title: 'Soulmate 메인 페이지',
@@ -52,6 +55,7 @@ const viewController = {
                 photo: req.session.photo,
                 channels: req.session.userChannels,
                 channelList: channelList,
+                staticCategoryList: staticData.category,
             });
         } catch (err) {
             err.isViewRenderError = true
@@ -163,8 +167,7 @@ const viewController = {
     // 5. 관심 채널 목록 페이지
     getMyWishChannelListPage: async (req, res, next) => {
         try {
-            const { sid } = req.signedCookies;
-            const resData = await channelService.getMyWishChannelList(req.signedCookies.token, req.signedCookies.refreshToken, req.query.searchWord, next);// 관심 채널 리스트
+            const resData = await channelService.getMyWishChannelList(req.signedCookies.token, req.signedCookies.refreshToken, req.query.category, req.query.searchWord, next);// 관심 채널 리스트
             hasError(resData.error);
             hasNewAuthToken(res, resData.authStatus);
 
@@ -187,11 +190,10 @@ const viewController = {
     // 6. 채널입장 -> 채널 내부 페이지
     getEnterMyChannelPage: async (req, res, next) => {
         try {
-            const { sid } = req.signedCookies;
             const jsonWebToken = req.signedCookies.token;
             const channelId = req.params.channelId;
-            const searchWord = req.query.searchWord;
-            const fileName = `channel/channel-${searchWord}`
+            const { searchType, searchWord } = req.query;
+            const fileName = `channel/channel-${searchType}`;
 
             // 1. 해당 채널아이디 보내주고 해당 채널 입장 요청
             const channelDetailData = await channelService.getChannelDetailByChannelId(jsonWebToken, req.signedCookies.refreshToken, channelId, next);
@@ -210,22 +212,27 @@ const viewController = {
                 }
             }
 
-            console.log(channelDetailData.channel.feeds)
-            // 2. 채팅방 목록 요청
-            const chatRoomListData = await channelService.getChatRoomList(jsonWebToken, req.signedCookies.refreshToken, channelId, next);
-            hasError(chatRoomListData.error);
-            const matchedChatRoomList = chatRoomListData.chatRooms;
+            let matchedChatRoomList = null
+            if (searchType === 'chatRooms') {
+                // 2. 채팅방 목록 요청
+                const chatRoomListData = await channelService.getChatRoomList(jsonWebToken, req.signedCookies.refreshToken, channelId, searchWord, next);
+                hasError(chatRoomListData.error);
+                matchedChatRoomList = chatRoomListData.chatRooms;
+            }
 
-            // 3. 워크스페이스 목록 요청
-            const workSpaceListData = await channelService.getWorkSpaceList(jsonWebToken, req.signedCookies.refreshToken, channelId, next);
-            hasError(workSpaceListData.error);
-            const matchedWorkSpaceList = workSpaceListData.workSpaces;
-            const matchedOpenWorkSpaceList = workSpaceListData.openWorkSpaces;
-            console.log(matchedWorkSpaceList);
+            let matchedWorkSpaceList = null;
+            let matchedOpenWorkSpaceList = null;
+            if (searchType === 'workspaces') {
+                // 3. 워크스페이스 목록 요청
+                const workSpaceListData = await channelService.getWorkSpaceList(jsonWebToken, req.signedCookies.refreshToken, channelId, searchWord, next);
+                hasError(workSpaceListData.error);
+                matchedWorkSpaceList = workSpaceListData.workSpaces;
+                matchedOpenWorkSpaceList = workSpaceListData.openWorkSpaces;
+            }
 
             // 4. 해당 채널 렌더링
-            res.status(chatRoomListData.status.code).render(fileName, {
-                path: `/mychannel/:channelId?searchWord=${searchWord}`,
+            res.status(channelDetailData.status.code).render(fileName, {
+                path: `/mychannel/:channelId?searchType=${searchType}`,
                 title: matchedChannel.channelName,
                 clientName: req.session.clientName,
                 channels: req.session.userChannels,
@@ -234,6 +241,7 @@ const viewController = {
                 chatRooms: matchedChatRoomList,
                 workSpaces: matchedWorkSpaceList,
                 openWorkSpaces: matchedOpenWorkSpaceList,
+                searchWord: searchWord
             });
         } catch (err) {
             err.isViewRenderError = true
@@ -251,25 +259,14 @@ const viewController = {
             const chatRoomData = await chatService.getLoadChatRoom(token, refreshToken, channelId, chatRoomId, next);
             hasError(chatRoomData.error);
             hasNewAuthToken(res, chatRoomData.authStatus);
-
-            // 2. 채팅방 목록
-            const chatRoomListData = await channelService.getChatRoomList(token, req.signedCookies.refreshToken, channelId, next);
-            hasError(chatRoomData.error);
-
-            // 3. 워크스페이스 목록 요청
-            const workSpaceListData = await channelService.getWorkSpaceList(token, req.signedCookies.refreshToken, channelId, next);
-            hasError(workSpaceListData.error);
-            const matchedWorkSpaceList = workSpaceListData.workSpaces;
-
-            res.status(chatRoomListData.status.code).render('chat/chat-board', {
+            console.log('chatRoomData.chatRoom.chats: ', chatRoomData.chatRoom.chats);
+            res.status(chatRoomData.status.code).render('chat/chat-board', {
                 path: '채팅방',
                 title: chatRoomData.chatRoom.roomName,
                 currentDate: `${new Date().getFullYear()}년  ${new Date().getMonth() + 1}월  ${new Date().getDate()}일`,
                 clientName: req.session.clientName,
                 photo: req.session.photo,
                 channels: req.session.userChannels,
-                chatRooms: chatRoomListData.chatRooms,
-                workSpaces: matchedWorkSpaceList,
                 chats: chatRoomData.chatRoom.chats,
                 members: chatRoomData.chatRoom.users,
                 channel: { _id: channelId },
@@ -293,24 +290,12 @@ const viewController = {
             hasError(workSpaceData.error);
             hasNewAuthToken(res, workSpaceData.authStatus);
 
-            // 2. 채팅룸 리스트
-            const chatRoomListData = await channelService.getChatRoomList(token, req.signedCookies.refreshToken, channelId, next);
-            hasError(chatRoomListData.error);
-            const matchedChatRoomList = chatRoomListData.chatRooms;
-
-            // 3. 워크스페이스 목록 요청
-            const workSpaceListData = await channelService.getWorkSpaceList(token, req.signedCookies.refreshToken, channelId, next);
-            hasError(workSpaceListData.error);
-            const matchedWorkSpaceList = workSpaceListData.workSpaces;
-
             res.status(workSpaceData.status.code).render('workspace/workspace', {
                 path: '/channel/workspace/:channelId/:workspaceId',
                 title: workSpaceData.workSpace.workSpaceName,
-                chatRooms: matchedChatRoomList,
                 clientName: req.session.clientName,
                 photo: req.session.photo,
                 channels: req.session.userChannels,
-                workSpaces: matchedWorkSpaceList,
                 workSpace: workSpaceData.workSpace,
                 channel: { _id: channelId }
             });
