@@ -151,14 +151,7 @@ export const validationChainToCheckRequestedValidBodyFromChannelAddPage = [
  * 아직 작업 다 안끝남!!!
  */
 export const validationChainToCheckRequestedValidBodyFromFeedUploadModal = [
-    body('content').trim().notEmpty().custom(
-        (value, req, res, next) => {
-            console.log(req.body)
-            if (!value) {
-                body('images').trim().isLength({ min: 1, max: 5 }).withMessage('피드 내용 또는 사진을 업로드 하세요.')
-            }
-        }
-    ),
+    body('content').trim().notEmpty().withMessage('내용 또는 이미지를 올려주세요.'),
     validResult
 ]
 
