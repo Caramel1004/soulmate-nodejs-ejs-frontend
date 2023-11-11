@@ -1,22 +1,20 @@
-<!-- <script src="/js/loading.js"></script> -->
 <script src="/js/menu.js"></script>
-<!-- 서치 타입 공통 버튼-->
-<% if(path === '/mychannels' || path === '/mychannel/:channelId?searchWord=info' || path === '/mychannel/:channelId?searchWord=member') { %>
+<% if(path === '/mychannels' || path === '/mychannel/:channelId?searchType=info' || path === '/mychannel/:channelId?searchType=member') { %>
     <script src="/js/mychannels.js"></script>
 <% } %>
-<% if(path === '/mychannel/:channelId?searchWord=workspaces' || path === '/mychannel/:channelId?searchWord=chatRooms') { %>
+<% if(path === '/mychannel/:channelId?searchType=workspaces' || path === '/mychannel/:channelId?searchType=chatRooms') { %>
     <script src="/js/mychannels.js"></script>
 <% } %>
-<% if(path === '/mychannel/:channelId?searchWord=info') { %>
+<% if(path === '/mychannel/:channelId?searchType=info') { %>
     <script src="/js/channel-home.js"></script>
 <% } %>
-<% if(path === '/mychannel/:channelId?searchWord=member') { %>
+<% if(path === '/mychannel/:channelId?searchType=member') { %>
     <script src="/js/channel-member.js"></script>
 <% } %>
-<% if(path === '/mychannel/:channelId?searchWord=workspaces') { %>
+<% if(path === '/mychannel/:channelId?searchType=workspaces') { %>
     <script src="/js/channel-workspace.js"></script>
 <% } %>
-<% if(path === '/mychannel/:channelId?searchWord=chatRooms') { %>
+<% if(path === '/mychannel/:channelId?searchType=chatRooms') { %>
     <script src="/js/channel-chat.js"></script>
 <% } %>
 <% if(path === '/channel') { %>

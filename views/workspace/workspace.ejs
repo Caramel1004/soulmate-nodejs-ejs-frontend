@@ -51,7 +51,7 @@
                     <a class="type" id="date" href="/channel/workspace/<%= workSpace.channelId %>/<%= workSpace._id %>?sortType=select&&sortNum=1">날짜 선택</a>
                     <a class="type" id="creator" href="/channel/workspace/<%= workSpace.channelId %>/<%= workSpace._id %>?sortType=creator&&sortNum=-1">내 게시물</a>
                     <a class="type" style="float: right;" onclick="onClickWorkSpaceExitBtn()"><i class="fa-solid fa-arrow-right-from-bracket"></i>워크스페이스 퇴장</a>
-                    <a class="type" href="/mychannel/<%= workSpace.channelId %>?searchWord=workspaces" style="float: right; margin-right: 5px;"><i class="fa-solid fa-list"></i>워크스페이스 목록</a>
+                    <a class="type" href="/mychannel/<%= workSpace.channelId %>?searchType=workspaces" style="float: right; margin-right: 5px;"><i class="fa-solid fa-list"></i>워크스페이스 목록</a>
                 </div>
                 <% if(workSpace.posts.length > 0) { %>
                     <% for(let post of workSpace.posts) { %>

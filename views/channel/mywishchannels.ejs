@@ -16,17 +16,18 @@
             <div class="channel-list">
                 <div id="box-search">
                     <select id="category" name="category">
-                        <option disabled selected hidden>카테고리를 선택하세요.</option>
+                        <option value="전체">전체</option>
                         <% for(let category of staticCategoryList) { %>
-                            <option value="<%= category.keyword %>"><%= category.name %></option>
+                            <option value="<%= category.name %>"><%= category.name %></option>
                         <% } %>
                     </select>
                     <input type="search" id="search" placeholder="원하는 채널을 검색하세요.">
                     <button id="btn__search"><i class="fa-solid fa-magnifying-glass fa-lg"></i></button>
                 </div>
                 <div id="tab-box">
+                    <a class="type" href="/wishchannels">전체</a>
                     <% for(let category of staticCategoryList) { %>
-                        <a class="type" href="/wishchannels?searchWord=<%= category.keyword %>"><%= category.name %></a>
+                        <a class="type" href="http://localhost:3000/wishchannels?category=<%= category.name %>"><%= category.name %></a>
                     <% } %>
                 </div>
                 <div class="wrapper-title-channel-container">

@@ -19,7 +19,7 @@
                 <i class="fa-regular fa-plus"></i>
                 <span>채널 추가</span>
             </a>
-            <a class="menu__a-wrapper" href="/wishchannels?searchWord=all" id="wishchannels">
+            <a class="menu__a-wrapper" href="/wishchannels" id="wishchannels">
                 <i class="fa-regular fa-heart"></i>
                 <span>관심 채널</span>
             </a>
@@ -28,7 +28,7 @@
             <div class="menu__type-title">참여 채널</div>
             <% if(channels) { %>
                 <% for(const channel of channels) { %>
-                    <a class="menu__channel" href="/mychannel/<%= channel._id %>?searchWord=info" id="mychannel-<%= channel._id %>">
+                    <a class="menu__channel" href="/mychannel/<%= channel._id %>?searchType=info" id="mychannel-<%= channel._id %>">
                         <img src="<%= channel.thumbnail %>"><span><%= channel.channelName %></span> 
                     </a>
                 <% } %>

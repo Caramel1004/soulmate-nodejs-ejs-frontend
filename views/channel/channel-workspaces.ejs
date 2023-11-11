@@ -13,6 +13,10 @@
         <%- include('../includes/menu.ejs') %>
         <div class="channel-workspace-list-container">
             <%- include('../includes/channel-tab-box.ejs') %>
+            <div id="box-search">
+                <input type="search" id="search" placeholder="검색" value="<%= searchWord %>">
+                <button id="btn__search"><i class="fa-solid fa-magnifying-glass fa-lg"></i></button>
+            </div>
             <div class="channel-workspace-list-box">
                 <div class="wrapper-title-workspace-container">
                     <div class="inner">

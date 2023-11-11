@@ -11,9 +11,12 @@
     <body>
         <%- include('../includes/header.ejs') %>
         <%- include('../includes/menu.ejs') %>
-        <%- include('../includes/loading.ejs') %>
         <div class="channel-chatRoom-list-container">
             <%- include('../includes/channel-tab-box.ejs') %>
+            <div id="box-search">
+                <input type="search" id="search" placeholder="검색" value="<%= searchWord %>">
+                <button id="btn__search"><i class="fa-solid fa-magnifying-glass fa-lg"></i></button>
+            </div>
             <div class="channel-chatRoom-list-box">
                 <div class="chatRoom-box-items">
                     <div id="chatRoom-add__btn" class="contents__div-wrapper">

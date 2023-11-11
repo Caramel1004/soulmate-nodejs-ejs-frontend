@@ -85,9 +85,12 @@
                                 </div>
                                 <div class="feed-content-box">
                                     <div class="feed-creator-name-box">
-                                        <span><%= feed.creator.name %></span><span id="feed-date">1일전</span>
+                                        <span class="feed-creator"><%= feed.creator.name %></span><span id="feed-date">1일전</span>
+                                        <% if(feed.title !== '' || feed.title) { %>
+                                            <div class="feed-title-box"><span>Tt.</span><span class="feed-title"><%= feed.title %></span></div>
+                                        <% } %>
                                     </div>
-                                    <div class="feed-comment-box"><%= feed.content%></div>
+                                    <div class="feed-comment-box"><%= feed.content %></div>
                                     <% if(feed.imageUrls.length > 0) { %>
                                         <% for(const imageUrl of feed.imageUrls) { %>
                                             <img src="http://localhost:8080/<%= imageUrl %>">
@@ -104,8 +107,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="feed-creator-box">
-                                    <button id="feed-edit" data-feedid="<%= feed._id%>"><i class="fa-regular fa-pen-to-square"></i>수정</button>
+                                <div class="feed-edit-btn-box">
+                                    <% if(feed.isCreator) { %>
+                                        <button class="feed-edit" id="feed-edit" data-feedid="<%= feed._id%>"><i class="fa-regular fa-pen-to-square"></i>수정</button>
+                                        <button class="feed-delete" id="feed-delete" data-feedid="<%= feed._id%>"><i class="fa-regular fa-trash-can"></i>삭제</button>
+                                    <% } %>
                                 </div>
                             </div>
                         <% } %>
