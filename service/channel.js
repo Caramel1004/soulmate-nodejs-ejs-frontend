@@ -9,9 +9,9 @@ import channelAPI from '../API/channel.js'
 
 const channelService = {
     // 1. 생성된 오픈 채널 목록 요청
-    getOpenChannelList: async next => {
+    getOpenChannelList: async (searchWord, category, next) => {
         try {
-            const resData = await channelAPI.getOpenChannelList(next);
+            const resData = await channelAPI.getOpenChannelList(searchWord, category, next);
 
             return resData;
         } catch (err) {
@@ -39,9 +39,9 @@ const channelService = {
         }
     },
     // 5. 관심 채널 목록 요청
-    getMyWishChannelList: async (token, refreshToken, searchWord, next) => {
+    getMyWishChannelList: async (token, refreshToken, category, searchWord, next) => {
         try {
-            const data = await channelAPI.getMyWishChannelList(token, refreshToken, searchWord, next);
+            const data = await channelAPI.getMyWishChannelList(token, refreshToken, category, searchWord, next);
 
             return data;
         } catch (err) {
@@ -60,9 +60,9 @@ const channelService = {
     },
 
     // 7. 채팅방 목록 요청
-    getChatRoomList: async (jsonWebToken, refreshToken, channelId, next) => {
+    getChatRoomList: async (jsonWebToken, refreshToken, channelId, searchWord, next) => {
         try {
-            const data = await channelAPI.getChatRoomList(jsonWebToken, refreshToken, channelId, next);
+            const data = await channelAPI.getChatRoomList(jsonWebToken, refreshToken, channelId, searchWord, next);
 
             return data;
         } catch (err) {
@@ -90,9 +90,9 @@ const channelService = {
         }
     },
     // 10. 워크스페이스 목록 요청
-    getWorkSpaceList: async (jsonWebToken, refreshToken, channelId, next) => {
+    getWorkSpaceList: async (jsonWebToken, refreshToken, channelId, searchWord, next) => {
         try {
-            const data = await channelAPI.getWorkSpaceList(jsonWebToken, refreshToken, channelId, next);
+            const data = await channelAPI.getWorkSpaceList(jsonWebToken, refreshToken, channelId, searchWord, next);
 
             return data;
         } catch (err) {
@@ -126,6 +126,24 @@ const channelService = {
             return data;
         } catch (err) {
             next(err);
+        }
+    },
+    patchEditFeedToChannel: async (token, refreshToken, channelId, feedId, formData, next) => {
+        try {
+            const data = await channelAPI.patchEditFeedToChannel(token, refreshToken, channelId, feedId, formData, next);
+
+            return data;
+        } catch (err) {
+            next(err)
+        }
+    },
+    deleteRemoveFeedByReqUser: async (token, refreshToken, channelId, feedId, next) => {
+        try {
+            const data = await channelAPI.deleteRemoveFeedByReqUser(token, refreshToken, channelId, feedId, next);
+
+            return data;
+        } catch (err) {
+            next(err)
         }
     },
     patchPlusOrMinusNumberOfLikeInFeed: async (token, refreshToken, channelId, feedId, next) => {
