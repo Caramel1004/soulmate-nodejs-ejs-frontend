@@ -174,7 +174,7 @@ const postCreateChannel = async () => {
             insertVaildationErrorMsg(data.error);
             return;
         } else {
-            return window.location.href = `/mychannel/${data.channelId}?searchWord=info`;
+            return window.location.href = `/mychannel/${data.channelId}?searchType=info`;
         }
     } catch (err) {
         console.log(err);
