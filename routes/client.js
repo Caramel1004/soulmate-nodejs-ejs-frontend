@@ -120,11 +120,15 @@ router.post('/channel/create-feed/:channelId',
     validationChainToCheckRequestedValidBodyFromFeedUploadModal,
     clientController.postCreateFeedToChannel);// 20. 홈채널에 내피드 생성
 
-// PATCH /client/channel/edit-feed/:channelId
-router.patch('/channel/edit-feed/:channelId', accessAuthorizedToken, multer({ storage: memoryStorage }).array('data', 1), clientController.patchEditMyProfileByReqUser);// 21. 홈채널에 내피드 수정
+// PATCH /client/channel/edit-feed/:channelId/:feedId
+router.patch('/channel/edit-feed/:channelId/:feedId',
+    accessAuthorizedToken,
+    multer({ storage: memoryStorage }).array('files', 5),
+    validationChainToCheckRequestedValidBodyFromFeedUploadModal,
+    clientController.patchEditFeedToChannel);// 21. 홈채널에 내피드 수정
 
-// DELETE /client/channel/delete-feed/:channelId
-router.patch('/channel/delete-feed/:channelId', accessAuthorizedToken, multer({ storage: memoryStorage }).array('data', 1), clientController.patchEditMyProfileByReqUser);// 22. 홈채널에 내피드 삭제
+// DELETE /client/channel/delete-feed/:channelId/:feedId
+router.delete('/channel/delete-feed/:channelId/:feedId', accessAuthorizedToken, clientController.deleteRemoveFeedByReqUser);// 22. 홈채널에 내피드 삭제
 
 // PATCH /client/channel/plus-or-minus-feed-like
 router.patch('/channel/plus-or-minus-feed-like', accessAuthorizedToken, clientController.patchPlusOrMinusNumberOfLikeInFeed);// 22. 홈채널에 내피드 삭제
