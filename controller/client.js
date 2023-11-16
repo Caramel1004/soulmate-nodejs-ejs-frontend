@@ -62,10 +62,11 @@ const clientControlller = {
 
             const data = await response.json();
             hasError(data.error);
+            req.session.userChannels.push(data.channel);
 
             res.status(data.status.code).json({
                 status: data.status,
-                channelId: data.channelId
+                channelId: data.channel._id
             })
         } catch (err) {
             next(err);
