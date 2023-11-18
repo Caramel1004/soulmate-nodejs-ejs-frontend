@@ -304,7 +304,26 @@ const channelAPI = {
         } catch (err) {
             next(err);
         }
-    }
+    },
+    patchEditChannelByReqUser: async (token, refreshToken, channelId, body, next) => {
+        try {
+            const response = await fetch(`http://localhost:8080/v1/channel/edit-channel/${channelId}`, {
+                method: 'PATCH',
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                    Refresh: refreshToken,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            });
+
+            const resData = await response.json();
+
+            return resData;
+        } catch (err) {
+            next(err);
+        }
+    },
 }
 
 export default channelAPI;

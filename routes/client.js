@@ -50,6 +50,9 @@ router.get('/channel/exit/:channelId', accessAuthorizedToken, clientController.p
 //POST /client/channel/invite/:channelId
 router.post('/channel/invite/:channelId', accessAuthorizedToken, clientController.postInviteUserToChannel);// 3. 해당 채널에 유저 초대
 
+//PATCH /client/channel/edit/:channelId
+router.patch('/channel/edit-channel/:channelId', accessAuthorizedToken, clientController.patchEditChannelByReqUser);// 채널 정보 수정
+
 //POST /client/chat/:channelId
 router.post('/chat/:channelId',
     accessAuthorizedToken,

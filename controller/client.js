@@ -94,6 +94,9 @@ const clientControlller = {
             const data = await response.json();
             hasError(data.error);
 
+            //세션에 저징된 채널 목록 업데이트
+            req.session.userChannels = [...data.updatedChannels];
+
             res.redirect('/mychannels');
         } catch (err) {
             next(err);
@@ -589,6 +592,21 @@ const clientControlller = {
             next(err);
         }
     },
+    patchEditChannelByReqUser: async (req, res, next) => {
+        try {
+            const { token, refreshToken } = req.signedCookies;
+            const { channelId } = req.params;
+
+            const data = await channelService.patchEditChannelByReqUser(token, refreshToken, channelId, req.body, next);
+            hasError(data.error);
+    
+            res.status(data.status.code).json({
+                status: data.status
+            })
+        } catch (err) {
+            next(err);
+        }
+    }
 }
 
 export default clientControlller;
