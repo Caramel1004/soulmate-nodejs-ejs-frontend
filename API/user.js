@@ -43,6 +43,27 @@ const userAPI = {
             next(err);
         }
     },
+    getSearchUserByKeyWord: async (token, refreshToken, channelId, searchWord, next) => {
+        try {
+            const response = await fetch(`http://localhost:8080/v1/user/search/${searchWord}`, {
+                method: 'POST',
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                    Refresh: refreshToken,
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify({
+                    channelId: channelId
+                })
+            });
+
+            const resData = await response.json();
+            
+            return resData;
+        } catch (err) {
+            next(err);
+        }
+    },
 }
 
 export default userAPI;

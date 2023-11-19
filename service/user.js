@@ -21,7 +21,16 @@ const userService = {
         } catch (err) {
             next(err);
         }
-    }
+    },
+    getSearchUserByKeyWord: async (token, refreshToken, channelId, searchWord, next) => {
+        try {
+            const resData = await userAPI.getSearchUserByKeyWord(token, refreshToken, channelId, searchWord, next);
+
+            return resData;
+        } catch (err) {
+            next(err);
+        }
+    },
 }
 
 export default userService;

@@ -599,14 +599,31 @@ const clientControlller = {
 
             const data = await channelService.patchEditChannelByReqUser(token, refreshToken, channelId, req.body, next);
             hasError(data.error);
-    
+
             res.status(data.status.code).json({
                 status: data.status
             })
         } catch (err) {
             next(err);
         }
-    }
+    },
+    getSearchUserByKeyWord: async (req, res, next) => {
+        try {
+            const { token, refreshToken } = req.signedCookies;
+            const { channelId } = req.body;
+            const { searchWord } = req.params;
+
+            const data = await userService.getSearchUserByKeyWord(token, refreshToken, channelId, searchWord, next);
+            hasError(data.error);
+
+            res.status(data.status.code).json({
+                status: data.status,
+                users: data.users
+            })
+        } catch (err) {
+            next(err);
+        }
+    },
 }
 
 export default clientControlller;
