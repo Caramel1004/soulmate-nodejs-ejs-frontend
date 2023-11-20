@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url';
 import multer from 'multer';
 import { v4 } from 'uuid';
 import dotenv from 'dotenv';
+import morgan from 'morgan';
 
 import session from 'express-session';
 import RedisStore from 'connect-redis';
@@ -28,6 +29,22 @@ const socket = sockeClient.init(process.env.BACKEND_API_URL);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+// 요청 응답 로그 출력
+if (process.env.NODE_ENV === 'production') {
+    console.log('배포 환경!!');
+    app.use(morgan('combined'));
+    app.use(
+        helmet({
+            contentSecurityPolicy: false,
+            crossOriginEmbedderPolicy: false,
+            crossOriginResourcePolicy: false
+        })
+    )
+    app.use(hpp());
+} else {
+    // console.log('개발 환경!!');
+    app.use(morgan('dev'));
+}
 
 // 세션 옵션
 const sessionOption = {
@@ -63,6 +80,10 @@ app.use(cookieParser(process.env.COOKIE_SECRET_KEY));
 // 정적 파일 처리
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
+// app.use((req, res, next) => {
+//     console.log('테스트중 : ', req.signedCookies.token);
+//     next();
+// })
 
 // 동적 라우트 처리
 app.use(viewRoutes);
