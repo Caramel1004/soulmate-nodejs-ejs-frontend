@@ -47,8 +47,8 @@ router.post('/channel/create',
 //POST /client/channel/exit/:channelId
 router.get('/channel/exit/:channelId', accessAuthorizedToken, clientController.postExitChannel);// 2. 채널 퇴장
 
-//POST /client/channel/invite/:channelId
-router.post('/channel/invite/:channelId', accessAuthorizedToken, clientController.postInviteUserToChannel);// 3. 해당 채널에 유저 초대
+//PATCH /client/channel/invite/:channelId
+router.patch('/channel/invite/:channelId', accessAuthorizedToken, clientController.patchInviteUserToChannel);// 3. 해당 채널에 유저 초대
 
 //PATCH /client/channel/edit/:channelId
 router.patch('/channel/edit-channel/:channelId', accessAuthorizedToken, clientController.patchEditChannelByReqUser);// 채널 정보 수정
@@ -138,5 +138,8 @@ router.patch('/channel/plus-or-minus-feed-like', accessAuthorizedToken, clientCo
 
 // GET /client/chat/file-list/:channelId/:chatRoomId
 router.get('/chat/file-list/:channelId/:chatRoomId', accessAuthorizedToken, clientController.getLoadFilesInChatRoom);// 22. 홈채널에 내피드 삭제
+
+// POST /client/user/search/:searchWord
+router.post('/user/search/:searchWord', accessAuthorizedToken, clientController.getSearchUserByKeyWord);
 
 export default router;
