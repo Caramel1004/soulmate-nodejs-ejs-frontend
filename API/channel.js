@@ -145,7 +145,7 @@ const channelAPI = {
         }
     },
     // 9. 해당 채널에 유저 초대
-    postInviteUserToChannel: async (token, refreshToken, channelId, invitedUserId, next) => {
+    patchInviteUserToChannel: async (token, refreshToken, channelId, selectedIds, next) => {
         try {
             const response = await fetch('http://localhost:8080/v1/channel/invite/' + channelId, {
                 method: 'PATCH',
@@ -156,7 +156,7 @@ const channelAPI = {
                 },
                 body: JSON.stringify({
                     channelId: channelId,
-                    invitedUserId: invitedUserId
+                    selectedIds: selectedIds
                 })
             });
             const resData = await response.json();
