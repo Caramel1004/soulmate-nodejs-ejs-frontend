@@ -9,30 +9,43 @@
             <%- include('../includes/channel-tab-box.ejs') %>
             <div class="box-profile">
                 <div class="unit-box">
-                    <div id="unit-title"> 채널 정보 </div>
-                    <div class="info">
+                    <div id="channel-thumbnail-box">
                         <img src=<%= channel.thumbnail %>>
+                    </div>
+                    <button id="<%= channel._id %>" class="heart" type="button" onclick="onClickHeartToggleBtn('<%= channel._id %>')">
+                        <% if(channel.isUserWishChannel) { %>
+                            <i class="fa-solid fa-heart fa-xl"></i>
+                        <% } else { %>
+                            <i class="fa-regular fa-heart fa-xl"></i>
+                        <% } %>
+                    </button>
+                    <div class="channel-name-box">
+                        <p><%= channel.channelName %><span id="edit-channel-btn"><% if(channel.isOwner) { %><i class="fa-regular fa-pen-to-square"></i></span><% } %></p>
+                    </div>
+                    <div class="info">
                         <div class="box-text">
                             <div class="text">
-                                <span>채널 명</span>
+                                <span>크리에이터</span>
                                 <div class="text-right">
-                                    <p><%= channel.channelName %></p><i class="fa-regular fa-pen-to-square"></i>
+                                    <div class="text-right-inner">
+                                        <img src="<%= channel.owner.photo %>"><p><%= channel.owner.name %></p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="text">
                                 <span>카테고리</span>
                                 <div class="text-right">
-                                    <p><%= channel.category %></p><i class="fa-regular fa-pen-to-square"></i>
+                                    <p id="category" data-category="<%= channel.category %>"><%= channel.category %></p>
                                 </div>
                             </div>
                             <div class="text">
                                 <span>참여 인원</span>
                                 <div class="text-right">
-                                    <p><%= channel.members.length %> 명</p><i class="fa-regular fa-pen-to-square"></i>
+                                    <p><%= channel.members.length %> 명</p>
                                 </div>
                             </div>
                             <div class="text">
-                                <span>채널 타입</span><p>워크스페이스</p>
+                                <span>상태</span><p>워크스페이스</p>
                             </div>
                             <div class="text">
                                 <span>워크스페이스</span><p><%= channel.workSpaces.length %> 개</p>
@@ -41,19 +54,9 @@
                                 <span>채팅 방</span><p><%= channel.chatRooms.length %> 개</p>
                             </div>
                             <div class="text">
-                                <span>공개</span><p><%= channel.open %></p>
-                            </div>
-                            <div class="text">
-                                <span>크리에이터</span><p><%= channel.owner %></p>
-                            </div>
-                            <div class="text">
-                                <button id="<%= channel._id %>" class="heart" type="button" onclick="onClickHeartToggleBtn('<%= channel._id %>')">
-                                    <% if(channel.isUserWishChannel) { %>
-                                        <i class="fa-solid fa-heart fa-xl"></i>
-                                    <% } else { %>
-                                        <i class="fa-regular fa-heart fa-xl"></i>
-                                    <% } %>
-                                </button>
+                                <span>공개여부</span>
+                                <% if(channel.open == 'Y' || channel.open == 'y') { %><p id="openYN" data-open="<%= channel.open %>">공개</p><% } %>
+                                <% if(channel.open == 'N' || channel.open == 'n') { %><p id="openYN" data-open="<%= channel.open %>">비공개</p><% } %>
                             </div>
                         </div>
                     </div>
@@ -61,9 +64,7 @@
                 <div class="unit-box">
                     <div id="unit-title"> 코멘트 </div>
                     <% if(channel.comment !== '' && channel.comment) { %>
-                        <div class="intro-comment">
-                            <%= channel.comment %>
-                        </div>
+                        <div class="intro-comment"><%= channel.comment %></div>
                     <% } %>
                 </div>
                 <div class="feed-container">
@@ -81,12 +82,14 @@
                                         <span class="feed-creator"><%= feed.creator.name %></span><span id="feed-date">1일전</span>
                                         <% if(feed.title !== '' || feed.title) { %>
                                             <div class="feed-title-box"><span>Tt.</span><span class="feed-title"><%= feed.title %></span></div>
+                                        <% } else { %>
+                                            <div class="feed-title-box"><span class="feed-title"></span></div>
                                         <% } %>
                                     </div>
                                     <div class="feed-comment-box"><%= feed.content %></div>
                                     <% if(feed.imageUrls.length > 0) { %>
                                         <% for(const imageUrl of feed.imageUrls) { %>
-                                            <img src="http://localhost:8080/<%= imageUrl %>">
+                                            <img src="<%= imageUrl %>">
                                         <% } %>
                                     <% } %>
                                     <div class="feed-icons-box" data-feedid="<%= feed._id%>">

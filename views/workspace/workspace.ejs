@@ -67,20 +67,22 @@
                                     <div class="client-name">
                                         <% if(post.isCreator) { %>
                                             <%= post.creator.name %> (나)
-                                            <span id="post-edit-mode" class="edit-icon" onclick="onClickWorkSpacePostEditOrRemoveBtn('edit', '<%= post._id %>')"><i class="fa-regular fa-pen-to-square"></i>수정</span>
-                                            <span id="post-remove-mode" class="edit-icon" onclick="onClickWorkSpacePostEditOrRemoveBtn('remove', '<%= post._id %>')"><i class="fa-regular fa-trash-can" style="color: red;"></i>삭제</span>
+                                            <span id="post-edit-mode" class="edit-icon" data-postid="<%= post._id %>"><i class="fa-regular fa-pen-to-square"></i>수정</span>
+                                            <span id="post-remove-mode" class="delete-icon" data-postid="<%= post._id %>"><i class="fa-regular fa-trash-can" style="color: red;"></i>삭제</span>
                                             <% } else { %>
                                                 <%= post.creator.name %>
                                         <% } %>
                                     </div>
                                     <% if(post.content !== "" && post.content !== null) { %>
-                                        <div id="post-<%= post._id %>" class="post-comment"><%= post.content %></div>
+                                        <div class="post-comment"><%= post.content %></div>
+                                    <% } else { %>
+                                        <div id="empty-post-comment" class="post-comment"><%= post.content %></div>
                                     <% } %>
                                     <% if(post.fileUrls.length > 0) { %>
                                         <div><p id="attached-files-number">첨부파일 <%= post.fileUrls.length %>개</p></div>
                                         <div class="post-attached-files">
                                         <% for(let fileUrl of post.fileUrls) { %>
-                                            <img src="http://localhost:8080/<%= fileUrl %>">
+                                            <img src="<%= fileUrl %>">
                                         <% } %>
                                         </div>
                                     <% } %>

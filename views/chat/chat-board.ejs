@@ -39,7 +39,7 @@
                                         <p id="attached-files-number">첨부 파일 <%= chatDetail.fileUrls.length %>개</p>
                                             <div class="image-box">
                                                 <% for(let fileUrl of chatDetail.fileUrls) { %>
-                                                    <img id="images" src="http://localhost:8080/<%= fileUrl %>">
+                                                    <img id="images" src="<%= fileUrl %>">
                                                 <% } %>
                                             </div>
                                         <% } %>

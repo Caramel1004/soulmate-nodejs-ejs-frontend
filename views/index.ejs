@@ -24,9 +24,7 @@
                     <% } %>
                 </div>
                 <div class="wrapper-title-channel-container">
-                    <div id="title">
-                        <div>오픈 채널</div>
-                    </div>
+                    <div id="title">오픈 채널</div>
                     <div class="channel-box-items">
                         <%if(channelList.length > 0) { %>
                             <% for(let channel of channelList) { %>
@@ -61,11 +59,8 @@
                                 </div>
                             </div>
                         <% }else { %>
-                            <div id="channel-container">
-                                <div class="channel-list">
-                                    <img src="/images/icons8-spinner.gif" alt="loading">
-                                    <h1>현재 개설된 채널이 없습니다.</h1>
-                                </div>
+                            <div id="error">
+                                <p>개설된 채널이 없습니다.</p>
                             </div>
                         <% } %>
                     </div>
