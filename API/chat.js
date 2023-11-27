@@ -1,11 +1,14 @@
 import fetch from 'node-fetch';
 import { successType, errorType } from '../util/status.js';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const chatAPI = {
     // 1. 채팅방 세부정보 요청
     getLoadChatRoom: async (token, refreshToken, channelId, chatRoomId, next) => {
         try {
-            const response = await fetch('http://localhost:8080/v1/chat/' + channelId + '/' + chatRoomId, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/chat/${channelId}/${chatRoomId}`, {
                 method: 'GET',
                 headers: {
                     Authorization: 'Bearer ' + token,
@@ -24,7 +27,7 @@ const chatAPI = {
     // 6. 실시간 채팅과 파일 업로드 및 채팅창 실시간 업데이트 요청
     postSendChatAndUploadFilesToChatRoom: async (token, refreshToken, channelId, chatRoomId, formData, next) => {
         try {
-            const response = await fetch('http://localhost:8080/v1/chat/' + channelId + '/' + chatRoomId, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/chat/${channelId}/${chatRoomId}`, {
                 method: 'POST',
                 headers: {
                     Authorization: 'Bearer ' + token,
@@ -40,29 +43,10 @@ const chatAPI = {
             next(err);
         }
     },
-    // 3. 실시간으로 채팅방에 파일 업로드(이미지, 문서등) 요청
-    postUploadFileToChatRoom: async (token, refreshToken, channelId, chatRoomId, formData, next) => {
-        try {
-            const response = await fetch('http://localhost:8080/v1/chat/upload-file/' + channelId + '/' + chatRoomId, {
-                method: 'POST',
-                headers: {
-                    Authorization: 'Bearer ' + token,
-                    Refresh: refreshToken,
-                },
-                body: formData
-            });
-
-            const resData = await response.json();
-
-            return resData;
-        } catch (err) {
-            next(err);
-        }
-    },
     // 4. 해당 채널에 속한 선택된 유저들을 초대
     postInviteUsersToChatRoom: async (token, refreshToken, body, channelId, chatRoomId) => {
         try {
-            const response = await fetch('http://localhost:8080/v1/chat/invite/' + channelId + '/' + chatRoomId, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/chat/invite/${channelId}/${chatRoomId}`, {
                 method: 'PATCH',
                 headers: {
                     Authorization: 'Bearer ' + token,
@@ -82,7 +66,7 @@ const chatAPI = {
     // 5. 채팅방 퇴장
     patchExitChatRoom: async (token, refreshToken, channelId, chatRoomId, next) => {
         try {
-            const response = await fetch(`http://localhost:8080/v1/chat/exit/${channelId}/${chatRoomId}`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/chat/exit/${channelId}/${chatRoomId}`, {
                 method: 'PATCH',
                 headers: {
                     Authorization: 'Bearer ' + token,
@@ -101,7 +85,7 @@ const chatAPI = {
     },
     getLoadFilesInChatRoom: async (token, refreshToken, channelId, chatRoomId, next) => {
         try {
-            const response = await fetch(`http://localhost:8080/v1/chat/file-list/${channelId}/${chatRoomId}`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/chat/file-list/${channelId}/${chatRoomId}`, {
                 method: 'GET',
                 headers: {
                     Authorization: 'Bearer ' + token,

@@ -1,10 +1,13 @@
 import fetch from 'node-fetch';
 import { successType, errorType } from '../util/status.js';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const userAPI = {
     getMyProfile: async (token, refreshToken, next) => {
         try {
-            const response = await fetch('http://localhost:8080/v1/user/myprofile', {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/user/myprofile`, {
                 method: 'GET',
                 headers: {
                     Authorization: 'Bearer ' + token,
@@ -27,7 +30,7 @@ const userAPI = {
                 request = 'edit-myprofile-photo'
             }
             console.log(request);
-            const response = await fetch(`http://localhost:8080/v1/user/${request}`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/user/${request}`, {
                 method: 'PATCH',
                 headers: {
                     Authorization: 'Bearer ' + token,
@@ -45,7 +48,7 @@ const userAPI = {
     },
     getSearchUserByKeyWord: async (token, refreshToken, channelId, searchWord, next) => {
         try {
-            const response = await fetch(`http://localhost:8080/v1/user/search/${searchWord}`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/user/search/${searchWord}`, {
                 method: 'POST',
                 headers: {
                     Authorization: 'Bearer ' + token,
