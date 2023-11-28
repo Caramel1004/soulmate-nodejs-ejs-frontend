@@ -64,7 +64,7 @@ const onKeyPressEnter = async event => {
 
 // 3. 팀원 추가 버튼(쓰레드 생성 버튼)
 const onClickAddMemberBtn = async event => {
-    const data = await postLoadUsersInChannel();
+    const data = await getLoadUsersInChannel();
     createUserListInChannelTag(data);
 }
 
@@ -220,7 +220,6 @@ const toggleCheckBoxIcon = nodeList => {
             checkedIcon.style.color = 'rgba(0, 0, 0, 0.2)';
         }
     }
-
 }
 
 const onClickChatRoomEixtBtn = async () => {
@@ -544,7 +543,7 @@ const openSelectedSubBoard = async (e, activeClassName) => {
 }
 
 const createFileTagAndsetFileDataList = (data, activeSubBoardChild) => {
-    const DOMAIN = 'http://localhost:8080';
+    const DOMAIN = '${process.env.BACKEND_API_DOMAIN}';
     // console.log(activeSubBoardChild);
     const fileBoxInner = activeSubBoardChild.querySelector('.board-file-box-inner');
 
@@ -559,7 +558,7 @@ const createFileTagAndsetFileDataList = (data, activeSubBoardChild) => {
         fileBoxInner.appendChild(fileKit);
         for (const chat of chats) {
             for (const fileUrl of chat.fileUrls) {
-                fileKit.querySelector('.file-list-grid').innerHTML += `<img src="${DOMAIN}/${fileUrl}">`;
+                fileKit.querySelector('.file-list-grid').innerHTML += `<img src="${fileUrl}">`;
             }
         }
     }
@@ -681,26 +680,23 @@ const patchExitChatRoom = async () => {
 
         const data = await response.json();
 
-        window.location.href = `http://localhost:3000/mychannel/${data.channelId}?searchWord=chatRooms`;
+        window.location.href = `http://localhost:3000/mychannel/${data.channelId}?searchType=chatRooms`;
     } catch (err) {
         console.log(err);
     }
 }
 
 // 채널에 속한 유저 정보 가져오기
-const postLoadUsersInChannel = async () => {
+const getLoadUsersInChannel = async () => {
     const url = window.location.href;
     const channelId = url.split('/')[5];
     const chatRoomId = url.split('/')[6];
 
-    const response = await fetch('http://localhost:8080/v1/chat/channel-members/' + channelId, {
-        method: 'POST',
+    const response = await fetch(`http://localhost:8080/api/v1/chat/channel-members/${channelId}/${chatRoomId}`, {
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            chatRoomId: chatRoomId
-        })
+        }
     });
     const data = await response.json();
     console.log('data: ', data);
