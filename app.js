@@ -3,10 +3,10 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import multer from 'multer';
-import { v4 } from 'uuid';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
+import helmet from 'helmet';
+import hpp from 'hpp'
 
 import session from 'express-session';
 import RedisStore from 'connect-redis';
@@ -18,12 +18,10 @@ import errorHandler from './error/error-handler.js';
 import authRoutes from './routes/auth.js'
 import viewRoutes from './routes/view.js'
 import clientRoutes from './routes/client.js'
-import { validationResult } from 'express-validator';
 
 dotenv.config();
 
 const app = express();
-const socket = sockeClient.init(process.env.BACKEND_API_URL);
 
 // 정적 file처리를 위한 변수
 const __filename = fileURLToPath(import.meta.url);
@@ -42,7 +40,7 @@ if (process.env.NODE_ENV === 'production') {
     )
     app.use(hpp());
 } else {
-    // console.log('개발 환경!!');
+    console.log('개발 환경!!');
     app.use(morgan('dev'));
 }
 
@@ -80,12 +78,13 @@ app.use(cookieParser(process.env.COOKIE_SECRET_KEY));
 // 정적 파일 처리
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
-// app.use((req, res, next) => {
-//     console.log('테스트중 : ', req.signedCookies.token);
-//     next();
-// })
+app.use((req, res, next) => {
+    console.log('테스트중 token: ', req.signedCookies.token);
+    console.log('테스트중 refreshToken: ', req.signedCookies.refreshToken);
+    next();
+})
 
-// 동적 라우트 처리
+// 라우트 접근
 app.use(viewRoutes);
 app.use(authRoutes);
 app.use('/client', clientRoutes);
