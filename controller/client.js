@@ -51,7 +51,7 @@ const clientControlller = {
             formData.append('comment', comment);
             formData.append('open', open);
 
-            const response = await fetch('http://localhost:8080/v1/channel/create', {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/channel/create`, {
                 method: 'POST',
                 headers: {
                     Authorization: 'Bearer ' + jsonWebToken,
@@ -79,7 +79,7 @@ const clientControlller = {
             const refreshToken = req.signedCookies.refreshToken;
             const channelId = req.params.channelId;
             console.log(channelId);
-            const response = await fetch('http://localhost:8080/v1/channel/exit/' + channelId, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/channel/exit/${channelId}`, {
                 method: 'PATCH',
                 headers: {
                     Authorization: 'Bearer ' + jsonWebToken,
@@ -103,20 +103,19 @@ const clientControlller = {
         }
     },
     //3. 해당 채널에 유저 초대
-    postInviteUserToChannel: async (req, res, next) => {
+    patchInviteUserToChannel: async (req, res, next) => {
         try {
             const jsonWebToken = req.signedCookies.token;
             const channelId = req.params.channelId;
-            const invitedUserId = req.body.invitedUserId;
+            const selectedIds = req.body.selectedIds;
 
-            console.log('invitedUserId: ', invitedUserId);
-            console.log('channelId: ', channelId);
-
-            const data = await channelService.postInviteUserToChannel(jsonWebToken, req.signedCookies.refreshToken, channelId, invitedUserId, next);
+            const data = await channelService.patchInviteUserToChannel(jsonWebToken, req.signedCookies.refreshToken, channelId, selectedIds, next);
             hasError(data.error);
 
-            console.log(data);
-            res.redirect('/mychannel/' + data.channelId + '?searchWord=member');
+            res.status(data.status.code).json({
+                status: data.status,
+                users: data.users
+            })
         } catch (err) {
             next(err);
         }
@@ -295,11 +294,12 @@ const clientControlller = {
         }
     },
     // 12. 해당 게시물 댓글 조회
-    postGetReplyToPost: async (req, res, next) => {
+    getRepliesToPost: async (req, res, next) => {
         try {
             const token = req.signedCookies.token;
+            const { channelId, workSpaceId, postId } = req.params
 
-            const data = await workspaceService.getReplyToPost(token, req.signedCookies.refreshToken, req.body.postId, req.params.channelId, req.params.workSpaceId, next);
+            const data = await workspaceService.getRepliesToPost(token, req.signedCookies.refreshToken, postId, channelId, workSpaceId, next);
             hasError(data.error);
 
             res.status(data.status.code).json({
@@ -415,14 +415,13 @@ const clientControlller = {
     // 17. 워크스페이스 퇴장
     patchExitWorkSpace: async (req, res, next) => {
         try {
-            console.log('퇴장');
             const token = req.signedCookies.token;
 
             const data = await workspaceService.patchExitWorkSpace(token, req.signedCookies.refreshToken, req.body.channelId, req.body.workSpaceId, next);
             hasError(data.error);
 
             res.status(data.status.code).json({
-                workSpace: data.workSpace
+                status: data.status
             });
         } catch (err) {
             next(err);
@@ -431,7 +430,7 @@ const clientControlller = {
     //18. 워크스페이스 설명 스크립트 편집
     patchEditCommentScript: async (req, res, next) => {
         try {
-            const data = await workspaceService.patchEditCommentScript(req.signedCookies.token, req.signedCookies.refreshToken, req.body, next);
+            const data = await workspaceService.patchEditCommentScript(req.signedCookies.token, req.signedCookies.refreshToken, req.params, next);
             hasError(data.error);
 
             res.status(data.status.code).json({
@@ -473,20 +472,11 @@ const clientControlller = {
 
             const data = await userService.patchEditMyProfileByReqUser(token, refreshToken, formData, req.body.hasPhotoToBeEdit, next);
             hasError(data.error);
-            console.log(data);
+
             if (data.updatedData.photo) {
-                res.cookie('photo', data.updatedData.photo, {
-                    httpOnly: true,
-                    secure: false,
-                    signed: true
-                });
+                req.session.photo = data.updatedData.photo;
             } else if (data.updatedData.hasNameToBeEdit == 'true') {
-                console.log(req.body.hasNameToBeEdit);
-                res.cookie('clientName', data.updatedData.data, {
-                    httpOnly: true,
-                    secure: false,
-                    signed: true
-                });
+                req.session.clientName = data.updatedData.data;
             }
 
             res.status(data.status.code).json({
@@ -530,7 +520,7 @@ const clientControlller = {
             const formData = new FormData();
             formData.append('title', title);
             formData.append('content', content);
-            formData.append('existFileUrls', JSON.stringify(existFileUrls));
+            formData.append('existFileUrls', JSON.stringify(JSON.parse(existFileUrls)));
             formData.append('files', JSON.stringify(files));
 
             const data = await channelService.patchEditFeedToChannel(token, refreshToken, channelId, feedId, formData, next);
