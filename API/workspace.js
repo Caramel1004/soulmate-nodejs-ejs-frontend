@@ -19,7 +19,7 @@ const workspaceAPI = {
     // 1. 워크스페이스 입장 -> 워크스페이스 페이지
     getLoadWorkspace: async (token, refreshToken, channelId, workspaceId, query, next) => {
         try {
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/workspace/${channelId}/${workspaceId}?sortType=${query.sortType}&&sortNum=${query.sortNum}`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/workspace/${channelId}/${workspaceId}?sortType=${query.sortType}&&sortNum=${query.sortNum}`, {
                 method: 'GET',
                 headers: {
                     Authorization: 'Bearer ' + token,
@@ -36,7 +36,7 @@ const workspaceAPI = {
     // 2. 워크스페이스에 게시물 생성
     postCreatePostToWorkSpace: async (token, refreshToken, channelId, workSpaceId, formData, next) => {
         try {
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/workspace/create-post/${channelId}/${workSpaceId}`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/workspace/create-post/${channelId}/${workSpaceId}`, {
                 method: 'POST',
                 headers: {
                     Authorization: 'Bearer ' + token,
@@ -55,7 +55,7 @@ const workspaceAPI = {
     // 3. 워크스페이스에서 해당 유저의 게시물 삭제
     deletePostByCreatorInWorkSpace: async (token, refreshToken, channelId, workSpaceId, postId, next) => {
         try {
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/workspace/delete-post/${channelId}/${workSpaceId}/${postId}`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/workspace/delete-post/${channelId}/${workSpaceId}/${postId}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: 'Bearer ' + token,
@@ -73,8 +73,8 @@ const workspaceAPI = {
     // 4. 워크스페이스에서 해당 유저의 게시물 내용 수정
     patchEditPostByCreatorInWorkSpace: async (token, refreshToken, channelId, workSpaceId, formData, next) => {
         try {
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/workspace/edit-post/${channelId}/${workSpaceId}`, {
-                method: 'PATCH',
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/workspace/edit-post/${channelId}/${workSpaceId}`, {
+                method: 'PUT',
                 headers: {
                     Authorization: 'Bearer ' + token,
                     RefreshToken: refreshToken
@@ -91,7 +91,7 @@ const workspaceAPI = {
     // 5. 워크스페이스에 팀원 초대
     postInviteUsersToWorkSpace: async (token, refreshToken, body, channelId, workSpaceId, next) => {
         try {
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/workspace/invite/${channelId}/${workSpaceId}`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/workspace/invite/${channelId}/${workSpaceId}`, {
                 method: 'PATCH',
                 headers: {
                     Authorization: 'Bearer ' + token,
@@ -107,18 +107,14 @@ const workspaceAPI = {
         }
     },
     // 6. 댓글 보기
-    getReplyToPost: async (token, refreshToken, postId, channelId, workSpaceId, next) => {
+    getRepliesToPost: async (token, refreshToken, postId, channelId, workSpaceId, next) => {
         try {
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/workspace/${channelId}/${workSpaceId}/post/replies`, {
-                method: 'POST',
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/workspace/post/replies/${channelId}/${workSpaceId}/${postId}`, {
+                method: 'GET',
                 headers: {
                     Authorization: 'Bearer ' + token,
-                    RefreshToken: refreshToken,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    postId: postId
-                })
+                    RefreshToken: refreshToken
+                }
             });
 
             const resData = await response.json();
@@ -131,7 +127,7 @@ const workspaceAPI = {
     // 7. 해당 게시물에 댓글 달기
     postCreateReplyToPost: async (token, refreshToken, channelId, workSpaceId, formData, next) => {
         try {
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/workspace/post/create-reply/${channelId}/${workSpaceId}`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/workspace/post/create-reply/${channelId}/${workSpaceId}`, {
                 method: 'POST',
                 headers: {
                     Authorization: 'Bearer ' + token,
@@ -148,7 +144,7 @@ const workspaceAPI = {
     },
     patchEditReplyByCreatorInPost: async (token, refreshToken, channelId, workSpaceId, formData, next) => {
         try {
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/workspace/post/edit-reply/${channelId}/${workSpaceId}`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/workspace/post/edit-reply/${channelId}/${workSpaceId}`, {
                 method: 'PATCH',
                 headers: {
                     Authorization: 'Bearer ' + token,
@@ -165,7 +161,7 @@ const workspaceAPI = {
     },
     deleteReplyByCreatorInPost: async (token, refreshToken, channelId, workSpaceId, postId, replyId, next) => {
         try {
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/workspace/post/delete-reply/${channelId}/${workSpaceId}/${postId}/${replyId}`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/workspace/post/delete-reply/${channelId}/${workSpaceId}/${postId}/${replyId}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: 'Bearer ' + token,
@@ -183,7 +179,7 @@ const workspaceAPI = {
     // 8. 워크스페이스 퇴장
     patchExitWorkSpace: async (token, refreshToken, channelId, workSpaceId, next) => {
         try {
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/workspace/exit/${channelId}/${workSpaceId}`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/workspace/exit`, {
                 method: 'PATCH',
                 headers: {
                     Authorization: 'Bearer ' + token,
@@ -203,9 +199,9 @@ const workspaceAPI = {
         }
     },
     // 9. 워크스페이스 설명 스크립트 편집
-    patchEditCommentScript: async (token, refreshToken, body, next) => {
+    patchEditCommentScript: async (token, refreshToken, params, next) => {
         try {
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/workspace/edit-comment/${body.channelId}/${body.workSpaceId}`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/workspace/edit-comment/${params.channelId}/${params.workSpaceId}`, {
                 method: 'PATCH',
                 headers: {
                     Authorization: 'Bearer ' + token,

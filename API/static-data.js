@@ -6,7 +6,7 @@ dotenv.config();
 const staticDataAPI = {
     getCategoryData: async () => {
         try {
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/static-data/category`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/static-data/category`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
