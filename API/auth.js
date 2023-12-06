@@ -7,7 +7,7 @@ const authAPI = {
     // 카카오 로그인 페이지 URL
     getKakaoLoginPageURL: async next => {
         try {
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/user/kakao/oauth/authorize`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/oauth/kakao/authorize`, {
                 method: 'GET'
             });
             const data = await response.json();
@@ -20,14 +20,8 @@ const authAPI = {
     // 카카오에 토큰 요청
     postRequestTokenToKakao: async (code, next) => {
         try {
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/user/kakao/oauth/token`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    code: code
-                })
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/oauth/kakao/token?code=${code}`, {
+                method: 'GET'
             });
 
             const data = await response.json();
@@ -40,7 +34,7 @@ const authAPI = {
     // sns로 회원가입 또는 로그인
     postSignUpOrLoginBySNSAccount: async (body, next) => {
         try {
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/user/sns-account/signup`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/oauth/signin`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
