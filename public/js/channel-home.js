@@ -5,6 +5,20 @@ window.onload = () => {
     this.existFeedFiles = [];
 }
 /** ----------------- 이벤트 함수 ----------------- */
+const onClickEditChannelInfoBtn = () => {
+    createModalTagtoEditChannelInfo();
+    document.getElementById('cancel').addEventListener('click', () => {
+        onClickCloseBtn('modal-background');
+    });
+    document.getElementById('yes').addEventListener('click', onClickOpenYNRadio);
+    document.getElementById('no').addEventListener('click', onClickOpenYNRadio);
+    document.getElementById('channel-edit-request__btn').addEventListener('click', onClickEditChannelByReqUserBtn);
+}
+
+const onClickEditChannelByReqUserBtn = async () => {
+    await patchEditChannelByReqUser();
+}
+
 const onClickFeedUploadBtn = () => {
     createModalTagtoUploadFeed('피드');
     console.log('이벤트 리스너 생성!!!')
@@ -175,7 +189,87 @@ const onClickCloseBtn = className => {
 const onClickFileRemoveBtn = e => {
     removeFileTag(e);
 }
+
+const onClickOpenYNRadio = () => {
+    checkOpenYNRadio();
+}
 /** ----------------- 태그관련 함수 ----------------- */
+const createModalTagtoEditChannelInfo = () => {
+    const channelName = document.querySelector('.channel-name-box').innerText;
+    const openYN = document.getElementById('openYN').dataset.open;
+    const comment = document.querySelectorAll('.unit-box')[1].querySelector('.intro-comment').innerText;
+    const category = document.getElementById('category').dataset.category;
+
+    const modal =
+        `<div class="modal-background">
+        <div class="modal-add-mode" id="modal-add-mode">
+            <h2>설정</h2>
+            <div class="box__input">
+                <label>공개설정</label>
+                <div id="open">
+                    <label for="yes"><i class="fa-regular fa-circle fa-lg"></i>공개<input type="radio" id="yes" name="open" value="Y"></label>
+                    <label for="no"><i class="fa-regular fa-circle fa-lg"></i>비공개<input type="radio" id="no" name="open" value="N"></label>
+                </div>
+            </div>
+            <div class="box__input">
+                <label for="channelName">채널 명</label>
+                <span><input type="text" name="channelName" id="channelName" value="${channelName}"></span>
+            </div>
+            <div class="box__input">
+                <label for="category">카테고리</label>
+                <span>
+                    <select name="category">
+                        <option disabled="" selected="" hidden="" value="">카테고리를 선택하세요.</option>
+                        <option value="개발">개발</option>
+                        <option value="디자인">디자인</option>
+                        <option value="영업">영업</option>
+                        <option value="커뮤니티">커뮤니티</option>
+                        <option value="교육">교육</option>
+                        <option value="게임">게임</option>
+                        <option value="기타">기타</option>
+                    </select>
+                </span>
+            </div>
+            <div class="box__input">
+                <span><textarea class="contents-form__textarea" id="comment" name="comment" placeholder="우리 채널을 소개할 멘트를 입력하세요.">${comment}</textarea>
+            </div>
+            <div class="box__button__submit">
+                <button id="channel-edit-request__btn" type="button">완료</button>
+                <a id="cancel">취소</a>
+            </div>
+        </div>
+    </div>`;
+    document.querySelector('script').insertAdjacentHTML('beforebegin', modal);
+
+    // 공개여부 체크 => radio 박스는 프로퍼티 checked
+    const radioTagNodeList = document.querySelector('.modal-add-mode').querySelectorAll('input[type="radio"], input[name="open"]');
+    const radioTag = Array.prototype.slice.call(radioTagNodeList).find(target => target.value == openYN);
+    radioTag.checked = true
+    checkOpenYNRadio();
+
+    //카테고리 체크 => select 박스는 프로퍼티 selected
+    const categoryTagOptions = document.querySelector('.modal-add-mode').querySelector('select[name="category"]').options;
+    const categoryTag = Array.prototype.slice.call(categoryTagOptions).find(target => target.value == category);
+    categoryTag.selected = true
+    console.log(categoryTagOptions);
+}
+
+const checkOpenYNRadio = () => {
+    const circleIcon = document.getElementById('open').querySelectorAll('i');
+    for (circle of circleIcon) {
+        circle.className = 'fa-regular fa-circle fa-lg';
+        circle.style.color = 'rgba(0, 0, 0, 0.1)';
+    }
+
+    const checkedRadio = document.querySelector('input[name="open"]:checked');
+
+    const checkedIcon = checkedRadio.parentNode.querySelector('i');
+
+    checkedIcon.className = 'fa-solid fa-circle-check fa-lg';
+    checkedIcon.style.color = '#42af2c';
+    checkedIcon.style.opacity = '0.8';
+}
+
 const createModalTagtoUploadFeed = title => {
     const modal =
         `<div class="modal-background">
@@ -213,7 +307,7 @@ const createModalTagtoEditFeed = (e, title, feedId) => {
     const feedTitle = feedBox.querySelector('.feed-title-box').querySelector('.feed-title').innerText;
     const content = feedBox.querySelector('.feed-comment-box').textContent;
     const images = feedBox.querySelector('.feed-content-box').querySelectorAll('img');
-
+    console.log(images)
     const modal =
         `<div class="modal-background">
         <div class="modal-add-mode" id="modal-add-mode">
@@ -255,7 +349,7 @@ const createModalTagtoEditFeed = (e, title, feedId) => {
             </button>
         </div>`;
 
-        this.existFeedFiles.push({ name: img.src.split('http://localhost:8080/')[1], fileId: fileId });
+        this.existFeedFiles.push(img.src);
     }
     console.log(this.existFeedFiles);
     console.log(this.selectedFeedImages);
@@ -337,7 +431,7 @@ const createFeedTag = data => {
             </div>`;
         document.querySelector('.feed-container').children[0].insertAdjacentElement('afterend', feedBox);
         for (const image of data.imageUrls) {
-            feedBox.querySelector('.feed-comment-box').insertAdjacentHTML('afterend', `<img src="http://localhost:8080/${image}">`);
+            feedBox.querySelector('.feed-comment-box').insertAdjacentHTML('afterend', `<img src="${image}">`);
         }
     }, 5000);
 }
@@ -360,7 +454,7 @@ const updateFeedTag = feed => {
             });
             if (feed.imageUrls.length > 0) {
                 for (const imageUrl of feed.imageUrls) {
-                    contentBox.insertAdjacentHTML('afterend', `<img src="http://localhost:8080/${imageUrl}">`)
+                    contentBox.insertAdjacentHTML('afterend', `<img src="${imageUrl}">`)
                 }
             }
         }
@@ -423,6 +517,7 @@ const removeFileTag = e => {
 
     this.selectedFeedImages = [...this.selectedFeedImages.filter(file => file.fileId !== dataSetedFileId)];
     this.existFeedFiles = [...this.existFeedFiles.filter(file => file.fileId !== dataSetedFileId)];
+    console.log(this.existFeedFiles);
 }
 
 const insertVaildationErrorMsg = errorObj => {
@@ -452,7 +547,6 @@ const postCreateFeedByReqUserBtn = async (channelId, selectedFeedImages) => {
     // }
 
     try {
-        console.log('요청요청요청!!!')
         const formData = new FormData();
         formData.set('title', title);
         formData.set('content', feedScript);
@@ -474,14 +568,14 @@ const postCreateFeedByReqUserBtn = async (channelId, selectedFeedImages) => {
             dataLoading();
             removeChildrenTag('modal-background');
             createFeedTag(data.feed);
+            this.selectedFeedImages = [];
+            this.existFeedFiles = [];
         } else if (data.error.statusCode == 422) {
             console.log(data.error.statusCode);
             insertVaildationErrorMsg(data.error);
         } else if (data.error.statusCode == 500) {
             dataLoadingFail();
         }
-        this.selectedFeedImages = [];
-        this.selectedFeedImages = [];
         console.log('피드 생성 완료');
     } catch (error) {
         console.log(error);
@@ -493,19 +587,26 @@ const patchEditFeedByReqUserBtn = async (channelId, selectedFeedImages, e) => {
     const feedId = e.target.dataset.feedid;
     const title = document.getElementById('title').value;
     const feedScript = document.getElementById('content').value;
-
+    console.log(selectedFeedImages);
+    console.log(this.existFeedFiles);
+    const obj = {
+        existFileUrls: this.existFeedFiles
+    }
     // if (feedScript == '' && selectedFeedImages.length <= 0) {
     //     return;
     // }
 
     try {
-        console.log('요청요청요청!!!')
         const formData = new FormData();
         formData.set('title', title);
         formData.set('content', feedScript);
-        formData.append('existFileUrls', this.existFeedFiles);
-        for (const image of selectedFeedImages) {
-            formData.append('files', image);
+        formData.append('existFileUrls', JSON.stringify(obj));
+        // for(const fileUrl of this.existFeedFiles) {
+        // }
+        if (this.selectedFeedImages.length > 0) {
+            for (const image of this.selectedFeedImages) {
+                formData.append('files', image);
+            }
         }
 
         const resData = await fetch(`http://localhost:3000/client/channel/edit-feed/${channelId}/${feedId}`, {
@@ -543,7 +644,7 @@ const deleteRemoveFeedByReqUser = async e => {
                 'Content-Type': 'application/json'
             }
         })
-        
+
         if (!data.error) {
             alert('삭제 완료');
             const feedBox = e.target.parentNode.parentNode;
@@ -577,16 +678,60 @@ const patchPlusOrMinusNumberOfLikeInFeed = async (channelId, feedId, e) => {
     }
 }
 
+const patchEditChannelByReqUser = async () => {
+    const openYN = document.querySelector('.modal-background').querySelector('input[name="open"]:checked').value;
+    const channelName = document.querySelector('.modal-background').querySelector('input[name="channelName"]').value;
+    const comment = document.querySelector('.modal-background').querySelector('textarea[name="comment"]').value;
+    const categoryTagOptions = document.querySelector('.modal-background').querySelector('select[name="category"]').options;
+    const category = categoryTagOptions[categoryTagOptions.selectedIndex].value;
+    try {
+
+        const resData = await fetch(`http://localhost:3000/client/channel/edit-channel/${this.channelId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify({
+                open: openYN,
+                channelName: channelName,
+                comment: comment,
+                category: category
+            })
+        })
+
+        const data = await resData.json();
+
+        if (!data.error) {
+            removeChildrenTag('modal-background');
+        } else if (data.error.statusCode == 422) {
+            insertVaildationErrorMsg(data.error);
+        } else if (data.error.statusCode == 500) {
+            dataLoadingFail();
+        }
+        window.location = `http://localhost:3000/mychannel/${this.channelId}?searchType=info`
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 /** ----------------- 이벤트리스너 ----------------- */
 document.getElementById('feed-upload-modal__btn').addEventListener('click', () => {
     console.log('피드 모달창 오픈!');
     onClickFeedUploadBtn();
 });
 
-document.getElementById('feed-like__btn').addEventListener('click', e => {
-    console.log('좋아요!');
-    onClickFeedLikeBtn(e);
-});
+if (document.getElementById('edit-channel-btn')) {
+    document.getElementById('edit-channel-btn').addEventListener('click', e => {
+        onClickEditChannelInfoBtn();
+    });
+}
+
+if (document.getElementById('feed-like__btn')) {
+    document.getElementById('feed-like__btn').addEventListener('click', e => {
+        console.log('좋아요!');
+        onClickFeedLikeBtn(e);
+    });
+}
 
 // 동일한 클래스에 여러개의 태그가 있을 때, 해당 여러태그에 이벤트리스너 등록
 document.querySelectorAll('.feed-edit').forEach(target => {

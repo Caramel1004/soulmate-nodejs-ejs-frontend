@@ -18,10 +18,8 @@ function Init() {
 // keypress는 한글 인식을 하지 않기 떄문에 단순히 enter처리만 할거면 keypress로 하자.
 // 만약 줄 바꿈 키를 만들고 싶다면....
 const onKeyDownCreateUnitPost = async event => {
-    console.log(event.keyCode);
-    console.log(event.isComposing);
-    // const kbdEvent = new KeyboardEvent("syntheticKey", false);
-    // console.log(kbdEvent.isComposing); // return false
+    // console.log(event.keyCode);
+    // console.log(event.isComposing);
 
     const content = document.getElementById('content').innerText;
     console.log(content)
@@ -31,8 +29,8 @@ const onKeyDownCreateUnitPost = async event => {
     if ((event.keyCode === 13 && !event.shiftKey && replacedContent !== "") || (event.keyCode === 13 && !event.shiftKey && this.selectedFiles.length > 0)) {
         try {
             console.log('엔터키 누름!!');
+            event.preventDefault();
             await onKeyPressEnter(event);
-            document.getElementById('content').innerText = ''; // 입력폼 텍스트 없애기
             createPlaceholder(); // placeholder생성
             document.getElementById('content').blur(); // 블러처리
             this.selectedFiles = [];// 파일들 비우기
@@ -77,12 +75,12 @@ const onClickWorkSpaceEditCommentScriptBtn = () => {
     createEditCommentTag();
 }
 
-const onClickWorkSpacePostEditOrRemoveBtn = (action, postId) => {
+const onClickWorkSpacePostEditOrRemoveBtn = (action, postId, e) => {
     console.log(action);
     switch (action) {
-        case 'edit': changePostEditModeTag(postId);
+        case 'edit': changePostEditModeTag(postId, e);
             break;
-        case 'remove': deletePostByCreatorInWorkSpace(postId);
+        case 'remove': deletePostByCreatorInWorkSpace(postId, e);
             break;
     }
 }
@@ -96,15 +94,15 @@ const onClickReplyEditOrRemoveBtn = (action, postId, replyId) => {
     }
 }
 
-const onClickPostEditModTagCloseBtn = postId => {
-    const parentNode = document.getElementById(`post-${postId}`).parentNode;// post
-    const postContentTag = document.getElementById(`post-${postId}`);
+const onClickPostEditModTagCloseBtn = e => {
+    const parentNode = e.target.parentNode.parentNode.parentNode.parentNode;// post
+    console.log(parentNode)
+    const postContentTag = parentNode.querySelector('.post-comment');
 
     postContentTag.parentNode.parentNode.style.background = '#ffffff';
     parentNode.removeChild(postContentTag);
 
     const div = document.createElement('div');
-    div.id = `post-${postId}`;
     div.className = 'post-comment';
     div.textContent = this.tmpContent;
 
@@ -124,6 +122,9 @@ const onClickCloseBtn = className => {
     document.querySelector('.board-workspace').style.width = '100%';
     document.body.removeChild(parentNode);
     this.selectedMembers = [];
+
+    // 이미지 모달창 꺼질때 키 이벤트 삭제
+    document.body.removeEventListener('keydown', onKeyDownArrowBtnInPreviewModal);
 }
 
 /**
@@ -165,20 +166,18 @@ const onClickAttachedFileBox = e => {
     // 오른쪽: 39 왼쪽: 37 ESC: 27 화살표와 ESC키 작동
     document.body.addEventListener('keydown', onKeyDownArrowBtnInPreviewModal);
 
+    document.getElementById('next').addEventListener('click', onClickArrowBtnInPreviewModal);
+    document.getElementById('previous').addEventListener('click', onClickArrowBtnInPreviewModal);
+
     // 모달창 클로즈 이벤트
     // 콜백함수: 모달창 닫는 이벤트함수 실행, 모달창 오픈할때 등록되었던 이벤트리스너 삭제
     document.getElementById('cancel').addEventListener('click', () => {
         onClickCloseBtn('modal-background');
 
         // 제거할 이벤트 리스너
-        document.body.removeEventListener('keydown', onKeyDownArrowBtnInPreviewModal);
         document.getElementById('next').removeEventListener('click', onClickArrowBtnInPreviewModal);
         document.getElementById('previous').removeEventListener('click', onClickArrowBtnInPreviewModal);
     });
-
-    document.getElementById('next').addEventListener('click', onClickArrowBtnInPreviewModal);
-    document.getElementById('previous').addEventListener('click', onClickArrowBtnInPreviewModal);
-
 }
 
 const onClickArrowBtnInPreviewModal = e => {
@@ -344,113 +343,119 @@ const createReplyEditModalTag = (postId, replyId) => {
 }
 
 // 게시물 수정 모드 태그로 변경
-const changePostEditModeTag = postId => {
-    this.postEditMode = true;
-
-    const postContentTag = document.getElementById(`post-${postId}`);
-
-    const textarea = document.createElement('div');
-    textarea.textContent = postContentTag.textContent;
-    textarea.id = 'post-edit-content';
-    textarea.contentEditable = 'true';
-    this.tmpContent = textarea.textContent;
-    console.log(this.tmpContent)
-    // const replacedContent = replaceText(content);
-
-    // 스타일 변경
-    postContentTag.parentNode.style.width = '93%';
-    // postContentTag.parentNode.parentNode.style.background = 'rgb(235, 222, 203)';
-    postContentTag.parentNode.parentNode.style.background = 'rgba(243, 243, 246, 0.5)';
-    postContentTag.style.width = '100%';
-    textarea.style.padding = '10px';
-    textarea.style.width = '99%';
-    textarea.style.height = 'auto';
-    textarea.style.border = '1px groove rgba(0,0,0,0.26)';
-    textarea.style.borderBottom = 'none';
-    textarea.style.borderTopRightRadius = '10px';
-    textarea.style.borderTopLeftRadius = '10px';
-    textarea.style.outline = 'none';
-    textarea.style.resize = 'none';
-    textarea.style.background = 'rgb(243, 243, 246)'
-    textarea.style.fontSize = '15px'
-    textarea.style.lineHeight = '23px'
-    postContentTag.textContent = "";
-
-    const filePreviewBox = document.createElement('div');
-    filePreviewBox.id = 'edit-mode-preview-files';
-    filePreviewBox.style.width = '99.3%';
-    filePreviewBox.style.border = '1px groove rgba(0,0,0,0.26)';
-    filePreviewBox.style.borderBottom = 'none';
-    filePreviewBox.style.borderRadius = '0';
-
-    const btnBox = document.createElement('div');
-    btnBox.style.padding = '10px 20px 10px 5px';
-    btnBox.style.width = '99%';
-    btnBox.style.border = '1px groove rgba(0,0,0,0.26)';
-    btnBox.style.display = 'flex';
-    btnBox.style.alignItems = 'center';
-    btnBox.style.justifyContent = 'space-between';
-    btnBox.style.borderBottomRightRadius = '10px';
-    btnBox.style.borderBottomLeftRadius = '10px';
-
-    const positionRightBox = document.createElement('div');
-    const positionLeftBox = document.createElement('div');
-    // 수정 버튼 생성
-    const editIcon = document.createElement('i');
-    editIcon.className = 'fa-regular fa-pen-to-square fa-xl';
-    editIcon.style.color = '#ffffff';
-
-    const editBtn = document.createElement('button');
-    editBtn.classList.add('post-edit-complete-btn');
-    editBtn.style.background = '#000000';
-    editBtn.style.color = '#ffffff';
-    editBtn.setAttribute('onclick', `onClickWorkSpacePostEditContent('${postId}')`)
-    editBtn.append(editIcon);
-    editBtn.append('완료');
-
-    const closeBtn = document.createElement('button');
-    closeBtn.classList.add('post-edit-complete-btn');
-    closeBtn.id = 'post-edit-cancel__btn';
-    closeBtn.append('취소');
-
-    const fileLabel = document.createElement('label');
-    fileLabel.htmlFor = 'post-edit-file';
-    fileLabel.style.background = 'rgb(243, 243, 246)'
-    fileLabel.innerHTML += `<i class="fa-solid fa-file fa-lg"></i>`;
-    const fileBtn = document.createElement('input');
-    fileBtn.type = 'file';
-    fileBtn.id = 'post-edit-file';
-    fileBtn.style.display = 'none';
-    fileLabel.appendChild(fileBtn);
-
-    positionLeftBox.appendChild(fileLabel);
-
-    positionRightBox.appendChild(editBtn);
-    positionRightBox.appendChild(closeBtn);
-
-    btnBox.appendChild(positionLeftBox);
-    btnBox.appendChild(positionRightBox);
-
-    postContentTag.appendChild(textarea);
-    postContentTag.appendChild(filePreviewBox);
-    postContentTag.appendChild(btnBox);
-
-    console.log(postContentTag.parentNode.querySelector('.post-attached-files'));
-    // 이미지 파일태그
-    if (postContentTag.parentNode.querySelector('.post-attached-files') !== null) {
-        const imagesTag = postContentTag.parentNode.querySelector('.post-attached-files').querySelectorAll('img');
-        console.log(imagesTag);
-        for (const imageTag of imagesTag) {
-            filePreviewBox.innerHTML += `<div class="edit-mode-attached-file"><img src="${imageTag.src}"></div>`
+const changePostEditModeTag = (postId, e) => {
+    if (!this.postEditMode) {
+        this.postEditMode = true;
+        const parentNode = e.target.parentNode.parentNode.parentNode;
+        console.log(parentNode)
+        const textarea = document.createElement('div');
+        const postContentTag = parentNode.querySelector('.post-comment');
+        if (postContentTag) {
+            textarea.textContent = postContentTag.textContent;
+        } else {
+            textarea.textContent = '';
         }
+        textarea.id = 'post-edit-content';
+        textarea.contentEditable = 'true';
+        this.tmpContent = textarea.textContent;
+        console.log(this.tmpContent)
+        // const replacedContent = replaceText(content);
+
+        // 스타일 변경
+        postContentTag.parentNode.style.width = '93%';
+        // postContentTag.parentNode.parentNode.style.background = 'rgb(235, 222, 203)';
+        postContentTag.parentNode.parentNode.style.background = 'rgba(243, 243, 246, 0.5)';
+        postContentTag.style.width = '100%';
+        textarea.style.padding = '10px';
+        textarea.style.width = '99%';
+        textarea.style.height = 'auto';
+        textarea.style.border = '1px groove rgba(0,0,0,0.26)';
+        textarea.style.borderBottom = 'none';
+        textarea.style.borderTopRightRadius = '10px';
+        textarea.style.borderTopLeftRadius = '10px';
+        textarea.style.outline = 'none';
+        textarea.style.resize = 'none';
+        textarea.style.background = 'rgb(243, 243, 246)'
+        textarea.style.fontSize = '15px'
+        textarea.style.lineHeight = '23px'
+        postContentTag.textContent = "";
+
+        const filePreviewBox = document.createElement('div');
+        filePreviewBox.id = 'edit-mode-preview-files';
+        filePreviewBox.style.width = '99.3%';
+        filePreviewBox.style.border = '1px groove rgba(0,0,0,0.26)';
+        filePreviewBox.style.borderBottom = 'none';
+        filePreviewBox.style.borderRadius = '0';
+
+        const btnBox = document.createElement('div');
+        btnBox.style.padding = '10px 20px 10px 5px';
+        btnBox.style.width = '99%';
+        btnBox.style.border = '1px groove rgba(0,0,0,0.26)';
+        btnBox.style.display = 'flex';
+        btnBox.style.alignItems = 'center';
+        btnBox.style.justifyContent = 'space-between';
+        btnBox.style.borderBottomRightRadius = '10px';
+        btnBox.style.borderBottomLeftRadius = '10px';
+
+        const positionRightBox = document.createElement('div');
+        const positionLeftBox = document.createElement('div');
+        // 수정 버튼 생성
+        const editIcon = document.createElement('i');
+        editIcon.className = 'fa-regular fa-pen-to-square fa-xl';
+        editIcon.style.color = '#ffffff';
+
+        const editBtn = document.createElement('button');
+        editBtn.classList.add('post-edit-complete-btn');
+        editBtn.style.background = '#000000';
+        editBtn.style.color = '#ffffff';
+        editBtn.setAttribute('onclick', `onClickWorkSpacePostEditContent('${postId}')`)
+        editBtn.append(editIcon);
+        editBtn.append('완료');
+
+        const closeBtn = document.createElement('button');
+        closeBtn.classList.add('post-edit-complete-btn');
+        closeBtn.id = 'post-edit-cancel__btn';
+        closeBtn.append('취소');
+
+        const fileLabel = document.createElement('label');
+        fileLabel.htmlFor = 'post-edit-file';
+        fileLabel.style.background = 'rgb(243, 243, 246)'
+        fileLabel.innerHTML += `<i class="fa-solid fa-file fa-lg"></i>`;
+        const fileBtn = document.createElement('input');
+        fileBtn.type = 'file';
+        fileBtn.id = 'post-edit-file';
+        fileBtn.style.display = 'none';
+        fileLabel.appendChild(fileBtn);
+
+        positionLeftBox.appendChild(fileLabel);
+
+        positionRightBox.appendChild(editBtn);
+        positionRightBox.appendChild(closeBtn);
+
+        btnBox.appendChild(positionLeftBox);
+        btnBox.appendChild(positionRightBox);
+
+        postContentTag.appendChild(textarea);
+        postContentTag.appendChild(filePreviewBox);
+        postContentTag.appendChild(btnBox);
+
+        console.log(postContentTag.parentNode.querySelector('.post-attached-files'));
+        // 이미지 파일태그
+        if (postContentTag.parentNode.querySelector('.post-attached-files') !== null) {
+            const imagesTag = postContentTag.parentNode.querySelector('.post-attached-files').querySelectorAll('img');
+            console.log(imagesTag);
+            for (const imageTag of imagesTag) {
+                filePreviewBox.innerHTML += `<div class="edit-mode-attached-file"><img src="${imageTag.src}"></div>`
+            }
+        }
+
+        // 등록될 이벤트 리스너
+        document.getElementById('post-edit-cancel__btn').addEventListener('click', e => {
+            onClickPostEditModTagCloseBtn(e);
+        });
+
+        document.getElementById('post-edit-file').addEventListener('change', onChangeSelectFile);
     }
-
-    // 등록될 이벤트 리스너
-    document.getElementById('post-edit-cancel__btn').addEventListener('click', () => {
-        onClickPostEditModTagCloseBtn(postId);
-    });
-
-    document.getElementById('post-edit-file').addEventListener('change', onChangeSelectFile);
 }
 // 자식요소 모두 제거 하는 함수
 const removeAllChild = parent => {
@@ -520,15 +525,10 @@ const createThreadTag = async postId => {
         console.log('channelId : ', channelId);
         console.log('workSpaceId : ', workSpaceId);
 
-        const response = await fetch(`http://localhost:3000/client/workspace/${channelId}/${workSpaceId}/post/replies`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                postId: postId
-            })
+        const response = await fetch(`http://localhost:3000/client/workspace/post/replies/${channelId}/${workSpaceId}/${postId}`, {
+            method: 'GET'
         });
+
         const data = await response.json();
         console.log('data: ', data);
 
@@ -873,6 +873,7 @@ const postCreateReplyToWorkSpace = async postId => {
     }
 }
 
+// 친구 초대
 const patchAddMemeberToWorkSpace = async () => {
     try {
         const url = window.location.href;
@@ -888,7 +889,7 @@ const patchAddMemeberToWorkSpace = async () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                selectedId: this.selectedMembers
+                selectedIds: this.selectedMembers
             })
         });
 
@@ -904,10 +905,8 @@ const patchRemoveMemeberToWorkSpace = async () => {
 
         const channelId = url.split('/')[5];
         const workSpaceId = url.split('/')[6].split('?')[0];
-        console.log('channelId : ', channelId);
-        console.log('workSpaceId : ', workSpaceId);
 
-        await fetch(`http://localhost:3000/client/workspace/exit/${channelId}/${workSpaceId}`, {
+        await fetch(`http://localhost:3000/client/workspace/exit`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
@@ -918,7 +917,7 @@ const patchRemoveMemeberToWorkSpace = async () => {
             })
         });
 
-        return window.location.replace(`/mychannel/${channelId}?searchWord=workspaces`);
+        return window.location.replace(`/mychannel/${channelId}?searchType=workspaces`);
     } catch (err) {
         console, log(err);
     }
@@ -940,8 +939,6 @@ const patchEditCommentScriptToWorkSpace = async () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                channelId: channelId,
-                workSpaceId: workSpaceId,
                 comment: comment
             })
         });
@@ -1066,7 +1063,7 @@ const patchEditPostByCreatorInWorkSpace = async postId => {
     }
 }
 
-const deletePostByCreatorInWorkSpace = async postId => {
+const deletePostByCreatorInWorkSpace = async (postId, e) => {
     if (!confirm('게시물을 삭제 하시겠습니까?')) {
         return;
     }
@@ -1319,6 +1316,18 @@ document.querySelectorAll('.post-attached-files').forEach(parent => {
         target.addEventListener('click', e => {
             onClickAttachedFileBox(e);
         });
+    })
+})
+document.querySelectorAll('.edit-icon').forEach(target => {
+    target.addEventListener('click', e => {
+        const postId = target.dataset.postid
+        onClickWorkSpacePostEditOrRemoveBtn('edit', `${postId}`, e);
+    })
+})
+document.querySelectorAll('.delete-icon').forEach(target => {
+    target.addEventListener('click', e => {
+        const postId = target.dataset.postid
+        onClickWorkSpacePostEditOrRemoveBtn('remove', `${postId}`, e);
     })
 })
 window.addEventListener('DOMContentLoaded', activeSortTypeBtnColor);

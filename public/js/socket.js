@@ -1,6 +1,6 @@
 import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
 
-const DOMAIN = 'http://localhost:8080'
+const DOMAIN = `http://localhost:8080`
 
 const socket = io(DOMAIN);
 console.log('스크립트 소켓 가동 중!!!');
@@ -104,19 +104,22 @@ const createUnitChatTag = async (data, action) => {
         imageBox.className = 'image-box';
         for (const fileUrl of data.currentChat.fileUrls) {
             const image = document.createElement('img');
-            image.src = `${DOMAIN}/${fileUrl}`;
+            image.src = `${fileUrl}`;
             image.id = 'images';
             image.style.width = '100px';
             image.style.height = '100px';
             imageBox.appendChild(image);
             chatBox.appendChild(imageBox);
         }
+        imageBox.querySelectorAll('img').forEach(target => {
+            target.addEventListener('click', onClickAttachedFileBox);
+        })
     }
 
     // 타임 스탬프
     const time = document.createElement('div');
-    const formatedTime = formatter(new Date());
-    time.classList.add('chat-date');
+    const formatedTime = formatter(new Date()).fomatTime;
+    time.classList.add('chat-time');
     time.textContent = formatedTime;
 
     chatUnitBox.appendChild(imgBox);
@@ -145,7 +148,12 @@ const createUnitPostTag = data => {
     const postDate = document.createElement('div');
     const formatedTime = formatter(new Date());
     postDate.classList.add('post-date');
-    postDate.textContent = formatedTime;
+    // insertAdjacentHTML(position, htmlText)
+    // beforebegin - 선택된 노드의 앞
+    // afterend - 선택된 노드의 뒤
+    // afterbegin - 선택된 노드의 첫 번째 자식 노드 앞
+    // beforeend - 선택된 노드의 마지막 자식 노드 뒤
+    postDate.insertAdjacentHTML('afterbegin', `<span>${formatedTime.fomatDate}  ${formatedTime.fomatTime}</span>`)
 
     // 게시물 정보를 담는 박스 태그
     const postsBox = document.createElement('div');
@@ -195,7 +203,7 @@ const createUnitPostTag = data => {
         <div class="post-attached-files"></div>`;
         console.log(postBox.children);
         for (const fileUrl of data.post.fileUrls) {
-            postBox.querySelector('.post-attached-files').innerHTML += `<img src="${DOMAIN}/${fileUrl}">`
+            postBox.querySelector('.post-attached-files').innerHTML += `<img src="${fileUrl}">`
         }
     }
 
@@ -205,6 +213,9 @@ const createUnitPostTag = data => {
     document.getElementById('content').value = "";
     removeAllChild(document.getElementById('preview-files'));
 
+    postBox.querySelector('.post-attached-files').querySelectorAll('img').forEach(target => {
+        target.addEventListener('click', onClickAttachedFileBox);
+    })
     //스크롤 맨아래로 조정
     historyTag.scrollTop = historyTag.scrollHeight;
 }
@@ -287,9 +298,13 @@ const formatter = createdAt => {
 
     const min = timestamp.split(':')[1];
 
-    const fomatDate = `${year}-${month}-${day}  ${when} ${hour}:${min}`;
+    const fomatDate = `${year}-${month}-${day}`;
+    const fomatTime = `${when} ${hour}:${min}`;
 
-    return fomatDate;
+    return {
+        fomatDate: fomatDate,
+        fomatTime: fomatTime
+    }
 }
 
 // 2. 데이터 로딩 할때 UI
@@ -326,4 +341,62 @@ const removeAllChild = parent => {
     while (parent.firstChild) {
         parent.removeChild(parent.firstChild);
     }
+}
+
+const onClickAttachedFileBox = e => {
+    createPreviewModaForLargeViewOfAttachment(e);
+
+    // 이벤트 리스너 등록
+    // 오른쪽: 39 왼쪽: 37 ESC: 27 화살표와 ESC키 작동
+    document.body.addEventListener('keydown', onKeyDownArrowBtnInPreviewModal);
+
+    document.getElementById('next').addEventListener('click', onClickArrowBtnInPreviewModal);
+    document.getElementById('previous').addEventListener('click', onClickArrowBtnInPreviewModal);
+
+    // 모달창 클로즈 이벤트
+    // 콜백함수: 모달창 닫는 이벤트함수 실행, 모달창 오픈할때 등록되었던 이벤트리스너 삭제
+    document.getElementById('cancel').addEventListener('click', () => {
+        onClickCloseBtn('modal-background');
+
+        // 제거할 이벤트 리스너
+        document.getElementById('next').removeEventListener('click', onClickArrowBtnInPreviewModal);
+        document.getElementById('previous').removeEventListener('click', onClickArrowBtnInPreviewModal);
+    });
+}
+
+const createPreviewModaForLargeViewOfAttachment = e => {
+    const previewBox = e.target.parentNode;
+    const fileTagNodeList = previewBox.querySelectorAll('img');// NodeList
+    const fileTagArr = Array.prototype.slice.call(fileTagNodeList);// NodeList를 배열로 변환
+    const selectedIndex = fileTagArr.indexOf(e.target);
+    const modal =
+        `<div class="modal-background" id="modal">
+            <div class="attached-file-big-view-mode">
+                <div class="box__button__submit">
+                    <a id="cancel">x</a>
+                </div>
+                <div class="big-size-box">
+                    <div class="view-grid-inner-box">
+                        <i class="fa-solid fa-chevron-left fa-xl" id="previous"></i>
+                    </div>
+                    <div class="view-grid-inner-box" data-index="${selectedIndex}"></div>
+                    <div class="view-grid-inner-box">
+                        <i class="fa-solid fa-chevron-right fa-xl" id="next"></i>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+    document.querySelector('script').insertAdjacentHTML('beforebegin', modal);
+    let tmpIndex = 0;
+    fileTagArr.forEach(target => {
+        let insertTag = `<img src=${target.src} class="hidden" data-index="${tmpIndex}">`;
+        const targetIndex = fileTagArr.indexOf(target);
+        if (selectedIndex == targetIndex) {
+            insertTag = `<img src=${target.src} class="active" data-index="${tmpIndex}">`
+        }
+        document.querySelector('.attached-file-big-view-mode').querySelector('.big-size-box').children[1].innerHTML += insertTag;
+        tmpIndex++;
+    })
+    document.querySelector('.attached-file-big-view-mode').innerHTML += `<p><span id="file-current-index">${selectedIndex + 1}</span> / ${fileTagArr.length}</p>`
 }

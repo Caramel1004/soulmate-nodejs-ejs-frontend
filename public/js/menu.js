@@ -2,10 +2,17 @@ const activeMenuBtnColor = () => {
     const url = window.location.href;
     const replaceUrl = url.replace('?', '/');
     const path = replaceUrl.split('/')[3];
-    console.log(path);
 
-    if (!path) {
+    if (!path || path === 'open') {
         document.getElementById('/').style.background = 'rgb(219, 219, 232)';
+        // document.getElementById('/').querySelector('i').style.color = '#ffffff';
+    }
+
+    if(path === 'myprofile') {
+        document.getElementById(path).style.background = 'rgb(219, 219, 232)';
+        document.getElementById(path).querySelector('i').className = 'fa-solid fa-user';
+        // document.getElementById(path).querySelector('i').style.color = '';
+        return;
     }
 
     if(path === 'mychannel') {
@@ -24,7 +31,16 @@ const activeMenuBtnColor = () => {
         return;
     }
     
-    document.getElementById(path).style.background = 'rgb(219, 219, 232)';
+    if(path === 'mychannels') {
+        document.getElementById(path).style.background = 'rgb(219, 219, 232)';
+        return;
+    }
+
+    if(path === 'wishchannels'){
+        document.getElementById(path).style.background = 'rgb(219, 219, 232)';
+        document.getElementById(path).querySelector('i').className = 'fa-solid fa-heart';
+        document.getElementById(path).querySelector('i').style.color = 'red';
+    }
 }
 
 const toggleBtn = id => {
