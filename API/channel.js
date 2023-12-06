@@ -8,7 +8,7 @@ const channelAPI = {
     // 1. 생성된 오픈 채널 목록
     getOpenChannelList: async (searchWord, category, next) => {
         try {
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/channel/openchannel-list?searchWord=${searchWord}&category=${category}`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/channel/openchannel-list?searchWord=${searchWord}&category=${category}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -29,7 +29,7 @@ const channelAPI = {
     // 1-1. 오픈 채널 세부 정보 조회
     getOpenChannelDetail: async (channelId, next) => {
         try {
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/channel/openchannel-list/${channelId}`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/channel/openchannel-list/${channelId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -46,7 +46,7 @@ const channelAPI = {
     // 2. 해당 유저의 채널 리스트 조회
     getChannelListByUserId: async (token, refreshToken, searchWord, next) => {
         try {
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/channel/mychannels?searchWord=${searchWord}`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/channel/mychannels?searchWord=${searchWord}`, {
                 method: 'GET',
                 headers: {
                     Authorization: 'Bearer ' + token,
@@ -66,7 +66,7 @@ const channelAPI = {
         try {
             console.log(category)
             console.log(searchWord)
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/channel/wishchannels?category=${category}&searchWord=${searchWord}`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/channel/wishchannels?category=${category}&searchWord=${searchWord}`, {
                 method: 'POST',
                 headers: {
                     Authorization: 'Bearer ' + token,
@@ -89,7 +89,7 @@ const channelAPI = {
     getChannelDetailByChannelId: async (token, refreshToken, channelId, next) => {
         try {
             // 해당 채널아이디 보내주고 해당 채널 입장 요청
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/channel/${channelId}`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/channel/${channelId}`, {
                 method: 'GET',
                 headers: {
                     Authorization: 'Bearer ' + token,
@@ -107,7 +107,7 @@ const channelAPI = {
     getChatRoomList: async (token, refreshToken, channelId, searchWord, next) => {
         try {
             // 채팅방 목록 요청
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/channel/${channelId}/chat?searchWord=${searchWord}`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/channel/${channelId}/chat?searchWord=${searchWord}`, {
                 method: 'POST',
                 headers: {
                     Authorization: 'Bearer ' + token,
@@ -128,7 +128,7 @@ const channelAPI = {
     // 8. 채팅방 생성
     postCreateChatRoom: async (token, refreshToken, channelId, roomName, next) => {
         try {
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/channel/${channelId}/create-chatRoom`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/channel/${channelId}/create-chatRoom`, {
                 method: 'POST',
                 headers: {
                     Authorization: 'Bearer ' + token,
@@ -150,7 +150,7 @@ const channelAPI = {
     // 9. 해당 채널에 유저 초대
     patchInviteUserToChannel: async (token, refreshToken, channelId, selectedIds, next) => {
         try {
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/channel/invite/${channelId}`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/channel/invite/${channelId}`, {
                 method: 'PATCH',
                 headers: {
                     Authorization: 'Bearer ' + token,
@@ -172,7 +172,7 @@ const channelAPI = {
     // 10. 워크스페이스 목록 요청
     getWorkSpaceList: async (token, refreshToken, channelId, searchWord, next) => {
         try {
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/channel/${channelId}/workspace?searchWord=${searchWord}`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/channel/${channelId}/workspace?searchWord=${searchWord}`, {
                 method: 'POST',
                 headers: {
                     Authorization: 'Bearer ' + token,
@@ -193,7 +193,7 @@ const channelAPI = {
     // 11. 워크스페이스 생성
     postCreateWorkSpace: async (token, refreshToken, channelId, open, workSpaceName, comment, next) => {
         try {
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/channel/${channelId}/create-workspace`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/channel/${channelId}/create-workspace`, {
                 method: 'POST',
                 headers: {
                     Authorization: 'Bearer ' + token,
@@ -216,7 +216,7 @@ const channelAPI = {
     // 14. 관심 채널 추가
     postAddOpenChannelToWishChannel: async (token, refreshToken, channelId, next) => {
         try {
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/channel/add-or-remove-wishchannel`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/channel/add-or-remove-wishchannel`, {
                 method: 'PATCH',
                 headers: {
                     Authorization: 'Bearer ' + token,
@@ -237,7 +237,7 @@ const channelAPI = {
     // 15. 채널에 내피드 생성
     postCreateFeedToChannel: async (token, refreshToken, channelId, formData, next) => {
         try {
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/channel/create-feed/${channelId}`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/channel/create-feed/${channelId}`, {
                 method: 'POST',
                 headers: {
                     Authorization: 'Bearer ' + token,
@@ -254,7 +254,7 @@ const channelAPI = {
     },
     patchEditFeedToChannel: async (token, refreshToken, channelId, feedId, formData, next) => {
         try {
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/channel/edit-feed/${channelId}/${feedId}`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/channel/edit-feed/${channelId}/${feedId}`, {
                 method: 'PATCH',
                 headers: {
                     Authorization: 'Bearer ' + token,
@@ -271,7 +271,7 @@ const channelAPI = {
     },
     deleteRemoveFeedByReqUser: async (token, refreshToken, channelId, feedId, next) => {
         try {
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/channel/delete-feed/${channelId}/${feedId}`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/channel/delete-feed/${channelId}/${feedId}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: 'Bearer ' + token,
@@ -288,7 +288,7 @@ const channelAPI = {
     },
     patchPlusOrMinusNumberOfLikeInFeed: async (token, refreshToken, channelId, feedId, next) => {
         try {
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/channel/plus-or-minus-feed-like`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/channel/plus-or-minus-feed-like`, {
                 method: 'PATCH',
                 headers: {
                     Authorization: 'Bearer ' + token,
@@ -310,7 +310,7 @@ const channelAPI = {
     },
     patchEditChannelByReqUser: async (token, refreshToken, channelId, body, next) => {
         try {
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/v1/channel/edit-channel/${channelId}`, {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/channel/edit-channel/${channelId}`, {
                 method: 'PATCH',
                 headers: {
                     Authorization: 'Bearer ' + token,
