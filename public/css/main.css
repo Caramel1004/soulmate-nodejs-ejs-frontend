@@ -75,15 +75,15 @@ body::-webkit-scrollbar-track {
 #tab-box {
     padding: 5px;
     font-size: 22px;
-    font-weight: bold;
+    /* font-weight: bold; */
     text-align: center;
-    /* border: 1px solid black; */
 }
 
 /* 타이틀과 채널박스 아이템들 */
 .wrapper-title-channel-container {
     padding: 0;
     padding-left: 0;
+    display: block;
     /* display: grid;
     justify-content: center;
     grid-template-columns: repeat(1, 1000px); */
@@ -92,12 +92,16 @@ body::-webkit-scrollbar-track {
 
 #title {
     margin-top: 40px;
-    /* margin-left: 10px; */
-    /* padding: 5px; */
+    /* padding-bottom: 15px; */
+    /* padding-left: 60px; */
+    display: grid;
+    align-items: center;
+    /* justify-content: center; */
+    grid-template-columns: repeat(auto-fill, 81%);
     text-align: left;
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 17px;
     /* border: 1px solid black; */
+    /* float: left; */
 }
 
 .type {
@@ -131,7 +135,7 @@ body::-webkit-scrollbar-track {
 .channel-box-items {
     padding: 0;
     display: grid;
-    /* align-items: center; */
+    align-items: center;
     justify-content: center;
     grid-template-columns: repeat(auto-fill, 200px);
     grid-gap: 25px;

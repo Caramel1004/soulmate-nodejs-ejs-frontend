@@ -58,7 +58,7 @@ body {
     /* border: groove black 0.5px; */
     /* margin-top: 60px; */
     width: var(--box-width);
-    height: 55vh;
+    height: 64vh;
     /* background: rgb(235, 222, 203); */
     /* background: rgba(0, 0, 0, 0.2); */
     /* background: rgb(243, 243, 246); */
@@ -137,13 +137,27 @@ body {
     /* font-weight: bolder; */
 }
 
-.chat-date {
+.chat-time {
     margin-left: 10px;
     display: flex;
     align-items: end;
     font-size: 12px;
     color: rgba(0, 0, 0, 0.26);
     /* border: groove black 0.5px; */
+}
+
+.chat-date {
+    padding: 10px;
+    text-align: center;
+}
+
+.chat-date span{
+    padding: 5px 10px 5px 10px;
+    font-size: 12px;
+    color: #ffffff;
+    /* border: 1px groove rgba(0, 0, 0, 0.1); */
+    border-radius: 20px;
+    background: rgba(0, 0, 0, 0.2);
 }
 
 /* 단위 채팅 내용 박스*/
@@ -199,7 +213,8 @@ body {
 /* 채팅 입력 박스 */
 .board-chat__box-chat {
     width: 100%;
-    /* height: 30vh; */
+    /* height: auto; */
+    /* position: fixed; */
     /* display: block; */
     /* border: 1px groove rgba(0, 0, 0, 0.26); */
 }
@@ -266,15 +281,11 @@ body {
 
 /* 채팅 입력 폼 */
 .board-chat__textarea {
-    /* 위 | 오른쪽 | 아래 | 왼쪽 */
-    padding: 20px 0px 0px 17px;
-    width: auto;
-    /* height: auto; */
-    /* border: 1px groove #1d1c1d; */
-    font-size: 15px;
-    font-weight: 200;
-    letter-spacing: 0.5px;
-    resize: none;
+    padding: 10px;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: left;
+    outline: none;
 }
 
 /* 채팅 입력 폼 */
@@ -282,6 +293,11 @@ body {
     font-size: 15px;
     font-weight: 500;
     color: rgba(0, 0, 0, 0.2);
+}
+
+#placeholder {
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.26);
 }
 
 /* 채팅 입력폼 스크롤 디자인 */
@@ -496,17 +512,22 @@ label[for='file']:active {
     /* overflow-x: hidden; */
 }
 
+.file-kit{
+    margin-bottom: 10px;
+}
+
 .file-created-date__box {
     padding: 10px 0 15px 0;
     text-align: center;
 }
 .file-created-date__box span{
     padding: 10px;
-    font-size: 15px;
-    color: #1d1c1d;
-    border: 1px groove rgba(0, 0, 0, 0.1);
+    font-size: 13px;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.2);
     border-radius: 20px;
 }
+
 .file-list-grid {
     padding: 5px;
     display: grid;
@@ -878,4 +899,91 @@ label[for='file']:active {
 .btn__add-member:hover,
 .btn_add-memver:active {
     opacity: 0.5;
+}
+
+/* 이미지 크게 보는 모달창 */
+.modal-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.26);
+}
+
+.attached-file-big-view-mode {
+    margin-top: 30px;
+    padding: 20px;
+    display: block;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.26);
+    background: #ffffff;
+}
+
+.big-size-box {
+    padding: 10px;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: 70px 650px 70px;
+    grid-auto-rows: auto;
+}
+
+.big-size-box img {
+    width: 650px;
+    height: 500px;
+    border: 1px groove rgba(0, 0, 0, 0.1);
+    /* border-radius: 20px; */
+}
+
+.view-grid-inner-box i {
+    padding: 25px 20px 25px 20px;
+    border-radius: 25px;
+}
+
+.view-grid-inner-box i:hover,
+.view-grid-inner-box i:active {
+    border-radius: 50px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.26);
+}
+
+.big-size-box img.hidden {
+    display: none;
+}
+
+.box__button__submit {
+    padding: 10px;
+    text-align: right;
+}
+
+.box__button__submit button {
+    margin-right: 5px;
+    padding: 10px 15px 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    font-size: 15px;
+    color: #ffffff;
+    background: #1d1c1d;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.box__button__submit a {
+    /* margin-left: 35px; */
+    padding: 9px 15px 9px 15px;
+    text-align: center;
+    text-decoration: none;
+    border: 0.5px groove rgba(0, 0, 0, 0.26);
+    font-size: 15px;
+    color: #1d1c1d;
+    background: #ffffff;
+    border-radius: 20px;
+    cursor: pointer;
 }

@@ -25,3 +25,25 @@
 .type:active {
     background: rgb(233, 233, 237);
 }
+
+#box-search {
+    padding: 15px;
+    /* border: 1px solid black; */
+    text-align: center;
+}
+
+#search {
+    padding: 10px;
+    width: 50%;
+    border: 0.1rem groove rgba(0, 0, 0, 0.26);
+    border-radius: 20px;
+    outline: none;
+}
+
+#btn__search {
+    padding: 12px;
+    border: none;
+    border-radius: 20px;
+    background: rgb(243, 243, 246);
+    cursor: pointer;
+}

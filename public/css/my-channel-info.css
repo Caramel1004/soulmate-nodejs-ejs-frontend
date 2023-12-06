@@ -31,7 +31,6 @@ body::-webkit-scrollbar-track {
     display: block;
     align-items: center;
     justify-content: center;
-    align-items: center;
     background: #ffffff;
     text-align: center;
     /* border: 1px groove black; */
@@ -84,6 +83,8 @@ body::-webkit-scrollbar-track {
     margin-top: 0;
     padding: 50px;
     display: block;
+    align-items: center;
+    justify-content: center;
     /* 박스 서서히 나타나기 */
     animation: fadein 0.7s;
     -webkit-animation: fadein 0.7s;
@@ -95,29 +96,56 @@ body::-webkit-scrollbar-track {
     margin-bottom: 40px;
     margin-left: 100px;
     margin-right: 100px;
-    display: block;
+    /* display: block; */
     /* border: 1px groove black; */
 }
 
 /* 1. 채널 정보 패널 */
-
-.info {
-    display: grid;
-    grid-template-columns: 70% 30%;
+#channel-thumbnail-box img {
+    width: 200px;
+    height: 200px;
+    cursor: pointer;
+    border: 1px groove rgba(0, 0, 0, 0.1);
+    border-radius: 400px;
 }
 
-.info img {
-    width: 100%;
-    height: 300px;
-    border: 1px groove rgba(0, 0, 0, 0.26);
-    border-radius: 10px;
+.channel-name-box p {
+    color: rgb(212, 78, 21);
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+.channel-name-box i {
+    margin-left: 10px;
+    padding: 10px;
+    font-size: 17px;
+    color: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    border-radius: 20px;
+}
+
+.channel-name-box i:hover,
+.channel-name-box i:active {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+#sub {
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    /* border: 1px groove rgba(0, 0, 0, 0.26); */
 }
 
 .box-text {
     margin-left: 10px;
     padding: 15px;
-    /* height: 300px; */
-    display: inline-block;
+    width: 400px;
     border: 1px groove rgba(0, 0, 0, 0.26);
     border-radius: 10px;
 }
@@ -125,7 +153,8 @@ body::-webkit-scrollbar-track {
 .text {
     /* 옆으로 텍스트 정렬 */
     display: grid;
-    grid-template-columns: 40% 60%;
+    align-items: center;
+    grid-template-columns: 160px 240px;
     text-align: left;
     border-bottom: 1px groove rgba(0, 0, 0, 0.1);
 }
@@ -134,6 +163,17 @@ body::-webkit-scrollbar-track {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.text-right-inner {
+    padding-bottom: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.text-right-inner p {
+    margin-left: 10px;
 }
 
 .text span {
@@ -154,6 +194,12 @@ body::-webkit-scrollbar-track {
 .text i {
     color: rgba(0, 0, 0, 0.5);
     float: right;
+}
+
+.text img {
+    width: 40px;
+    height: 40px;
+    border-radius: 30px;
 }
 
 .heart {
@@ -192,13 +238,15 @@ body::-webkit-scrollbar-track {
     grid-auto-rows: auto;
     border: 1px groove rgba(0, 0, 0, 0.26);
     border-radius: 10px;
+    background: #ffffff;
 }
 
 /* .feed-box:hover,
 .feed-box:active {
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.26);
 } */
-.feed-creator-box {
+.feed-creator-box,
+.feed-edit-btn-box {
     width: 80px;
     padding-top: 20px;
     /* border: 1px groove rgba(0, 0, 0, 0.26); */
@@ -212,14 +260,26 @@ body::-webkit-scrollbar-track {
 
 .feed-creator-name-box {
     /* padding-top: 5px; */
-    padding-bottom: 10px;
+    /* padding-bottom: 15px; */
     /* border: 1px groove rgba(0, 0, 0, 0.26); */
+    display: block;
 }
 
 .feed-creator-name-box span {
     color: #1d1c1d;
     font-size: 14px;
     font-weight: bold;
+}
+
+.feed-title-box {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.feed-title-box span,
+.feed-title {
+    font-size: 18px;
+    color: rgb(212, 78, 21);
 }
 
 #feed-date {
@@ -229,9 +289,9 @@ body::-webkit-scrollbar-track {
 }
 
 .feed-content-box {
-    /* display: block; */
+    display: block;
     padding-top: 20px;
-    width: 12fr;
+    width: 10fr;
     text-align: left;
     /* border: 1px groove rgba(0, 0, 0, 0.26); */
 }
@@ -264,7 +324,8 @@ body::-webkit-scrollbar-track {
 }
 
 /* 피드 수정 버튼 */
-#feed-edit {
+#feed-edit,
+#feed-preview-exit {
     padding: 10px;
     border: none;
     background: #000000;
@@ -274,8 +335,23 @@ body::-webkit-scrollbar-track {
     cursor: pointer;
 }
 
-#feed-edit i {
+#feed-edit i,
+#feed-preview-exit i {
     color: #ffffff;
+}
+
+#feed-delete {
+    padding: 10px;
+    background: #ffffff;
+    color: red;
+    border: 1px groove rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    float: center;
+    cursor: pointer;
+}
+
+#feed-delete i {
+    color: red;
 }
 
 #feed-upload-modal__btn {
@@ -317,7 +393,9 @@ body::-webkit-scrollbar-track {
     padding: 20px;
     width: auto;
     text-align: left;
+    color: #1d1c1d;
+    font-size: 15px;
     border: 1px groove rgba(0, 0, 0, 0.26);
     border-radius: 10px;
-    /* white-space: pre-wrap; */
+    white-space: pre-wrap;
 }
