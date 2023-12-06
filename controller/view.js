@@ -83,14 +83,14 @@ const viewController = {
                     }
                 }
             }
-
+            console.log(channelDetailData);
             res.status(channelData.status.code).render('channel/channel-intro-detail', {
                 path: `/open/:channelId`,
                 title: channelDetailData.channelName,
                 clientName: req.session.clientName,
                 channels: req.session.userChannels,
                 photo: req.session.photo,
-                channel: channelDetailData
+                channel: channelDetailData,
             });
         } catch (err) {
             err.isViewRenderError = true
@@ -229,7 +229,7 @@ const viewController = {
                 matchedWorkSpaceList = workSpaceListData.workSpaces;
                 matchedOpenWorkSpaceList = workSpaceListData.openWorkSpaces;
             }
-
+            
             // 4. 해당 채널 렌더링
             res.status(channelDetailData.status.code).render(fileName, {
                 path: `/mychannel/:channelId?searchType=${searchType}`,
