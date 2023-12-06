@@ -8,7 +8,7 @@ const errorHandler = async (error, req, res, next) => {
         }
 
         // view 렌더링 오류 처리
-        if (error.statusCode == 401 && error.isViewRenderError) {
+        if (error.statusCode == 401) {
             res.status(error.statusCode).redirect('/logout');
         }
 
@@ -16,8 +16,8 @@ const errorHandler = async (error, req, res, next) => {
             res.status(error.statusCode || 404).render('error/error404', {
                 title: 'Not Found Data',
                 path: null,
-                clientName: req.signedCookies.clientName,
-                photo: req.signedCookies.photo,
+                clientName: req.session.clientName,
+                photo: req.session.photo,
                 channels: null,
                 error: error
             });
@@ -27,8 +27,8 @@ const errorHandler = async (error, req, res, next) => {
             res.status(error.statusCode || 500).render('error/error500', {
                 title: 'Server Error..',
                 path: null,
-                clientName: req.signedCookies.clientName,
-                photo: req.signedCookies.photo,
+                clientName: req.session.clientName,
+                photo: req.session.photo,
                 channels: null,
                 error: error
             });
@@ -42,8 +42,8 @@ const errorHandler = async (error, req, res, next) => {
         res.status(error.statusCode || 500).render('error/error500', {
             title: 'Server Error..',
             path: null,
-            clientName: req.signedCookies.clientName,
-            photo: req.signedCookies.photo,
+            clientName: req.session.clientName,
+            photo: req.session.photo,
             channels: null,
             error: error
         });
