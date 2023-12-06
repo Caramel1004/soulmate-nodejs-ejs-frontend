@@ -80,9 +80,9 @@ const channelService = {
         }
     },
     // 9. 해당 채널에 유저 초대
-    postInviteUserToChannel: async (jsonWebToken, refreshToken, channelId, invitedUserId, next) => {
+    patchInviteUserToChannel: async (jsonWebToken, refreshToken, channelId, selectedIds, next) => {
         try {
-            const data = await channelAPI.postInviteUserToChannel(jsonWebToken, refreshToken, channelId, invitedUserId, next);
+            const data = await channelAPI.patchInviteUserToChannel(jsonWebToken, refreshToken, channelId, selectedIds, next);
 
             return data;
         } catch (err) {
@@ -149,6 +149,15 @@ const channelService = {
     patchPlusOrMinusNumberOfLikeInFeed: async (token, refreshToken, channelId, feedId, next) => {
         try {
             const data = await channelAPI.patchPlusOrMinusNumberOfLikeInFeed(token, refreshToken, channelId, feedId, next);
+
+            return data;
+        } catch (err) {
+            next(err);
+        }
+    },
+    patchEditChannelByReqUser: async (token, refreshToken, channelId, body, next) => {
+        try {
+            const data = await channelAPI.patchEditChannelByReqUser(token, refreshToken, channelId, body, next);
 
             return data;
         } catch (err) {
