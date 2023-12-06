@@ -83,8 +83,8 @@ router.delete('/workspace/delete-post/:channelId/:workSpaceId/:postId', accessAu
 // PATCH /client/workspace/edit-post/:channelId/:workSpaceId
 router.patch('/workspace/edit-post/:channelId/:workSpaceId', accessAuthorizedToken, multer({ storage: memoryStorage }).array('files', 12), clientController.patchEditPostByCreatorInWorkSpace);//11. 워크스페이스에서 해당 유저의 게시물 내용 수정
 
-// POST /client/workspace/:channelId/:workSpaceId/post/replies
-router.post('/workspace/:channelId/:workSpaceId/post/replies', accessAuthorizedToken, clientController.postGetReplyToPost);// 12. 해당 게시물 댓글 조회
+// POST /client/workspace/post/replies/:channelId/:workSpaceId/:postId
+router.get('/workspace/post/replies/:channelId/:workSpaceId/:postId', accessAuthorizedToken, clientController.getRepliesToPost);// 12. 해당 게시물 댓글 조회
 
 // POST /client/workspace/post/create-reply/:channelId/:workSpaceId
 router.post('/workspace/post/create-reply/:channelId/:workSpaceId', accessAuthorizedToken, multer({ storage: memoryStorage }).single('file'), clientController.postCreateReplyToPost);// 13. 해당 게시물에 댓글 달기
@@ -104,8 +104,8 @@ router.patch('/chat/exit-chat-room/:channelId/:chatRoomId', accessAuthorizedToke
 // GET /client/channel/member-list/:channelId
 router.get('/channel/member-list/:channelId', accessAuthorizedToken, clientController.getMemberListOnChannel);// 16. 공용기능: 채널에있는 유저 목록 불러오기
 
-// PATCH /client/workspace/exit/:channelId/:workSpaceId
-router.patch('/workspace/exit/:channelId/:workSpaceId', accessAuthorizedToken, clientController.patchExitWorkSpace);// 17. 워크스페이스 퇴장
+// PATCH /client/workspace/exit
+router.patch('/workspace/exit', accessAuthorizedToken, clientController.patchExitWorkSpace);// 17. 워크스페이스 퇴장
 
 // PATCH /client/workspace/edit-comment/:channelId/:workSpaceId
 router.patch('/workspace/edit-comment/:channelId/:workSpaceId', accessAuthorizedToken, clientController.patchEditCommentScript);// 18. 워크스페이스 설명 스크립트 편집
