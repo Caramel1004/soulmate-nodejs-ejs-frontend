@@ -106,9 +106,9 @@ const workspaceService = {
         }
     },
     // 6. 댓글 보기
-    getReplyToPost: async (token, refreshToken, postId, channelId, workSpaceId, next) => {
+    getRepliesToPost: async (token, refreshToken, postId, channelId, workSpaceId, next) => {
         try {
-            const data = await workspaceAPI.getReplyToPost(token, refreshToken, postId, channelId, workSpaceId, next);
+            const data = await workspaceAPI.getRepliesToPost(token, refreshToken, postId, channelId, workSpaceId, next);
 
             return data;
         } catch (err) {
@@ -154,9 +154,9 @@ const workspaceService = {
         }
     },
     // 9. 워크스페이스 설명 스크립트 편집
-    patchEditCommentScript: async (token, refreshToken, body, next) => {
+    patchEditCommentScript: async (token, refreshToken, params, next) => {
         try {
-            const data = await workspaceAPI.patchEditCommentScript(token, refreshToken, body, next);
+            const data = await workspaceAPI.patchEditCommentScript(token, refreshToken, params, next);
 
             return data;
         } catch (err) {
