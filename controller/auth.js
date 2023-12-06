@@ -1,9 +1,12 @@
 import fetch from 'node-fetch';
 import { FormData } from 'formdata-node';
+import dotenv from 'dotenv';
 
 import { hasError } from '../validator/valid.js';
 import authAPI from '../API/auth.js';
 import redisClient from '../util/redis.js';
+
+dotenv.config();
 
 const authController = {
     // 로그인 페이지 렌더링
@@ -35,7 +38,7 @@ const authController = {
             formData.append('phone', req.body.phone);
             formData.append('photo', JSON.stringify(photo));
 
-            const response = await fetch('http://localhost:8080/v1/user/signup', {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/user/signup`, {
                 method: 'POST',
                 body: formData
             });
@@ -56,7 +59,7 @@ const authController = {
             const email = req.body.email;
             const password = req.body.password;
 
-            const response = await fetch('http://localhost:8080/v1/user/login', {
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/user/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -70,7 +73,7 @@ const authController = {
             const data = await response.json();
             hasError(data.error);
 
-            // console.log(data);
+            console.log(data);
             // app.locals
             // 자바스크립트 객체이고, 프로퍼티들은 애플리케이션 내의 지역 변수들이다. 
             // 애플리케이션의 라이프 타임 동안 유효하다.
@@ -188,8 +191,6 @@ const authController = {
             if (req.signedCookies) {
                 res.clearCookie('token');
                 res.clearCookie('refreshToken');
-                res.clearCookie('clientName');
-                res.clearCookie('photo');
             }
 
             const logoutResult = await redisClient.v4.del('session: ' + req.signedCookies.sid);
