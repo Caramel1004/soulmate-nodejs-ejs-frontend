@@ -18,7 +18,7 @@ const errorHandler = async (error, req, res, next) => {
                 path: null,
                 clientName: req.session.clientName,
                 photo: req.session.photo,
-                channels: null,
+                channels: req.session.userChannels,
                 error: error
             });
         }
@@ -29,7 +29,7 @@ const errorHandler = async (error, req, res, next) => {
                 path: null,
                 clientName: req.session.clientName,
                 photo: req.session.photo,
-                channels: null,
+                channels: req.session.userChannels,
                 error: error
             });
         }

@@ -62,7 +62,7 @@ const loginValidResult = async (req, res, next) => {
 }
 
 // 인증 토큰 검사(JWT)
-export function accessAuthorizedToken(req, res, next) {
+export function hasAuthorizedToken(req, res, next) {
     const token = req.signedCookies.token;
     if (!token) {
         res.redirect('/login');

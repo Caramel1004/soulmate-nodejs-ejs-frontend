@@ -14,6 +14,7 @@ import RedisStore from 'connect-redis';
 import sockeClient from './socket-client.js';
 import redisClient from './util/redis.js';
 import errorHandler from './error/error-handler.js';
+import { NotFoundError } from './error/error.js';
 
 import authRoutes from './routes/auth.js'
 import viewRoutes from './routes/view.js'
@@ -88,6 +89,11 @@ app.use((req, res, next) => {
 app.use(viewRoutes);
 app.use(authRoutes);
 app.use('/client', clientRoutes);
+app.all('*', () => {
+    const error = new NotFoundError('요청한 페이지를 찾지 못했습니다.');
+    error.isViewRenderError = true;
+    throw error;
+});
 
 // 오류 처리
 app.use(errorHandler);
