@@ -6,8 +6,6 @@ import { getCategoryData } from '../service/static-data.js';
 
 import { hasError, hasNewAuthToken } from '../validator/valid.js';
 import { successType, errorType } from '../util/status.js';
-import redisClient from '../util/redis.js';
-
 
 /**
  * 1. 메인 페이지 == 오픈 채널 목록 페이지
