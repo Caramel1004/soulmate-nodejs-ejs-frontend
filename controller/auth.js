@@ -104,6 +104,8 @@ const authController = {
                 signed: true
             });
 
+            req.session.token = data.token;
+            req.session.refreshToken = data.refreshToken;
             req.session.clientName = data.name;
             req.session.photo = data.photo;
             req.session.userChannels = data.channels;
@@ -192,7 +194,7 @@ const authController = {
                 res.clearCookie('token');
                 res.clearCookie('refreshToken');
             }
-
+            req.session.destroy();
             const logoutResult = await redisClient.v4.del('session: ' + req.signedCookies.sid);
             console.log('logoutResult: ', logoutResult);
             res.redirect('/login');
