@@ -11,7 +11,7 @@ import hpp from 'hpp'
 import session from 'express-session';
 import RedisStore from 'connect-redis';
 
-import sockeClient from './socket-client.js';
+import socketClient from './socket-client.js';
 import redisClient from './util/redis.js';
 import errorHandler from './error/error-handler.js';
 import { NotFoundError } from './error/error.js';
