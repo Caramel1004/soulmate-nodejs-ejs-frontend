@@ -25,8 +25,8 @@
                 </div>
                 <div class="wrapper-title-channel-container">
                     <div id="title">오픈 채널</div>
-                    <div class="channel-box-items">
-                        <%if(channelList.length > 0) { %>
+                    <%if(channelList.length > 0) { %>
+                        <div class="channel-box-items">
                             <% for(let channel of channelList) { %>
                                 <div class="contents__div-wrapper">
                                     <img src="<%= channel.thumbnail %>" onclick="onClickChannelBox('<%= channel._id %>')">
@@ -49,21 +49,23 @@
                                     </div>
                                 </div>
                             <% } %>
-                        <% } else if(!channelList){ %>
-                            <div id="channel-container">
-                                <div class="channel-list">
-                                    <div id="error">
-                                        <img src="/images/icons8-spinner.gif" alt="loading">
-                                        <h1>서버와 연결이 끊겼습니다.</h1>
-                                    </div>
+                        </div>
+                    <% } else {%>
+                        <div id="no-data-comment-box">
+                            <i class="fa-solid fa-exclamation fa-2xl"></i>
+                            <p id="no-data-comment">개설된 채널이 없습니다.</p>
+                        </div>
+                    <% } %>
+                    <% if(!channelList) { %>
+                        <div id="channel-container">
+                            <div class="channel-list">
+                                <div id="error">
+                                    <img src="/images/icons8-spinner.gif" alt="loading">
+                                    <h1>서버와 연결이 끊겼습니다.</h1>
                                 </div>
                             </div>
-                        <% }else { %>
-                            <div id="error">
-                                <p>개설된 채널이 없습니다.</p>
-                            </div>
-                        <% } %>
-                    </div>
+                        </div>
+                    <% } %>
                 </div>
             </div>
         </div>	
