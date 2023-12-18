@@ -259,17 +259,6 @@ h1 {
     color: red;
 }
 
-span.buttonText {
-    display: inline-block;
-    vertical-align: middle;
-    padding-left: 42px;
-    padding-right: 42px;
-    font-size: 14px;
-    font-weight: bold;
-    /* Use the Roboto font that is loaded in the <head> */
-    font-family: 'Roboto', sans-serif;
-}
-
 /* SNS로그인 버튼 css */
 #kakao {
     padding: 0;
