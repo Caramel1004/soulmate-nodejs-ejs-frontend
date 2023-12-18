@@ -115,17 +115,32 @@ body::-webkit-scrollbar-track {
 
 #title {
     margin-top: 40px;
-    padding-bottom: 15px;
+    padding-bottom: 5px;
     /* padding-left: 60px; */
     display: grid;
     align-items: center;
     justify-content: center;
-    grid-template-columns: repeat(auto-fill, 81%);
-    grid-gap: 25px;
     text-align: left;
+    grid-template-columns: repeat(auto-fill, 81%);
+    /* grid-gap: 25px; */
     font-size: 17px;
     /* font-weight: bold; */
     /* border: 1px solid black; */
+}
+
+.title-inner {
+    display: flex;
+    align-items: end;
+}
+
+.title-inner span{
+    margin-left: 10px;
+    text-align: left;
+}
+
+.title-inner img{
+    width: 35px;
+    height: 35px;
 }
 
 .channel-box-items {
@@ -138,6 +153,28 @@ body::-webkit-scrollbar-track {
     /* border: 1px solid black; */
 }
 
+.no-data-comment-container {
+    /* border: 1px groove black; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+}
+.no-data-comment-box {
+    text-align: center;
+    display: block;
+    align-items: center;
+}
+
+.no-data-comment-box img{
+    width: 200px;
+    height: 200px;
+}
+
+#no-data-comment {
+    font-size: 18px;
+    color: #1c1d1c;
+}
 
 .contents__div-wrapper {
     /* margin-right: 20px; */
