@@ -67,7 +67,7 @@ const createModalTagtoSelectThumbnail = () => {
         <div class="create-channel-thumbnail-input-box">
             <label for="filename">파일명</label>
             <label for="file">
-                ${fileName}
+                <span>${fileName}</span>
                 <input type="file" id="file" name="photo" multiple>
                 <i class="fa-regular fa-image fa-lg"></i>
             </label>
@@ -108,7 +108,8 @@ const changePreviewPhoto = e => {
         const imgTag = document.querySelector('.modal-add-mode').querySelector('img');
         console.log(imgTag);
         imgTag.src = base64EncodedFile;
-        document.querySelector('.create-channel-thumbnail-input-box').querySelector('label[for="file"]').insertAdjacentText('afterbegin', document.getElementById('file').files[0].name);
+        document.querySelector('.create-channel-thumbnail-input-box').querySelector('label[for="file"]').querySelector('span').innerText = document.getElementById('file').files[0].name
+        // document.querySelector('.create-channel-thumbnail-input-box').querySelector('label[for="file"]').insertAdjacentText('afterbegin', document.getElementById('file').files[0].name);
     } catch (error) {
         alert(error)
         console.log(error)

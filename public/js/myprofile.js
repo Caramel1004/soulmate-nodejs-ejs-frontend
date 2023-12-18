@@ -88,11 +88,16 @@ const createMyProfileEditModalTag = (id, text, type) => {
             break;
         case 'photo':
             modal.innerHTML +=
-                `<img src="${document.querySelector('.photo-box').querySelector('img').src}">
-                <label for="file">
-                    <input type="file" id="file" name="photo" multiple>
-                    <i class="fa-regular fa-pen-to-square"></i>
-                </label>`;
+                `<div>
+                    <img src="${document.querySelector('.photo-box').querySelector('img').src}">
+                </div>
+                <div class="file-name-box">
+                    <label for="file">
+                        <span>파일을 업로드 하세요.</span>
+                        <input type="file" id="file" name="photo" multiple>
+                        <i class="fa-regular fa-pen-to-square"></i>
+                    </label>
+                </div>`;
             modal.querySelector('label[for="file"]').addEventListener('change', onChangeSelectFile);
             break;
         case 'phone':
@@ -118,7 +123,13 @@ const changePreviewPhoto = e => {
         }
         const imgTag = document.querySelector('.modal-edit-mode').querySelector('img');
         imgTag.src = base64EncodedFile;
-
+        const fileNameBox = document.querySelector('.file-name-box').querySelector('label[for="file"]');
+        // if(fileNameBox.querySelector('span')) {
+        //     fileNameBox.removeChild(fileNameBox.querySelector('span'));
+        // }
+        fileNameBox.querySelector('span').innerText = document.getElementById('file').files[0].name;
+        // fileNameBox.insertAdjacentText('afterbegin', document.getElementById('file').files[0].name);
+        
     } catch (error) {
         alert(error)
         console.log(error)
