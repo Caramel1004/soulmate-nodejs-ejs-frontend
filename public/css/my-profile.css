@@ -180,7 +180,7 @@ li i {
     padding: 10px;
     padding-left: 10px;
     padding-right: 10px;
-    display: flex;
+    display: block;
     align-items: center;
     justify-content: center;
     /* border: 1px groove rgba(0, 0, 0, 0.26); */
@@ -235,15 +235,21 @@ li i {
 }
 
 .modal-edit-mode input[type="file"] {
-    /* display: none; */
+    display: none;
 }
 
-.modal-edit-mode label[for='file'] {
-    margin-top: 50px;
-    padding: 9px 8px 9px 12px;
+.file-name-box {
+    margin-top: 3px;
+    padding: 10px;
+    /* border: 0.5px groove rgba(0, 0, 0, 0.26); */
+}
+
+.file-name-box label[for='file'] {
+    padding: 9px 12px 9px 15px;
     border: 0.5px groove rgba(0, 0, 0, 0.26);
     border-radius: 20px;
     background: #ffffff;
+    font-size: 13px;
     cursor: pointer;
 }
 

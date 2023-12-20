@@ -22,9 +22,6 @@
     background: #ffffff;
     opacity: 1;
 }
-.modal-add-mode.hidden{
-    display: none;
-}
 
 #modal-add-mode {
     margin-top: 50px;
@@ -333,7 +330,7 @@
     color: #ffffff;
 }
 
-#feed-images-empty-box input[type="file"]{
+#feed-images-empty-box input[type="file"] {
     display: none;
 }
 
@@ -356,7 +353,8 @@
     border: 1px groove rgba(0, 0, 0, 0.26);
     border-radius: 5px;
 }
-.member-search-box label[for="search"] i{
+
+.member-search-box label[for="search"] i {
     color: #1d1c1d;
 }
 
@@ -440,12 +438,13 @@
 .search-member-list-box {
     background: #ffffff;
 }
-.search-member-list-box input[type="checkbox"]{
+
+.search-member-list-box input[type="checkbox"] {
     display: none;
 }
 
 .search-member-list-box label {
-    padding: 5px; 
+    padding: 5px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -456,7 +455,8 @@
 .search-exist-member-list-box {
     background: #ffffff;
 }
-.search-exist-member-list-box label{
+
+.search-exist-member-list-box label {
     padding: 5px;
     display: flex;
     align-items: center;
@@ -495,8 +495,55 @@
     color: rgba(0, 0, 0, 0.26);
     float: right;
 }
+
 .search-exist-member-list-box i {
     margin-left: 80px;
     visibility: hidden;
     float: right;
+}
+
+/* 채널 썸네일 에디트 모드 모달창 */
+.modal-channel-edit-mode {
+    margin-top: 50px;
+    padding: 20px;
+    height: 600px;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.26);
+    background: #ffffff;
+    opacity: 1;
+    overflow-y: scroll;
+}
+
+#edit-mode-channel-thumbnail-box {}
+
+#edit-mode-channel-thumbnail-box input[type="file"] {
+    display: none;
+}
+#edit-mode-channel-thumbnail-box img {
+    width: 200px;
+    height: 200px;
+    cursor: pointer;
+    border: 1px groove rgba(0, 0, 0, 0.1);
+    border-radius: 400px;
+}
+
+#edit-channel-thumbnail-btn {
+    padding: 10px 12px 10px 12px;
+    font-size: 17px;
+    color: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    border-radius: 20px;
+}
+
+#edit-channel-thumbnail-btn i {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+#edit-channel-thumbnail-btn:hover,
+#edit-channel-thumbnail-btn:active {
+    background: rgba(0, 0, 0, 0.2);
 }

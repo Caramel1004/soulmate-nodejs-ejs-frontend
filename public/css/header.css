@@ -7,18 +7,20 @@ body {
     margin: 0;
     padding: 0;
     width: 100%;
-    background: rgb(243, 243, 246);
+    /* background: rgb(243, 243, 246); */
+    background: #0a152f;
     position: fixed;
-    z-index: 99;
+    z-index: 1;
+    border-bottom: 1px groove rgba(0, 0, 0, 0.26);
     /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.26); */
 }
 
 /* logo부모 */
 .header__div-wrapper {
-    padding: 4px;
+    padding: 10px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     /* border:1px groove black; */
 }
 
@@ -26,13 +28,9 @@ body {
 .logo {
     padding: 0;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    /* border:1px groove black; */
-    /* letter-spacing: 2px; */
-    font-weight: bold;
+    align-items: end;
+    border: 1px groove #fff;
     font-size: 30px;
-    font-family: 'Roboto';
 }
 
 /* 로고 박스안에 이미지 */
@@ -43,9 +41,10 @@ body {
 
 /* 로고 박스 안에 앱이름 텍스트 */
 .logo a {
-    padding-left: 10px;
+    padding: 3px 4px 0 4px;
+    padding-top: 3px;
     text-decoration: none;
-    color: #000000;
+    color: #fff;
 }
 
 /* 맨오른쪽 유저 정보 박스 */
@@ -59,15 +58,14 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 50px;
-    border: 1px groove rgb(157, 153, 153);
+    /* border: 1px groove rgb(157, 153, 153); */
 }
 
-/* 맨오른쪽 유저 정보 박스 안에 앵커태그(클라이언트 아이디)*/
+/* 맨오른쪽 유저 정보 박스 안에 앵커태그(클라이언트 닉네임)*/
 .user-info a {
     padding-left: 10px;
     text-decoration: none;
-    color: black;
-    font-weight: bold;
+    color: #ffffff;
     font-size: 11px;
     font-family: sans-serif;
 }
@@ -75,13 +73,12 @@ body {
 /* 로그아웃 버튼 => 앵커 태그임 */
 .user-info #btn__log {
     margin-left: 8px;
-    padding: 10px;
+    padding: 8px;
     text-decoration: none;
-    color: #ffffff;
-    font-weight: bold;
+    color: #1c1d1c;
     font-size: 14px;
     font-family: sans-serif;
-    background: black;
+    background: rgba(219, 219, 232, 0.8);
     border-radius: 20px;
     opacity: 0.8;
 }
@@ -93,7 +90,8 @@ body {
 }
 
 .icon i {
-    color: rgba(0, 0, 0, 0.26)
+    /* color: rgba(0, 0, 0, 0.26); */
+    color: #ffffff;
 }
 
 .box-contents {

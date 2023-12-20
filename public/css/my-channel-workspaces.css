@@ -73,6 +73,7 @@ body::-webkit-scrollbar-track {
     /* border: 1px solid black; */
 }
 
+
 #workspace-add__btn {
     margin-top: -5px;
     margin-left: 10px;
@@ -101,6 +102,30 @@ body::-webkit-scrollbar-track {
     grid-gap: 25px;
     grid-auto-flow: row;
     /* border: 1px groove rgba(0, 0, 0, 0.26); */
+}
+
+.no-data-comment-container {
+    /* border: 1px groove black; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+}
+.no-data-comment-box {
+    text-align: center;
+    display: block;
+    align-items: center;
+}
+
+.no-data-comment-box img{
+    width: 200px;
+    height: 200px;
+}
+
+#no-data-comment {
+    font-size: 18px;
+    font-weight: bold;
+    color: #1c1d1c;
 }
 
 

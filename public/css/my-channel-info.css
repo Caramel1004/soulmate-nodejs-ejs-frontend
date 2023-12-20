@@ -326,6 +326,7 @@ body::-webkit-scrollbar-track {
 /* 피드 수정 버튼 */
 #feed-edit,
 #feed-preview-exit {
+    margin-bottom: 5px;
     padding: 10px;
     border: none;
     background: #000000;

@@ -11,14 +11,15 @@ i {
 }
 
 #menu {
-    margin-top: 67px;
+    margin-top: 62px;
     padding: 10px;
     width: 200px;
     height: 100vh;
     display: block;
     position: fixed;
-    border-top: 1px groove rgb(214, 211, 211);
-    background: rgb(243, 243, 246);
+    /* border-top: 1px groove rgb(214, 211, 211); */
+    /* background: rgb(243, 243, 246); */
+    background: #ffffff;
     opacity: 0.9;
     overflow-y: scroll;
     z-index: 1;
@@ -37,7 +38,7 @@ i {
 
 /* 채팅 히스토리 박스 스크롤 디자인 */
 #menu::-webkit-scrollbar {
-    width: 2px;
+    width: 1px;
     /* background: rgb(235, 222, 203); */
     border-radius: 50px;
 }
@@ -50,7 +51,7 @@ i {
 }
 
 #menu::-webkit-scrollbar-track {
-    width: 2px;
+    width: 1px;
     border-radius: 50px;
     background: rgb(243, 243, 246);
 }
@@ -85,14 +86,25 @@ i {
 }
 
 .menu__a-wrapper:hover,
-.menu__a-wrappe:active {
-    background: rgb(219, 219, 232);
+.menu__a-wrapper:active {
+    /* background: rgb(219, 219, 232); */
+    background: rgba(219, 219, 232, 0.3);
     border-radius: 10px;
 }
 
 .menu__type-title {
-    padding: 15px;
+    padding: 10px;
     padding-top: 25px;
+    display: flex;
+    align-items: end;
+}
+.menu__type-title span{
+    margin-left: 10px;
+}
+
+.menu__type-title img{
+    width: 35px;
+    height: 35px;
 }
 
 .menu__channel {
@@ -106,7 +118,7 @@ i {
 
 .menu__channel:hover,
 .menu__channel:active {
-    background: rgb(219, 219, 232);
+    background: rgba(219, 219, 232, 0.3);
     border-radius: 10px;
 }
 
