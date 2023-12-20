@@ -14,14 +14,14 @@
                 <div class="wrapper-title-workspace-container">
                     <div class="inner">
                         <div id="title">
-                            🥰 <span class="client-name"><%= clientName %></span>님이 참여한 워크스페이스
+                            <span class="client-name"><%= clientName %></span>님이 참여한 워크스페이스
                             <button type="button" id="workspace-add__btn">
                                 <i class="fa-solid fa-plus fa-lg"></i>
                                 <span>추가</span> 
                             </button>
                         </div>
-                        <div class="workspace-box-items">
-                            <%if(workSpaces.length > 0) { %>
+                        <%if(workSpaces.length > 0) { %>
+                            <div class="workspace-box-items">
                                 <% for(let workSpace of workSpaces) { %>
                                     <div class="contents__div-wrapper">
                                         <!-- <img src="<%= channel.thumbnail %>"> -->
@@ -39,17 +39,22 @@
                                         </div>
                                     </div>
                                 <% } %>
-                            <% } else { %>
-                                <h4 style="text-align: center;">워크스페이스를 추가 해보세요!!</h4>
-                            <% } %>
-                        </div>
+                            </div>
+                        <% } else { %>
+                            <div class="no-data-comment-container">
+                                <div class="no-data-comment-box">
+                                    <img src="/images/cube-3d.png">
+                                    <p id="no-data-comment">작업 공간이 비어있습니다.</p>
+                                </div>
+                            </div>
+                        <% } %>
                     </div>
                     <div class="inner">
                         <div id="title">
-                            🥰 공개 워크스페이스
+                            공개 워크스페이스
                         </div>
-                        <div class="workspace-box-items">
-                            <%if(workSpaces.length > 0) { %>
+                        <%if(openWorkSpaces.length > 0) { %>
+                            <div class="workspace-box-items">
                                 <% for(let workSpace of openWorkSpaces) { %>
                                     <div class="contents__div-wrapper">
                                         <!-- <img src="<%= channel.thumbnail %>"> -->
@@ -67,12 +72,15 @@
                                         </div>
                                     </div>
                                 <% } %>
-                            <% } else { %>
-                                <div>
-                                    <h4 style="text-align: center;">워크스페이스를 추가 해보세요!!</h4>
+                            </div>
+                        <% } else { %>
+                            <div class="no-data-comment-container">
+                                <div class="no-data-comment-box">
+                                    <img src="/images/cube-3d.png">
+                                    <p id="no-data-comment">공개된 작업 공간이 비어있습니다.</p>
                                 </div>
-                            <% } %>
-                        </div>
+                            </div>
+                        <% } %>
                     </div>
                 </div>
             </div>

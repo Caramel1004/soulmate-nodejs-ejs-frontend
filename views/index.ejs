@@ -4,7 +4,6 @@
     <body>
         <%- include('./includes/header.ejs') %>
         <%- include('./includes/menu.ejs') %>
-        <%- include('./includes/loading.ejs') %>
         <div id="channel-container">
             <div class="channel-list">
                 <div id="box-search">
@@ -15,7 +14,7 @@
                         <% } %>
                     </select>
                     <input type="search" id="search" placeholder="원하는 채널을 검색하세요.">
-                    <button id="btn__search"><i class="fa-solid fa-magnifying-glass fa-lg"></i></button>
+                    <!-- <button id="btn__search"><i class="fa-solid fa-magnifying-glass fa-lg"></i></button> -->
                 </div>
                 <div id="tab-box">
                     <a class="type" href="/">전체</a>
@@ -24,7 +23,13 @@
                     <% } %>
                 </div>
                 <div class="wrapper-title-channel-container">
-                    <div id="title">오픈 채널</div>
+                    <div class="channel-box-items">
+                        <div id="title">
+                            <div class="title-inner">
+                                <img src="/images/open-channel.png"><span>오픈 채널</span>
+                            </div>
+                        </div>
+                    </div>
                     <%if(channelList.length > 0) { %>
                         <div class="channel-box-items">
                             <% for(let channel of channelList) { %>
@@ -51,9 +56,11 @@
                             <% } %>
                         </div>
                     <% } else {%>
-                        <div id="no-data-comment-box">
-                            <i class="fa-solid fa-exclamation fa-2xl"></i>
-                            <p id="no-data-comment">개설된 채널이 없습니다.</p>
+                        <div class="no-data-comment-container">
+                            <div class="no-data-comment-box">
+                                <img src="/images/no-data.png">
+                                <p id="no-data-comment">개설된 채널이 없습니다.</p>
+                            </div>
                         </div>
                     <% } %>
                     <% if(!channelList) { %>

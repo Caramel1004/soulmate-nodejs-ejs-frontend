@@ -10,7 +10,7 @@
                 <i class="fa-regular fa-user"></i>
                 <span>내 프로필 관리</span>
             </a>
-            <a class="menu__a-wrapper" href="/mychannels?searchWord=all" id="mychannels">
+            <a class="menu__a-wrapper" href="/mychannels?searchType=all" id="mychannels">
                 <i class="fa-solid fa-list"></i>
                 <span>내 채널</span>
             </a>
@@ -25,7 +25,7 @@
             </a>
         </section>
         <section class="menu__section">
-            <div class="menu__type-title">참여 채널</div>
+            <div class="menu__type-title"><img src="/images/channel-icon.png"><span>참여 채널</span></div>
             <% if(channels) { %>
                 <% for(const channel of channels) { %>
                     <a class="menu__channel" href="/mychannel/<%= channel._id %>?searchType=info" id="mychannel-<%= channel._id %>">
@@ -34,6 +34,9 @@
                 <% } %>
             <% } %>
         </section>
-        <%- include('./copyright.ejs') %> 
+        <section>
+            <%- include('./copyright.ejs') %> 
+            <a href="../copyright">이미지 저작권</a>
+        </section>
     </div>
 </div>  

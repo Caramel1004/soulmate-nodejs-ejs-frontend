@@ -1,9 +1,12 @@
 <script src="/js/menu.js"></script>
-<% if(path === '/mychannels' || path === '/mychannel/:channelId?searchType=info' || path === '/mychannel/:channelId?searchType=member') { %>
+<% if(path === '/mychannels') { %>
     <script src="/js/mychannels.js"></script>
 <% } %>
+<% if(path === '/mychannels' || path === '/mychannel/:channelId?searchType=info' || path === '/mychannel/:channelId?searchType=member') { %>
+    <script src="/js/tab.js"></script>
+<% } %>
 <% if(path === '/mychannel/:channelId?searchType=workspaces' || path === '/mychannel/:channelId?searchType=chatRooms') { %>
-    <script src="/js/mychannels.js"></script>
+    <script src="/js/tab.js"></script>
 <% } %>
 <% if(path === '/mychannel/:channelId?searchType=info') { %>
     <script src="/js/channel-home.js"></script>

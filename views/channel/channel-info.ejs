@@ -12,13 +12,6 @@
                     <div id="channel-thumbnail-box">
                         <img src=<%= channel.thumbnail %>>
                     </div>
-                    <button id="<%= channel._id %>" class="heart" type="button" onclick="onClickHeartToggleBtn('<%= channel._id %>')">
-                        <% if(channel.isUserWishChannel) { %>
-                            <i class="fa-solid fa-heart fa-xl"></i>
-                        <% } else { %>
-                            <i class="fa-regular fa-heart fa-xl"></i>
-                        <% } %>
-                    </button>
                     <div class="channel-name-box">
                         <p><%= channel.channelName %><span id="edit-channel-btn"><% if(channel.isOwner) { %><i class="fa-regular fa-pen-to-square"></i></span><% } %></p>
                     </div>

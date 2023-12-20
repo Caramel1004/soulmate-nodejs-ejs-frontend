@@ -24,10 +24,10 @@
                 </div>
                 <div class="wrapper-title-channel-container">
                     <div id="title">
-                        <div>🥰 <span class="client-name"><%= clientName %></span> 님이 찜한 채널</div>
+                        <div class="title-inner"><img src="/images/open-channel.png"><span class="client-name"><%= clientName %></span> 님이 찜한 채널</div>
                     </div>
-                    <div class="channel-box-items">
-                        <%if(channelList.length > 0) { %>
+                    <%if(channelList.length > 0) { %>
+                        <div class="channel-box-items">
                             <% for(let channel of channelList) { %>
                                 <div class="contents__div-wrapper">
                                     <img src="<%= channel.thumbnail %>" id="thumbnail">
@@ -46,10 +46,15 @@
                                     <input type="hidden" name="channelId" value="<%= channel._id %>">
                                 </div>
                             <% } %>
-                        <% } else { %>
-                            <h4 style="text-align: center;">관심 채널을 추가해보세요.</h4>
-                        <% } %>
-                    </div>
+                        </div>
+                    <% } else { %>
+                        <div class="no-data-comment-container">
+                            <div class="no-data-comment-box">
+                                <img src="/images/channel-plus.png">
+                                <p id="no-data-comment">관심 채널을 추가해보세요.</p>
+                            </div>
+                        </div>
+                    <% } %>
                 </div>
             </div>
         </div>		
