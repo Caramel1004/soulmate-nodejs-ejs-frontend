@@ -44,14 +44,19 @@ const channelAPI = {
         }
     },
     // 2. 해당 유저의 채널 리스트 조회
-    getChannelListByUserId: async (token, refreshToken, searchWord, next) => {
+    getChannelListByUserId: async (token, refreshToken, reqQuery, next) => {
         try {
-            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/channel/mychannels?searchWord=${searchWord}`, {
-                method: 'GET',
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/channel/mychannels?searchType=${reqQuery.searchType}`, {
+                method: 'POST',
                 headers: {
                     Authorization: 'Bearer ' + token,
-                    Refresh: refreshToken
-                }
+                    Refresh: refreshToken,
+                    'Content-type' : 'application/json'
+                },
+                body: JSON.stringify({
+                    searchWord: reqQuery.searchWord,
+                    category: reqQuery.category
+                })
             });
 
             const resData = await response.json();
@@ -308,16 +313,15 @@ const channelAPI = {
             next(err);
         }
     },
-    patchEditChannelByReqUser: async (token, refreshToken, channelId, body, next) => {
+    patchEditChannelByReqUser: async (token, refreshToken, channelId, formData, next) => {
         try {
             const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/channel/edit-channel/${channelId}`, {
                 method: 'PATCH',
                 headers: {
                     Authorization: 'Bearer ' + token,
                     Refresh: refreshToken,
-                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(body)
+                body: formData
             });
 
             const resData = await response.json();
