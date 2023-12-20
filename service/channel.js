@@ -29,9 +29,9 @@ const channelService = {
         }
     },
     // 2. 해당 유저의 채널 리스트 요청
-    getChannelListByUserId: async (token, refreshToken, searchWord, next) => {
+    getChannelListByUserId: async (token, refreshToken, reqQuery, next) => {
         try {
-            const data = await channelAPI.getChannelListByUserId(token, refreshToken, searchWord, next);
+            const data = await channelAPI.getChannelListByUserId(token, refreshToken, reqQuery, next);
 
             return data;
         } catch (error) {
@@ -155,9 +155,9 @@ const channelService = {
             next(err);
         }
     },
-    patchEditChannelByReqUser: async (token, refreshToken, channelId, body, next) => {
+    patchEditChannelByReqUser: async (token, refreshToken, channelId, formData, next) => {
         try {
-            const data = await channelAPI.patchEditChannelByReqUser(token, refreshToken, channelId, body, next);
+            const data = await channelAPI.patchEditChannelByReqUser(token, refreshToken, channelId, formData, next);
 
             return data;
         } catch (err) {
