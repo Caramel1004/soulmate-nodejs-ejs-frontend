@@ -76,7 +76,7 @@ const createModalTagtoSelectThumbnail = () => {
             <button type="submit" id="complete">완료</button>
             <a id="cancel">취소</a>
         </div>`;
-    console.log(modal);
+    
     // document.getElementById('file').files = thumbnailFiles;
     modalBackGround.appendChild(modal);
     document.body.appendChild(modalBackGround);
@@ -156,6 +156,7 @@ const postCreateChannel = async () => {
     const channelName = document.querySelector('.box__div-form').querySelector('input[name="channelName"]');
     const thumbnail = document.querySelector('.box__div-form').querySelector('input[type="file"], input[name="thumbnail"]');
     const category = document.querySelector('.box__div-form').querySelector('select[name="category"]');
+    const summary = document.querySelector('.box__div-form').querySelector('input[name="summary"]');
     const comment = document.querySelector('.box__div-form').querySelector('textarea[name="comment"]');
     try {
         const formData = new FormData();
@@ -163,6 +164,7 @@ const postCreateChannel = async () => {
         formData.append('channelName', channelName.value);
         formData.append('thumbnail', thumbnail.files[0]);
         formData.append('category', category.options[category.selectedIndex].value);
+        formData.append('summary', summary.value);
         formData.append('comment', comment.value);
         const response = await fetch(`http://localhost:3000/client/channel/create`, {
             method: 'POST',
