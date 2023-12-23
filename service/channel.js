@@ -53,6 +53,13 @@ const channelService = {
         try {
             const data = await channelAPI.getChannelDetailByChannelId(token, refreshToken, channelId, next);
 
+            const passedTime = Math.ceil((new Date(data.channel.createdAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+            const formatterDay = new Intl.RelativeTimeFormat('ko', {
+                numeric: 'auto'
+            });
+
+            data.channel.passedTime = formatterDay.format(passedTime, 'days').split('일')[0];
+
             return data;
         } catch (err) {
             next(err);
@@ -90,10 +97,10 @@ const channelService = {
         }
     },
     // 10. 워크스페이스 목록 요청
-    getWorkSpaceList: async (jsonWebToken, refreshToken, channelId, searchWord, next) => {
+    getWorkSpaceList: async (jsonWebToken, refreshToken, channelId, searchWord, open, next) => {
         try {
-            const data = await channelAPI.getWorkSpaceList(jsonWebToken, refreshToken, channelId, searchWord, next);
-
+            const data = await channelAPI.getWorkSpaceList(jsonWebToken, refreshToken, channelId, searchWord, open, next);
+            
             return data;
         } catch (err) {
             next(err);
