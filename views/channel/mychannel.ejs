@@ -24,8 +24,10 @@
                     <a class="type" id="work" href="/mychannels?searchType=work">워크스페이스</a>
                 </div>
                 <div class="wrapper-title-channel-container">
-                    <div id="title">
-                        <div class="title-inner"><img src="/images/channel-icon.png"><span class="client-name"><%= clientName %></span>님의 채널 | 그이상의 소통을 만들어 보세요</div>
+                    <div class="channel-box-items">
+                        <div id="title">
+                            <div class="title-inner"><img src="/images/channel-icon.png"><span class="client-name"><%= clientName %></span>님의 채널</div>
+                        </div>
                     </div>
                     <%if(channelList.length > 0) { %>
                         <div class="channel-box-items">
@@ -36,14 +38,17 @@
                                         <span><%= channel.channelName %></span>
                                     </div>
                                     <div class="card">
-                                        <i class="fa-solid fa-user"></i><span><%= channel.members.length %></span>
-                                    </div>
-                                    <div class="card">
                                         <% for(let category of channel.category) { %>
-                                            <a class="hash" href="#">#<%= channel.category %></a>
+                                            <a class="hash" href="#"># <%= channel.category %></a>
                                         <% } %>
                                     </div>
                                     <div class="card">
+                                        <i class="fa-solid fa-user"></i><span><%= channel.members.length %></span>
+                                        <i class="fa-solid fa-cubes-stacked fa-sm" style="color: #42af2c"></i><span><%= channel.workSpaces.length %></span>
+                                        <i class="fa-regular fa-comments fa-sm" style="color: #1c1d1c;"></i><span><%= channel.chatRooms.length %></span>
+                                        <!-- <i class="fa-solid fa-heart fa-lg" style="color: red;"></i><span>1</span> -->
+                                    </div>
+                                    <div class="card-2">
                                         <a class="a__btn-enter" href="/mychannel/<%= channel._id %>?searchType=info">채널 입장</a>
                                     </div>
                                 </div>
