@@ -23,8 +23,10 @@
                     <% } %>
                 </div>
                 <div class="wrapper-title-channel-container">
-                    <div id="title">
-                        <div class="title-inner"><img src="/images/open-channel.png"><span class="client-name"><%= clientName %></span> 님이 찜한 채널</div>
+                    <div class="channel-box-items">
+                        <div id="title">
+                            <div class="title-inner"><img src="/images/open-channel.png"><span class="client-name"><%= clientName %></span> 님이 찜한 채널</div>
+                        </div>
                     </div>
                     <%if(channelList.length > 0) { %>
                         <div class="channel-box-items">
@@ -33,7 +35,7 @@
                                     <img src="<%= channel.thumbnail %>" id="thumbnail">
                                     <div class="channel-name-card">
                                         <span><%= channel.channelName %></span>
-                                        <button id="<%= channel._id %>" class="remove__btn" type="button" onclick="onClickHeartToggleBtn('<%= channel._id %>')">삭제</button>
+                                        <button class="remove__btn" type="button" data-channelId="<%= channel._id %>">삭제</button>
                                     </div>
                                     <div class="card">
                                         <i class="fa-solid fa-user"></i><span><%= channel.members.length %>명</span>
