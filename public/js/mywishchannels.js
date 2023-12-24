@@ -1,6 +1,6 @@
 /** ----------------- 이벤트 함수 ----------------- */
-const onClickHeartToggleBtn = async channelId => {
-    await postAddOpenChannelToWishChannel(channelId);
+const onClickHeartToggleBtn = async e => {
+    await postAddOpenChannelToWishChannel(e);
 }
 
 const onClickChannelBox = async channelId => {
@@ -19,14 +19,23 @@ const onKeyDownSearchBox = async e => {
 }
 
 /** ----------------- 태그관련 함수 ----------------- */
-const removeWishChannelTag = channelId => {
-    const removeTag = document.getElementById(channelId).parentNode.parentNode;
-    const parentNode = document.querySelector('.channel-box-items');
+const removeWishChannelTag = e => {
+    const removeTag = e.target.parentNode.parentNode;
+    const parentNode = removeTag.parentNode;
 
     parentNode.removeChild(removeTag);
 
     if (parentNode.children.length <= 0) {
-        parentNode.innerHTML = '<h4>관심 채널을 추가해보세요.</h4>';
+        const topParentNode = parentNode.parentNode;
+        console.log(parentNode.parentNode);
+        topParentNode.removeChild(parentNode);
+        topParentNode.innerHTML += `
+        <div class="no-data-comment-container">
+            <div class="no-data-comment-box">
+                <img src="/images/channel-plus.png">
+                <p id="no-data-comment">관심 채널을 추가해보세요.</p>
+            </div>
+        </div>`;
     }
 }
 
@@ -49,7 +58,8 @@ const activeSearchTypeBtnColor = () => {
 }
 
 /** ----------------- API 요청 함수 -----------------*/
-const postAddOpenChannelToWishChannel = async channelId => {
+const postAddOpenChannelToWishChannel = async e => {
+    const channelId = e.target.dataset.channelid;
     try {
         const response = await fetch('http://localhost:3000/client/add-or-remove-wishchannel', {
             method: 'POST',
@@ -63,7 +73,7 @@ const postAddOpenChannelToWishChannel = async channelId => {
         const data = await response.json();
         
         // 해당 태그 삭제
-        removeWishChannelTag(channelId);
+        removeWishChannelTag(e);
     } catch (err) {
         console.log(err);
     }
@@ -90,9 +100,16 @@ const getSearchWishChannelsByKeyWord = async e => {
 
 /** ----------------- 이벤트 리스너 -----------------*/
 window.addEventListener('DOMContentLoaded', activeSearchTypeBtnColor);
-document.getElementById('thumbnail').addEventListener('mouseover', () => {
-    document.getElementById('thumbnail').style.cursor = 'pointer';
-})
+if(document.getElementById('thumbnail')) {
+    document.getElementById('thumbnail').addEventListener('mouseover', () => {
+        document.getElementById('thumbnail').style.cursor = 'pointer';
+    })
+}
 document.getElementById('search').addEventListener('keydown', e => {
     onKeyDownSearchBox(e);
+})
+
+/** 관심채널 카드 태그 삭제 버튼 이벤트 리스너 */
+document.querySelectorAll('.contents__div-wrapper').forEach(target => {
+    target.querySelector('button').addEventListener('click', onClickHeartToggleBtn);
 })
