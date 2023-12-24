@@ -96,22 +96,28 @@ body::-webkit-scrollbar-track {
     margin-bottom: 40px;
     margin-left: 100px;
     margin-right: 100px;
-    /* display: block; */
     /* border: 1px groove black; */
 }
 
 /* 1. 채널 정보 패널 */
+#channel-thumbnail-box {
+    padding: 0;
+    width: 270px;
+    height: 270px;
+    /* border: 1px groove rgba(0, 0, 0, 0.1); */
+}
+
 #channel-thumbnail-box img {
-    width: 200px;
-    height: 200px;
+    width: 270px;
+    height: 270px;
     cursor: pointer;
     border: 1px groove rgba(0, 0, 0, 0.1);
-    border-radius: 400px;
+    border-radius: 20px;
 }
 
 .channel-name-box p {
     color: rgb(212, 78, 21);
-    font-size: 20px;
+    font-size: 40px;
     font-weight: bolder;
 }
 
@@ -129,25 +135,173 @@ body::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, 0.2);
 }
 
-#sub {
-    font-size: 13px;
-    color: rgba(0, 0, 0, 0.4);
-}
-
-.info {
+.container-channel-thumbnail-summary {
+    margin-top: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
     /* border: 1px groove rgba(0, 0, 0, 0.26); */
 }
 
+.channel-summary-box {
+    margin-left: 30px;
+    padding: 20px;
+    width: 500px;
+    height: 230px;
+    display: block;
+    align-items: center;
+    justify-content: center;
+    border: 1px groove rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+}
+
+.summary-text-box {
+    font-size: 15px;
+    color: #1c1d1c;
+}
+
+.category-title-text-box {
+    margin-top: 10px;
+    padding: 15px;
+    font-size: 30px;
+    color: #666666;
+}
+
+.category-container {
+    padding: 20px;
+    display: block;
+    align-items: center;
+    justify-content: center;
+    /* border: 1px groove rgba(0, 0, 0, 0.26); */
+}
+
+
+.hash {
+    margin-right: 5px;
+    padding: 7px 14px 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    font-size: 13px;
+    font-weight: 500;
+    color: #666666;
+    background: rgb(243, 243, 246);
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.hash:hover,
+.hash:active {
+    background: rgb(180, 180, 189);
+}
+
 .box-text {
-    margin-left: 10px;
+    /* margin-left: 10px; */
     padding: 15px;
     width: 400px;
     border: 1px groove rgba(0, 0, 0, 0.26);
     border-radius: 10px;
+}
+
+.container-channel-status {
+    padding: 0;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fill, 300px);
+    grid-gap: 5px;
+    grid-auto-flow: row;
+}
+
+.card-channel-status {
+    /* margin-right: 5px; */
+    padding: 15px;  
+    width: 270px;
+    border: 1px groove rgba(0, 0, 0, 0.26);
+    border-radius: 10px;
+}
+
+.container-channel-members-slide {
+    margin-top: 20px;
+    padding: 0;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fill, 120px);
+    /* border: 1px groove rgba(0, 0, 0, 0.26); */
+    grid-gap: 10px;
+    grid-auto-flow: row;
+}
+
+.container-members-card {
+    margin-right: 5px;
+    padding: 10px;
+    width: 100px;
+    border: 1px groove rgba(0, 0, 0, 0.26);
+    border-radius: 10px;
+}
+
+.member-photo-box img{
+    width: 50px;
+    height: 50px;
+    border: 1px groove rgba(0, 0, 0, 0.26);
+    border-radius: 40px;
+}
+
+.channel-member-name {
+    padding-top: 10px;
+    font-size: 15px;
+    color: #666666;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+}
+
+/* 공통 */
+.card-status-title {
+    font-size: 17px;
+    color: #333333;
+}
+
+.card-channel-status img{
+    width: 100px;
+    height: 100px;
+}
+
+#status-number { 
+    font-size: 3rem;
+}
+
+#ssss{
+    font-size: 15px;
+}
+
+.workspace-figure-number-color {
+    font-size: 15px;
+    color: rgba(64, 64, 206, 0.825);
+}
+
+.chat-room-figure-number-color {
+    color: rgb(212, 78, 21);
+}
+
+.member-figure-number-color {
+    font-size: 15px;
+    color: rgb(231, 231, 21);
+}
+
+.day-figure-number-color {
+    font-size: 15px;
+    color: rgba(32, 190, 32, 0.823);
+}
+
+.feeds-figure-number-color {
+    font-size: 15px;
+    color: rgba(82, 82, 174, 0.829);
+}
+
+.open-color {
+    font-size: 18px;
 }
 
 .text {
@@ -384,9 +538,33 @@ body::-webkit-scrollbar-track {
     padding: 10px 15px 10px 15px;
     font-size: 20px;
     color: rgba(0, 0, 0, 0.3);
-    background: rgb(243, 243, 246);
+    /* background: rgb(243, 243, 246); */
     border-radius: 25px;
     text-align: center;
+}
+
+.no-data-comment-container {
+    /* border: 1px groove black; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+}
+.no-data-comment-box {
+    text-align: center;
+    display: block;
+    align-items: center;
+}
+
+.no-data-comment-box img{
+    width: 200px;
+    height: 200px;
+}
+
+#no-data-comment {
+    font-size: 18px;
+    font-weight: bold;
+    color: #1c1d1c;
 }
 
 /* 3. 소개 박스 */

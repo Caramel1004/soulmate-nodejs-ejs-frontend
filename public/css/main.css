@@ -23,11 +23,10 @@ body::-webkit-scrollbar-track {
 
 #channel-container {
     /* margin-top: 70px; */
-    margin-left: 230px;
-    padding: 70px;
+    margin-left: 220px;
+    padding: 80px;
     width: auto;
     display: block;
-    justify-content: space-between;
     align-items: center;
     background: #ffffff;
     text-align: center;
@@ -43,23 +42,30 @@ body::-webkit-scrollbar-track {
 }
 
 #box-search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 15px;
     /* border: 1px solid black; */
     text-align: center;
 }
 
 #category {
-    padding: 10px;
+    padding: 12px;
+    width: 190px;
     border: 1px groove rgba(0, 0, 0, 0.26);
+    border-right: #ffffff;
+    border-radius: 20px 0 0 20px;
     font-size: 15px;
     outline: none;
 }
 
 #search {
-    padding: 10px;
-    width: 50%;
-    border: 0.1rem groove rgba(0, 0, 0, 0.26);
-    border-radius: 20px;
+    padding: 12px;
+    width: 60%;
+    font-size: 16px;
+    border: 1px groove rgba(0, 0, 0, 0.26);
+    border-radius: 0 20px 20px 0;
     outline: none;
 }
 
@@ -73,9 +79,8 @@ body::-webkit-scrollbar-track {
 
 
 #tab-box {
+    margin-top: 10px;
     padding: 5px;
-    font-size: 22px;
-    /* font-weight: bold; */
     text-align: center;
 }
 
@@ -104,20 +109,20 @@ body::-webkit-scrollbar-track {
     display: flex;
     align-items: end;
 }
-.title-inner span{
+
+.title-inner span {
     margin-left: 10px;
     text-align: left;
     font-size: 20px;
 }
 
-.title-inner img{
+.title-inner img {
     width: 35px;
     height: 35px;
 }
 
 .type {
-    /* margin-right: 5px; */
-    padding: 10px;
+    padding: 10px 15px 10px 15px;
     text-align: center;
     text-decoration: none;
     border: none;
@@ -129,10 +134,28 @@ body::-webkit-scrollbar-track {
     cursor: pointer;
 }
 
-.type.active {
+/* .type {
+    padding: 50px 10px 50px 10px;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    font: inherit;
+    font-size: 14px;
+    color: black;
+    background: #ffffff;
+    border-radius: 20px;
+    cursor: pointer;
+} */
+
+/* .type img {
+    width: 50px;
+    height: 50px;
+} */
+
+/* .type.active {
     color: #ffffff;
-    background: black;
-}
+    background: rgb(243, 243, 246);
+} */
 
 .type:hover,
 .type:active {
@@ -148,15 +171,15 @@ body::-webkit-scrollbar-track {
     display: grid;
     align-items: center;
     justify-content: center;
-    grid-template-columns: repeat(auto-fill, 200px);
+    grid-template-columns: repeat(auto-fill, 250px);
     grid-gap: 25px;
     grid-auto-flow: row;
     /* border: 1px groove rgba(0, 0, 0, 0.26); */
 }
 
 .contents__div-wrapper {
-    padding: 5px;
-    width: 200px;
+    /* padding: 5px; */
+    width: 250px;
     text-align: left;
     display: inline-block;
     /* justify-content: flex-end; */
@@ -175,13 +198,14 @@ body::-webkit-scrollbar-track {
     justify-content: center;
     height: 400px;
 }
+
 .no-data-comment-box {
     text-align: center;
     display: block;
     align-items: center;
 }
 
-.no-data-comment-box img{
+.no-data-comment-box img {
     width: 200px;
     height: 200px;
 }
@@ -229,70 +253,91 @@ body::-webkit-scrollbar-track {
 .contents__div-wrapper img {
     padding: 0;
     width: 100%;
-    height: 120px;
-    border-radius: 5px;
-    border-bottom: 1px groove rgb(157, 153, 153);
+    height: 150px;
+    border-radius: 5px 5px 0 0;
+    border-bottom: 1px groove rgba(157, 153, 153, 0.1);
     cursor: pointer;
 }
 
 /* card */
 .card {
-    padding-top: 0px;
-
+    padding: 15px 0 5px 15px;
     /* border: 1px solid black; */
 }
 
-.card h2 {
-    font-size: 15px;
-    font-weight: bolder;
+.card_2 {
+    padding: 10px 0 15px 15px;
+    /* border: 1px solid black; */
+}
+
+.card-summary {
+    padding: 10px 0 15px 15px;
+    color: #333333;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow-x: hidden;
+    /* display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical; */
+    font-size: 1.0625rem;
+    text-decoration: none;
+    font-weight: 700;
+    line-height: 1.55;
+    height: 3.5rem;
 }
 
-.heart {
+.card span {
+    font-size: 14px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+    color: #666666
+}
+
+.heart-container {
+    padding: 15px 18px 15px 0;
+    display: flex;
+    justify-content: right;
+    position: absolute;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0, 0.01) 20%);
+    /* border: 0.5px groove rgba(0, 0, 0, 0.26); */
+    border-radius: 10px 10px 0 0;
+    width: 240px;
+}
+
+.heart-container.heart-box {
+    width: 100%;
+    opacity: 0.35;
+    z-index: 1;
+}
+
+.heart-box i {
+    opacity: 0.7;
+    color: red;
+    cursor: pointer;
+}
+
+/* .heart {
     padding: 13px;
     padding-top: 15px;
     padding-bottom: 13px;
-    /* border: 0.5px groove rgba(0, 0, 0, 0.26); */
     border: none;
     border-radius: 30px;
     background: #ffffff;
     cursor: pointer;
 }
 
-.heart i{
+.heart i {
     color: red;
-}
-
-
-.a__btn-enter {
-    padding: 10px;
-    text-align: center;
-    text-decoration: none;
-    border: none;
-    font: inherit;
-    font-size: 15px;
-    color: black;
-    display: block;
-    background: rgb(243, 243, 246);
-    border-radius: 3px;
-    cursor: pointer;
-}
-
-.a__btn-enter:hover,
-.a__btn-enter:active {
-    background: rgb(180, 180, 189);
-}
+} */
 
 .hash {
-    padding: 5px;
+    padding: 7px 10px 7px 10px;
     text-align: center;
     text-decoration: none;
     border: none;
-    font: inherit;
     font-size: 10px;
-    color: black;
+    color: #666666;
     background: rgb(243, 243, 246);
     border-radius: 20px;
     cursor: pointer;

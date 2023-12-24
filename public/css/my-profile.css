@@ -103,6 +103,7 @@ li>#email {
 }
 
 #name,
+#unique-id,
 #phone,
 #sns,
 #withdrawal {
@@ -111,6 +112,8 @@ li>#email {
 
 #name:hover,
 #name:active,
+#unique-id:hover,
+c:active,
 #phone:hover,
 #phone:active,
 #sns:hover,
