@@ -43,6 +43,7 @@ const clientControlller = {
             const category = req.body.category;// 카테고리
             const comment = req.body.comment;// 채널 멘트
             const open = req.body.open;
+            const summary = req.body.summary;
 
             const formData = new FormData();
             formData.append('channelName', channelName);
@@ -50,6 +51,7 @@ const clientControlller = {
             formData.append('category', category);
             formData.append('comment', comment);
             formData.append('open', open);
+            formData.append('summary', summary);
 
             const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/channel/create`, {
                 method: 'POST',
@@ -586,10 +588,27 @@ const clientControlller = {
         try {
             const { token, refreshToken } = req.signedCookies;
             const { channelId } = req.params;
-
-            const data = await channelService.patchEditChannelByReqUser(token, refreshToken, channelId, req.body, next);
+            const formData = new FormData();
+            formData.append('open', req.body.open);
+            formData.append('channelName', req.body.channelName);
+            formData.append('summary', req.body.summary);
+            formData.append('comment', req.body.comment);
+            formData.append('category',req.body.category);
+            if(req.file) {
+                console.log(req.file)
+                formData.append('thumbnail', JSON.stringify(req.file));
+            }
+            const data = await channelService.patchEditChannelByReqUser(token, refreshToken, channelId, formData, next);
             hasError(data.error);
 
+            if(data.thumbnail.length > 0) {
+                req.session.userChannels.map(channel => {
+                    if(channel._id === data.channelId) {
+                        channel.thumbnail = data.thumbnail[0]
+                    }
+                })
+            }
+ 
             res.status(data.status.code).json({
                 status: data.status
             })
