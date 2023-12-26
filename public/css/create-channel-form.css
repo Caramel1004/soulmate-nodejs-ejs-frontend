@@ -219,6 +219,11 @@ body::-webkit-scrollbar-track {
     border: 1px groove rgba(0, 0, 0, 0.1);
     resize: none;
 }
+#summary {
+    width: 350px;
+    height: 5vh;
+    resize: none
+}
 
 .contents-form__textarea::placeholder {
     padding: 0;
