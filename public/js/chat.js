@@ -692,7 +692,7 @@ const getLoadUsersInChannel = async () => {
     const channelId = url.split('/')[5];
     const chatRoomId = url.split('/')[6];
 
-    const response = await fetch(`http://localhost:8080/api/v1/chat/channel-members/${channelId}/${chatRoomId}`, {
+    const response = await fetch(`http://http://52.79.253.40:8080/api/v1/chat/channel-members/${channelId}/${chatRoomId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
