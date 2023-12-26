@@ -5,7 +5,7 @@ const onClickChatRoomAddBtn = () => {
     createModalTagtoAddChatRoom(channelId, '채팅룸');
 
     document.getElementById('submit').addEventListener('click', () => {
-        onClickCompleteBtn(channelId);
+        onClickCompleteBtn(this.channelId);
     })
     document.getElementById('cancel').addEventListener('click', () => {
         console.log('event');
