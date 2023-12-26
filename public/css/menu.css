@@ -14,14 +14,15 @@ i {
     margin-top: 62px;
     padding: 10px;
     width: 200px;
-    height: 100vh;
+    height: 90vh;
     display: block;
     position: fixed;
-    /* border-top: 1px groove rgb(214, 211, 211); */
+    border-right: 0.1px groove rgba(0, 0, 0, 0.1);
     /* background: rgb(243, 243, 246); */
     background: #ffffff;
     opacity: 0.9;
-    overflow-y: scroll;
+    overflow: hidden;
+    overflow-y: auto;
     z-index: 1;
 }
 
@@ -32,25 +33,27 @@ i {
 
 #menu:hover,
 #menu:active {
-    overflow-y: scroll;
-    /* overflow-x: hidden; */
+    overflow-y: auto;
 }
 
 /* 채팅 히스토리 박스 스크롤 디자인 */
-#menu::-webkit-scrollbar {
+#menu::-webkit-scrollbar:hover,
+#menu::-webkit-scrollbar:active {
     width: 1px;
     /* background: rgb(235, 222, 203); */
     border-radius: 50px;
 }
 
-#menu::-webkit-scrollbar-thumb {
+#menu::-webkit-scrollbar-thumb:hover,
+#menu::-webkit-scrollbar-thumb:active {
     width: 7px;
     height: 10px;
     background: rgb(155, 151, 151);
     border-radius: 50px;
 }
 
-#menu::-webkit-scrollbar-track {
+#menu::-webkit-scrollbar-track:hover,
+#menu::-webkit-scrollbar-track:active {
     width: 1px;
     border-radius: 50px;
     background: rgb(243, 243, 246);
@@ -69,7 +72,7 @@ i {
     border-radius: 10px;
 }
 
-#wishchannels i{
+#wishchannels i {
     color: red;
 }
 
@@ -98,11 +101,12 @@ i {
     display: flex;
     align-items: end;
 }
-.menu__type-title span{
+
+.menu__type-title span {
     margin-left: 10px;
 }
 
-.menu__type-title img{
+.menu__type-title img {
     width: 35px;
     height: 35px;
 }
@@ -224,12 +228,23 @@ i {
     background: rgb(219, 219, 232);
 }
 
+.menu__copyright {
+    padding: 0;
+}
+
 #copyright {
-    margin-top: 20px;
-    padding-top: 20px;
-    display: flex;
-    align-items: end;
+    /* margin-top: 20px; */
+    padding-top: 10px;
+    /* padding-botto: 10px; */
+    display: block;
+    align-items: center;
     font-size: 12px;
     color: #888;
-    border-top: 1px groove rgba(0, 0, 0, 0.26);
+    /* border-top: 1px groove rgba(0, 0, 0, 0.26); */
+}
+
+#copyright a {
+    text-decoration: none;
+    font-size: 12px;
+    color: #888;
 }
