@@ -16,6 +16,8 @@ const router = Router();
  * 7. 채팅방 입장 -> 채팅방 페이지
  */
 
+router.get('/copyright', viewController.getCopyrightPage);
+
 // GET /
 router.get('/', viewController.getMainPage);// 1. 메인페이지 == 오픈 채널 컨텐츠가 있는 페이지
 
