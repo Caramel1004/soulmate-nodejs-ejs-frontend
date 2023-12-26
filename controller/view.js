@@ -20,6 +20,19 @@ import { successType, errorType } from '../util/status.js';
  */
 
 const viewController = {
+    getCopyrightPage: async (req, res, next) => {
+        try {
+            res.render('copyright', {
+                path: '/copyright',
+                title: 'Soulmate 이미지 저작권자',
+                clientName: req.session.clientName,
+                photo: req.session.photo,
+                channels: req.session.userChannels,
+            });
+        } catch (err) {
+            next(err)
+        }
+    },
     // 1. 메인 페이지 ==  생성된 오픈 채널 목록 페이지
     getMainPage: async (req, res, next) => {
         try {
@@ -124,7 +137,7 @@ const viewController = {
         try {
             const { token, refreshToken, sid } = req.signedCookies;
 
-            const resData = await channelService.getChannelListByUserId(token, refreshToken, req.query.searchWord, next);
+            const resData = await channelService.getChannelListByUserId(token, refreshToken, req.query, next);
             hasError(resData.error);
             hasNewAuthToken(res, resData.authStatus);
             const staticData = await getCategoryData(next);
@@ -190,7 +203,7 @@ const viewController = {
         try {
             const jsonWebToken = req.signedCookies.token;
             const channelId = req.params.channelId;
-            const { searchType, searchWord } = req.query;
+            const { searchType, searchWord, open } = req.query;
             const fileName = `channel/channel-${searchType}`;
 
             // 1. 해당 채널아이디 보내주고 해당 채널 입장 요청
@@ -219,15 +232,13 @@ const viewController = {
             }
 
             let matchedWorkSpaceList = null;
-            let matchedOpenWorkSpaceList = null;
             if (searchType === 'workspaces') {
                 // 3. 워크스페이스 목록 요청
-                const workSpaceListData = await channelService.getWorkSpaceList(jsonWebToken, req.signedCookies.refreshToken, channelId, searchWord, next);
+                const workSpaceListData = await channelService.getWorkSpaceList(jsonWebToken, req.signedCookies.refreshToken, channelId, searchWord, open, next);
                 hasError(workSpaceListData.error);
                 matchedWorkSpaceList = workSpaceListData.workSpaces;
-                matchedOpenWorkSpaceList = workSpaceListData.openWorkSpaces;
             }
-            
+
             // 4. 해당 채널 렌더링
             res.status(channelDetailData.status.code).render(fileName, {
                 path: `/mychannel/:channelId?searchType=${searchType}`,
@@ -238,7 +249,6 @@ const viewController = {
                 channel: matchedChannel,
                 chatRooms: matchedChatRoomList,
                 workSpaces: matchedWorkSpaceList,
-                openWorkSpaces: matchedOpenWorkSpaceList,
                 searchWord: searchWord
             });
         } catch (err) {
