@@ -13,6 +13,7 @@ const onClickEditChannelInfoBtn = () => {
     document.getElementById('yes').addEventListener('click', onClickOpenYNRadio);
     document.getElementById('no').addEventListener('click', onClickOpenYNRadio);
     document.getElementById('channel-edit-request__btn').addEventListener('click', onClickEditChannelByReqUserBtn);
+    document.getElementById('edit-mode-channel-thumbnail-box').querySelector('label[for="file"]').addEventListener('change', onChangeSelectedThumbnail)
 }
 
 const onClickEditChannelByReqUserBtn = async () => {
@@ -99,6 +100,146 @@ const onClickFeedPreviewExitBtn = () => {
         onClickEditFeedByReqUserBtn(e);
     });
 }
+
+/**
+ * 이미지 파일 선택했을 때
+ * @param {e: event}
+ * e.target.files: 파일 오브젝트
+ * e.target.files[0]: 파일 정보
+ * e.target.result: base64로 인코딩된 파일
+ */
+const onChangeSelectFile = async e => {
+    try {
+        const fileTag = e.target;
+        const fileInfo = e.target.files[0];
+        console.log(e.target.files[0]);
+        // console.log(fileTag.files[0]);
+        // console.log(fileTag.files[0].name);
+        // console.log(fileTag.files[0].size);
+        // console.log(fileTag.files[0].lastModifiedDate);
+
+        if (fileTag.files && fileTag.files[0]) {
+            const fileReader = new FileReader();
+            fileReader.onload = createPreviewTag;
+            fileReader.readAsDataURL(fileTag.files[0]);
+        }
+    } catch (error) {
+        alert(error);
+        console.log(error)
+    }
+}
+const onChangeSelectedThumbnail = async e => {
+    try {
+        const fileTag = e.target;
+
+        if (fileTag.files && fileTag.files[0]) {
+            const fileReader = new FileReader();
+            fileReader.onload = changeThumbnail;
+            fileReader.readAsDataURL(fileTag.files[0]);
+        }
+    } catch (error) {
+        alert(error);
+        console.log(error)
+    }
+}
+
+const onClickCloseBtn = className => {
+    this.selectedFeedImages = [];
+    this.existFeedFiles = [];
+    removeChildrenTag(className);
+}
+
+const onClickFileRemoveBtn = e => {
+    removeFileTag(e);
+}
+
+const onClickOpenYNRadio = () => {
+    checkOpenYNRadio();
+}
+
+// const onMouseOverThumbnailTag = () => {
+//     const thumbnailBox = document.getElementById('channel-thumbnail-box').querySelector('img');
+//     thumbnailBox.style.background = '#000000';
+//     thumbnailBox.style.opacity = '0.2';
+// }
+/** ----------------- 태그관련 함수 ----------------- */
+const createModalTagtoEditChannelInfo = () => {
+    const thumbnail = document.getElementById('channel-thumbnail-box').querySelector('img').src;
+    const channelName = document.querySelector('.channel-name-box').innerText;
+    const openYN = document.getElementById('openYN').dataset.open;
+    let comment = '';
+    if (document.querySelectorAll('.unit-box')[1].querySelector('.intro-comment')) {
+        comment = document.querySelectorAll('.unit-box')[1].querySelector('.intro-comment').innerText;
+    }
+    const category = document.querySelector('.category-container').querySelectorAll('.hash')[0].dataset.category;
+    console.log(category)
+    const summary = document.querySelector('.channel-summary-box').querySelector('.summary-text-box').innerText;
+
+    const modal =
+        `<div class="modal-background">
+        <div class="modal-channel-edit-mode">
+            <h2>설정</h2>
+            <div id="edit-mode-channel-thumbnail-box">
+                <img src="${thumbnail}">
+                <label for="file">
+                    <p><span id="edit-channel-thumbnail-btn"><i class="fa-regular fa-pen-to-square"></i></span></p>
+                    <input type="file" id="file" name="photo" multiple>
+                </label>
+            </div>
+            <div class="box__input">
+                <label>공개설정</label>
+                <div id="open">
+                    <label for="yes"><i class="fa-regular fa-circle fa-lg"></i>공개<input type="radio" id="yes" name="open" value="Y"></label>
+                    <label for="no"><i class="fa-regular fa-circle fa-lg"></i>비공개<input type="radio" id="no" name="open" value="N"></label>
+                </div>
+            </div>
+            <div class="box__input">
+                <label for="channelName">채널 명</label>
+                <span><input type="text" name="channelName" id="channelName" value="${channelName}"></span>
+            </div>
+            <div class="box__input">
+                <label for="category">카테고리</label>
+                <span>
+                    <select name="category">
+                        <option disabled="" selected="" hidden="" value="">카테고리를 선택하세요.</option>
+                        <option value="개발">개발</option>
+                        <option value="디자인">디자인</option>
+                        <option value="영업">영업</option>
+                        <option value="커뮤니티">커뮤니티</option>
+                        <option value="교육">교육</option>
+                        <option value="게임">게임</option>
+                        <option value="기타">기타</option>
+                    </select>
+                </span>
+            </div>
+            <div class="box__input">
+                <label for="summary">요약</label>
+                <span><input type="text" name="summary" id="summary" value="${summary}"></span>
+            </div>
+            <div class="box__input">
+                <span><textarea class="contents-form__textarea" id="comment" name="comment" placeholder="우리 채널을 소개할 멘트를 입력하세요.">${comment}</textarea>
+            </div>
+            <div class="box__button__submit">
+                <button id="channel-edit-request__btn" type="button">완료</button>
+                <a id="cancel">취소</a>
+            </div>
+        </div>
+    </div>`;
+    document.querySelector('script').insertAdjacentHTML('beforebegin', modal);
+
+    // 공개여부 체크 => radio 박스는 프로퍼티 checked
+    const radioTagNodeList = document.querySelector('.modal-channel-edit-mode').querySelectorAll('input[type="radio"], input[name="open"]');
+    const radioTag = Array.prototype.slice.call(radioTagNodeList).find(target => target.value == openYN);
+    radioTag.checked = true
+    checkOpenYNRadio();
+
+    //카테고리 체크 => select 박스는 프로퍼티 selected
+    const categoryTagOptions = document.querySelector('.modal-channel-edit-mode').querySelector('select[name="category"]').options;
+    const categoryTag = Array.prototype.slice.call(categoryTagOptions).find(target => target.value == category);
+    categoryTag.selected = true
+    console.log(categoryTagOptions);
+}
+
 const createFeedPreviewTag = e => {
     const modalBackground = document.querySelector('.modal-background');
     const modal = modalBackground.querySelector('.modal-add-mode');
@@ -150,108 +291,6 @@ const createFeedPreviewTag = e => {
         const imageSrc = imageBox.querySelector('img').src
         feedBox.querySelector('.feed-comment-box').insertAdjacentHTML('afterend', `<img src="${imageSrc}">`);
     }
-}
-/**
- * 이미지 파일 선택했을 때
- * @param {e: event}
- * e.target.files: 파일 오브젝트
- * e.target.files[0]: 파일 정보
- * e.target.result: base64로 인코딩된 파일
- */
-const onChangeSelectFile = async e => {
-    try {
-        const fileTag = e.target;
-        const fileInfo = e.target.files[0];
-        console.log(e.target.files[0]);
-        // console.log(fileTag.files[0]);
-        // console.log(fileTag.files[0].name);
-        // console.log(fileTag.files[0].size);
-        // console.log(fileTag.files[0].lastModifiedDate);
-
-        if (fileTag.files && fileTag.files[0]) {
-            const fileReader = new FileReader();
-            fileReader.onload = createPreviewTag;
-            fileReader.readAsDataURL(fileTag.files[0]);
-        }
-    } catch (error) {
-        alert(error);
-        console.log(error)
-    }
-}
-
-const onClickCloseBtn = className => {
-    this.selectedFeedImages = [];
-    this.existFeedFiles = [];
-    removeChildrenTag(className);
-}
-
-
-const onClickFileRemoveBtn = e => {
-    removeFileTag(e);
-}
-
-const onClickOpenYNRadio = () => {
-    checkOpenYNRadio();
-}
-/** ----------------- 태그관련 함수 ----------------- */
-const createModalTagtoEditChannelInfo = () => {
-    const channelName = document.querySelector('.channel-name-box').innerText;
-    const openYN = document.getElementById('openYN').dataset.open;
-    const comment = document.querySelectorAll('.unit-box')[1].querySelector('.intro-comment').innerText;
-    const category = document.getElementById('category').dataset.category;
-
-    const modal =
-        `<div class="modal-background">
-        <div class="modal-add-mode" id="modal-add-mode">
-            <h2>설정</h2>
-            <div class="box__input">
-                <label>공개설정</label>
-                <div id="open">
-                    <label for="yes"><i class="fa-regular fa-circle fa-lg"></i>공개<input type="radio" id="yes" name="open" value="Y"></label>
-                    <label for="no"><i class="fa-regular fa-circle fa-lg"></i>비공개<input type="radio" id="no" name="open" value="N"></label>
-                </div>
-            </div>
-            <div class="box__input">
-                <label for="channelName">채널 명</label>
-                <span><input type="text" name="channelName" id="channelName" value="${channelName}"></span>
-            </div>
-            <div class="box__input">
-                <label for="category">카테고리</label>
-                <span>
-                    <select name="category">
-                        <option disabled="" selected="" hidden="" value="">카테고리를 선택하세요.</option>
-                        <option value="개발">개발</option>
-                        <option value="디자인">디자인</option>
-                        <option value="영업">영업</option>
-                        <option value="커뮤니티">커뮤니티</option>
-                        <option value="교육">교육</option>
-                        <option value="게임">게임</option>
-                        <option value="기타">기타</option>
-                    </select>
-                </span>
-            </div>
-            <div class="box__input">
-                <span><textarea class="contents-form__textarea" id="comment" name="comment" placeholder="우리 채널을 소개할 멘트를 입력하세요.">${comment}</textarea>
-            </div>
-            <div class="box__button__submit">
-                <button id="channel-edit-request__btn" type="button">완료</button>
-                <a id="cancel">취소</a>
-            </div>
-        </div>
-    </div>`;
-    document.querySelector('script').insertAdjacentHTML('beforebegin', modal);
-
-    // 공개여부 체크 => radio 박스는 프로퍼티 checked
-    const radioTagNodeList = document.querySelector('.modal-add-mode').querySelectorAll('input[type="radio"], input[name="open"]');
-    const radioTag = Array.prototype.slice.call(radioTagNodeList).find(target => target.value == openYN);
-    radioTag.checked = true
-    checkOpenYNRadio();
-
-    //카테고리 체크 => select 박스는 프로퍼티 selected
-    const categoryTagOptions = document.querySelector('.modal-add-mode').querySelector('select[name="category"]').options;
-    const categoryTag = Array.prototype.slice.call(categoryTagOptions).find(target => target.value == category);
-    categoryTag.selected = true
-    console.log(categoryTagOptions);
 }
 
 const checkOpenYNRadio = () => {
@@ -394,6 +433,22 @@ const createPreviewTag = e => {
             })
         })
         document.querySelector('label[for="feed-images"]').addEventListener('change', onChangeSelectFile);
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const changeThumbnail = e => {
+    try {
+        const base64EncodedFile = e.target.result;
+
+        if (!base64EncodedFile) {
+            throw new Error('파일을 읽지 못했습니다!!');
+        }
+        const imgTag = document.getElementById('edit-mode-channel-thumbnail-box').querySelector('img');
+        imgTag.src = base64EncodedFile;
+        // const fileNameBox = document.querySelector('.file-name-box').querySelector('label[for="file"]');
+        // fileNameBox.querySelector('span').innerText = document.getElementById('file').files[0].name;
     } catch (error) {
         console.log(error)
     }
@@ -679,24 +734,25 @@ const patchPlusOrMinusNumberOfLikeInFeed = async (channelId, feedId, e) => {
 }
 
 const patchEditChannelByReqUser = async () => {
+    const thumbnail = document.getElementById('edit-mode-channel-thumbnail-box').querySelector('input[type="file"], input[name="photo"]').files[0];
     const openYN = document.querySelector('.modal-background').querySelector('input[name="open"]:checked').value;
     const channelName = document.querySelector('.modal-background').querySelector('input[name="channelName"]').value;
     const comment = document.querySelector('.modal-background').querySelector('textarea[name="comment"]').value;
     const categoryTagOptions = document.querySelector('.modal-background').querySelector('select[name="category"]').options;
     const category = categoryTagOptions[categoryTagOptions.selectedIndex].value;
+    const summary = document.querySelector('.modal-background').querySelector('input[name="summary"]').value;
     try {
-
+        console.log(thumbnail);
+        const formData = new FormData();
+        formData.append('open', openYN);
+        formData.append('channelName', channelName);
+        formData.append('comment', comment);
+        formData.append('summary', summary);
+        formData.append('category', category);
+        formData.append('thumbnail', thumbnail);
         const resData = await fetch(`http://localhost:3000/client/channel/edit-channel/${this.channelId}`, {
             method: 'PATCH',
-            headers: {
-                'Content-Type':'application/json'
-            },
-            body: JSON.stringify({
-                open: openYN,
-                channelName: channelName,
-                comment: comment,
-                category: category
-            })
+            body: formData
         })
 
         const data = await resData.json();
