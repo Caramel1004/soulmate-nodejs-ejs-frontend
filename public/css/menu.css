@@ -37,23 +37,20 @@ i {
 }
 
 /* 채팅 히스토리 박스 스크롤 디자인 */
-#menu::-webkit-scrollbar:hover,
-#menu::-webkit-scrollbar:active {
+#menu::-webkit-scrollbar {
     width: 1px;
     /* background: rgb(235, 222, 203); */
     border-radius: 50px;
 }
 
-#menu::-webkit-scrollbar-thumb:hover,
-#menu::-webkit-scrollbar-thumb:active {
+#menu::-webkit-scrollbar-thumb {
     width: 7px;
     height: 10px;
     background: rgb(155, 151, 151);
     border-radius: 50px;
 }
 
-#menu::-webkit-scrollbar-track:hover,
-#menu::-webkit-scrollbar-track:active {
+#menu::-webkit-scrollbar-track {
     width: 1px;
     border-radius: 50px;
     background: rgb(243, 243, 246);
