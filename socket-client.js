@@ -4,7 +4,12 @@ let socket;
 
 const socketClient = {
     init: connectUrl => {
-        socket = io(connectUrl);
+        socket = io(connectUrl,{
+            cors: {
+                origin: '*',
+                headers: 'Content-Type'
+            }
+        });
         console.log('백엔드 서버와 웹소켓 통신 준비 완료!!')
         return socket;
     },
