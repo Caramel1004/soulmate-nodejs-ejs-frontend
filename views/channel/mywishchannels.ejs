@@ -14,7 +14,6 @@
                         <% } %>
                     </select>
                     <input type="search" id="search" placeholder="원하는 채널을 검색하세요.">
-                    <button id="btn__search"><i class="fa-solid fa-magnifying-glass fa-lg"></i></button>
                 </div>
                 <div id="tab-box">
                     <a class="type" href="/wishchannels">전체</a>
@@ -31,7 +30,7 @@
                     <%if(channelList.length > 0) { %>
                         <div class="channel-box-items">
                             <% for(let channel of channelList) { %>
-                                <div class="contents__div-wrapper">
+                                <div class="contents__div-wrapper" data-channelId="<%= channel._id %>">
                                     <img src="<%= channel.thumbnail %>" id="thumbnail">
                                     <div class="channel-name-card">
                                         <span><%= channel.channelName %></span>
@@ -45,7 +44,6 @@
                                             <a class="hash" href="#">#<%= channel.category %></a>
                                         <% } %>
                                     </div>
-                                    <input type="hidden" name="channelId" value="<%= channel._id %>">
                                 </div>
                             <% } %>
                         </div>

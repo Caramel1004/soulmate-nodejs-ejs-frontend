@@ -7,14 +7,12 @@
         <%- include('../includes/menu.ejs') %>
         <div class="error-background">
             <div class="error-box">
-                <!-- <img src="https://i.ibb.co/W6tgcKQ/softcodeon.gif">
-                <h1 class="error-text">Whoops, We can't seem to find the resource you're looking for.</h1>
-                <p class="text">Please check that the Web site address is spelled correctly.Or,</p>
-                <div class="btn1">
-                    <a href="/">Go to Homepage</a>
-                </div> -->
-                <img src="/images/error404.gif">
-                <h1>페이지를 찾을 수 없습니다.</h1>
+                <div class="no-data-comment-container">
+                    <div class="no-data-comment-box">
+                        <img src="<%= errorImageUrl %>">
+                        <p id="no-data-comment"><%= error.message %></p>
+                    </div>
+                </div>
             </div>
         </div>
     </body>

@@ -8,43 +8,58 @@
         <div id="channel-profile-container">
             <div class="box-profile">
                 <div class="unit-box">
-                    <div id="channel-thumbnail-box">
-                        <img src=<%= channel.thumbnail %>>
+                    <div class="container-channel-thumbnail-summary">
+                        <div id="channel-thumbnail-box">
+                            <img src=<%= channel.thumbnail %>>
+                        </div>
+                        <div class="channel-summary-box">
+                            <div class="channel-name-box">
+                                <p><%= channel.channelName %><span id="edit-channel-btn"><% if(channel.isOwner) { %><i class="fa-regular fa-pen-to-square"></i></span><% } %></p>
+                            </div>
+                            <div class="summary-text-box">
+                                <%= channel.summary %>
+                            </div>
+                        </div>
                     </div>
-                    <button id="<%= channel._id %>" class="heart" type="button" onclick="onClickHeartToggleBtn('<%= channel._id %>')">
-                        <% if(channel.isUserWishChannel) { %>
-                            <i class="fa-solid fa-heart fa-xl"></i>
-                        <% } else { %>
-                            <i class="fa-regular fa-heart fa-xl"></i>
-                        <% } %>
-                    </button>
-                    <div class="channel-name-box">
-                        <p><%= channel.channelName %><span id="edit-channel-btn"><% if(channel.isOwner) { %><i class="fa-regular fa-pen-to-square"></i></span><% } %></p>
+                    <div class="category-container">
+                        <div class="category-title-text-box">연관 카테고리</div>
+                        <a href="http://localhost:3000/?category=<%= channel.category %>" class="hash" data-category="<%= channel.category %>"># <%= channel.category %></a>
+                        <a href="http://localhost:3000/?category=<%= channel.category %>" class="hash"># Catch Table</a>
+                        <a href="http://localhost:3000/?category=<%= channel.category %>" class="hash"># 모바일 앱</a>
                     </div>
-                    <div class="info">
-                        <div class="box-text">
-                            <div class="text">
-                                <span>크리에이터</span>
-                                <div class="text-right">
-                                    <div class="text-right-inner">
-                                        <img src="<%= channel.owner.photo %>"><p><%= channel.owner.name %></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text">
-                                <span>카테고리</span>
-                                <div class="text-right">
-                                    <p id="category" data-category="<%= channel.category %>"><%= channel.category %></p>
-                                </div>
-                            </div>
-                            <div class="text">
-                                <span>참여 인원</span>
-                                <div class="text-right">
-                                    <p><%= channel.members.length %> 명</p>
-                                </div>
-                            </div>
-                            <div class="text">
-                                <span>상태</span><p>워크스페이스</p>
+                    <div class="container-channel-status">
+                        <div class="card-channel-status">
+                            <p class="card-status-title">워크스페이스</p>
+                            <img src="/images/cube-3d.png">
+                            <div class="workspace-figure-number-color"><span id="status-number"><%= channel.workSpaces.length %></span><span id="ssss">개</span></div>
+                        </div>
+                        <div class="card-channel-status">
+                            <p id="card-status-title">채팅 방</p>
+                            <img src="/images/chat-icon.png">
+                            <div class="chat-room-figure-number-color"><span id="status-number"><%= channel.chatRooms.length %></span><span id="ssss">개</span></div>
+                        </div>
+                        <div class="card-channel-status">
+                            <p id="card-status-title">팀원</p>
+                            <img src="/images/member-icon.png">
+                            <div class="member-figure-number-color"><span id="status-number"><%= channel.members.length %></span><span id="ssss">명</span></div>
+                        </div>
+                        <div class="card-channel-status">
+                            <p id="card-status-title">채널 운영</p>
+                            <img src="/images/channel-icon.png">
+                            <div class="day-figure-number-color"><span id="status-number"><%= channel.passedTime %></span><span id="ssss">일째</span></div>
+                        </div>
+                        <div class="card-channel-status">
+                            <p id="card-status-title">피드</p>
+                            <img src="/images/feeds.png">
+                            <div class="feeds-figure-number-color"><span id="status-number"><%= channel.feeds.length %></span><span id="ssss">개</span></div>
+                        </div>
+                        <div class="card-channel-status">
+                            <p id="card-status-title">현재</p>
+                            <% if(channel.open == 'Y' || channel.open == 'y') { %><img src="/images/open-channel.png"><% } %>
+                            <% if(channel.open == 'N' || channel.open == 'n') { %><img src="/images/close-channel.png"><% } %>
+                            <div class="open-color">
+                                <% if(channel.open == 'Y' || channel.open == 'y') { %><p id="openYN" data-open="<%= channel.open %>">공개</p><% } %>
+                                <% if(channel.open == 'N' || channel.open == 'n') { %><p id="openYN" data-open="<%= channel.open %>">비공개</p><% } %>
                             </div>
                         </div>
                     </div>
@@ -99,10 +114,13 @@
                                 </div>
                             </div>
                         <% } %>
-                        <div id="feed-add-btn-box">
-                            <button> + 더보기</button>
-                        </div>
                     <% } else { %>
+                        <div class="no-data-comment-container">
+                            <div class="no-data-comment-box">
+                                <img src="/images/feeds.png">
+                                <p id="no-data-comment">업로드된 피드가 없습니다.</p>
+                            </div>
+                        </div>
                     <% } %>
                 </div>
             </div>

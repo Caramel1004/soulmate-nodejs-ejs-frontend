@@ -14,7 +14,12 @@
                         <% } %>
                     </select>
                     <input type="search" id="search" placeholder="원하는 채널을 검색하세요.">
-                    <!-- <button id="btn__search"><i class="fa-solid fa-magnifying-glass fa-lg"></i></button> -->
+                </div>
+                <div id="category-tab-box">
+                    <a class="type" href="/mychannels">전체</a>
+                    <% for(let category of staticCategoryList) { %>
+                        <a class="type" href="http://localhost:3000/mychannels?category=<%= category.name %>"><%= category.name %></a>
+                    <% } %>
                 </div>
                 <div id="tab-box">
                     <a class="type" id="all" href="/mychannels?searchType=all">전체</a>

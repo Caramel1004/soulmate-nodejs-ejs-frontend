@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('../includes/head.ejs') %>
-
     <body>
         <%- include('../includes/header.ejs') %>
         <%- include('../includes/menu.ejs') %>
-        <%- include('../includes/loading.ejs') %>
         <!-- 채널생성 클릭시 모달창 오픈 -->
         <div id="container__form-box">
             <div class="box__div-form">
@@ -43,7 +41,11 @@
                     </span>
                 </div>
                 <div class="box__input">
-                    <span><textarea class="contents-form__textarea" name="comment" id="contents" placeholder="우리 채널을 소개할 멘트를 입력하세요."></textarea></span>
+                    <label for="summary">요약</label>
+                    <span><textarea class="contents-form__textarea" type="text" name="summary" id="summary" placeholder="채널 배너 카드에 보일 소개를 간단하게 적어보세요."></textarea>
+                </div>
+                <div class="box__input">
+                    <span><textarea class="contents-form__textarea" name="comment" id="contents" placeholder="우리 채널을 소개할 스크립트를 적어보세요."></textarea></span>
                 </div>
                 <div id="box__button__submit">
                     <button type="submit" id="btn__submit">채널 개설을 동의합니다.</button>

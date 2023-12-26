@@ -34,23 +34,28 @@
                         <div class="channel-box-items">
                             <% for(let channel of channelList) { %>
                                 <div class="contents__div-wrapper">
+                                    <div class="heart-container">
+                                        <div class="heart-box">
+                                            <% if(channel.isUserWishChannel) { %>
+                                                <i class="fa-solid fa-heart fa-xl" id="<%= channel._id %>" type="button" onclick="onClickHeartToggleBtn('<%= channel._id %>')"></i>
+                                            <% } else { %>
+                                                <i class="fa-regular fa-heart fa-xl" id="<%= channel._id %>" type="button" onclick="onClickHeartToggleBtn('<%= channel._id %>')"></i>
+                                            <% } %>
+                                        </div>
+                                    </div>    
                                     <img src="<%= channel.thumbnail %>" onclick="onClickChannelBox('<%= channel._id %>')">
                                     <div class="card">
-                                        <h2>채널명 | <%= channel.channelName %></h2>
+                                        <span><%= channel.channelName %></span>
                                     </div>
-                                    <div class="card">
-                                        <% for(let category of channel.category) { %>
-                                            <h5 href="/client/mychannels/<%= channel._id %>"> 카테고리 | <a class="hash" href="#">#<%= channel.category %></a></h5>
+                                    <div class="card-summary">
+                                        <% if(channel.summary) { %>
+                                            <span><%= channel.summary %></span>
                                         <% } %>
                                     </div>
-                                    <div class="card">
-                                        <button id="<%= channel._id %>" class="heart" type="button" onclick="onClickHeartToggleBtn('<%= channel._id %>')">
-                                            <% if(channel.isUserWishChannel) { %>
-                                                <i class="fa-solid fa-heart fa-xl"></i>
-                                            <% } else { %>
-                                                <i class="fa-regular fa-heart fa-xl"></i>
-                                            <% } %>
-                                        </button>
+                                    <div class="card_2">
+                                        <% for(let category of channel.category) { %>
+                                            <a class="hash" href="#"># <%= channel.category %></a>
+                                        <% } %>
                                     </div>
                                 </div>
                             <% } %>
