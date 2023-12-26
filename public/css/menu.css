@@ -43,14 +43,16 @@ i {
     border-radius: 50px;
 }
 
-#menu::-webkit-scrollbar-thumb {
+#menu::-webkit-scrollbar-thumb:hover,
+#menu::-webkit-scrollbar-thumb:active {
     width: 7px;
     height: 10px;
     background: rgb(155, 151, 151);
     border-radius: 50px;
 }
 
-#menu::-webkit-scrollbar-track {
+#menu::-webkit-scrollbar-track:hover,
+#menu::-webkit-scrollbar-track:active {
     width: 1px;
     border-radius: 50px;
     background: rgb(243, 243, 246);
