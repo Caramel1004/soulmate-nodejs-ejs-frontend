@@ -2,7 +2,12 @@ import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
 
 const DOMAIN = `http://52.79.253.40:8080`
 
-const socket = io(DOMAIN);
+const socket = io(DOMAIN, {
+    cors: {
+        origin: '*',
+        header: 'Content-Type'
+    }
+});
 console.log('스크립트 소켓 가동 중!!!');
 
 /** ----------------- 웹 소켓 이벤트 ----------------- */
