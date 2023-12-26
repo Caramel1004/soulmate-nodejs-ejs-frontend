@@ -35,13 +35,17 @@ const onClickCompleteBtn = className => {
     const modal = document.querySelector('.modal-add-mode');
     const thumbnail = modal.querySelector('label[for="file"]').querySelector('input[type="file"]').files;
     const base64EncodedFile = document.getElementById('create-channel-thumbnail-box').querySelector('img').src;
-    console.log(base64EncodedFile)
-    document.getElementById('thumbnail-file').textContent = thumbnail.name;
-    document.getElementById('thumbnail-file').files = thumbnail;
-    document.getElementById('thumbnail-file').setAttribute('data-src', base64EncodedFile);
-    document.getElementById('filename').textContent = thumbnail[0].name;
-    document.getElementById('filename').style.color = '#1d1c1d';
-    removeChildrenTag(className);
+
+    if(thumbnail.length > 0) {
+        document.getElementById('thumbnail-file').textContent = thumbnail.name;
+        document.getElementById('thumbnail-file').files = thumbnail;
+        document.getElementById('thumbnail-file').setAttribute('data-src', base64EncodedFile);
+        document.getElementById('filename').textContent = thumbnail[0].name;
+        document.getElementById('filename').style.color = '#1d1c1d';
+        removeChildrenTag(className);
+    } else {
+        modal.querySelector('.create-channel-thumbnail-input-box').insertAdjacentHTML('afterend', `<div id="empty-box"></div><span class="valid" id="valid">*파일을 선택해주세요.</span>`)
+    }
 }
 
 const onClickSubmitBodyBtn = async () => {
@@ -109,6 +113,7 @@ const changePreviewPhoto = e => {
         console.log(imgTag);
         imgTag.src = base64EncodedFile;
         document.querySelector('.create-channel-thumbnail-input-box').querySelector('label[for="file"]').querySelector('span').innerText = document.getElementById('file').files[0].name
+        
         // document.querySelector('.create-channel-thumbnail-input-box').querySelector('label[for="file"]').insertAdjacentText('afterbegin', document.getElementById('file').files[0].name);
     } catch (error) {
         alert(error)
@@ -156,7 +161,7 @@ const postCreateChannel = async () => {
     const channelName = document.querySelector('.box__div-form').querySelector('input[name="channelName"]');
     const thumbnail = document.querySelector('.box__div-form').querySelector('input[type="file"], input[name="thumbnail"]');
     const category = document.querySelector('.box__div-form').querySelector('select[name="category"]');
-    const summary = document.querySelector('.box__div-form').querySelector('input[name="summary"]');
+    const summary = document.querySelector('.box__div-form').querySelector('textarea[name="summary"]');
     const comment = document.querySelector('.box__div-form').querySelector('textarea[name="comment"]');
     try {
         const formData = new FormData();
