@@ -5,7 +5,10 @@ const DOMAIN = `http://52.79.253.40:8080`
 const socket = io(DOMAIN, {
     cors: {
         origin: '*',
-        header: 'Content-Type'
+        headers: {
+            'Content-Type' : 'application/json'
+        },
+        withCredentials: true
     }
 });
 console.log('스크립트 소켓 가동 중!!!');
