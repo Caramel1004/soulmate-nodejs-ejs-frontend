@@ -101,7 +101,7 @@ app.all('*', () => {
 app.use(errorHandler);
 
 // 서버 실행
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, () => {
     console.log(`클라이언트 서버 가동!!`);
     // 레디스 연결
     redisClient.connect();
