@@ -158,7 +158,7 @@ const authController = {
         try {
             const data = await authAPI.postSignUpOrLoginBySNSAccount(req.kakaoResTokenBody, next);
             hasError(data.error);
-
+            
             /** 쿠키: 저장데이터
              *  인증토큰
              *  리프레쉬 토큰
