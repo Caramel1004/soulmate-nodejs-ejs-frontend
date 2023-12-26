@@ -175,7 +175,7 @@ const channelAPI = {
         }
     },
     // 10. 워크스페이스 목록 요청
-    getWorkSpaceList: async (token, refreshToken, channelId, searchWord, next) => {
+    getWorkSpaceList: async (token, refreshToken, channelId, searchWord, open, next) => {
         try {
             const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/channel/${channelId}/workspace?searchWord=${searchWord}`, {
                 method: 'POST',
@@ -185,7 +185,8 @@ const channelAPI = {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    searchWord: searchWord
+                    searchWord: searchWord,
+                    open: open
                 })
             });
             const resData = await response.json();
