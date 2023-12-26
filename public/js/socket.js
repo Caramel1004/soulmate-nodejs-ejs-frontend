@@ -1,4 +1,4 @@
-import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
+import { io } from "socket.io-client";
 
 const DOMAIN = `http://52.79.253.40:8080`
 
