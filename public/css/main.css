@@ -347,12 +347,3 @@ body::-webkit-scrollbar-track {
 .hash:active {
     background: rgb(180, 180, 189);
 }
-
-.footer {
-    margin-left: 300px;
-    padding: 50px;
-    text-align: center;
-    width: 600px;
-    height: 200px;
-    border: 1px groove black;
-}
