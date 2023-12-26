@@ -77,6 +77,7 @@ export function hasError(error) {
         if (!error.statusCode) {
             error = customizeError(error);
         }
+        console.log(error);
         throw (error);
     }
     return '에러가 없습니다.';
@@ -132,15 +133,17 @@ export const validationChainToCheckValidRequestedValidBodyFromMemberJoinPage = [
 
 
 /** 3. 채널 추가
- * @body {공개여부, 채널명, 썸네일, 카테고리, 코멘트}
- * @propertyToMustCheck {공개여부, 채널명, 카테고리} 
+ * @body {공개여부, 채널명, 썸네일, 카테고리, 소개 요약, 코멘트}
+ * @propertyToMustCheck {공개여부, 채널명, 카테고리, 소개 요약} 
  * @process 비어있을시 유효성 검사 통과 못하도록하고 행동해야할 메세지 반환
  */
 export const validationChainToCheckRequestedValidBodyFromChannelAddPage = [
     body('open').trim().notEmpty().withMessage('공개 여부를 체크하세요.'),
     body('channelName').trim().notEmpty().withMessage('채널명은 필수 입니다.'),
+    body('summary').trim().notEmpty().withMessage('간단한 소개가 필요합니다.'),
     body('channelName').trim().isLength({ min: 1, max: 15 }).withMessage('1~15자 내외로 입력하세요.'),
     body('category').trim().notEmpty().withMessage('카테고리를 골라주세요.'),
+    body('summary').trim().isLength({ min: 1, max: 25 }).withMessage('1~25자 내외로 입력하세요.'),
     validResult
 ]
 
