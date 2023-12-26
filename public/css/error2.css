@@ -64,3 +64,28 @@
     color: #fff;
     border-radius: 10px;
 }
+
+.no-data-comment-container {
+    /* border: 1px groove black; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+}
+
+.no-data-comment-box {
+    text-align: center;
+    display: block;
+    align-items: center;
+}
+
+.no-data-comment-box img {
+    width: 200px;
+    height: 200px;
+}
+
+#no-data-comment {
+    font-size: 18px;
+    color: #1c1d1c;
+    white-space: pre-wrap;
+}
