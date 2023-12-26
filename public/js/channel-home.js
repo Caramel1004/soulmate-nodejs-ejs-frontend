@@ -610,7 +610,7 @@ const postCreateFeedByReqUserBtn = async (channelId, selectedFeedImages) => {
         }
 
 
-        const resData = await fetch(`http://localhost:3000/client/channel/create-feed/${channelId}`, {
+        const resData = await fetch(`http://3.39.235.59:3000/client/channel/create-feed/${channelId}`, {
             method: 'POST',
             body: formData
         })
@@ -664,7 +664,7 @@ const patchEditFeedByReqUserBtn = async (channelId, selectedFeedImages, e) => {
             }
         }
 
-        const resData = await fetch(`http://localhost:3000/client/channel/edit-feed/${channelId}/${feedId}`, {
+        const resData = await fetch(`http://3.39.235.59:3000/client/channel/edit-feed/${channelId}/${feedId}`, {
             method: 'PATCH',
             body: formData
         })
@@ -693,7 +693,7 @@ const patchEditFeedByReqUserBtn = async (channelId, selectedFeedImages, e) => {
 const deleteRemoveFeedByReqUser = async e => {
     const feedId = e.target.dataset.feedid;
     try {
-        const data = await fetch(`http://localhost:3000/client/channel/delete-feed/${this.channelId}/${feedId}`, {
+        const data = await fetch(`http://3.39.235.59:3000/client/channel/delete-feed/${this.channelId}/${feedId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -712,7 +712,7 @@ const deleteRemoveFeedByReqUser = async e => {
 
 const patchPlusOrMinusNumberOfLikeInFeed = async (channelId, feedId, e) => {
     try {
-        const response = await fetch(`http://localhost:3000/client/channel/plus-or-minus-feed-like`, {
+        const response = await fetch(`http://3.39.235.59:3000/client/channel/plus-or-minus-feed-like`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
@@ -750,7 +750,7 @@ const patchEditChannelByReqUser = async () => {
         formData.append('summary', summary);
         formData.append('category', category);
         formData.append('thumbnail', thumbnail);
-        const resData = await fetch(`http://localhost:3000/client/channel/edit-channel/${this.channelId}`, {
+        const resData = await fetch(`http://3.39.235.59:3000/client/channel/edit-channel/${this.channelId}`, {
             method: 'PATCH',
             body: formData
         })
@@ -764,7 +764,7 @@ const patchEditChannelByReqUser = async () => {
         } else if (data.error.statusCode == 500) {
             dataLoadingFail();
         }
-        window.location = `http://localhost:3000/mychannel/${this.channelId}?searchType=info`
+        window.location = `http://3.39.235.59:3000/mychannel/${this.channelId}?searchType=info`
     } catch (error) {
         console.log(error);
     }

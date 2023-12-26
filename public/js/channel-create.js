@@ -171,7 +171,7 @@ const postCreateChannel = async () => {
         formData.append('category', category.options[category.selectedIndex].value);
         formData.append('summary', summary.value);
         formData.append('comment', comment.value);
-        const response = await fetch(`http://localhost:3000/client/channel/create`, {
+        const response = await fetch(`http://3.39.235.59:3000/client/channel/create`, {
             method: 'POST',
             body: formData
         })

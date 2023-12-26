@@ -78,7 +78,7 @@ const insertVaildationErrorMsg = errorObj => {
 const postCreateChatRoom = async channelId => {
     const roomName = document.querySelector('.modal-background').querySelector('input[name="roomName"]');
     try {
-        const response = await fetch(`http://localhost:3000/client/chat/${channelId}`, {
+        const response = await fetch(`http://3.39.235.59:3000/client/chat/${channelId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -103,9 +103,9 @@ const postCreateChatRoom = async channelId => {
 
 const getSearchChatRoomsByKeyWord = async e => {
     const searchWord = e.target.value;
-    let URL = `http://localhost:3000/mychannel/${channelId}?searchType=chatRooms&searchWord=${searchWord}`;
+    let URL = `http://3.39.235.59:3000/mychannel/${channelId}?searchType=chatRooms&searchWord=${searchWord}`;
     if(searchWord == '') {
-        URL = `http://localhost:3000/mychannel/${channelId}?searchType=chatRooms`;
+        URL = `http://3.39.235.59:3000/mychannel/${channelId}?searchType=chatRooms`;
     }
     try {
         window.location.href = URL;

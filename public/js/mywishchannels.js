@@ -5,7 +5,7 @@ const onClickRemoveWishChannelBtn = async e => {
 
 const onClickChannelBox = async e => {
     const channelId = e.target.parentNode.dataset.channelid;
-    window.location.href = `http://localhost:3000/open/${channelId}`;
+    window.location.href = `http://3.39.235.59:3000/open/${channelId}`;
 }
 
 const onKeyDownSearchBox = async e => {
@@ -62,7 +62,7 @@ const activeSearchTypeBtnColor = () => {
 const postRemoveOpenChannelToWishChannel = async e => {
     const channelId = e.target.parentNode.parentNode.dataset.channelid;
     try {
-        const response = await fetch('http://localhost:3000/client/add-or-remove-wishchannel', {
+        const response = await fetch('http://3.39.235.59:3000/client/add-or-remove-wishchannel', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -88,9 +88,9 @@ const getSearchWishChannelsByKeyWord = async e => {
     console.log(searchWord);
     let URL;
     if (searchWord !== '') {
-        URL = `http://localhost:3000/wishchannels?category=${category}&searchWord=${searchWord}`;
+        URL = `http://3.39.235.59:3000/wishchannels?category=${category}&searchWord=${searchWord}`;
     } else {
-        URL = `http://localhost:3000`;
+        URL = `http://3.39.235.59:3000`;
     }
     try {
         window.location.href = URL;

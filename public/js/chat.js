@@ -642,7 +642,7 @@ const postSendChatAndUploadFilesToChatRoom = async () => {
             formData.append('files', file);
         }
 
-        await fetch('http://localhost:3000/client/chat/' + channelId + '/' + chatRoomId, {
+        await fetch('http://3.39.235.59:3000/client/chat/' + channelId + '/' + chatRoomId, {
             method: 'POST',
             body: formData
         });
@@ -667,7 +667,7 @@ const patchExitChatRoom = async () => {
         console.log('channelId : ', channelId);
         console.log('chatRoomId : ', chatRoomId);
 
-        const response = await fetch(`http://localhost:3000/client/chat/exit-chat-room/${channelId}/${chatRoomId}`, {
+        const response = await fetch(`http://3.39.235.59:3000/client/chat/exit-chat-room/${channelId}/${chatRoomId}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
@@ -680,7 +680,7 @@ const patchExitChatRoom = async () => {
 
         const data = await response.json();
 
-        window.location.href = `http://localhost:3000/mychannel/${data.channelId}?searchType=chatRooms`;
+        window.location.href = `http://3.39.235.59:3000/mychannel/${data.channelId}?searchType=chatRooms`;
     } catch (err) {
         console.log(err);
     }
@@ -709,7 +709,7 @@ const getLoadFilesInChatRoom = async activeSubBoardChild => {
     const channelId = url.split('/')[5];
     const chatRoomId = url.split('/')[6];
 
-    const response = await fetch(`http://localhost:3000/client/chat/file-list/${channelId}/${chatRoomId}`, {
+    const response = await fetch(`http://3.39.235.59:3000/client/chat/file-list/${channelId}/${chatRoomId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'

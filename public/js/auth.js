@@ -188,7 +188,7 @@ const postSignUp = async () => {
         formData.append('photo', photo.files[0]);
         formData.append('phone', phone.value);
         formData.append('comment', comment.value);
-        const response = await fetch(`http://localhost:3000/signup`, {
+        const response = await fetch(`http://3.39.235.59:3000/signup`, {
             method: 'POST',
             body: formData
         })

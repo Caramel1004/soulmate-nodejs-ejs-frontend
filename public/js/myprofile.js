@@ -188,7 +188,7 @@ const patchEditMyProfileByReqUser = async id => {
         formData.append('hasPhotoToBeEdit', hasPhotoToBeEdit);
         formData.append('hasPhoneToBeEdit', hasPhoneToBeEdit);
 
-        const response = await fetch(`http://localhost:3000/client/edit-myprofile`, {
+        const response = await fetch(`http://3.39.235.59:3000/client/edit-myprofile`, {
             method: 'PATCH',
             body: formData
         });

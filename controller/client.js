@@ -152,7 +152,7 @@ const clientControlller = {
             // console.log('chatRoomId: ',chatRoomId);
             console.log(usersJson);
             if (!usersJson) {
-                return res.redirect('http://localhost:3000/client/chat/' + channelId + '/' + chatRoomId);;
+                return res.redirect('http://3.39.235.59:3000/client/chat/' + channelId + '/' + chatRoomId);;
             }
 
             if (Array.isArray(usersJson)) {
@@ -175,7 +175,7 @@ const clientControlller = {
             const data = await chatAPI.postInviteUsersToChatRoom(jsonWebToken, req.signedCookies.refreshToken, body, channelId, chatRoomId, next);
             hasError(data.error);
 
-            res.redirect('http://localhost:3000/channel/chat/' + channelId + '/' + chatRoomId);
+            res.redirect('http://3.39.235.59:3000/channel/chat/' + channelId + '/' + chatRoomId);
         } catch (err) {
             next(err);
         }
