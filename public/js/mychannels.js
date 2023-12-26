@@ -9,6 +9,37 @@ const onKeyDownSearchBox = async e => {
     }
 }
 
+const activeCategoryAndSearchTypeBtnColor = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const category = urlParams.get('category');
+    const searchType = urlParams.get('searchType');
+    console.log(category);
+    const tabBox = document.getElementById('tab-box');
+    const categoryTabBox = document.getElementById('category-tab-box');
+    const tabBtns = tabBox.querySelectorAll('a');
+    const categoryTabBtns = categoryTabBox.querySelectorAll('a');
+
+    for(const btn of tabBtns) {
+        const href = new URL(btn.href);
+        const query = href.searchParams.get('searchType');
+        if(query === searchType) {
+            btn.style.color = '#ffffff';
+            btn.style.background = '#000000';
+            break;
+        }
+    }
+
+    for(const btn of categoryTabBtns) {
+        const href = new URL(btn.href);
+        const query = href.searchParams.get('category');
+        if(query === category) {
+            btn.style.color = '#ffffff';
+            btn.style.background = '#000000';
+            break;
+        }
+    }
+}
+
 const setSearchWordInSearchBoxAndCategoryInSelectBox = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const searchWord = urlParams.get('searchWord');
@@ -53,6 +84,7 @@ const getSearchUserOfChannelsByKeyWord = async e => {
     }
 }
 
+window.addEventListener('DOMContentLoaded', activeCategoryAndSearchTypeBtnColor);
 window.addEventListener('DOMContentLoaded', setSearchWordInSearchBoxAndCategoryInSelectBox);
 document.getElementById('search').addEventListener('keydown', e => {
     onKeyDownSearchBox(e);

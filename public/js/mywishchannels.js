@@ -1,9 +1,10 @@
 /** ----------------- 이벤트 함수 ----------------- */
-const onClickHeartToggleBtn = async e => {
-    await postAddOpenChannelToWishChannel(e);
+const onClickRemoveWishChannelBtn = async e => {
+    await postRemoveOpenChannelToWishChannel(e);
 }
 
-const onClickChannelBox = async channelId => {
+const onClickChannelBox = async e => {
+    const channelId = e.target.parentNode.dataset.channelid;
     window.location.href = `http://localhost:3000/open/${channelId}`;
 }
 
@@ -58,8 +59,8 @@ const activeSearchTypeBtnColor = () => {
 }
 
 /** ----------------- API 요청 함수 -----------------*/
-const postAddOpenChannelToWishChannel = async e => {
-    const channelId = e.target.dataset.channelid;
+const postRemoveOpenChannelToWishChannel = async e => {
+    const channelId = e.target.parentNode.parentNode.dataset.channelid;
     try {
         const response = await fetch('http://localhost:3000/client/add-or-remove-wishchannel', {
             method: 'POST',
@@ -109,7 +110,9 @@ document.getElementById('search').addEventListener('keydown', e => {
     onKeyDownSearchBox(e);
 })
 
-/** 관심채널 카드 태그 삭제 버튼 이벤트 리스너 */
+/** 관심채널 카드 태그 삭제 버튼 이벤트 */
+/** 관심채널 이미지 클릭 이벤트 */
 document.querySelectorAll('.contents__div-wrapper').forEach(target => {
-    target.querySelector('button').addEventListener('click', onClickHeartToggleBtn);
-})
+    target.querySelector('button').addEventListener('click', onClickRemoveWishChannelBtn);
+    target.querySelector('img').addEventListener('click', onClickChannelBox);
+});

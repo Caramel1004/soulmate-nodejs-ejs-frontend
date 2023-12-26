@@ -51,7 +51,10 @@ router.get('/channel/exit/:channelId', hasAuthorizedToken, clientController.post
 router.patch('/channel/invite/:channelId', hasAuthorizedToken, clientController.patchInviteUserToChannel);// 3. 해당 채널에 유저 초대
 
 //PATCH /client/channel/edit/:channelId
-router.patch('/channel/edit-channel/:channelId', hasAuthorizedToken, clientController.patchEditChannelByReqUser);// 채널 정보 수정
+router.patch('/channel/edit-channel/:channelId',
+    hasAuthorizedToken,
+    multer({ storage: memoryStorage }).single('thumbnail'),
+    clientController.patchEditChannelByReqUser);// 채널 정보 수정
 
 //POST /client/chat/:channelId
 router.post('/chat/:channelId',

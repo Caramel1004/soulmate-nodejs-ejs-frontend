@@ -22,9 +22,7 @@ const onKeyDownCreateUnitPost = async event => {
     // console.log(event.isComposing);
 
     const content = document.getElementById('content').innerText;
-    console.log(content)
     const replacedContent = replaceText(content);
-    console.log(replacedContent);
 
     if ((event.keyCode === 13 && !event.shiftKey && replacedContent !== "") || (event.keyCode === 13 && !event.shiftKey && this.selectedFiles.length > 0)) {
         try {
@@ -33,18 +31,20 @@ const onKeyDownCreateUnitPost = async event => {
             await onKeyPressEnter(event);
             createPlaceholder(); // placeholder생성
             document.getElementById('content').blur(); // 블러처리
+            document.getElementById('content').value = '';
             this.selectedFiles = [];// 파일들 비우기
         } catch (err) {
             console.log(err);
         }
     }
 
-    if (event.keyCode === 13 && replacedContent === "") {
+    if (event.keyCode === 13 && replacedContent === "" || event.keyCode === 13 && event.shiftKey) {
+        console.log(event.keyCode);
+        changeTextAreaTagHeight(event);
         return document.getElementById('content').innerText.replace('\r\n', '');
     }
 
     console.log('replacedContent: ', replacedContent);
-    console.log('엔터키 안누름!!');
 }
 
 const onClickContentInputBox = () => {
@@ -269,7 +269,9 @@ const replaceText = text => {
 }
 
 const deletePlaceholder = () => {
-    return document.getElementById('content').removeChild(document.getElementById('placeholder'));
+    if(document.getElementById('placeholder')) {
+        document.getElementById('content').removeChild(document.getElementById('placeholder'));
+    }
 }
 
 const createPlaceholder = () => {
@@ -281,15 +283,19 @@ const createPlaceholder = () => {
     }
 }
 
-const changeTextAreaTagHeight = () => {
-    const textarea = document.getElementById('content');
-    textarea.style.height = '2px';
-    textarea.style.height = (12 + textarea.scrollHeight) + 'px';
-    console.log(textarea.style.height = (12 + textarea.scrollHeight) + 'px');
+const changeTextAreaTagHeight = e => {
+    const textarea = e.target.parentNode;
+    const inputBoxParentNode = textarea.parentNode;
+  
+    console.log('전',inputBoxParentNode.scrollHeight);
 
-    const history = document.getElementById('history');
-    // history.style.height = '2px';
-    // history.style.height = (history.style.height - 2) + 'px';
+    // let inputBoxParentNodeHeight = parseInt(inputBoxParentNode.style.height.split('px')[0]);
+    let inputBoxParentNodeHeight = inputBoxParentNode.scrollHeight;
+
+    inputBoxParentNodeHeight += 2;
+    console.log('플러스', inputBoxParentNodeHeight);
+    console.log('후', inputBoxParentNode.scrollHeight);
+    return inputBoxParentNode.style.height = `${inputBoxParentNodeHeight}px`;
 }
 
 const createReplyEditModalTag = (postId, replyId) => {

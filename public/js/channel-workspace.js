@@ -51,6 +51,10 @@ const onKeyDownSearchBox = async e => {
     }
 }
 
+const onClickWorkSpaceOpenYNBtn = e => {
+    getSearchWorkSpacesByOpenYN(e);
+}
+
 /** ----------------- 태그관련 함수 ----------------- */
 const createModalTagtoAddWorkSpace = (channelId, title) => {
     const labelText = ['공개설정', '워크스페이스 명'];
@@ -215,8 +219,39 @@ const getSearchWorkSpacesByKeyWord = async e => {
     }
 }
 
+const getSearchWorkSpacesByOpenYN = async e => {
+    const open = e.target.dataset.open;
+    try {
+        const URL = `http://localhost:3000/mychannel/${channelId}?searchType=workspaces&open=${open}`;
+        window.location.href = URL;
+    } catch (error) {
+        console.log(err);
+    }
+}
+
 /** ----------------- 이벤트리스너 ----------------- */
 document.getElementById('workspace-add__btn').addEventListener('click', onClickWorkSpaceAddBtn);
 document.getElementById('search').addEventListener('keydown', e => {
     onKeyDownSearchBox(e);
+})
+document.querySelectorAll('.workspace-list-toggle-btn').forEach(target => {
+    target.addEventListener('click', onClickWorkSpaceOpenYNBtn);
+});
+window.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchWord = urlParams.get('searchWord');
+    const open = urlParams.get('open') || 'N';
+   
+    if(searchWord !== null) {
+        document.getElementById('search').value = searchWord;
+    }
+    document.querySelectorAll('.workspace-list-toggle-btn').forEach(target => {
+        if(target.dataset.open == open) {
+            target.style.background = '#666666';
+            target.style.color = '#ffffff';
+        } else {
+            target.style.background = '#ffffff';
+            target.style.color = '#000000';
+        }
+    });
 })
