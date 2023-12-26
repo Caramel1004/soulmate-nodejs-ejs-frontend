@@ -22,6 +22,13 @@ const channelService = {
     getOpenChannelDetail: async (channelId, next) => {
         try {
             const data = await channelAPI.getOpenChannelDetail(channelId, next);
+            if (!data.error) {
+                const passedTime = Math.ceil((new Date(data.channelDetail.createdAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+                const formatterDay = new Intl.RelativeTimeFormat('ko', {
+                    numeric: 'auto'
+                });
+                data.channelDetail.passedTime = formatterDay.format(passedTime, 'days').split('일')[0];
+            }
 
             return data;
         } catch (err) {
@@ -52,13 +59,14 @@ const channelService = {
     getChannelDetailByChannelId: async (token, refreshToken, channelId, next) => {
         try {
             const data = await channelAPI.getChannelDetailByChannelId(token, refreshToken, channelId, next);
+            if (!data.error) {
+                const passedTime = Math.ceil((new Date(data.channel.createdAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+                const formatterDay = new Intl.RelativeTimeFormat('ko', {
+                    numeric: 'auto'
+                });
+                data.channel.passedTime = formatterDay.format(passedTime, 'days').split('일')[0];
+            }
 
-            const passedTime = Math.ceil((new Date(data.channel.createdAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
-            const formatterDay = new Intl.RelativeTimeFormat('ko', {
-                numeric: 'auto'
-            });
-
-            data.channel.passedTime = formatterDay.format(passedTime, 'days').split('일')[0];
 
             return data;
         } catch (err) {
@@ -100,7 +108,7 @@ const channelService = {
     getWorkSpaceList: async (jsonWebToken, refreshToken, channelId, searchWord, open, next) => {
         try {
             const data = await channelAPI.getWorkSpaceList(jsonWebToken, refreshToken, channelId, searchWord, open, next);
-            
+
             return data;
         } catch (err) {
             next(err);
