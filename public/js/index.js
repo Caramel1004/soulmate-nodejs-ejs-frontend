@@ -4,7 +4,7 @@ const onClickHeartToggleBtn = async channelId => {
 }
 
 const onClickChannelBox = async channelId => {
-    window.location.href = `http://3.39.235.59:3000/open/${channelId}`;
+    window.location.href = `/open/${channelId}`;
 }
 
 const onKeyDownSearchBox = async e => {
@@ -68,7 +68,7 @@ const updateHeartStatusIcon = (data, channelId) => {
 /** ----------------- API 요청 함수 -----------------*/
 const postAddOpenChannelToWishChannel = async channelId => {
     try {
-        const response = await fetch('http://3.39.235.59:3000/client/add-or-remove-wishchannel', {
+        const response = await fetch('/client/add-or-remove-wishchannel', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -96,11 +96,11 @@ const getSearchOpenChannelsByKeyWord = async e => {
     }
     let URL;
     if (searchWord !== '' && category !== '') {
-        URL = `http://3.39.235.59:3000?category=${category}&searchWord=${searchWord}`;
+        URL = `?category=${category}&searchWord=${searchWord}`;
     } else if(category == '' && searchWord == ''){
-        URL = `http://3.39.235.59:3000`;
+        URL = ``;
     }else if(category == '' && searchWord !== '') {
-        URL = `http://3.39.235.59:3000?searchWord=${searchWord}`;
+        URL = `?searchWord=${searchWord}`;
     }
     try {
         window.location.href = URL;

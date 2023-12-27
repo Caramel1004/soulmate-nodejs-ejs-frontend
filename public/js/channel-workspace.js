@@ -181,7 +181,7 @@ const postCreateWorkSpace = async channelId => {
     const workSpaceName = document.querySelector('.modal-background').querySelector('input[name="workSpaceName"]');
     const comment = document.querySelector('.modal-background').querySelector('textarea[name="comment"]');
     try {
-        const response = await fetch(`http://3.39.235.59:3000/client/workspace/${channelId}`, {
+        const response = await fetch(`/client/workspace/${channelId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -208,9 +208,9 @@ const postCreateWorkSpace = async channelId => {
 
 const getSearchWorkSpacesByKeyWord = async e => {
     const searchWord = e.target.value;
-    let URL = `http://3.39.235.59:3000/mychannel/${channelId}?searchType=workspaces&searchWord=${searchWord}`;
+    let URL = `/mychannel/${channelId}?searchType=workspaces&searchWord=${searchWord}`;
     if(searchWord == '') {
-        URL = `http://3.39.235.59:3000/mychannel/${channelId}?searchType=workspaces`;
+        URL = `/mychannel/${channelId}?searchType=workspaces`;
     }
     try {
         window.location.href = URL;
@@ -222,7 +222,7 @@ const getSearchWorkSpacesByKeyWord = async e => {
 const getSearchWorkSpacesByOpenYN = async e => {
     const open = e.target.dataset.open;
     try {
-        const URL = `http://3.39.235.59:3000/mychannel/${channelId}?searchType=workspaces&open=${open}`;
+        const URL = `/mychannel/${channelId}?searchType=workspaces&open=${open}`;
         window.location.href = URL;
     } catch (error) {
         console.log(err);

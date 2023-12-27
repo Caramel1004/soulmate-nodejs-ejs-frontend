@@ -531,7 +531,7 @@ const createThreadTag = async postId => {
         console.log('channelId : ', channelId);
         console.log('workSpaceId : ', workSpaceId);
 
-        const response = await fetch(`http://3.39.235.59:3000/client/workspace/post/replies/${channelId}/${workSpaceId}/${postId}`, {
+        const response = await fetch(`/client/workspace/post/replies/${channelId}/${workSpaceId}/${postId}`, {
             method: 'GET'
         });
 
@@ -828,7 +828,7 @@ const postCreatePostToWorkSpace = async () => {
             formData.append('files', file);
         }
 
-        const response = await fetch(`http://3.39.235.59:3000/client/workspace/create-post/${channelId}/${workSpaceId}`, {
+        const response = await fetch(`/client/workspace/create-post/${channelId}/${workSpaceId}`, {
             method: 'POST',
             body: formData
         });
@@ -868,7 +868,7 @@ const postCreateReplyToWorkSpace = async postId => {
         formData.append('postId', postId);
         formData.append('content', replaceContent);
 
-        await fetch(`http://3.39.235.59:3000/client/workspace/post/create-reply/${channelId}/${workSpaceId}`, {
+        await fetch(`/client/workspace/post/create-reply/${channelId}/${workSpaceId}`, {
             method: 'POST',
             body: formData
         });
@@ -889,7 +889,7 @@ const patchAddMemeberToWorkSpace = async () => {
         console.log('channelId : ', channelId);
         console.log('workSpaceId : ', workSpaceId);
         console.log(this.selectedMembers);
-        await fetch(`http://3.39.235.59:3000/client/workspace/invite/${channelId}/${workSpaceId}`, {
+        await fetch(`/client/workspace/invite/${channelId}/${workSpaceId}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
@@ -899,7 +899,7 @@ const patchAddMemeberToWorkSpace = async () => {
             })
         });
 
-        return window.location.replace(`http://3.39.235.59:3000/channel/workspace/${channelId}/${workSpaceId}?sortType=lastest&&sortNum=-1`);
+        return window.location.replace(`/channel/workspace/${channelId}/${workSpaceId}?sortType=lastest&&sortNum=-1`);
     } catch (err) {
         console, log(err);
     }
@@ -912,7 +912,7 @@ const patchRemoveMemeberToWorkSpace = async () => {
         const channelId = url.split('/')[5];
         const workSpaceId = url.split('/')[6].split('?')[0];
 
-        await fetch(`http://3.39.235.59:3000/client/workspace/exit`, {
+        await fetch(`/client/workspace/exit`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
@@ -939,7 +939,7 @@ const patchEditCommentScriptToWorkSpace = async () => {
         console.log('channelId : ', channelId);
         console.log('workSpaceId : ', workSpaceId);
 
-        await fetch(`http://3.39.235.59:3000/client/workspace/edit-comment/${channelId}/${workSpaceId}`, {
+        await fetch(`/client/workspace/edit-comment/${channelId}/${workSpaceId}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
@@ -949,7 +949,7 @@ const patchEditCommentScriptToWorkSpace = async () => {
             })
         });
 
-        return window.location.replace(`http://3.39.235.59:3000/channel/workspace/${channelId}/${workSpaceId}?sort=lastest&&sortNum=-1`);
+        return window.location.replace(`/channel/workspace/${channelId}/${workSpaceId}?sort=lastest&&sortNum=-1`);
     } catch (err) {
         console.log(err);
     }
@@ -970,7 +970,7 @@ const deleteReplyByCreatorInPost = async (postId, replyId) => {
         console.log('postId : ', postId);
         console.log('replyId : ', replyId);
 
-        const response = await fetch(`http://3.39.235.59:3000/client/workspace/post/delete-reply/${channelId}/${workSpaceId}/${postId}/${replyId}`, {
+        const response = await fetch(`/client/workspace/post/delete-reply/${channelId}/${workSpaceId}/${postId}/${replyId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -1013,7 +1013,7 @@ const patchEditReplyByCreatorInPost = async (postId, replyId) => {
         formData.append('replyId', replyId);
         formData.append('content', replaceContent);
 
-        const response = await fetch(`http://3.39.235.59:3000/client/workspace/post/edit-reply/${channelId}/${workSpaceId}`, {
+        const response = await fetch(`/client/workspace/post/edit-reply/${channelId}/${workSpaceId}`, {
             method: 'PATCH',
             body: formData
         });
@@ -1052,7 +1052,7 @@ const patchEditPostByCreatorInWorkSpace = async postId => {
             formData.append('files', file);
         }
 
-        const data = await fetch(`http://3.39.235.59:3000/client/workspace/edit-post/${channelId}/${workSpaceId}`, {
+        const data = await fetch(`/client/workspace/edit-post/${channelId}/${workSpaceId}`, {
             method: 'PATCH',
             body: formData
         });
@@ -1063,7 +1063,7 @@ const patchEditPostByCreatorInWorkSpace = async postId => {
         }
         console.log('게시물 처리 완료!!!');
 
-        return window.location.replace(`http://3.39.235.59:3000/channel/workspace/${channelId}/${workSpaceId}?sort=lastest&&sortNum=-1`);
+        return window.location.replace(`/channel/workspace/${channelId}/${workSpaceId}?sort=lastest&&sortNum=-1`);
     } catch (err) {
         console.log(err);
     }
@@ -1083,12 +1083,12 @@ const deletePostByCreatorInWorkSpace = async (postId, e) => {
         console.log('workSpaceId : ', workSpaceId);
         console.log('postId : ', postId);
 
-        await fetch(`http://3.39.235.59:3000/client/workspace/delete-post/${channelId}/${workSpaceId}/${postId}`, {
+        await fetch(`/client/workspace/delete-post/${channelId}/${workSpaceId}/${postId}`, {
             method: 'DELETE'
         });
         console.log('게시물 처리 완료!!!');
 
-        return window.location.replace(`http://3.39.235.59:3000/channel/workspace/${channelId}/${workSpaceId}?sort=lastest&&sortNum=-1`);
+        return window.location.replace(`/channel/workspace/${channelId}/${workSpaceId}?sort=lastest&&sortNum=-1`);
     } catch (err) {
         console.log(err);
     }
@@ -1206,7 +1206,7 @@ const getMemberListOnChannel = async () => {
     try {
         const url = window.location.href;
         const channelId = url.split('/')[5];
-        const response = await fetch(`http://3.39.235.59:3000/client/channel/member-list/${channelId}`, {
+        const response = await fetch(`/client/channel/member-list/${channelId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

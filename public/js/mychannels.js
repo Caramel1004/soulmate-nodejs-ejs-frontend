@@ -71,11 +71,11 @@ const getSearchUserOfChannelsByKeyWord = async e => {
     }
     let URL;
     if (searchWord !== '' && category !== '') {
-        URL = `http://3.39.235.59:3000/mychannels?searchType=${searchType}&category=${category}&searchWord=${searchWord}`;
+        URL = `/mychannels?searchType=${searchType}&category=${category}&searchWord=${searchWord}`;
     } else if(category == '' && searchWord == ''){
-        URL = `http://3.39.235.59:3000/mychannels?searchType=${searchType}`;
+        URL = `/mychannels?searchType=${searchType}`;
     }else if(category == '' && searchWord !== '') {
-        URL = `http://3.39.235.59:3000/mychannels?searchType=${searchType}&searchWord=${searchWord}`;
+        URL = `/mychannels?searchType=${searchType}&searchWord=${searchWord}`;
     }
     try {
         window.location.href = URL;

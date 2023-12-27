@@ -177,7 +177,7 @@ const getSearchUserByKeyWord = async e => {
     const searchWord = e.target.value;
 
     try {
-        const response = await fetch(`http://3.39.235.59:3000/client/user/search/${searchWord}`, {
+        const response = await fetch(`/client/user/search/${searchWord}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -215,7 +215,7 @@ const patchInviteUserToChannel = async () => {
     }
     console.log(userIds);
     try {
-        const response = await fetch(`http://3.39.235.59:3000/client/channel/invite/${channelId}`, {
+        const response = await fetch(`/client/channel/invite/${channelId}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
