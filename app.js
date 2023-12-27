@@ -30,7 +30,8 @@ const __dirname = dirname(__filename);
 
 // 요청 응답 로그 출력
 if (process.env.NODE_ENV === 'production') {
-    console.log('배포 환경!!');
+    console.log('-------------------PROD ENV-------------------');
+    process.env.BACKEND_API_DOMAIN = process.env.BACKEND_API_DOMAIN_PROD_VER;
     app.use(morgan('combined'));
     app.use(
         helmet({
@@ -41,7 +42,8 @@ if (process.env.NODE_ENV === 'production') {
     )
     app.use(hpp());
 } else {
-    console.log('개발 환경!!');
+    console.log('-------------------DEV ENV-------------------');
+    process.env.BACKEND_API_DOMAIN = process.env.BACKEND_API_DOMAIN_DEV_VER;
     app.use(morgan('dev'));
 }
 
