@@ -281,6 +281,22 @@ body::-webkit-scrollbar-track {
     overflow-x: hidden;
 }
 
+.card-summary {
+    padding: 10px 0 15px 15px;
+    color: #333333;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+    /* display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical; */
+    font-size: 1.0625rem;
+    text-decoration: none;
+    font-weight: 700;
+    line-height: 1.55;
+    height: 3.5rem;
+}
+
 .card span {
     margin-left: 5px;
     font-size: 13px;
@@ -332,6 +348,7 @@ body::-webkit-scrollbar-track {
 }
 
 .remove__btn {
+    margin-right: 5px;
     padding: 7px 10px 7px 10px;
     border: none;
     border-radius: 20px;

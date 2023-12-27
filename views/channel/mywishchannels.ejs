@@ -36,8 +36,10 @@
                                         <span><%= channel.channelName %></span>
                                         <button class="remove__btn" type="button" data-channelId="<%= channel._id %>">삭제</button>
                                     </div>
-                                    <div class="card">
-                                        <i class="fa-solid fa-user"></i><span><%= channel.members.length %>명</span>
+                                    <div class="card-summary">
+                                        <% if(channel.summary) { %>
+                                            <span><%= channel.summary %></span>
+                                        <% } %>
                                     </div>
                                     <div class="card">
                                         <% for(let category of channel.category) { %>
