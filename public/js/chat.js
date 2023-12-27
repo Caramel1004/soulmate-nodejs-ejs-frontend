@@ -319,7 +319,7 @@ const createUserListInChannelTag = data => {
     btnDeactivation('add-member');
     document.getElementById('span__text').style.opacity = 0.3;
 
-    for (let user of data.users) {
+    for (let user of data.members) {
         // 인포 박스
         const infoBox = document.createElement('div');
         infoBox.classList.add('new-box');
@@ -692,14 +692,13 @@ const getLoadUsersInChannel = async () => {
     const channelId = url.split('/')[5];
     const chatRoomId = url.split('/')[6];
 
-    const response = await fetch(`http://52.79.253.40:8080/api/v1/chat/channel-members/${channelId}/${chatRoomId}`, {
+    const response = await fetch(`/client/channel/chat-room/channel-members/${channelId}/${chatRoomId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
         }
     });
     const data = await response.json();
-    console.log('data: ', data);
 
     return data;
 }

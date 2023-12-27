@@ -107,6 +107,9 @@ router.patch('/chat/exit-chat-room/:channelId/:chatRoomId', hasAuthorizedToken, 
 // GET /client/channel/member-list/:channelId
 router.get('/channel/member-list/:channelId', hasAuthorizedToken, clientController.getMemberListOnChannel);// 16. 공용기능: 채널에있는 유저 목록 불러오기
 
+// GET /client/channel/chat-room/channel-members/:channelId/:chatRoomId
+router.get('/channel/chat-room/channel-members/:channelId/:chatRoomId', hasAuthorizedToken, clientController.getMemberListFromChannelToChatRoom);// 16-2. 공용기능: 채널에있는 유저 목록 불러오기
+
 // PATCH /client/workspace/exit
 router.patch('/workspace/exit', hasAuthorizedToken, clientController.patchExitWorkSpace);// 17. 워크스페이스 퇴장
 

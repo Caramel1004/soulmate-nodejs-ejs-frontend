@@ -414,6 +414,19 @@ const clientControlller = {
             next(err)
         }
     },
+    getMemberListFromChannelToChatRoom: async (req, res, next) => {
+        try {
+            const data = await channelService.getMemberListFromChannelToChatRoom(req.signedCookies.token, req.signedCookies.refreshToken, req.params.channelId, req.params.chatRoomId, next);
+            hasError(data.error);
+            console.log(data);
+            res.status(data.status.code).json({
+                status: data.status,
+                members: data.members
+            });
+        } catch (err) {
+            next(err)
+        }
+    },
     // 17. 워크스페이스 퇴장
     patchExitWorkSpace: async (req, res, next) => {
         try {
@@ -593,22 +606,22 @@ const clientControlller = {
             formData.append('channelName', req.body.channelName);
             formData.append('summary', req.body.summary);
             formData.append('comment', req.body.comment);
-            formData.append('category',req.body.category);
-            if(req.file) {
+            formData.append('category', req.body.category);
+            if (req.file) {
                 console.log(req.file)
                 formData.append('thumbnail', JSON.stringify(req.file));
             }
             const data = await channelService.patchEditChannelByReqUser(token, refreshToken, channelId, formData, next);
             hasError(data.error);
 
-            if(data.thumbnail.length > 0) {
+            if (data.thumbnail.length > 0) {
                 req.session.userChannels.map(channel => {
-                    if(channel._id === data.channelId) {
+                    if (channel._id === data.channelId) {
                         channel.thumbnail = data.thumbnail[0]
                     }
                 })
             }
- 
+
             res.status(data.status.code).json({
                 status: data.status
             })

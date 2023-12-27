@@ -108,6 +108,23 @@ const channelAPI = {
             next(err);
         }
     },
+    getMemberListFromChannelToChatRoom: async (token, refreshToken, channelId, chatRoomId, next) => {
+        try {
+            // 해당 채널아이디 보내주고 해당 채널 입장 요청
+            const response = await fetch(`${process.env.BACKEND_API_DOMAIN}/api/v1/chat/channel-members/${channelId}/${chatRoomId}`, {
+                method: 'GET',
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                    Refresh: refreshToken
+                }
+            });
+            const resData = await response.json();
+            console.log(resData);
+            return resData;
+        } catch (err) {
+            next(err);
+        }
+    },
     // 7. 채팅방 목록 요청
     getChatRoomList: async (token, refreshToken, channelId, searchWord, next) => {
         try {

@@ -67,13 +67,20 @@ const channelService = {
                 data.channel.passedTime = formatterDay.format(passedTime, 'days').split('일')[0];
             }
 
+            return data;
+        } catch (err) {
+            next(err);
+        }
+    },
+    getMemberListFromChannelToChatRoom: async (token, refreshToken, channelId, chatRoomId, next) => {
+        try {
+            const data = await channelAPI.getMemberListFromChannelToChatRoom(token, refreshToken, channelId, chatRoomId, next);
 
             return data;
         } catch (err) {
             next(err);
         }
     },
-
     // 7. 채팅방 목록 요청
     getChatRoomList: async (jsonWebToken, refreshToken, channelId, searchWord, next) => {
         try {
