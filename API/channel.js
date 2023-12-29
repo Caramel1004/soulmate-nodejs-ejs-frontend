@@ -119,7 +119,7 @@ const channelAPI = {
                 }
             });
             const resData = await response.json();
-            console.log(resData);
+            
             return resData;
         } catch (err) {
             next(err);
