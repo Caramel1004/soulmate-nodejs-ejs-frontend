@@ -81,12 +81,12 @@ app.use(cookieParser(process.env.COOKIE_SECRET_KEY));
 // 정적 파일 처리
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
-// app.use((req, res, next) => {
-//     console.log('테스트중 token: ', req.signedCookies.token);
-//     console.log('테스트중 refreshToken: ', req.signedCookies.refreshToken);
-//     console.log('req.session: ', req.session)
-//     next();
-// })
+app.use((req, res, next) => {
+    console.log('테스트중 token: ', req.signedCookies.token);
+    console.log('테스트중 refreshToken: ', req.signedCookies.refreshToken);
+    console.log('req.session: ', req.session)
+    next();
+})
 
 // 라우트 접근
 app.use(viewRoutes);
