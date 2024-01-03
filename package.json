@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cross-env NODE_ENV=production PORT=3000 pm2 start app.js -i 0",
-    "dev": "cross-env NODE_ENV=dev PORT=3000 nodemon app.js",
+    "start": "cross-env NODE_ENV=production PORT=443 pm2 start app.js -i 0",
+    "dev": "cross-env NODE_ENV=dev PORT=4000 nodemon app.js",
     "start-server": "node app.js"
   },
   "repository": {
@@ -32,12 +32,14 @@
     "formdata-node": "^5.0.1",
     "helmet": "^7.1.0",
     "hpp": "^0.2.3",
+    "mkcert": "^3.2.0",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "node-fetch": "^3.3.1",
     "nodemon": "^2.0.22",
     "pm2": "^5.3.0",
     "redis": "^4.6.8",
+    "socket.io": "^4.7.2",
     "socket.io-client": "^4.6.1",
     "winston": "^3.11.0"
   },
