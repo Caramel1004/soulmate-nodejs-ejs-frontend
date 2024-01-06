@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cross-env NODE_ENV=production PORT=443 pm2 start app.js -i 0",
+    "start": "cross-env NODE_ENV=production PORT=80 pm2 start app.js -i 0",
     "dev": "cross-env NODE_ENV=dev PORT=4000 nodemon app.js",
     "start-server": "node app.js"
   },
