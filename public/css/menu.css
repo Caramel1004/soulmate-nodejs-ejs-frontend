@@ -14,7 +14,7 @@ i {
     margin-top: 62px;
     padding: 10px;
     width: 200px;
-    height: 90vh;
+    height: 89vh;
     display: block;
     position: fixed;
     border-right: 0.1px groove rgba(0, 0, 0, 0.1);
@@ -23,7 +23,7 @@ i {
     opacity: 0.9;
     overflow: hidden;
     overflow-y: auto;
-    z-index: 1;
+    /* z-index: 1; */
 }
 
 #menu__inner {

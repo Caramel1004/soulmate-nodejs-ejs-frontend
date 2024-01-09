@@ -26,17 +26,22 @@ body {
 
 /* 맨 왼쪽 로고 박스 */
 .logo {
+    margin-top: 3px;
+    /* margin-left: 10px; */
+    width: 200px;
     padding: 0;
     display: flex;
     align-items: end;
-    border: 1px groove #fff;
-    font-size: 30px;
+    justify-content: center;
+    text-align: center;
+    /* border: 1px groove #fff; */
+    /* font-size: 30px; */
 }
 
 /* 로고 박스안에 이미지 */
 .logo img {
-    width: 50px;
-    height: 50px;
+    width: 150px;
+    height: 31px;
 }
 
 /* 로고 박스 안에 앱이름 텍스트 */

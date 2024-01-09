@@ -248,6 +248,7 @@ body::-webkit-scrollbar-track {
 .contents__div-wrapper:hover,
 .contents__div-wrapper:active {
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.26);
+    cursor: pointer;
 }
 
 .contents__div-wrapper img {
@@ -256,7 +257,6 @@ body::-webkit-scrollbar-track {
     height: 150px;
     border-radius: 5px 5px 0 0;
     border-bottom: 1px groove rgba(157, 153, 153, 0.1);
-    cursor: pointer;
 }
 
 /* card */
