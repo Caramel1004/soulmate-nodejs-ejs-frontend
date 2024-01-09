@@ -4,8 +4,9 @@ const onClickHeartToggleBtn = async e => {
 }
 
 const onClickChannelBox = e => {
-    if (e.target != document.getElementById('heart')) {
-        const channelId = e.target.parentNode.dataset.channelid;
+    const channelId = e.target.parentNode.dataset.channelid;
+    console.log(channelId)
+    if (channelId != undefined || channelId != null) {
         window.location.href = `/open/${channelId}`;
     }
 }
@@ -126,7 +127,7 @@ document.querySelectorAll('.contents__div-wrapper').forEach(target => {
     target.addEventListener('click', e => {
         onClickChannelBox(e);
     });
-    target.querySelector('i[id="heart"], i[type="button"]').addEventListener('click', e => {
+    target.querySelector('.heart-container').querySelector('.heart-box').querySelector('i').addEventListener('click', e => {
         onClickHeartToggleBtn(e);
     })
 })
