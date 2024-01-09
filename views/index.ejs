@@ -33,17 +33,17 @@
                     <%if(channelList.length > 0) { %>
                         <div class="channel-box-items">
                             <% for(let channel of channelList) { %>
-                                <div class="contents__div-wrapper">
+                                <div class="contents__div-wrapper" data-channelId="<%= channel._id %>">
                                     <div class="heart-container">
                                         <div class="heart-box">
                                             <% if(channel.isUserWishChannel) { %>
-                                                <i class="fa-solid fa-heart fa-xl" id="<%= channel._id %>" type="button" onclick="onClickHeartToggleBtn('<%= channel._id %>')"></i>
+                                                <i class="fa-solid fa-heart fa-xl" id="heart" type="button"></i>
                                             <% } else { %>
-                                                <i class="fa-regular fa-heart fa-xl" id="<%= channel._id %>" type="button" onclick="onClickHeartToggleBtn('<%= channel._id %>')"></i>
+                                                <i class="fa-regular fa-heart fa-xl" id="heart" type="button"></i>
                                             <% } %>
                                         </div>
                                     </div>    
-                                    <img src="<%= channel.thumbnail %>" onclick="onClickChannelBox('<%= channel._id %>')">
+                                    <img src="<%= channel.thumbnail %>">
                                     <div class="card">
                                         <span><%= channel.channelName %></span>
                                     </div>
