@@ -54,8 +54,10 @@ const sessionOption = {
     secret: process.env.COOKIE_SECRET_KEY,
     cookie: {
         httpOnly: true,
-        secure: false,
-        signed: true
+        maxAge: 3600000,
+        secure: process.env.NODE_ENV === 'production' ? true : false,
+        signed: true,
+        sameSite: process.env.NODE_ENV === 'production' ? false : 'none',
     },
     name: 'sid',
     store: new RedisStore({
