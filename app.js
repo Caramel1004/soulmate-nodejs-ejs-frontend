@@ -55,7 +55,7 @@ const sessionOption = {
     cookie: {
         httpOnly: true,
         maxAge: 3600000,
-        secure: process.env.NODE_ENV === 'production' ? true : false,
+        secure: false,
         signed: true,
         sameSite: process.env.NODE_ENV === 'production' ? false : 'none',
     },
