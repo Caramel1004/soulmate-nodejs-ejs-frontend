@@ -54,7 +54,6 @@ const sessionOption = {
     secret: process.env.COOKIE_SECRET_KEY,
     cookie: {
         httpOnly: true,
-        maxAge: 3600000,
         secure: false,
         signed: true,
         sameSite: process.env.NODE_ENV === 'production' ? false : 'none',
