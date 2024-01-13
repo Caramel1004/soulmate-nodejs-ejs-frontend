@@ -1,6 +1,6 @@
 import { io } from "https://cdn.socket.io/4.7.2/socket.io.esm.min.js";
 
-const DOMAIN = `https://somat.site`
+const DOMAIN = `https://www.somat.site`
 
 const socket = io(DOMAIN);
 
