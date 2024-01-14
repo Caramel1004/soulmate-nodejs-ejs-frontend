@@ -15,7 +15,6 @@ import redisClient from './util/redis.js';
 import errorHandler from './error/error-handler.js';
 import { NotFoundError } from './error/error.js';
 
-import awsHealthCheckerRouter from './routes/aws.js'
 import authRoutes from './routes/auth.js'
 import viewRoutes from './routes/view.js'
 import clientRoutes from './routes/client.js'
@@ -91,7 +90,6 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 // })
 
 // 라우트 접근
-app.use('/aws', awsHealthCheckerRouter);
 app.use(viewRoutes);
 app.use(authRoutes);
 app.use('/client', clientRoutes);
